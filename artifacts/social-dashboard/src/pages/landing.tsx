@@ -331,12 +331,12 @@ export default function Landing() {
           <div className="hz-hero-glow" />
           <div className="hz-hero-grid" />
           <div className="hz-hero-content">
-            <div className="hz-badge">✦ IA para redes sociales — Nuevo en 2025</div>
-            <h1>Publicá en redes<br /><span className="hl">sin levantar un dedo</span></h1>
-            <p>HazPost crea, programa y publica contenido para Instagram, TikTok y Facebook con IA. Adaptada al tono de tu marca, en el horario óptimo, todos los días.</p>
+           <div className="hz-badge">✦ IA que aprende de tus publicaciones</div>
+           <h1>Publica en redes<br /><span className="hl">todos los días con IA</span></h1>
+           <p>HazPost crea, programa y publica contenido en Instagram, TikTok y Facebook. Aprende qué funciona y mejora tus resultados automáticamente.</p>
             <div className="hz-hero-ctas">
-              <a href="/register" className="hz-btn-primary">Empezar gratis — 30 días</a>
-              <a href="#como-funciona" className="hz-btn-outline">Ver cómo funciona →</a>
+              <a href="/register" className="hz-btn-primary">Probar gratis 30 días</a>
+              <a href="#como-funciona" className="hz-btn-outline">Ver demo →</a>
             </div>
             <div className="hz-proof">
               <div className="hz-avatars">
@@ -344,7 +344,7 @@ export default function Landing() {
               </div>
               <div>
                 <div className="hz-stars">★★★★★</div>
-                <div className="hz-proof-text">Más de 100 negocios ya usan HazPost</div>
+                <div className="hz-proof-text">Más de 100 negocios automatizan sus redes con HazPost</div>
               </div>
             </div>
           </div>
