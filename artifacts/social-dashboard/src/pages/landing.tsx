@@ -531,13 +531,26 @@ export default function Landing() {
 
         {/* FINAL CTA */}
         <section className="hz-cta-wrap" aria-label="Comenzar con HazPost">
-          <div className="hz-cta-box">
-            <h2>Tu negocio merece estar<br /><span style={{color:"#00C2FF"}}>en todas las redes</span></h2>
-            <p>Empezá hoy gratis. Sin tarjeta de crédito. Sin compromisos.<br />La IA trabaja, vos crecés.</p>
-            <a href="/register" className="hz-btn-primary">Crear cuenta gratis →</a>
-            <div className="hz-nocc">✓ 30 días gratis · ✓ Sin tarjeta de crédito · ✓ Cancelá cuando quieras</div>
-          </div>
-        </section>
+  <div className="hz-cta-box">
+
+    <h2>
+      Empieza a publicar contenido<br />
+      <span style={{ color: "#00C2FF" }}>
+        todos los días automáticamente
+      </span>
+    </h2>
+
+    <p>
+      Activa tu cuenta en minutos y deja que la IA haga el trabajo por ti.
+    </p>
+
+    <a href="/register" className="hz-btn-primary">
+      Probar gratis ahora →
+    </a>
+
+    <div className="hz-nocc">
+      ✓ 30 días gratis · ✓ Sin tarjeta · ✓ Cancela cuando quieras
+    </div>
 
       </div>
       </main>
