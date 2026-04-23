@@ -364,29 +364,54 @@ export default function Landing() {
 
         {/* HOW IT WORKS */}
         <section className="hz-steps-wrap" id="como-funciona" aria-label="Cómo funciona HazPost">
-          <div className="hz-steps">
-            <div className="hz-steps-head">
-              <div className="hz-label">Cómo funciona</div>
-              <h2 className="hz-title">4 pasos. <span style={{color:"#00C2FF"}}>Todo automático.</span></h2>
-              <p className="hz-sub">Sin agencias, sin diseñadores, sin aprender herramientas complicadas.</p>
-            </div>
-            <div className="hz-steps-grid">
-              {[
-                { n:"01", icon:"🏢", t:"Describe tu negocio", d:"Contanos quién sos, qué vendés y cuál es tu tono de comunicación. Solo una vez." },
-                { n:"02", icon:"🤖", t:"La IA crea el contenido", d:"Generamos imágenes, captions y hashtags optimizados para cada red social con GPT-5." },
-                { n:"03", icon:"✅", t:"Aprobás o editás", d:"Revisás el contenido en segundos. Si te gusta, lo aprobás. Si no, la IA lo rehace." },
-                { n:"04", icon:"🚀", t:"Publicación automática", d:"HazPost publica en el horario de mayor engagement. Sin que toques nada." },
-              ].map(s => (
-                <div key={s.n} className="hz-step">
-                  <div className="hz-step-num">{s.n}</div>
-                  <span className="hz-step-icon">{s.icon}</span>
-                  <h3>{s.t}</h3>
-                  <p>{s.d}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+  <div className="hz-steps">
+    <div className="hz-steps-head">
+      <div className="hz-label">Cómo funciona</div>
+      <h2 className="hz-title">
+        De idea a publicación <span style={{ color: "#00C2FF" }}>en minutos.</span>
+      </h2>
+      <p className="hz-sub">
+        HazPost crea, organiza y publica contenido por ti. Tú solo revisas y apruebas.
+      </p>
+    </div>
+
+    <div className="hz-steps-grid">
+      {[
+        {
+          n: "01",
+          icon: "🏢",
+          t: "Conecta tu negocio",
+          d: "Cuéntale a HazPost qué vendes, cómo hablas y qué quieres comunicar.",
+        },
+        {
+          n: "02",
+          icon: "🤖",
+          t: "La IA crea contenido",
+          d: "Genera posts, captions y hashtags listos para Instagram, TikTok y Facebook.",
+        },
+        {
+          n: "03",
+          icon: "✅",
+          t: "Apruebas en segundos",
+          d: "Revisa, edita o aprueba el contenido antes de que se publique.",
+        },
+        {
+          n: "04",
+          icon: "🚀",
+          t: "Publica y aprende",
+          d: "HazPost publica en el mejor horario y aprende de tus resultados.",
+        },
+      ].map((s) => (
+        <div key={s.n} className="hz-step">
+          <div className="hz-step-num">{s.n}</div>
+          <span className="hz-step-icon">{s.icon}</span>
+          <h3>{s.t}</h3>
+          <p>{s.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
         {/* FEATURES */}
         <section className="hz-section" id="funciones" aria-label="Funciones de HazPost">
