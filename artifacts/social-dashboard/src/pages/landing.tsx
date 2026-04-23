@@ -551,6 +551,9 @@ export default function Landing() {
     <div className="hz-nocc">
       ✓ 30 días gratis · ✓ Sin tarjeta · ✓ Cancela cuando quieras
     </div>
+    
+     </div>
+</section>
 
       </div>
       </main>
