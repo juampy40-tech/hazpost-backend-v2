@@ -8,5 +8,4 @@ scikit-learn==1.5.1
 numpy==1.26.4
 gunicorn==22.0.0
 thefuzz==0.22.1
-python-Levenshtein==0.25.1
 SQLAlchemy==2.0.36
