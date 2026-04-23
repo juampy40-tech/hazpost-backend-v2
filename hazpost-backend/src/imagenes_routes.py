@@ -14,6 +14,20 @@ MAX_FILE_SIZE = 20 * 1024 * 1024
 _USUARIO_RE = re.compile(r'^[A-Za-z0-9][A-Za-z0-9_\-]{0,63}$')
 
 
+# 🔥 NUEVO: ruta base para evitar 404
+@imagenes_bp.route('/', methods=['GET'])
+def home():
+    return jsonify({
+        "ok": True,
+        "message": "imagenes endpoint funcionando",
+        "endpoints": {
+            "listar": "/api/imagenes/listar?usuario=USUARIO&tipo=imagenes",
+            "subir": "/api/imagenes/subir",
+            "eliminar": "/api/imagenes/<usuario>/<tipo>/<nombre>"
+        }
+    })
+
+
 def _get_dir(data_dir: str, usuario: str, tipo: str) -> str | None:
     if tipo not in ('imagenes', 'logos'):
         return None
@@ -106,6 +120,7 @@ def subir():
 
     with open(filepath, 'wb') as fout:
         fout.write(data)
+
     stat = os.stat(filepath)
     logger.info(f'[Imagenes] Subida: usuario={usuario}, tipo={tipo}, archivo={filename}, tamaño={stat.st_size}')
 
@@ -141,6 +156,13 @@ def eliminar(usuario, tipo, nombre):
 
     tamano = os.stat(filepath).st_size
     os.remove(filepath)
+
     logger.info(f'[Imagenes] Eliminada: usuario={usuario}, tipo={tipo}, archivo={safe_nombre}')
 
-    return jsonify({'ok': True, 'usuario': usuario, 'tipo': tipo, 'nombre': safe_nombre, 'tamano': tamano})
+    return jsonify({
+        'ok': True,
+        'usuario': usuario,
+        'tipo': tipo,
+        'nombre': safe_nombre,
+        'tamano': tamano
+    })
