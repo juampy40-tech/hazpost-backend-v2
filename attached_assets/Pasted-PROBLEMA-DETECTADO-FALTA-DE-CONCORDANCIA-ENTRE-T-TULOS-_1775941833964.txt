@@ -1,0 +1,99 @@
+PROBLEMA DETECTADO: FALTA DE CONCORDANCIA ENTRE TÍTULOS DE IMÁGENES Y TEXTO DEL POST
+
+CASO CONCRETO:
+- La PRIMERA imagen que crea el generador masivo → título ACORDE al texto del post
+- Las imágenes SIGUIENTES → los títulos NO tienen concordancia con el título principal del texto
+
+EJEMPLO:
+Texto del post habla de "PAN" (panadería)
+Pero los títulos de las imágenes siguientes dicen cosas como:
+- "Únete al cambio" (frase de Eco)
+- Frases que no tienen nada que ver con pan
+
+CAUSA PROBABLE:
+El sistema está usando "sub títulos de Eco" o frases genéricas para las imágenes siguientes, 
+en lugar de generar títulos coherentes con el tema principal del post.
+
+CONSECUENCIA:
+Inconsistencia total. Un post que habla de pan tiene imágenes con títulos de energía renovable o frases sin sentido.
+🛠️ SKILL ESPECÍFICO: Title-Post Concordance Checker
+# Skill: Title-Post Concordance Checker
+
+## Propósito
+Revisar que TODOS los títulos de las imágenes generadas tengan concordancia temática con el texto principal del post, y que NO se usen frases genéricas o de otros negocios (como Eco).
+
+## Qué revisar paso a paso
+
+### 1. Concordancia temática principal
+- [ ] El título de la imagen 1 ¿está relacionado con el rubro/industria del negocio?
+- [ ] El título de la imagen 2 ¿está relacionado con el mismo tema que el título de la imagen 1?
+- [ ] El título de la imagen 3 ¿está relacionado con el mismo tema?
+- [ ] TODOS los títulos ¿hablan sobre lo mismo (producto/servicio principal)?
+
+### 2. Detección de frases prohibidas (contaminación)
+- [ ] ¿Aparece "Únete al cambio"? → CONTAMINACIÓN DE ECO
+- [ ] ¿Aparece "Eficiente y tuyo"? → CONTAMINACIÓN DE ECO
+- [ ] ¿Aparece "Costo real"? → CONTAMINACIÓN DE ECO
+- [ ] ¿Aparecen ciudades como Palmira, Candelaria, Yumbo? → CONTAMINACIÓN DE ECO
+- [ ] ¿Aparecen frases genéricas que no mencionan el producto? → MALA CALIDAD
+
+### 3. Coherencia entre títulos de imágenes
+
+Ejemplo CORRECTO (panadería):
+•	Imagen 1: "Pan recién horneado todos los días"
+•	Imagen 2: "La mejor masa madre de la ciudad"
+•	Imagen 3: "Amasamos con amor desde 1990"
+Ejemplo INCORRECTO (panadería):
+•	Imagen 1: "Pan recién horneado todos los días"
+•	Imagen 2: "Únete al cambio" ← NO VA
+•	Imagen 3: "Eficiente y tuyo" ← NO VA
+
+### 4. Reglas de validación
+- [ ] Cada título debe contener AL MENOS una palabra clave del rubro (pan, horno, masa, etc.)
+- [ ] Ningún título debe ser una frase genérica que sirva para cualquier negocio
+- [ ] Ningún título debe venir de otro negocio (Eco u otros)
+- [ ] Los títulos deben mantener el mismo tono y estilo que el título principal
+
+### 5. Prueba manual sugerida
+PASO 1: Crear un post para panadería con texto: "Vendemos pan fresco"
+PASO 2: Generar 5 imágenes con el generador masivo
+PASO 3: Extraer los títulos de CADA imagen
+PASO 4: Verificar uno por uno:
+Imagen 1 título: ¿Habla de pan? Sí ✅
+Imagen 2 título: ¿Habla de pan? Si no → FALLO
+Imagen 3 título: ¿Habla de pan? Si no → FALLO
+Imagen 4 título: ¿Habla de pan? Si no → FALLO
+Imagen 5 título: ¿Habla de pan? Si no → FALLO
+Si alguna imagen tiene frase de Eco → FALLO GRAVE
+
+## Criterios de aceptación (para decir "está limpio")
+- [ ] El 100% de los títulos de imágenes están relacionados con el rubro del negocio
+- [ ] 0% de frases de Eco o de otros negocios
+- [ ] 0% de frases genéricas sin conexión al producto
+- [ ] Los títulos mantienen coherencia entre sí (todos hablan del mismo tema)
+
+## Posibles causas técnicas
+1. El prompt de DALL-E para imágenes 2, 3, 4... NO incluye el contexto del post
+2. Se está usando un prompt "genérico" o "de respaldo" después de la primera imagen
+3. Hay un caché o memoria que guarda frases de Eco y las reutiliza
+4. El sistema NO está pasando el texto completo del post para las imágenes siguientes
+
+## Acción correctiva
+1. Asegurar que CADA imagen recibe el MISMO prompt con el contexto completo del post
+2. Eliminar cualquier prompt genérico o de respaldo que contenga frases de Eco
+3. Validar que DALL-E reciba explícitamente: "Genera un título para una imagen de [RUBRO] que hable de [PRODUCTO]"
+4. Limpiar cualquier caché que esté memorizando frases viejas
+
+PROBLEMA: 
+La primera imagen del generador masivo tiene título acorde al texto.
+Las imágenes siguientes tienen títulos SIN concordancia (aparecen frases de Eco como "Únete al cambio" aunque el post hable de pan).
+
+SKILL CREADO: "Title-Post Concordance Checker" para revisar que TODOS los títulos sean coherentes con el tema del post y sin contaminación de Eco.
+
+CAUSA PROBABLE:
+El prompt para las imágenes 2, 3, 4... no está recibiendo el mismo contexto que la imagen 1. O hay un prompt genérico/respaldo con frases de Eco.
+
+SOLUCIÓN:
+Unificar el prompt para TODAS las imágenes. El mismo contexto, el mismo rubro, el mismo producto. Nada de prompts diferentes entre imagen 1 y las siguientes.
+
+Crear este skill SKILL ESPECÍFICO: Title-Post Concordance Checker o uno que mire la concordancia tema post con titulo imágenes

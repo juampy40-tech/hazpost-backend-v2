@@ -1,0 +1,175 @@
+{
+  "empresa": "Eco-Col SAS",
+  "sitio_web": "www.eco-col.com",
+  "instagram": "@eco.sas",
+  "nichos": [
+    {
+      "id": 1,
+      "nombre": "Propiedades Horizontales y Conjuntos Residenciales (Estratos 4-6)",
+      "palabras_clave": [
+        "paneles solares para conjuntos residenciales Cali",
+        "energía solar zonas comunes",
+        "ahorro cuota de administración energía solar",
+        "alumbrado público con energía solar"
+      ],
+      "hashtags": [
+        "#EnergíaSolarParaConjuntos",
+        "#AhorroEnAdministración",
+        "#SostenibilidadResidencial",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Sector Agroindustrial (Caña, Café, Frutas y Vegetales)",
+      "palabras_clave": [
+        "energía solar para agroindustria Valle del Cauca",
+        "riego solar para cultivos",
+        "paneles solares fincas Cali",
+        "bombeo solar agrícola"
+      ],
+      "hashtags": [
+        "#AgroSolar",
+        "#EnergíaSolarParaElCampo",
+        "#AgroindustriaSostenible",
+        "#EficienciaEnergéticaAgrícola",
+        "#EcoCol"
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "PYMES y Comercios Locales",
+      "palabras_clave": [
+        "paneles solares para PYMES Cali",
+        "ahorro energía pequeños negocios Cali",
+        "energía solar para restaurantes Cali",
+        "paneles solares para tiendas Cali"
+      ],
+      "hashtags": [
+        "#EnergíaSolarParaPYMES",
+        "#AhorroSinInversión",
+        "#PequeñosNegocios",
+        "#ComercioSostenible",
+        "#EcoCol"
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "Sector Salud (Clínicas, Hospitales y Centros Médicos)",
+      "palabras_clave": [
+        "paneles solares para clínicas Cali",
+        "energía solar para hospitales",
+        "eficiencia energética sector salud Valle del Cauca",
+        "respaldo energético solar"
+      ],
+      "hashtags": [
+        "#EnergíaSolarParaLaSalud",
+        "#HospitalesSostenibles",
+        "#EficienciaEnergética",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 5,
+      "nombre": "Sector Turismo (Hoteles y Eco-Hoteles)",
+      "palabras_clave": [
+        "energía solar para hoteles Cali",
+        "paneles solares ecohoteles Valle del Cauca",
+        "calentamiento solar piscinas Cali",
+        "turismo sostenible energía solar"
+      ],
+      "hashtags": [
+        "#TurismoSostenible",
+        "#HotelesEcológicos",
+        "#EnergíaSolarParaHoteles",
+        "#EcoCol",
+        "#CaliValle"
+      ]
+    },
+    {
+      "id": 6,
+      "nombre": "Sector Inmobiliario y Constructoras",
+      "palabras_clave": [
+        "paneles solares para constructoras Cali",
+        "edificios sostenibles Valle del Cauca",
+        "valorización inmueble con energía solar",
+        "proyectos inmobiliarios energía renovable"
+      ],
+      "hashtags": [
+        "#ConstrucciónSostenible",
+        "#EdificiosInteligentes",
+        "#ValorizaciónVerde",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 7,
+      "nombre": "Movilidad Eléctrica (Estaciones de Carga con Energía Solar)",
+      "palabras_clave": [
+        "estaciones carga solar Cali",
+        "paneles solares para puntos de recarga de autos eléctricos",
+        "energía solar para movilidad sostenible"
+      ],
+      "hashtags": [
+        "#MovilidadEléctrica",
+        "#EstacionesDeCargaSolar",
+        "#EcoMovilidad",
+        "#EnergíaSolar",
+        "#EcoCol"
+      ]
+    },
+    {
+      "id": 8,
+      "nombre": "Sector Educación (Colegios y Universidades)",
+      "palabras_clave": [
+        "paneles solares para colegios Cali",
+        "energía solar para universidades Valle del Cauca",
+        "colegios verdes energía solar",
+        "ahorro energía instituciones educativas"
+      ],
+      "hashtags": [
+        "#EducaciónSostenible",
+        "#ColegiosVerdes",
+        "#UniversidadesSolarizadas",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 9,
+      "nombre": "Sector Retail (Centros Comerciales y Grandes Superficies)",
+      "palabras_clave": [
+        "paneles solares centros comerciales Cali",
+        "energía solar para supermercados Valle del Cauca",
+        "ahorro energía retail Cali"
+      ],
+      "hashtags": [
+        "#RetailSostenible",
+        "#CentrosComercialesVerdes",
+        "#AhorroEnergético",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 10,
+      "nombre": "Comunidades y Hogares de Estratos 1, 2 y 3 (Programas Sociales)",
+      "palabras_clave": [
+        "paneles solares estratos 1-2-3 Cali",
+        "programa Colombia Solar Cali",
+        "energía solar para comunidades",
+        "hogares energéticamente sostenibles Cali"
+      ],
+      "hashtags": [
+        "#ColombiaSolar",
+        "#EnergíaSolarParaTodos",
+        "#InclusiónEnergética",
+        "#EcoCol",
+        "#Cali"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+Problema actual
+Cuando la app genera publicaciones, no está escribiendo las fechas en cada publicación de cada plataforma.
+
+Comportamiento deseado
+1. Fechas visibles en la cola de aprobación
+Debe aparecer escrito, por ejemplo:
+
+*"13/04/2026 - 10:00 hs - Instagram"*
+
+*"14/04/2026 - 15:00 hs - TikTok"*
+
+2. Distribución automática en el calendario
+La app debe revisar qué días no tienen programado ese tipo de contenido (reel, imagen, carrusel, etc.) en cada plataforma.
+Luego debe asignar la publicación al día más cercano disponible que cumpla con la estrategia de esa plataforma.
+
+Ejemplo:
+
+Creo un reel.
+
+Calendario actual:
+
+Lunes 13/04 → Instagram: no hay reel programado ✅
+
+Martes 14/04 → TikTok: no hay reel programado ✅
+
+Jueves 16/04 → ambas: no hay nada programado
+
+Resultado esperado:
+
+Reel se programa el lunes 13 en Instagram
+
+Reel se programa el martes 14 en TikTok
+
+❌ No se programa el jueves 16 porque ya hay días más cercanos
+
+3. Publicación #180 (multiplataforma conectada)
+Regla:
+Cuando creas una publicación #180, esta se envía automáticamente a todas las redes sociales activas (Instagram, TikTok, Facebook, etc.) en ese momento.
+
+Asignación de fechas:
+Cada red recibe su propia fecha y hora según su estrategia individual.
+
+Ejemplo:
+
+Instagram → 13/04/2026 - 10:00 hs
+
+TikTok → 14/04/2026 - 15:00 hs
+
+Facebook → 15/04/2026 - 12:00 hs
+
+Característica clave:
+
+La publicación #180 es la misma en todas las redes. Siempre permanecen conectadas.
+
+Ejemplo de sincronización:
+
+Publicación #180 programada en Instagram, TikTok y Facebook.
+
+Si luego edito el diseño (texto, imagen, título, etc.) de la #180 en la app...
+
+✅ El cambio se aplica automáticamente en las 3 redes (Instagram, TikTok, Facebook).
+
+❌ No tengo que editar manualmente cada plataforma.
+
+Resumen de reglas clave
+Fechas visibles en cola de aprobación por plataforma.
+
+Distribución inteligente al día más cercano libre según estrategia.
+
+Publicación #180 = multiplataforma conectada.
+
+Un solo cambio en #180 = cambio automático en todas las redes.
+
+Cada red mantiene su propia fecha/hora de publicación.

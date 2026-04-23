@@ -1,0 +1,36 @@
+Problema encontrado:
+No tenía nichos definidos. Le pedí sugerencias a la IA y no sugirió nada.
+
+Contexto:
+Ya definí industria y mercado objetivo en el formulario de inscripción, y además di los datos de la empresa. Con esa información, la IA debería poder sugerir nichos automáticamente.
+
+Lo que hice para probar:
+Agregué yo mismo 2 nichos manualmente. Luego volví a presionar el botón de "sugerir con IA" y no pasó nada. La IA no hizo ninguna acción, no generó sugerencias nuevas, no respondió.
+
+Conclusión:
+La IA no está funcionando. No está procesando los datos de industria, mercado objetivo ni la información de la empresa para sugerir nichos. Tampoco responde después de que el usuario agrega nichos manualmente.
+
+Solución esperada:
+La IA debe leer automáticamente la industria, el mercado objetivo y los datos de la empresa que ya están en el formulario.
+
+Con base en eso, debe sugerir nichos relevantes.
+
+Si el usuario agrega nichos manualmente y vuelve a pedir sugerencias, la IA debería tomar eso en cuenta y generar nuevas opciones.
+
+Otros problemas encontrados:
+1. Chat bot
+Cuando entré al chat bot me salió información de "eco". En ninguna parte debe decir eco-col.com ni mucho menos dar información de otro usuario. Esto es un usuario nuevo, no debería ver datos de otros.
+
+2. Configuración - Ubicación predeterminada
+Si la IA puede detectar la ubicación real del usuario, que la sugiera. De lo contrario, poner una ciudad internacional, no de Colombia. Ejemplos: New York, París, Tokio, Londres, Dubái.
+
+3. Configuración - Página de Facebook
+¿Por qué aparece "Energy Capital Operation" en el campo de Facebook? Estás filtrando datos de otros usuarios. Este es un usuario completamente nuevo, no tiene por qué ver eso. Debe estar vacío o ser un campo para que el usuario complete.
+
+4. Configuración - Integración con redes sociales
+Falta un indicativo o sección que explique cómo integrar redes sociales, bot de Telegram, etc. Algo claro que le diga al usuario qué puede conectar y cómo.
+
+REGLA PRINCIPAL:
+Esta app es para mercado GLOBAL, no solo Colombia.
+
+Por favor, elimina cualquier referencia local (país, ciudad, ejemplos, textos) que no sea neutral o internacional. Aplica esto como regla base en toda la aplicación.

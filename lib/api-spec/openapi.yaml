@@ -1,0 +1,797 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: eco-col.com Social Media Manager API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: niches
+    description: Market niche management
+  - name: posts
+    description: Social media post management
+  - name: image-variants
+    description: AI image generation
+  - name: social-accounts
+    description: Social account connections
+  - name: publish-log
+    description: Publication history
+  - name: settings
+    description: App settings
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /niches:
+    get:
+      operationId: getNiches
+      tags: [niches]
+      summary: List all niches
+      responses:
+        "200":
+          description: List of niches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Niche"
+    post:
+      operationId: createNiche
+      tags: [niches]
+      summary: Create a niche
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNicheBody"
+      responses:
+        "201":
+          description: Created niche
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Niche"
+
+  /niches/{id}:
+    get:
+      operationId: getNiche
+      tags: [niches]
+      summary: Get a niche
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Niche
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Niche"
+    put:
+      operationId: updateNiche
+      tags: [niches]
+      summary: Update a niche
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNicheBody"
+      responses:
+        "200":
+          description: Updated niche
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Niche"
+    delete:
+      operationId: deleteNiche
+      tags: [niches]
+      summary: Delete a niche
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /posts:
+    get:
+      operationId: getPosts
+      tags: [posts]
+      summary: List posts
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: platform
+          in: query
+          schema:
+            type: string
+        - name: nicheId
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of posts with image variants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PostWithVariants"
+    post:
+      operationId: createPost
+      tags: [posts]
+      summary: Create a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePostBody"
+      responses:
+        "201":
+          description: Created post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostWithVariants"
+
+  /posts/generate-bulk:
+    post:
+      operationId: generateBulkPosts
+      tags: [posts]
+      summary: Generate bulk posts with AI for 15 or 30 days
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateBulkPostsBody"
+      responses:
+        "201":
+          description: Generated posts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkGenerateResult"
+
+  /posts/{id}:
+    get:
+      operationId: getPost
+      tags: [posts]
+      summary: Get a post with its image variants
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Post with variants
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostWithVariants"
+    put:
+      operationId: updatePost
+      tags: [posts]
+      summary: Update a post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePostBody"
+      responses:
+        "200":
+          description: Updated post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostWithVariants"
+    delete:
+      operationId: deletePost
+      tags: [posts]
+      summary: Delete a post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /posts/{id}/approve:
+    post:
+      operationId: approvePost
+      tags: [posts]
+      summary: Approve a post for scheduling
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Approved post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostWithVariants"
+
+  /posts/{id}/reject:
+    post:
+      operationId: rejectPost
+      tags: [posts]
+      summary: Reject a post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Rejected post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostWithVariants"
+
+  /posts/{id}/regenerate-caption:
+    post:
+      operationId: regenerateCaption
+      tags: [posts]
+      summary: Regenerate AI caption for a post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Post with new caption
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostWithVariants"
+
+  /posts/{id}/generate-image-variant:
+    post:
+      operationId: generateImageVariant
+      tags: [image-variants]
+      summary: Generate a new image variant for a post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateImageVariantBody"
+      responses:
+        "201":
+          description: New image variant
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImageVariant"
+
+  /social-accounts:
+    get:
+      operationId: getSocialAccounts
+      tags: [social-accounts]
+      summary: Get all social account connections
+      responses:
+        "200":
+          description: Social accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SocialAccount"
+    put:
+      operationId: updateSocialAccount
+      tags: [social-accounts]
+      summary: Save social account token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSocialAccountBody"
+      responses:
+        "200":
+          description: Updated account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SocialAccount"
+
+  /social-accounts/{platform}/test:
+    post:
+      operationId: testSocialAccount
+      tags: [social-accounts]
+      summary: Test social account connection
+      parameters:
+        - name: platform
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Test result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConnectionTestResult"
+
+  /publish-log:
+    get:
+      operationId: getPublishLog
+      tags: [publish-log]
+      summary: Get publication history
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Publish log entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PublishLogEntry"
+
+  /settings:
+    get:
+      operationId: getSettings
+      tags: [settings]
+      summary: Get app settings
+      responses:
+        "200":
+          description: Settings map
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+    put:
+      operationId: updateSettings
+      tags: [settings]
+      summary: Update app settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+      responses:
+        "200":
+          description: Updated settings
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+
+    Niche:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        keywords:
+          type: string
+        active:
+          type: boolean
+        customText:
+          type: string
+          nullable: true
+        customTextPosition:
+          type: string
+          enum: [before, after]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - description
+        - keywords
+        - active
+        - createdAt
+        - updatedAt
+
+    CreateNicheBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        keywords:
+          type: string
+        active:
+          type: boolean
+        customText:
+          type: string
+          nullable: true
+        customTextPosition:
+          type: string
+          enum: [before, after]
+      required:
+        - name
+
+    ImageVariant:
+      type: object
+      properties:
+        id:
+          type: integer
+        postId:
+          type: integer
+        variantIndex:
+          type: integer
+        imageData:
+          type: string
+        style:
+          type: string
+        prompt:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - postId
+        - variantIndex
+        - imageData
+        - style
+        - prompt
+        - createdAt
+
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+        postNumber:
+          type: integer
+          nullable: true
+        nicheId:
+          type: integer
+          nullable: true
+        platform:
+          type: string
+        caption:
+          type: string
+        hashtags:
+          type: string
+        selectedImageVariant:
+          type: integer
+          nullable: true
+        status:
+          type: string
+        scheduledAt:
+          type: string
+          format: date-time
+          nullable: true
+        publishedAt:
+          type: string
+          format: date-time
+          nullable: true
+        instagramPostId:
+          type: string
+          nullable: true
+        tiktokPostId:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - platform
+        - caption
+        - hashtags
+        - status
+        - createdAt
+        - updatedAt
+
+    PostWithVariants:
+      allOf:
+        - $ref: "#/components/schemas/Post"
+        - type: object
+          properties:
+            imageVariants:
+              type: array
+              items:
+                $ref: "#/components/schemas/ImageVariant"
+            niche:
+              $ref: "#/components/schemas/Niche"
+              nullable: true
+          required:
+            - imageVariants
+
+    CreatePostBody:
+      type: object
+      properties:
+        nicheId:
+          type: integer
+        platform:
+          type: string
+        caption:
+          type: string
+        hashtags:
+          type: string
+        scheduledAt:
+          type: string
+          format: date-time
+      required:
+        - caption
+
+    UpdatePostBody:
+      type: object
+      properties:
+        caption:
+          type: string
+        hashtags:
+          type: string
+        hashtagsTiktok:
+          type: string
+        platform:
+          type: string
+        contentType:
+          type: string
+        nicheId:
+          type: integer
+        scheduledAt:
+          type: string
+          format: date-time
+        scheduledAtInstagram:
+          type: string
+          format: date-time
+        scheduledAtTiktok:
+          type: string
+          format: date-time
+        selectedImageVariant:
+          type: integer
+        status:
+          type: string
+        locationId:
+          type: integer
+          nullable: true
+        locationName:
+          type: string
+          nullable: true
+
+    GenerateBulkPostsBody:
+      type: object
+      properties:
+        days:
+          type: integer
+          description: Number of days to generate content for (15 or 30)
+        nicheIds:
+          type: array
+          items:
+            type: integer
+          description: Niche IDs to use (empty = use all active)
+        platform:
+          type: string
+          description: Target platform (instagram | tiktok | both)
+        contentTypes:
+          type: array
+          items:
+            type: string
+          description: Content types to include (image, reel, carousel, story)
+        customTopic:
+          type: string
+          description: Custom topic or idea to guide content generation
+        startDate:
+          type: string
+          description: "ISO date string (YYYY-MM-DD) to start scheduling from. Defaults to tomorrow."
+      required:
+        - days
+
+    BulkGenerateResult:
+      type: object
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: "#/components/schemas/PostWithVariants"
+        generated:
+          type: integer
+        days:
+          type: integer
+      required:
+        - posts
+        - generated
+        - days
+
+    GenerateImageVariantBody:
+      type: object
+      properties:
+        style:
+          type: string
+          description: photorealistic | graphic | infographic
+      required:
+        - style
+
+    SocialAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+        platform:
+          type: string
+        username:
+          type: string
+        connected:
+          type: string
+        pageId:
+          type: string
+          nullable: true
+        tokenExpiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - platform
+        - username
+        - connected
+        - updatedAt
+
+    UpdateSocialAccountBody:
+      type: object
+      properties:
+        platform:
+          type: string
+        username:
+          type: string
+        accessToken:
+          type: string
+        pageId:
+          type: string
+      required:
+        - platform
+        - username
+        - accessToken
+
+    ConnectionTestResult:
+      type: object
+      properties:
+        connected:
+          type: boolean
+        message:
+          type: string
+        username:
+          type: string
+          nullable: true
+      required:
+        - connected
+        - message
+
+    PublishLogEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        postId:
+          type: integer
+        platform:
+          type: string
+        status:
+          type: string
+        postUrl:
+          type: string
+          nullable: true
+        errorMessage:
+          type: string
+          nullable: true
+        publishedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - postId
+        - platform
+        - status
+        - publishedAt

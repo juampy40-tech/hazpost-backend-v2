@@ -1,0 +1,91 @@
+uploads = []
+
+[[generated]]
+id = "QcsvDJmNjYI65ziche6BY"
+uri = "file://artifacts/social-dashboard/public/logo-hazpost-1024.png"
+type = "image"
+title = "hazpost logo 1024"
+
+[[generated]]
+id = "ivuGfzdkDV32LhB-54XrB"
+uri = "file://attached_assets/generated_images/hazpost_facebook_banner.png"
+type = "image"
+title = "generated_image"
+
+[[outputs]]
+id = "gCyaYKGC1q88gHajnlXrs"
+uri = "file://screenshots/estilo_cinema.jpg"
+type = "image"
+title = "🎬 CINEMA — Gradiente oscuro + texto blanco (estilo película)"
+
+[[outputs]]
+id = "XibAwfbXNTYAisSy-YX3L"
+uri = "file://screenshots/estilo_neon.jpg"
+type = "image"
+title = "⚡ NEÓN — Texto azul ECO con brillo (sin fondo)"
+
+[[outputs]]
+id = "uzwQUGpKuvd7wb1HAQ0RW"
+uri = "file://screenshots/estilo_bloque.jpg"
+type = "image"
+title = "🔲 BLOQUE — Texto blanco + línea azul (limpio y editorial)"
+
+[[outputs]]
+id = "lBglsuOoTdJfMCO3Gjybp"
+uri = "file://artifacts/social-dashboard/public/eco-icon.png"
+type = "image"
+title = "ECO Icon 1024×1024 (para Meta)"
+
+[[outputs]]
+id = "I3osSRei_BsYKJYXaingH"
+uri = "file://artifacts/social-dashboard/public/eco-icon-1024.jpg"
+type = "image"
+title = "ECO Icon 1024×1024 JPG (para Meta)"
+
+[[outputs]]
+id = "hbQnUnL0TC8w6nuHjsa2T"
+uri = "file://attached_assets/eco_logo_1080x1080.png"
+type = "image"
+title = "ECO Logo 1080×1080"
+
+[[outputs]]
+id = "yrFxpY19VaZcpzZrgBnxY"
+uri = "file://attached_assets/eco_logo_1024x1024.png"
+type = "image"
+title = "ECO Logo 1024×1024"
+
+[[outputs]]
+id = "N0ZjFW-wFyVVDHf82mgRH"
+uri = "file://attached_assets/Video_Replit_1_1775443850353.mp4"
+type = "video"
+title = "Video demo ECO Social Manager"
+
+[[outputs]]
+id = "wRLELbYEVPMd6P0JwGZOh"
+uri = "file://artifacts/social-dashboard/public/logo-hazpost-1024.png"
+type = "image"
+title = "Logo hazpost — 1024×1024px"
+
+[[outputs]]
+id = "hqyJZG3ZIpox_QKPvjm1A"
+uri = "file://artifacts/social-dashboard/public/logo-hazpost-transparent.png"
+type = "image"
+title = "Logo hazpost — fondo transparente"
+
+[[outputs]]
+id = "y_6TCRe1qd62PKpw0jBUu"
+uri = "file://attached_assets/generated_images/hazpost_facebook_banner.png"
+type = "image"
+title = "Banner Facebook — Hazpost"
+
+[[outputs]]
+id = "wqHpWM1kgyhzbwb16W933"
+uri = "file://auditoria_hazpost.xlsx"
+type = "table"
+title = "Auditoría v2 — Excel (7 hojas: Skills, Estructura, Fallas, Duplicados, Propuestas, Puntaje, Móvil)"
+
+[[outputs]]
+id = "BeJcDg6jOv_XDL6516GpE"
+uri = "file://auditoria_hazpost.txt"
+type = "text"
+title = "Auditoría v2 — Resumen ejecutivo TXT"

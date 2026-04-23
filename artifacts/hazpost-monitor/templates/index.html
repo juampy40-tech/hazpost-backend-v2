@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ meta.title }}</title>
+  <meta name="description" content="{{ meta.description }}" />
+  <meta name="keywords" content="{{ meta.keywords }}" />
+  <link rel="canonical" href="{{ meta.canonical }}" />
+
+  <meta property="og:title" content="{{ meta.og_title }}" />
+  <meta property="og:description" content="{{ meta.og_description }}" />
+  <meta property="og:url" content="{{ meta.og_url }}" />
+  <meta property="og:type" content="{{ meta.og_type }}" />
+  <meta property="og:site_name" content="{{ meta.og_site_name }}" />
+
+  <meta name="twitter:card" content="{{ meta.twitter_card }}" />
+  <meta name="twitter:title" content="{{ meta.twitter_title }}" />
+  <meta name="twitter:description" content="{{ meta.twitter_description }}" />
+
+  <script type="application/ld+json">{{ meta.json_ld | tojson }}</script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+    .header { background: #1e293b; border-bottom: 1px solid #334155; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .header h1 { font-size: 1.25rem; color: #38bdf8; font-weight: 700; letter-spacing: -0.02em; }
+    .header nav a { color: #94a3b8; text-decoration: none; margin-left: 1.5rem; font-size: 0.875rem; transition: color .2s; }
+    .header nav a:hover { color: #38bdf8; }
+    .main { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem; }
+    .hero { text-align: center; padding: 4rem 0 3rem; }
+    .hero h2 { font-size: 2.5rem; font-weight: 800; color: #f1f5f9; margin-bottom: 1rem; }
+    .hero p { color: #94a3b8; font-size: 1.125rem; max-width: 600px; margin: 0 auto 2rem; }
+    .badges { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .badge { padding: 0.4rem 1rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 600; }
+    .badge-green { background: #064e3b; color: #34d399; }
+    .badge-blue { background: #0c4a6e; color: #38bdf8; }
+    .badge-yellow { background: #78350f; color: #fbbf24; }
+    .badge-red { background: #7f1d1d; color: #f87171; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.5rem; }
+    .card h3 { font-size: 1rem; color: #38bdf8; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.875rem; color: #94a3b8; line-height: 1.6; }
+    .card .value { font-size: 2rem; font-weight: 800; color: #f1f5f9; margin: 0.5rem 0; }
+    .status-indicator { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+    .status-up { background: #34d399; box-shadow: 0 0 6px #34d399; }
+    .status-down { background: #f87171; box-shadow: 0 0 6px #f87171; }
+    .status-slow { background: #fbbf24; box-shadow: 0 0 6px #fbbf24; }
+    .footer { text-align: center; color: #475569; font-size: 0.8rem; padding: 2rem; border-top: 1px solid #1e293b; margin-top: 4rem; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.25rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; text-decoration: none; background: #0369a1; color: #fff; transition: background .2s; }
+    .btn:hover { background: #0284c7; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>⚡ HazPost Monitor</h1>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/skills">Skills</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <h2>Monitor 24/7 de hazpost.app</h2>
+      <p>Vigilancia continua del sitio, detección automática de skills, alertas por Telegram y backups diarios.</p>
+      <div class="badges">
+        {% if site_status.up %}
+          <span class="badge badge-green">
+            <span class="status-indicator status-up"></span>
+            Sitio operativo
+          </span>
+        {% else %}
+          <span class="badge badge-red">
+            <span class="status-indicator status-down"></span>
+            Sitio caído
+          </span>
+        {% endif %}
+        <span class="badge badge-blue">{{ skills_count }} skills detectados</span>
+        <span class="badge badge-yellow">Escaneo cada 6 horas</span>
+      </div>
+    </section>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Estado del sitio</h3>
+        {% if site_status.up %}
+          <div class="value" style="color:#34d399">✓ Online</div>
+        {% else %}
+          <div class="value" style="color:#f87171">✗ Offline</div>
+        {% endif %}
+        <p>
+          {% if site_status.response_time %}
+            Tiempo de respuesta: <strong>{{ site_status.response_time }}s</strong>
+          {% endif %}
+          {% if site_status.last_check %}
+            <br>Última verificación: {{ site_status.last_check[:19] | replace("T"," ") }} UTC
+          {% endif %}
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Skills detectados</h3>
+        <div class="value">{{ skills_count }}</div>
+        <p>
+          {% if last_scan %}
+            Último escaneo: {{ last_scan[:19] | replace("T"," ") }} UTC
+          {% else %}
+            Sin escaneos aún
+          {% endif %}
+        </p>
+        <br>
+        <a href="/skills" class="btn">Ver todos los skills →</a>
+      </div>
+
+      <div class="card">
+        <h3>Fusiones de duplicados</h3>
+        <div class="value">{{ fusions_count }}</div>
+        <p>Skills similares (&gt;80%) fusionados automáticamente para mantener la lista limpia.</p>
+      </div>
+
+      <div class="card">
+        <h3>Backups</h3>
+        <div class="value">{{ backups_count }}</div>
+        <p>Backup diario a las 2 AM. Retención de 30 días. Datos: <code>data/</code>, <code>logs/</code> y <code>.env</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3>Escaneos totales</h3>
+        <div class="value">{{ scan_count }}</div>
+        <p>Escaneos ejecutados desde que el monitor fue iniciado. Frecuencia: cada 6 horas.</p>
+      </div>
+
+      <div class="card">
+        <h3>Alertas Telegram</h3>
+        <div class="value" style="font-size:1.2rem">@eco_social_alerts_bot</div>
+        <p>Recibe alertas de caídas, skills nuevos, backups y resumen diario a las 9 AM.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>HazPost Monitor — Sistema automático de monitoreo | Actualizado: {{ now }}</p>
+  </footer>
+</body>
+</html>

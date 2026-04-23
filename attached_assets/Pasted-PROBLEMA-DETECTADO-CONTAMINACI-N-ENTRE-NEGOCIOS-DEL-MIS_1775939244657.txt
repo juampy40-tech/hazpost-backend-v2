@@ -1,0 +1,104 @@
+PROBLEMA DETECTADO: CONTAMINACIÓN ENTRE NEGOCIOS DEL MISMO USUARIO
+TE VOY A MOSTRAR UNOS EJEMPLOS
+
+CASOS CONCRETOS:
+
+ID 1:
+- Negocio 1: Eco
+- Negocio 2: Hazpost
+- RESULTADO: Negocio 1 (Eco) contamina a Negocio 2 (Hazpost)
+
+ID 3:
+- Negocio 1: Emma Yanguas (agencia)
+- Negocio 2: Panadería La Estación
+- RESULTADO: Negocio 1 contamina a Negocio 2
+
+SÍNTOMAS:
+- Los posts del negocio 2 usan la firma del negocio 1
+- Los colores del negocio 1 aparecen en los posts del negocio 2
+- El sistema no está aislando correctamente los datos entre negocios de un mismo usuario
+
+CAUSA RAIZ:
+La arquitectura actual permite que la información de un negocio (colores, firma, estilo, prompts) se filtre a otro negocio cuando pertenecen al mismo usuario.
+
+SOLUCIÓN NECESARIA:
+Independizar COMPLETAMENTE los negocios dentro de un mismo usuario. Cada negocio debe tener:
+- Su propia configuración (colores, firma, tipografía)
+- Su propio contador de posts
+- Su propio prompt para DALL-E
+- Sus propias fotos de referencia
+- Sin absolutamente NADA compartido entre negocios del mismo usuario.
+
+TE SUGIERO ESTE 🛠️ SKILL ESPECÍFICO: Data Contamination Detector (Entre Negocios del Mismo Usuario) O MIRA SI TU TIENES OTRO MEJOR
+Aquí tienes el skill exacto para revisar contaminación de datos entre negocios:
+# Skill: Data Contamination Detector (Cross-Business)
+
+## Propósito
+Detectar si los datos, configuración o estilo de un negocio están contaminando a otro negocio del MISMO usuario.
+
+## Qué revisar paso a paso
+
+### 1. Configuración visual (colores, tipografía, firma)
+- [ ] El color principal del Negocio A aparece en posts del Negocio B
+- [ ] La tipografía del Negocio A aparece en posts del Negocio B
+- [ ] La firma o eslogan del Negocio A aparece en posts del Negocio B
+- [ ] El logo o imágenes del Negocio A se usan en posts del Negocio B
+
+### 2. Contenido generado (textos)
+- [ ] Menciones de ciudad/localidad del Negocio A aparecen en posts del Negocio B
+- [ ] Títulos o frases características del Negocio A aparecen en posts del Negocio B
+- [ ] El tono o voz del Negocio A se replica en posts del Negocio B
+- [ ] El rubro/industria del Negocio A se mezcla con el del Negocio B
+
+### 3. Parámetros técnicos
+- [ ] El contador de posts es compartido entre Negocio A y Negocio B
+- [ ] Las fotos de referencia del Negocio A se usan para generar posts del Negocio B
+- [ ] El prompt de DALL-E del Negocio A se envía al generar posts del Negocio B
+- [ ] La configuración de IA (temperatura, modelo) es la misma para ambos
+
+### 4. Base de datos
+- [ ] La consulta SQL que trae los posts NO filtra por `business_id` correctamente
+- [ ] La tabla de configuraciones NO tiene `business_id` como clave foránea
+- [ ] El caché NO distingue entre `business_id` diferentes
+- [ ] Las variables de sesión o contexto NO se resetean al cambiar de negocio
+
+### 5. Prueba manual sugerida
+
+
+PASO 1: Crear Negocio A con colores ROJO + firma "Firma A"
+PASO 2: Crear Negocio B con colores AZUL + firma "Firma B"
+PASO 3: Generar posts en Negocio B
+PASO 4: Verificar si aparece ROJO o "Firma A" en los posts de B
+Si aparece → CONTAMINACIÓN CONFIRMADA
+
+## Criterios de aceptación (para decir "está limpio")
+- [ ] Negocio A y B del mismo usuario generan posts con estilos COMPLETAMENTE diferentes
+- [ ] Los colores NO se mezclan
+- [ ] Las firmas NO se mezclan
+- [ ] Las ciudades/localidades NO se mezclan
+- [ ] Los contadores son independientes
+- [ ] Las fotos de referencia NO se cruzan
+- [ ] El prompt de DALL-E es exclusivo para cada negocio
+
+## Acción correctiva
+Si se detecta contaminación:
+1. Aislar la configuración por `business_id` en TODAS las tablas
+2. Modificar TODAS las consultas para incluir `business_id` en el WHERE
+3. Limpiar el caché por `business_id`
+4. Resetear el contexto al cambiar de negocio dentro de la misma sesión de usuario
+5. Revisar que el prompt de DALL-E se construya SOLO con datos del negocio actual
+
+Ya detecté la raíz: CONTAMINACIÓN ENTRE NEGOCIOS DEL MISMO USUARIO.
+
+ID 1: Eco contamina a Hazpost
+ID 3: Emma Yanguas contamina a Panadería La Estación
+
+Los posts del segundo negocio salen con colores, firma y estilo del primer negocio.
+
+SKILL CREADO: "Data Contamination Detector" para revisar esto sistemáticamente.
+
+SOLUCIÓN: Independizar por BUSINESS_ID en TODAS las capas (DB, caché, prompts, configuración, contexto de sesión). Nada compartido entre negocios del mismo usuario.
+
+Aplicar en PRODUCCIÓN para TODOS los usuarios y negocios existentes.
+
+

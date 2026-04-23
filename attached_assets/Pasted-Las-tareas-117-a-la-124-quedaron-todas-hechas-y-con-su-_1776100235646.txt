@@ -1,0 +1,135 @@
+Las tareas 117 a la 124 quedaron todas hechas y con su respectivo skill?
+
+Tarea urgente
+1.	Revisa por favor si hay mas errores de contaminación, yahoy se van a crear unas cuentas reales
+Revisar si el error en configuración de api o lo que sea
+El post 1 3 de hazpost, se publicaron en la cuenta de Instagram de eco
+Si ves que le falta algo a este skill para mejorar agregaselo
+Skill: Aislamiento de negocios por usuario (publicaciones) - URGENTE
+text
+PRIORIDAD: MÁXIMA - URGENTE
+
+Crear un sistema de AISLAMIENTO ESTRICTO entre negocios de un mismo usuario.
+
+REGLAS FUNDAMENTALES:
+
+1. Cada negocio es COMPLETAMENTE INDEPENDIENTE dentro de la misma cuenta de usuario.
+2. Un post generado para el Negocio A SOLO puede publicarse en las redes sociales del Negocio A.
+3. Un post generado para el Negocio B SOLO puede publicarse en las redes sociales del Negocio B.
+4. NUNCA un post de un negocio debe cruzar a las redes de otro negocio, aunque sean del mismo usuario.
+
+VERIFICACIONES OBLIGATORIAS ANTES DE PUBLICAR:
+
+Antes de publicar CUALQUIER post, el sistema DEBE verificar:
+
+✓ ¿Este post fue generado para el Negocio X?
+✓ ¿La red social destino (Instagram/TikTok/Facebook) pertenece al Negocio X?
+✓ ¿Las credenciales de API/token corresponden al Negocio X?
+
+Si alguna verificación falla → NO PUBLICAR y mostrar error: "Error de asignación: el post no pertenece a esta red social."
+
+REVISIÓN INMEDIATA REQUERIDA:
+
+1. Revisar toda la lógica de generación de posts: ¿cómo se asigna el negocio_id al post?
+2. Revisar toda la lógica de publicación: ¿cómo se selecciona qué cuenta de Instagram usar?
+3. Revisar la estructura de la base de datos: ¿post → negocio → red_social está correctamente relacionado?
+4. Revisar si hay credenciales de redes sociales compartidas entre negocios (NO debe ocurrir).
+
+CORRECCIÓN DE DATOS EXISTENTES:
+
+- Identificar todos los posts publicados en el lugar equivocado.
+- Si es posible, eliminarlos o notificar al usuario.
+- Asegurar que no vuelva a ocurrir.
+
+PRUEBAS OBLIGATORIAS:
+
+Crear un usuario de prueba con 2 negocios diferentes (ej: Barbería y Eco).
+Generar posts para cada uno.
+Verificar que NUNCA se crucen.
+
+ACCIÓN INMEDIATA:
+
+1. DETENER cualquier publicación automática hasta que se solucione.
+2. CORREGIR la lógica de asignación de posts a negocios.
+3. CORREGIR la lógica de selección de cuenta de Instagram.
+4. IMPLEMENTAR las verificaciones obligatorias.
+5. EJECUTAR pruebas de validación.
+
+Este Skill tiene PRIORIDAD MÁXIMA (URGENTE) sobre cualquier otra tarea.
+
+## ⚙️ Condición final
+
+Este error debe corregirse URGENTEMENTE en producción.
+Todos los cambios deben aplicarse para TODOS los usuarios y TODOS los negocios, nuevos y existentes.
+
+Si falta alguna habilidad nueva (skill, función, lógica de verificación, o corrección en base de datos) para implementar esto, créala AHORA.
+
+2.	Problema a resolver
+Actualmente, cuando un usuario reporta un error, el código se revisa caso por caso, usuario por usuario. Esto es insostenible porque:
+Si hay un error, hay que arreglarlo para todos los usuarios, no uno por uno.
+Puede haber 100 usuarios con el mismo error y habría que corregir 100 veces.
+Lo que necesito
+El código debe estar escrito de manera que:
+Cuando se detecta un error, se corrige en UN SOLO LUGAR (la fuente central).
+Esa corrección se aplica AUTOMÁTICAMENTE para TODOS los usuarios (nuevos y existentes).
+NO se debe arreglar usuario por usuario manualmente.
+NO se debe tocar la base de datos para parchear casos individuales (a menos que sea estrictamente necesario).
+Ejemplo de lo que NO quiero
+text
+❌ Mal: Si el usuario A tiene error, escribo código especial solo para él.
+❌ Mal: Si el usuario B tiene el mismo error, escribo otro código especial para él.
+❌ Mal: Parchear en la base de datos usuario por usuario.
+Ejemplo de lo que SÍ quiero
+text
+✅ Bien: Detecto el error en la lógica central (ej: asignación de posts a negocios).
+✅ Bien: Corrijo la función o el endpoint en UN SOLO ARCHIVO.
+✅ Bien: La corrección afecta automáticamente a TODOS los usuarios.
+✅ Bien: Subo el cambio a producción y se arregla para todos.
+________________________________________
+Regla para el desarrollador / IA
+"El código debe ser centralizado y genérico. Cualquier corrección de errores debe hacerse en la lógica principal, no en parches por usuario. Si un error aplica a varios usuarios, se corrige una vez y afecta a todos."
+
+
+Skill: Código centralizado y correcciones globales (sin parches por usuario) revisarlo y si lo puedes mejorar hazlo
+text
+Crear un sistema de desarrollo con las siguientes reglas OBLIGATORIAS:
+
+REGLAS DE ARQUITECTURA:
+
+1. Toda la lógica de negocio debe estar en funciones/endpoints CENTRALIZADOS.
+2. NO se permite código que verifique "si es el usuario X, haz algo especial".
+3. NO se permiten parches en la base de datos para corregir errores de lógica (solo para limpiar datos corruptos).
+4. Cualquier corrección de error debe hacerse en UN SOLO LUGAR y afectar a TODOS los usuarios.
+
+FLUJO DE CORRECCIÓN DE ERRORES:
+
+1. Usuario reporta un error.
+2. Se identifica la causa raíz en el código central.
+3. Se corrige en UN SOLO ARCHIVO o FUNCIÓN.
+4. Se despliega a producción.
+5. AUTOMÁTICAMENTE todos los usuarios (nuevos y existentes) tienen la corrección.
+
+LO QUE ESTÁ PROHIBIDO:
+
+❌ Hacer "if user_id == 123: arreglar esto"
+❌ Crear columnas especiales en base de datos para casos particulares
+❌ Corregir el mismo error en 10 lugares diferentes
+❌ Parchear manualmente usuario por usuario
+
+LO QUE ES OBLIGATORIO:
+
+✅ La lógica debe ser genérica y basada en reglas, no en IDs de usuarios
+✅ Las correcciones benefician a todos automáticamente
+✅ El código debe ser mantenible y escalable
+
+PRUEBA OBLIGATORIA:
+
+Antes de desplegar una corrección, probar con al menos 3 usuarios diferentes para verificar que funciona para TODOS.
+
+Este Skill aplica para TODOS los desarrollos futuros y correcciones de errores.
+________________________________________
+Resumen para que le digas a Replit
+"Cuando un usuario reporta un error, quiero que el código se arregle en un solo lugar y esa corrección afecte automáticamente a todos los usuarios, nuevos y existentes. No quiero parches por usuario ni arreglos manuales uno por uno. Crea un Skill para que esta regla se cumpla siempre."
+
+
+

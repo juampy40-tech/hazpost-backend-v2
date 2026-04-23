@@ -1,0 +1,229 @@
+======================================================================
+  AUDITORÍA WEB — hazpost.app  (v2)
+  16/04/2026 02:30:41
+  Páginas rastreadas: 8 | Seeds: 8
+======================================================================
+
+  PUNTAJE TOTAL: 78/100  [███████████████░░░░░]  Bueno
+  Promedio carga: 35ms
+
+  SEO (títulos, metas, H1, OG tags)               8/25  title=0 sin título, 8 sin desc, 8 sin H1
+  Rendimiento / Velocidad de carga               25/25  Promedio 35ms, 0 pág. lentas
+  Mobile / Responsive                            20/20  0 sin viewport, 0 lentas en móvil
+  Accesibilidad (alt texts, links rotos)         15/15  0 imágenes sin alt, 0 links rotos
+  Contenido / Estructura                         10/15  HTTPS: Sí, 28 duplicados
+  ── TOTAL ──                                    78/100  Calificación: Bueno
+
+1. SKILLS / FUNCIONALIDADES DETECTADAS
+--------------------------------------------------
+  [IA             ] IA
+
+  Total: 1 items
+
+2. ESTRUCTURA WEB Y TIEMPOS DE CARGA
+--------------------------------------------------
+  ✓ 🟢   132ms  [0]  https://hazpost.app  (200)
+       hazpost — Social Media con IA
+  ✓ 🟢    33ms  [0]  https://hazpost.app/dashboard  (200)
+       hazpost — Social Media con IA
+  ✓ 🟢    12ms  [0]  https://hazpost.app/pricing  (200)
+       hazpost — Social Media con IA
+  ✓ 🟢    32ms  [0]  https://hazpost.app/login  (200)
+       hazpost — Social Media con IA
+  ✓ 🟢    11ms  [0]  https://hazpost.app/register  (200)
+       hazpost — Social Media con IA
+  ✓ 🟢    35ms  [0]  https://hazpost.app/about  (200)
+       hazpost — Social Media con IA
+  ✓ 🟢    12ms  [0]  https://hazpost.app/blog  (200)
+       hazpost — Social Media con IA
+  ✓ 🟢    11ms  [0]  https://hazpost.app/features  (200)
+       hazpost — Social Media con IA
+
+3. FALLAS Y PROBLEMAS
+--------------------------------------------------
+    8x  Meta faltante
+    8x  OG tag faltante
+    8x  SEO sin H1
+
+  ✗ Meta faltante: https://hazpost.app
+    → Sin <meta description>
+  ✗ OG tag faltante: https://hazpost.app
+    → Sin og:title
+  ✗ SEO sin H1: https://hazpost.app
+    → Página sin <h1>
+  ✗ Meta faltante: https://hazpost.app/dashboard
+    → Sin <meta description>
+  ✗ OG tag faltante: https://hazpost.app/dashboard
+    → Sin og:title
+  ✗ SEO sin H1: https://hazpost.app/dashboard
+    → Página sin <h1>
+  ✗ Meta faltante: https://hazpost.app/pricing
+    → Sin <meta description>
+  ✗ OG tag faltante: https://hazpost.app/pricing
+    → Sin og:title
+  ✗ SEO sin H1: https://hazpost.app/pricing
+    → Página sin <h1>
+  ✗ Meta faltante: https://hazpost.app/login
+    → Sin <meta description>
+  ✗ OG tag faltante: https://hazpost.app/login
+    → Sin og:title
+  ✗ SEO sin H1: https://hazpost.app/login
+    → Página sin <h1>
+  ✗ Meta faltante: https://hazpost.app/register
+    → Sin <meta description>
+  ✗ OG tag faltante: https://hazpost.app/register
+    → Sin og:title
+  ✗ SEO sin H1: https://hazpost.app/register
+    → Página sin <h1>
+  ✗ Meta faltante: https://hazpost.app/about
+    → Sin <meta description>
+  ✗ OG tag faltante: https://hazpost.app/about
+    → Sin og:title
+  ✗ SEO sin H1: https://hazpost.app/about
+    → Página sin <h1>
+  ✗ Meta faltante: https://hazpost.app/blog
+    → Sin <meta description>
+  ✗ OG tag faltante: https://hazpost.app/blog
+    → Sin og:title
+  ✗ SEO sin H1: https://hazpost.app/blog
+    → Página sin <h1>
+  ✗ Meta faltante: https://hazpost.app/features
+    → Sin <meta description>
+  ✗ OG tag faltante: https://hazpost.app/features
+    → Sin og:title
+  ✗ SEO sin H1: https://hazpost.app/features
+    → Página sin <h1>
+
+  Total: 24 fallas
+
+4. CONTENIDO DUPLICADO (umbral ≥ 80%)
+--------------------------------------------------
+  [Título] Similitud: 100%
+    A: https://hazpost.app
+    B: https://hazpost.app/dashboard
+    → Consolidar en https://hazpost.app o diferenciar el contenido
+
+  [Título] Similitud: 100%
+    A: https://hazpost.app
+    B: https://hazpost.app/pricing
+    → Consolidar en https://hazpost.app o diferenciar el contenido
+
+  [Título] Similitud: 100%
+    A: https://hazpost.app
+    B: https://hazpost.app/login
+    → Consolidar en https://hazpost.app o diferenciar el contenido
+
+  [Título] Similitud: 100%
+    A: https://hazpost.app
+    B: https://hazpost.app/register
+    → Consolidar en https://hazpost.app o diferenciar el contenido
+
+  [Título] Similitud: 100%
+    A: https://hazpost.app
+    B: https://hazpost.app/about
+    → Consolidar en https://hazpost.app o diferenciar el contenido
+
+  [Título] Similitud: 100%
+    A: https://hazpost.app
+    B: https://hazpost.app/blog
+    → Consolidar en https://hazpost.app o diferenciar el contenido
+
+  [Título] Similitud: 100%
+    A: https://hazpost.app
+    B: https://hazpost.app/features
+    → Consolidar en https://hazpost.app o diferenciar el contenido
+
+  [Título] Similitud: 100%
+    A: https://hazpost.app/dashboard
+    B: https://hazpost.app/pricing
+    → Consolidar en https://hazpost.app/dashboard o diferenciar el contenido
+
+  [Título] Similitud: 100%
+    A: https://hazpost.app/dashboard
+    B: https://hazpost.app/login
+    → Consolidar en https://hazpost.app/dashboard o diferenciar el contenido
+
+  [Título] Similitud: 100%
+    A: https://hazpost.app/dashboard
+    B: https://hazpost.app/register
+    → Consolidar en https://hazpost.app/dashboard o diferenciar el contenido
+
+  Total: 28 pares
+
+5. PROPUESTAS DE MEJORA (priorizadas)
+--------------------------------------------------
+   1. [ALTA ] SEO técnico
+       Completar meta tags en 8 página(s): og:title, description, H1
+       Impacto: Mejora inmediata de indexación y compartibilidad
+
+   2. [ALTA ] Analytics avanzados
+       Panel con métricas reales de Instagram/TikTok/Facebook: alcance, engagement rate, mejor hora de publicación
+       Impacto: Retención — los usuarios quieren ver ROI
+
+   3. [MEDIA] A/B Testing de contenido
+       2 variantes de post con medición automática del ganador
+       Impacto: Diferenciador de mercado
+
+   4. [ALTA ] Colaboración en equipo
+       Roles (diseñador, redactor, aprobador) con permisos por negocio
+       Impacto: Escala el plan Agencia
+
+   5. [ALTA ] Programación best-time
+       Sugerir hora óptima de publicación por cuenta basándose en historial de engagement
+       Impacto: Aumenta alcance orgánico sin esfuerzo
+
+   6. [ALTA ] Exportación reportes PDF
+       Reporte mensual PDF/PPT con logo del negocio para que agencias lo envíen a sus clientes
+       Impacto: Cierre de plan Agencia
+
+   7. [MEDIA] Feed preview visual
+       Vista previa del feed de Instagram con posts programados
+       Impacto: Funcionalidad pedida por community managers
+
+   8. [MEDIA] Hashtag research
+       Herramienta de investigación de hashtags con volumen y competencia
+       Impacto: Mejora el alcance orgánico
+
+   9. [MEDIA] Integración CRM
+       Sincronizar leads de redes con HubSpot, Pipedrive o Google Sheets
+       Impacto: Atrae clientes B2B
+
+  10. [MEDIA] Chatbot de soporte
+       Chatbot con IA dentro del dashboard para responder dudas de uso
+       Impacto: Reduce tickets, mejora onboarding
+
+  11. [ALTA ] Plantillas por industria
+       Biblioteca de plantillas copy+imagen por sector para acelerar el onboarding
+       Impacto: Reduce tiempo al primer post
+
+  12. [MEDIA] LinkedIn Publishing
+       Soporte de publicación directa en LinkedIn
+       Impacto: Abre mercado B2B
+
+  13. [MEDIA] Integración Canva
+       Importar diseños de Canva como fondo de posts
+       Impacto: Captura usuarios que ya usan Canva
+
+  14. [ALTA ] Reels música personalizada
+       Biblioteca de tracks libres de derechos con selector de segmento
+       Impacto: Diferenciador clave TikTok/Reels
+
+  15. [BAJA ] Watermark de protección
+       Watermark automático con logo del negocio en imágenes generadas
+       Impacto: Protección de contenido
+
+  16. [MEDIA] Revisión ortográfica/tono
+       Corrector de estilo y tono en el editor de captions
+       Impacto: Mejora calidad sin esfuerzo del usuario
+
+6. RECOMENDACIONES PRIORIZADAS POR PUNTAJE
+--------------------------------------------------
+  [ALTA ] SEO — +17 pts posibles
+       Completar meta tags, OG tags y H1 en todas las páginas
+
+  [MEDIA] Contenido — +5 pts posibles
+       Activar HTTPS en todas las páginas, eliminar 28 duplicado(s)
+
+======================================================================
+  FIN DEL INFORME
+======================================================================

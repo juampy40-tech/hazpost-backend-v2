@@ -1,0 +1,178 @@
+Necesito que revises y corrijas mi app Hazpost urgentemente.
+
+PROBLEMA PRINCIPAL:
+
+Los usuarios nuevos tienen muchas VULNERABILIDADES. Pero la app debe ser SEGURA para TODOS:
+- Usuarios nuevos
+- Usuarios viejos
+- Usuarios con múltiples negocios
+- Usuarios con un solo negocio
+
+La estructura COMPLETA de la app debe estar enfocada en la SEGURIDAD y el AISLAMIENTO de datos.
+
+PROBLEMAS DETECTADOS HASTA AHORA (en orden de gravedad) volver a revisar que estemos ya cubiertos:
+
+🔴 GRAVE 1: Contaminación entre usuarios diferentes
+   - Usuario ID 3 (estética → habla de piel)
+   - Usuario nuevo monik862010@hotmail.com (inmobiliaria → está hablando de piel)
+   - Una inmobiliaria NUNCA debe hablar de piel
+
+🔴 GRAVE 2: Contaminación entre negocios del mismo usuario
+   - ID 1: Eco contamina a Hazpost
+   - ID 3: Emma Yanguas contamina a Panadería La Estación
+
+🟡 GRAVE 4: Títulos de imágenes siguientes usan frases de Eco
+   - Primera imagen: título acorde al texto
+   - Imágenes siguientes: títulos como "Únete al cambio" (Eco)
+
+
+⚠️ CONDICIÓN FUNDAMENTAL Y NO NEGOCIABLE:
+
+**SOLO EJECUTES ESTOS CAMBIOS SIEMPRE Y CUANDO NO DAÑEN LA ESTRUCTURA EXISTENTE, NO CREEN CONFLICTOS, Y NO ROMPAN NADA QUE YA FUNCIONE.**
+
+Es decir:
+
+1. NO dañar la estructura actual de la base de datos
+2. NO crear conflictos con el código existente
+3. NO romper funcionalidades que ya funcionan bien (ej: "agregar foto extra")
+4. NO borrar datos de usuarios existentes
+5. NO hacer cambios que requieran migraciones peligrosas sin respaldo
+
+REGLAS DE IMPLEMENTACIÓN SEGURA:
+
+✅ PRIMERO: Analiza qué se puede hacer sin romper nada
+✅ SEGUNDO: Si un cambio puede dañar la estructura, PROPÓN una alternativa
+✅ TERCERO: Si un cambio puede crear conflictos, DIMELO antes de ejecutarlo
+✅ CUARTO: Implementa de forma GRADUAL, no todo de golpe
+✅ QUINTO: Si algo no está roto, NO lo toques a menos que sea necesario
+✅ SEXTO: Prioriza SOLUCIONES QUE NO ROMPAN lo que ya funciona
+
+LO QUE NO QUIERO:
+
+❌ Cambios que borren datos existentes
+❌ Cambios que requieran reiniciar toda la base de datos
+❌ Cambios que rompan "agregar foto extra" (eso SÍ funciona bien)
+❌ Cambios que hagan que usuarios pierdan sus posts actuales
+❌ Cambios sin posibilidad de ROLLBACK
+
+LO QUE SÍ QUIERO:
+
+✅ Aislar usuarios entre sí (inmobiliaria no habla de piel)
+✅ Aislar negocios del mismo usuario (Eco no contamina Hazpost)
+✅ Que DALL-E use fotos de referencia en generador masivo
+✅ Que los títulos de imágenes sean coherentes con el tema
+✅ Que los contadores sean independientes por negocio
+✅ TODO esto SIN DAÑAR la estructura existente
+
+⚙️ CONDICIÓN FINAL (MUY IMPORTANTE):
+
+Todos estos cambios deben aplicarse EN PRODUCCIÓN, para TODOS los usuarios y negocios, es decir, GENERALES para toda la app.
+
+Pero repito: SOLO si no daña la estructura ni crea conflictos.
+
+Si falta alguna habilidad nueva (skill) para implementar esto de forma SEGURA, CRÉALA. Pero siempre pensando en no romper nada existente.
+
+LISTA DE SKILLS QUE DEBE TENER LA APP:
+
+=== SEGURIDAD (6) ===
+1. Auth Guardian - Manejo seguro de autenticación
+2. Input Sanitizer - Limpia y valida datos de entrada
+3. Rate Limiter - Limita solicitudes por usuario
+4. API Key Vault - Claves de OpenAI en variables de entorno
+5. File Scanner - Escanea imágenes subidas
+6. Audit Logger - Registra acciones críticas
+
+=== ARQUITECTURA Y AISLAMIENTO (8) ===
+7. Business Isolator - ⚠️ CRÍTICO: Aísla negocios del mismo usuario
+8. User Isolator - ⚠️ CRÍTICO NUEVO: Aísla usuarios entre sí
+9. CrossUser Blocker - Bloquea fuga de datos entre usuarios
+10. CrossBusiness Blocker - Bloquea fuga entre negocios del mismo usuario
+11. Session Resetter - Resetea contexto al cambiar de usuario/negocio
+12. Config Separator - Configuración separada por negocio
+13. Env Validator - Verifica variables de entorno
+14. Version Tracker - Migraciones versionadas
+
+=== IA / PROMPTS (6) ===
+15. Prompt Cleaner - ⚠️ CRÍTICO: Elimina "Eco" por defecto
+16. Reference Injector - ⚠️ CRÍTICO: Usa fotos de referencia
+17. Title Concordance Checker - ⚠️ CRÍTICO: Títulos coherentes
+18. Level Learner - Aplica regla de niveles
+19. Viral Booster - Detecta contenido viral
+20. Bulk Prompt Builder - Prompts para generación masiva
+
+=== BASE DE DATOS (4) ===
+21. Counter Isolator - ⚠️ CRÍTICO: Contador independiente por negocio
+22. Business FK Validator - Tablas con business_id
+23. User FK Validator - Tablas con user_id
+24. Connection Pooler - Pool de conexiones
+
+=== RENDIMIENTO (4) ===
+25. Cache Manager - Caché separada por user_id y business_id
+26. Async Processor - Generaciones masivas en segundo plano
+27. Query Optimizer - Consultas con índices
+28. Pagination Handler - Posts paginados
+
+=== DEPURACIÓN Y MONITOREO (5) ===
+29. Error Handler - Captura errores
+30. Structured Logger - Registros con user_id y business_id
+31. Performance Monitor - Mide tiempos
+32. Health Checker - Revisa que APIs funcionen
+33. Alert Dispatcher - Alertas si algo falla
+
+=== PRUEBAS (4) ===
+34. Unit Tester - Prueba funciones pequeñas
+35. Integration Tester - Prueba DALL-E + generador + DB
+36. Regression Hunter - Detecta si algo se rompió
+37. Security Tester - Prueba vulnerabilidades entre usuarios
+
+⚠️ SKILLS CON RIESGO (manejar con cuidado):
+
+- User Isolator (alto riesgo: puede aislar demasiado y bloquear acceso legítimo)
+- Business Isolator (medio riesgo: puede romper relaciones existentes)
+- CrossUser Blocker (alto riesgo: puede bloquear funcionalidades que sí deben compartirse)
+- Business FK Validator (alto riesgo: puede romper la DB si no se migra bien)
+- Counter Isolator (medio riesgo: puede perder historial de contadores existentes)
+
+PROCESO QUE DEBES SEGUIR SÍ O SÍ:
+
+PASO 1: Analiza mi código actual y dime qué skills ya existen
+PASO 2: Para cada skill que falta, dime: "esto se puede implementar sin dañar nada" o "esto tiene riesgo de conflicto"
+PASO 3: Si tiene riesgo, dime cuál es el riesgo y propón una alternativa SEGURA
+PASO 4: NO implementes nada que pueda dañar la estructura o crear conflictos
+PASO 5: Si no estás 100% seguro de que algo no va a romper nada, DIMELO y NO LO EJECUTES
+PASO 6: Implementa de forma GRADUAL, con posibilidad de ROLLBACK
+
+PRIORIDAD ABSOLUTA (resolver esto primero, pero sin romper nada):
+
+1. User Isolator - Que inmobiliaria NO hable de piel
+2. CrossUser Blocker - Bloquear fuga entre usuarios
+3. Business Isolator - Que Eco no contamine a Hazpost
+4. Reference Injector - DALL-E use fotos de referencia
+5. Title Concordance Checker - No más títulos de Eco
+6. Prompt Cleaner - Eliminar "Eco" por defecto
+7. Counter Isolator - Contadores independientes
+
+CONDICIÓN FINAL (NO NEGOCIABLE):
+
+✅ Todos los cambios aplicados en PRODUCCIÓN
+✅ Para TODOS los usuarios y negocios
+✅ SIN dañar la estructura existente
+✅ SIN crear conflictos
+✅ SIN romper nada que ya funcione (especialmente "agregar foto extra")
+
+Si falta algún skill nuevo que no está en la lista, CRÉALO. Pero siempre con la regla de oro: "NO ROMPAS NADA QUE YA FUNCIONE".
+
+RESPONDE CON:
+
+1. Qué skills ya están implementados y funcionan bien
+2. Qué skills faltan
+3. Para cada skill que falta: ¿riesgo alto, medio o bajo? ¿puede dañar la estructura?
+4. Tu plan SEGURO para implementar los 7 críticos sin romper nada
+5. Qué alternativas propones para los skills de alto riesgo
+
+REPITO: Prefiero una solución SEGURA y GRADUAL que no rompa nada existente, aunque tome más tiempo. No quiero parches rápidos que dañen la estructura.
+
+Si algo puede generar conflicto, NO LO HAGAS. Dímelo primero y busquemos una alternativa.
+1.	⚙️ Condición final (importante)
+Todos estos cambios deben aplicarse en producción, para todos los usuarios y negocios, es decir, generales para toda la app, usuarios nuevos, y viejos, exactamente toda la app.
+Si falta alguna habilidad nueva (skill) para implementar esto, créala.

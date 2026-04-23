@@ -1,0 +1,21 @@
+Problema actual:
+Según veo, la "Biblioteca de fondos — sin logo ni texto" está siendo compartida entre diferentes usuarios y negocios, creo entre todos, y se vuelve muy maluco buscar fotos que me sirvan a mi, porque veo imágenes de panadería mezcladas con imágenes de estética.
+La solución requerida (reglas estrictas):
+La biblioteca de fondos debe funcionar con las siguientes reglas:
+1.	Dentro de mi propio negocio: Cada usuario ve ÚNICAMENTE los fondos que ÉL MISMO ha generado. NO ve los fondos generados por otros usuarios de su mismo negocio. Solo los suyos propios.
+2.	Entre competencia directa (mismo tipo de negocio): Cada usuario puede ver los fondos generados por OTROS negocios del MISMO tipo específico. Ejemplo: Una barbería ve los fondos de otras barberías (su competencia directa). Una panadería ve los fondos de otras panaderías.
+3.	NO se permite ningún otro tipo de cruce:
+o	Una barbería NO ve fondos de estéticas.
+o	Una barbería NO ve fondos de peluquerías.
+o	Una barbería NO ve fondos de panaderías.
+o	Una barbería NO ve fondos de spa, clínicas de salud, ni nada que no sea específicamente "barbería".
+4.	La IA: Debe aprender por separado para cada tipo específico de negocio, basándose en TODOS los fondos de ese tipo (de todos los negocios de ese tipo), pero SIN revelar qué fondo pertenece a qué negocio competidor si eso viola la privacidad.
+Resumen simple:
+•	Yo (barbero) veo = mis propios fondos + fondos de otras barberías.
+•	Yo NO veo = fondos de otros usuarios de mi barbería + fondos de estéticas + fondos de panaderías + ningún otro tipo.
+No se permite contaminación entre tipos de negocio diferentes. No se permite ver fondos de otros usuarios del mismo negocio.
+________________________________________
+⚙️ Condición final (importante)
+Todos estos cambios deben aplicarse en producción, para todos los usuarios y negocios, es decir, generales para toda la app: usuarios nuevos, usuarios viejos, exactamente toda la app.
+Si falta alguna habilidad nueva (skill, función, endpoint, lógica de base de datos, o sistema de aislamiento por tipo de negocio y por usuario) para implementar esto, créala.
+

@@ -1,0 +1,78 @@
+modules = ["nodejs-24", "python-3.11", "postgresql-16"]
+
+[[artifacts]]
+id = "artifacts/api-server"
+
+[[artifacts]]
+id = "artifacts/mockup-sandbox"
+
+[deployment]
+router = "application"
+deploymentTarget = "gce"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "HazPost Monitor"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "hazpost-backend: Flask API"
+
+[[workflows.workflow]]
+name = "HazPost Monitor"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd artifacts/hazpost-monitor && python app.py"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "hazpost-backend: Flask API"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd hazpost-backend && gunicorn -c gunicorn.conf.py 'app:create_app()'"
+waitForPort = 6000
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 20000
+
+[nix]
+channel = "stable-25_05"
+packages = ["glibcLocales", "xcodebuild", "zlib"]
+
+[userenv]
+
+[userenv.shared]
+HAZPOST_BACKEND_URL = "http://localhost:6000"
+
+[userenv.production]
+APP_URL = "https://hazpost.app"
+
+[userenv.development]
+APP_URL = "https://eco-social-posts.replit.app"

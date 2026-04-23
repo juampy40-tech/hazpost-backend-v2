@@ -1,0 +1,120 @@
+,
+    {
+      "id": 11,
+      "nombre": "Bodegas y Centros Logísticos",
+      "palabras_clave": [
+        "paneles solares para bodegas Cali",
+        "energía solar centros logísticos Cali",
+        "ahorro energía bodegas industriales Cali",
+        "iluminación solar para bodegas Cali"
+      ],
+      "hashtags": [
+        "#EnergíaSolarParaBodegas",
+        "#LogísticaSostenible",
+        "#AhorroEnergéticoIndustrial",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 12,
+      "nombre": "Estaciones de Servicio y Gasolineras",
+      "palabras_clave": [
+        "paneles solares para gasolineras Cali",
+        "energía solar estaciones de servicio Cali",
+        "ahorro energía gasolineras Cali",
+        "iluminación solar para gasolineras Cali"
+      ],
+      "hashtags": [
+        "#GasolinerasSostenibles",
+        "#EnergíaSolarParaEDS",
+        "#EficienciaEnergética",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 13,
+      "nombre": "Parqueaderos y Zonas de Estacionamiento",
+      "palabras_clave": [
+        "paneles solares para parqueaderos Cali",
+        "estacionamientos con energía solar Cali",
+        "iluminación solar parqueaderos Cali",
+        "techos solares para zonas de estacionamiento Cali"
+      ],
+      "hashtags": [
+        "#ParqueaderosSolares",
+        "#EstacionamientosSostenibles",
+        "#TechosSolares",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 14,
+      "nombre": "Clubes Sociales y Deportivos",
+      "palabras_clave": [
+        "paneles solares para clubes Cali",
+        "energía solar clubes deportivos Cali",
+        "calentamiento solar piscinas clubes Cali",
+        "ahorro energía clubes sociales Cali"
+      ],
+      "hashtags": [
+        "#ClubesSostenibles",
+        "#EnergíaSolarParaClubes",
+        "#DeporteSostenible",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 15,
+      "nombre": "Fincas Campestres y Casas de Campo",
+      "palabras_clave": [
+        "paneles solares para fincas campestres Cali",
+        "energía solar casas de campo Cali",
+        "bombeo solar para fincas Cali",
+        "independencia energética fincas campestres Cali"
+      ],
+      "hashtags": [
+        "#FincasCampestresSolar",
+        "#EnergíaSolarParaElCampo",
+        "#VidaCampestreSostenible",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 16,
+      "nombre": "Sector Gastronómico (Restaurantes y Cafeterías)",
+      "palabras_clave": [
+        "paneles solares restaurantes Cali",
+        "energía solar para restaurantes Cali",
+        "ahorro energía cafeterías Cali",
+        "paneles solares para cocinas comerciales Cali"
+      ],
+      "hashtags": [
+        "#RestaurantesSolares",
+        "#GastronomíaSostenible",
+        "#AhorroEnergéticoRestaurantes",
+        "#EcoCol",
+        "#Cali"
+      ]
+    },
+    {
+      "id": 17,
+      "nombre": "Sector Textil y Confecciones",
+      "palabras_clave": [
+        "paneles solares para empresas textiles Cali",
+        "energía solar industria textil Cali",
+        "ahorro energía confecciones Cali",
+        "paneles solares para fábricas textiles Cali"
+      ],
+      "hashtags": [
+        "#TextilSostenible",
+        "#EnergíaSolarParaTextiles",
+        "#IndustriaTextilVerde",
+        "#EcoCol",
+        "#Cali"
+      ]
+    }

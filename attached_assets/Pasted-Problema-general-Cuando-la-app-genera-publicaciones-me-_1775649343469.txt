@@ -1,0 +1,84 @@
+Problema general
+Cuando la app genera publicaciones (me paso con Generar 30 días), sigue cometiendo errores. Debe revisarse y corregirse para las 3 opciones:
+1.	Generar 30 días
+2.	Generar 15 días
+3.	Generar Posts Extra
+Todas deben seguir la MISMA regla.
+________________________________________
+ERROR #1: No llena los espacios vacíos del día actual (hoy)
+Lo que pasó hoy (8 de abril):
+•	Hoy 8 de abril → La app no puso ninguna publicación
+•	Pero SÍ hay publicaciones faltantes para hoy
+•	Hay espacios vacíos según el plan de sugerencias de publicación
+Lo que DEBE hacer:
+Si hoy aún tiene horarios disponibles que NO han pasado, la app debe empezar por llenar esos espacios vacíos.
+Ejemplo concreto:
+Una publicación tiene 3 horarios según el plan de sugerencias:
+•	⏰ 8:00 AM
+•	⏰ 12:00 PM
+•	⏰ 18:00 PM
+Si el usuario genera publicaciones hoy a las 11:00 AM:
+•	❌ El horario de 8:00 AM YA PASÓ → No se puede usar
+•	✅ El horario de 12:00 PM AÚN NO PASA → Se puede usar
+•	✅ El horario de 18:00 PM AÚN NO PASA → Se puede usar
+La app debe elegir cualquiera de los horarios que aún NO han pasado (12:00 PM o 18:00 PM) para llenar HOY.
+Regla #1: Siempre priorizar llenar los espacios vacíos del día actual antes de saltar a días futuros.
+________________________________________
+ERROR #2: Pone publicaciones que NO van según el plan de sugerencias
+Lo que pasó (Jueves 9 de abril):
+Según el plan de sugerencias de publicación:
+Día	Plataforma	Tipo de contenido que TOCA
+Jueves 9	Instagram	✅ Reel (SÍ toca)
+Jueves 9	Instagram	❌ Foto (NO toca)
+Jueves 9	TikTok	❌ Foto (NO toca)
+Jueves 9	TikTok	❌ Carrusel (NO toca)
+Lo que hizo la app (ERROR):
+•	❌ No creó el Reel de Instagram (que SÍ tocaba)
+•	❌ Creó Foto de Instagram (que NO tocaba)
+•	❌ Creó Foto de TikTok (que NO tocaba)
+•	❌ Creó Carrusel de TikTok (que NO tocaba)
+Lo que DEBÍA hacer:
+La app debe revisar el plan de sugerencias de publicación y SOLO crear los tipos de contenido que corresponden a cada día y plataforma.
+Ejemplo para Jueves 9 de abril según el plan:
+Plataforma	Tipo que SÍ toca	Tipo que NO toca
+Instagram	Reel	Foto, Carrusel, Historia
+TikTok	(lo que diga el plan)	Foto, Carrusel (si no tocan)
+________________________________________
+La regla completa que debe aplicar la app
+Para CADA día que va a programar:
+Paso 1: Leer el plan de sugerencias de publicación (la foto que se adjuntará) para que puedas comprar y entender
+Paso 2: Identificar qué tipo de contenido toca en ese día para cada plataforma:
+•	¿Toca Reel?
+•	¿Toca Foto?
+•	¿Toca Carrusel?
+•	¿Toca Historia?
+Paso 3: SOLO crear los tipos de contenido que SÍ tocan según el plan
+Paso 4: Respetar los horarios disponibles del día actual (Error #1)
+Paso 5: No repetir días que ya tienen contenido aprobado (problema anterior)
+________________________________________
+Resumen de lo que la app debe verificar antes de crear CADA publicación
+Pregunta	Si la respuesta es NO → No crear
+¿Este tipo de contenido (reel/foto/carrusel/historia) toca hoy según el plan de sugerencias?	❌ No crear
+¿Esta plataforma (Instagram/TikTok/Facebook) tiene este tipo de contenido asignado para hoy según el plan?	❌ No crear
+¿Ya hay una publicación aprobada de este tipo en esta plataforma para hoy?	❌ No crear (buscar otro día)
+¿Es hoy y aún quedan horarios disponibles que no han pasado?	✅ Usar horario disponible de hoy
+________________________________________
+Ejemplo de cómo DEBERÍA funcionar el Jueves 9
+Plan de sugerencias dice:
+•	Jueves 9 → Instagram: SOLO Reel
+•	Jueves 9 → TikTok: (lo que diga el plan, ej: Historia)
+Lo que la app DEBE crear:
+•	✅ Reel de Instagram
+•	✅ (Lo que toque de TikTok según plan)
+Lo que la app NO DEBE crear:
+•	❌ Foto de Instagram
+•	❌ Carrusel de Instagram
+•	❌ Foto de TikTok (si no toca)
+•	❌ Carrusel de TikTok (si no toca)
+•	❌ Reel de TikTok (si no toca)
+________________________________________
+Último recordatorio
+La app debe usar el plan de sugerencias de publicación como su ÚNICA fuente de verdad para saber QUÉ, DÓNDE y CUÁNDO publicar.
+Las 3 opciones (Generar 30 días, Generar 15 días, Generar Posts Extra) deben seguir EXACTAMENTE las mismas reglas.
+________________________________________
+¿Ahora sí, Replit? Adjunto foto del plan de sugerencias. Compáralo con lo que generaste y corrige la lógica.

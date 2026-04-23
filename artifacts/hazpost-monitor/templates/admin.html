@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — HazPost Monitor</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+    .header { background: #1e293b; border-bottom: 1px solid #334155; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .header h1 { font-size: 1.15rem; color: #38bdf8; font-weight: 700; letter-spacing: -0.02em; }
+    .header-right { display: flex; align-items: center; gap: 1rem; }
+    .header-right span { color: #64748b; font-size: 0.8rem; }
+    .main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+    h2 { font-size: 1.05rem; font-weight: 700; color: #f1f5f9; margin-bottom: 1rem; }
+    .section { margin-bottom: 2.5rem; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.5rem; }
+
+    /* Stats row */
+    .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.25rem; }
+    .stat-card .label { font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+    .stat-card .value { font-size: 1.75rem; font-weight: 800; color: #f1f5f9; margin: 0.25rem 0 0; line-height: 1; }
+    .stat-card .sub { font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+    .dot-green { background: #34d399; box-shadow: 0 0 5px #34d399; }
+    .dot-red { background: #f87171; box-shadow: 0 0 5px #f87171; }
+    .dot-yellow { background: #fbbf24; box-shadow: 0 0 5px #fbbf24; }
+
+    /* Backups table */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    th { text-align: left; padding: 0.6rem 1rem; color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.04em; border-bottom: 1px solid #334155; }
+    td { padding: 0.65rem 1rem; border-bottom: 1px solid #1a2d45; color: #cbd5e1; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #243450; }
+    .empty { color: #475569; font-style: italic; padding: 1rem; text-align: center; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; transition: background .2s, opacity .2s; }
+    .btn-blue { background: #0369a1; color: #fff; }
+    .btn-blue:hover { background: #0284c7; }
+    .btn-green { background: #065f46; color: #34d399; }
+    .btn-green:hover { background: #047857; }
+    .btn-sm { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+    .btn-red { background: #7f1d1d; color: #f87171; }
+    .btn-red:hover { background: #991b1b; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Scan section */
+    .scan-wrap { display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap; }
+    .scan-result { flex: 1; min-width: 200px; }
+    #scan-output { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; font-size: 0.8rem; color: #94a3b8; min-height: 60px; font-family: monospace; white-space: pre-wrap; margin-top: 1rem; display: none; }
+    #scan-output.visible { display: block; }
+    .spin { display: inline-block; animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* Logs */
+    #log-content { background: #050d1a; border: 1px solid #1e3a5f; border-radius: 8px; padding: 1rem 1.25rem; font-size: 0.78rem; font-family: 'Courier New', monospace; color: #7dd3fc; max-height: 420px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; line-height: 1.55; }
+    .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .log-meta { font-size: 0.78rem; color: #475569; }
+    .log-line-error { color: #f87171; }
+    .log-line-warn  { color: #fbbf24; }
+    .log-line-info  { color: #7dd3fc; }
+
+    /* Alert history */
+    .alerts-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .alert-item { background: #0f172a; border: 1px solid #1e3a5f; border-radius: 8px; padding: 0.75rem 1rem; display: flex; gap: 1rem; align-items: flex-start; }
+    .alert-ts { font-size: 0.75rem; color: #475569; white-space: nowrap; min-width: 140px; }
+    .alert-text { font-size: 0.825rem; color: #94a3b8; flex: 1; word-break: break-word; }
+    .alert-ok { border-left: 3px solid #34d399; }
+    .alert-fail { border-left: 3px solid #f87171; }
+
+    /* Misc */
+    .badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; }
+    .badge-green { background: #064e3b; color: #34d399; }
+    .badge-yellow { background: #78350f; color: #fbbf24; }
+    .footer { text-align: center; color: #475569; font-size: 0.78rem; padding: 2rem; border-top: 1px solid #1e293b; margin-top: 3rem; }
+    .logout-btn { background: #1e293b; border: 1px solid #334155; color: #94a3b8; border-radius: 6px; padding: 0.4rem 0.85rem; font-size: 0.8rem; cursor: pointer; transition: border-color .2s; }
+    .logout-btn:hover { border-color: #f87171; color: #f87171; }
+    .divider { border: none; border-top: 1px solid #1e293b; margin: 2rem 0; }
+    .refresh-badge { font-size: 0.72rem; color: #475569; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>⚡ HazPost Monitor — Admin</h1>
+    <div class="header-right">
+      <span>{{ now }}</span>
+      <form method="post" action="/admin/logout" style="margin:0">
+        <button type="submit" class="logout-btn">Cerrar sesión</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- STATS ROW -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="label">Estado sitio</div>
+        <div class="value" style="font-size:1.1rem; margin-top:0.5rem">
+          {% if site_status.get('up') %}
+            <span class="dot dot-green"></span>Online
+          {% elif site_status.get('slow') %}
+            <span class="dot dot-yellow"></span>Lento
+          {% else %}
+            <span class="dot dot-red"></span>Caído
+          {% endif %}
+        </div>
+        {% if site_status.get('response_time') %}
+          <div class="sub">{{ "%.2f"|format(site_status.response_time) }}s respuesta</div>
+        {% endif %}
+      </div>
+      <div class="stat-card">
+        <div class="label">Skills detectados</div>
+        <div class="value">{{ skills_count }}</div>
+        <div class="sub">{{ scan_count }} escaneos totales</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Backups disponibles</div>
+        <div class="value">{{ backups|length }}</div>
+        <div class="sub">retención 30 días</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Alertas enviadas</div>
+        <div class="value">{{ alerts|length }}</div>
+        <div class="sub">último registro</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Modo</div>
+        <div class="value" style="font-size:1rem; margin-top:0.4rem">
+          {% if modo == 'prueba' %}
+            <span class="badge badge-yellow">prueba</span>
+          {% else %}
+            <span class="badge badge-green">produccion</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- DISPARAR ESCANEO -->
+    <div class="section">
+      <h2>Escaneo manual</h2>
+      <div class="card">
+        <div class="scan-wrap">
+          <div>
+            <p style="color:#94a3b8; font-size:0.875rem; margin-bottom:1rem; max-width:460px">
+              Dispara un escaneo de skills fuera del ciclo automático. El resultado se guarda y se notifica por Telegram si hay cambios.
+            </p>
+            <button id="btn-scan" class="btn btn-green" onclick="runScan()">
+              <span id="scan-icon">🔍</span> Disparar escaneo ahora
+            </button>
+          </div>
+          <div class="scan-result">
+            <div id="scan-output"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACKUPS -->
+    <div class="section">
+      <h2>Historial de backups</h2>
+      <div class="card table-wrap">
+        {% if backups %}
+        <table>
+          <thead>
+            <tr>
+              <th>Archivo</th>
+              <th>Fecha</th>
+              <th>Tamaño</th>
+              <th>Descargar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in backups %}
+            <tr>
+              <td style="font-family:monospace; color:#7dd3fc">{{ b.name }}</td>
+              <td>{{ b.created[:19].replace("T", " ") }} UTC</td>
+              <td>{{ b.size_kb }} KB</td>
+              <td>
+                <a href="/admin/backup/{{ b.name }}" class="btn btn-blue btn-sm" download>
+                  ⬇ Descargar
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+          <p class="empty">No hay backups disponibles todavía.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- LOGS EN VIVO -->
+    <div class="section">
+      <div class="log-header">
+        <h2>Últimas 50 líneas de logs</h2>
+        <div style="display:flex; align-items:center; gap:1rem">
+          <span class="refresh-badge" id="log-ts">Cargado al abrir</span>
+          <button class="btn btn-blue btn-sm" onclick="refreshLogs()">↻ Actualizar</button>
+        </div>
+      </div>
+      <div id="log-content">Cargando logs...</div>
+    </div>
+
+    <!-- HISTORIAL ALERTAS TELEGRAM -->
+    <div class="section">
+      <h2>Historial de alertas Telegram</h2>
+      {% if alerts %}
+      <div class="alerts-list">
+        {% for a in alerts %}
+        <div class="alert-item {{ 'alert-ok' if a.success else 'alert-fail' }}">
+          <div class="alert-ts">{{ a.timestamp[:19].replace("T", " ") }} UTC</div>
+          <div class="alert-text">{{ a.text }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+        <div class="card"><p class="empty">Ninguna alerta enviada todavía.</p></div>
+      {% endif %}
+    </div>
+
+  </main>
+
+  <footer class="footer">HazPost Monitor · Panel de administración · {{ now }}</footer>
+
+  <script>
+    async function runScan() {
+      const btn = document.getElementById('btn-scan');
+      const icon = document.getElementById('scan-icon');
+      const out = document.getElementById('scan-output');
+      btn.disabled = true;
+      icon.innerHTML = '<span class="spin">⏳</span>';
+      out.className = 'visible';
+      out.textContent = 'Ejecutando escaneo...';
+      try {
+        const resp = await fetch('/admin/api/scan', { method: 'POST' });
+        const data = await resp.json();
+        if (resp.ok) {
+          out.textContent = JSON.stringify(data, null, 2);
+          icon.textContent = '✅';
+        } else {
+          out.textContent = 'Error: ' + JSON.stringify(data);
+          icon.textContent = '❌';
+        }
+      } catch (e) {
+        out.textContent = 'Error de red: ' + e.message;
+        icon.textContent = '❌';
+      }
+      btn.disabled = false;
+    }
+
+    async function refreshLogs() {
+      const el = document.getElementById('log-content');
+      const ts = document.getElementById('log-ts');
+      try {
+        const resp = await fetch('/admin/api/logs');
+        const data = await resp.json();
+        const lines = data.lines || [];
+        el.innerHTML = lines.map(l => {
+          const cls = /ERROR/.test(l) ? 'log-line-error' : /WARN/.test(l) ? 'log-line-warn' : 'log-line-info';
+          return `<span class="${cls}">${escHtml(l)}</span>`;
+        }).join('\n');
+        el.scrollTop = el.scrollHeight;
+        const now = new Date().toLocaleTimeString('es-CO', { hour12: false });
+        ts.textContent = 'Actualizado ' + now;
+      } catch (e) {
+        el.textContent = 'Error cargando logs: ' + e.message;
+      }
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    refreshLogs();
+    setInterval(refreshLogs, 30000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+Actúa como un **desarrollador full-stack frontend** y crea una aplicación web completa (HTML/CSS/JS) que funcione como un **Editor Visual de Landing Pages + Etapa de Aprobación**.
+
+El sistema debe tener DOS MODOS:
+
+### MODO 1: VISTA PREVIA / LANDING PAGE (para clientes)
+- Muestra la landing page exactamente como se verá en producción.
+- Ruta/URL amigable: al cargar la página sin parámetros, mostrar la landing page final.
+- Debe ser responsiva, rápida y con los datos actuales.
+
+### MODO 2: PANEL DE CONTROL / EDITOR (para ti, el administrador)
+- Accesible vía `?edit=true` o un botón oculto (triple clic en el footer).
+- Desde ahí podrás:
+  - **Editar todos los textos** (títulos, subtítulos, párrafos, botones, precios, ventajas, FAQ)
+  - **Cambiar colores** (primario, secundario, fondo, texto) con selector de color
+  - **Ajustar tipografía** (selección entre 5 fuentes de Google Fonts: Inter, Poppins, Roboto, Montserrat, Open Sans)
+  - **Modificar tamaños de letra** (H1: 32px-64px, cuerpo: 14px-20px)
+  - **Subir o cambiar imágenes** (logo, hero, vehículos) mediante URL o input file
+  - **Corrector ortográfico automático** (resaltar palabras mal escritas con sugerencias)
+  - **Previsualización en tiempo real** mientras editas
+  - **Guardar cambios** (localStorage o exportar JSON)
+  - **Historial de versiones** (últimos 5 cambios)
+
+### APRENDIZAJE DE TUS GUSTOS:
+- Guardar en localStorage un perfil de preferencias:
+  - Colores favoritos que más usas
+  - Tipografía preferida
+  - Estilo de botones (redondeados o cuadrados)
+  - Tamaños típicos de títulos
+- Mostrar en el panel: "Basado en tus ediciones anteriores, te recomendamos esta combinación..."
+- Al cargar el editor, sugerir ajustes automáticos según tu historial.
+
+### CORRECTOR ORTOGRÁFICO:
+- Integrar una librería ligera de español (puede ser simple con lista de palabras comunes + resaltado).
+- Cada campo de texto editable debe tener un botón "🔍 Revisar ortografía" que marque errores y ofrezca correcciones.
+- Opción de corregir automáticamente.
+
+### COMPARTIR / LINK:
+- Generar un enlace único (hash o query param) que refleje el estado actual de la landing page para que puedas enviarlo a otros para aprobación.
+- Ejemplo: `landing.html?preview=abc123` que carga la versión guardada.
+
+### EXPORTACIÓN:
+- Botón "Descargar HTML completo" para publicar en tu servidor.
+- Botón "Copiar código" para pegar en WordPress, Webflow, etc.
+
+### INTERFAZ DEL EDITOR:
+- Sidebar izquierdo (colapsable) con todas las opciones de edición.
+- Vista previa derecha con actualización en vivo.
+- Modo oscuro/claro opcional.
+- Diseño tipo Notion / Webflow, intuitivo.
+
+### DATOS INICIALES:
+La landing page debe venir pre-cargada con el contenido que ya creamos anteriormente (paneles solares + Deepal S05/S07, precios, tabla comparativa, garantía, formularios). Pero todo editable.
+
+### REQUISITOS TÉCNICOS:
+- Un solo archivo HTML (no dependencias externas pesadas, excepto Google Fonts y FontAwesome si se desea).
+- Funciona offline después de cargar.
+- Usa localStorage para guardar preferencias y versiones.
+- Compatible con móvil, tablet y escritorio.
+- El editor debe tener un botón "Reset a versión original" por si te equivocas.
+- Al salir del editor, preguntar si quieres guardar cambios.
+
+### EJEMPLO DE FLUJO:
+1. Abres `landing.html` → ves la landing normal.
+2. Haces triple clic en el footer → aparece el editor.
+3. Cambias el título principal de "Energía que paga sola" a "Ahorra con energía solar + Deepal".
+4. El corrector ortográfico te sugiere "ahorra" → aceptas.
+5. Cambias color primario de verde a azul marino.
+6. Guardas → se actualiza la vista previa.
+7. Generas link de aprobación → se lo mandas a tu socio.
+8. Él ve exactamente la misma versión.
+9. Cuando todo está listo, descargas el HTML final.
+
+Genera el código completo ahora.

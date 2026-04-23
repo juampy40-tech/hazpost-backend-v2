@@ -1,0 +1,29 @@
+kind = "api"
+previewPath = "/hazpost-monitor/"
+title = "HazPost Monitor"
+version = "1.0.0"
+id = "artifacts/hazpost-monitor"
+
+[[services]]
+localPort = 5000
+name = "HazPost Monitor"
+
+[services.development]
+run = "python app.py"
+
+[services.production]
+
+[services.production.build]
+args = ["pip", "install", "-r", "artifacts/hazpost-monitor/requirements.txt"]
+
+[services.production.run]
+args = ["sh", "-c", "exec gunicorn --config /home/runner/workspace/artifacts/hazpost-monitor/gunicorn.conf.py --chdir /home/runner/workspace/artifacts/hazpost-monitor wsgi:app"]
+
+[services.production.run.env]
+PORT = "5000"
+LOG_LEVEL = "INFO"
+SCAN_INTERVAL_HOURS = "6"
+MONITOR_INTERVAL_MINUTES = "5"
+BACKUP_HOUR = "2"
+DAILY_SUMMARY_HOUR = "9"
+RATE_LIMIT_LOGIN = "5 per minute"

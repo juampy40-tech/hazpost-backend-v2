@@ -1,0 +1,48 @@
+algo esta funcionando mal en las publicaciones no esta sincronizando las sugerencias de publicación de la ia, versus el generador masivo , con Generar Posts Extra genere 10 post extra, viernes 9 puso un reel de tiktok y no toca ese dia, sábado 10 ya tengo reel de tiktok para ese dia aprobados y todo y ese dia si toca, pero me añadió otros 2! Asi el resto de días, si ya tiene una publicación asi sea aprobada, guardad o pendiente en el dia no puede poner otra del mismo tipo y plataforma. Y esa regla es para Generar Posts Extra, generar 15 dias, y generar 30 dias. Porfa que wenserio se cumpla
+
+INSTRUCCIÓN PARA LA IA - ERROR EN SINCRONIZACIÓN DE PUBLICACIONES
+________________________________________
+🐛 DESCRIPCIÓN DEL PROBLEMA
+Algo está funcionando mal en las publicaciones. No está sincronizando las sugerencias de publicación de la IA con el generador masivo.
+Ejemplo concreto del error:
+Contexto: Viernes 9 ya tiene un reel de TikTok aprobado.
+Lo que hace la IA (INCORRECTO):
+•	Viernes 9: no esta en la sugerncia de publicacionel reel de TikTok ❌ NO DEBE TOCAR ESE DÍA
+•	Sábado 10: tiene reel de TikTok aprobado ✅ ESTE DÍA SÍ TOCA
+•	Pero la IA me añadió OTROS 2 el sábado 10 ❌
+Resultado final (INCORRECTO):
+•	Viernes 9: reel de TikTok e Instagram (existente) por que yo quise no porque tocara + la IA no respetó que ya había uno y que no tocaba ese dia
+•	Sábado 10: reel de TikTok (existente) + 2 reels extra que la IA añadió ❌
+________________________________________
+✅ REGLA OBLIGATORIA QUE DEBE APLICAR LA IA
+Si un día ya tiene UNA publicación, así sea aprobada, guardada como borrador, o pendiente, del mismo tipo y plataforma, NO puede poner otra.
+Tipos de publicaciones a considerar:
+Tipo	Plataforma posible
+Reel	TikTok, Instagram, Facebook, YouTube Shorts
+Carrusel	Instagram, Facebook, LinkedIn
+Imagen	Instagram, Facebook, Twitter, Pinterest
+Video	YouTube, TikTok, Facebook
+________________________________________
+📋 ESTADOS DE PUBLICACIÓN QUE DEBEN RESPETARSE
+La regla aplica para CUALQUIERA de estos estados:
+Estado	¿Bloquea nuevo contenido del mismo tipo/plataforma?
+Aprobado	✅ SÍ (ya está programado)
+Guardado (borrador)	✅ SÍ (el usuario lo está preparando)
+Pendiente	✅ SÍ (está en cola)
+Publicado	✅ SÍ (ya se publicó ese día)
+En revisión	✅ SÍ (está siendo evaluado)
+Excepción: Solo si el usuario ELIMINA explícitamente la publicación, entonces se puede generar una nueva. Y el usuario si puede publicar manualmente donde y como quierade cual quier tipo y plataforma
+________________________________________
+🔧 DÓNDE DEBE APLICARSE ESTA REGLA
+La regla es OBLIGATORIA en estas tres funcionalidades:
+Función	Comportamiento esperado
+Generar Posts Extra	Respetar publicaciones existentes por día/tipo/plataforma
+Generar 15 días	Respetar publicaciones existentes por día/tipo/plataforma
+Generar 30 días	Respetar publicaciones existentes por día/tipo/plataforma
+
+⚠️ ERRORES ESPECÍFICOS QUE DEBEN CORREGIRSE
+Error actual	Corrección necesaria
+Viernes 9 tenía reel pero igual no tocaba por programación de lapublicacion → la IA añadió otro sin que tocara ese dia	Verificar existencia ANTES de generar, y si toca o no ese dia
+Sábado 10 tenía reel → la IA añadió 2 extra	Máximo 1 publicación por día/tipo/plataforma, de forma generación automatica, si el usuario quiere poner mas no tiene limite si lo hace manual
+Sábado 10 ya tenía carrusel → IA añadió otro	Respetar el contenido existente
+La IA no revisa publicaciones guardadas/borradores	Revisar TODOS los estados, no solo "aprobado"

@@ -1,0 +1,61 @@
+El usuario quiere poder usar frecuentemente la imagen de una misma persona (o un diseño creado por la IA) como la imagen principal de la empresa en todas las publicaciones, pero con la capacidad de cambiarle la ropa y ciertos elementos según el estilo del post.
+________________________________________
+Comportamiento esperado:
+1. Subir y guardar un personaje oficial:
+•	El usuario puede subir una imagen (foto propia, foto de un modelo, o un diseño generado por la IA)
+•	Decir: "Guardar este personaje como personaje oficial"
+•	El sistema guarda este personaje como la imagen corporativa de la empresa
+2. Características del personaje oficial:
+Elemento	¿Se puede cambiar?
+Ropa	✅ Sí, según estilo del post
+Accesorios	✅ Sí (gorras, gafas, joyas, etc.)
+Peinado	✅ Sí (opcional)
+Fondo	✅ Sí
+Expresión facial	✅ Sí (feliz, serio, emocionado, etc.)
+Rostro / rasgos principales	❌ NO (se mantiene igual)
+Estructura corporal	❌ NO (se mantiene igual)
+3. Uso en generación de contenido:
+Cuando se generen nuevos posts de manera:
+•	Generación masiva
+•	Desde cola de aprobación
+El sistema debe:
+1.	Usar automáticamente el personaje oficial como imagen principal
+2.	Cambiar la ropa y ciertos elementos según el estilo del post (ej: ropa formal para posts serios, ropa casual para posts divertidos, ropa técnica para posts de tecnología)
+3.	Mantener el rostro y la identidad del personaje
+________________________________________
+Ejemplo concreto:
+text
+Personaje oficial subido: Foto de perfil de "Juan"
+
+Post estilo "profesional/negocios":
+→ Juan con traje azul, fondo oficina
+
+Post estilo "tecnología":
+→ Juan con camiseta negra, gafas inteligentes, fondo futurista
+
+Post estilo "ecológico/paneles solares":
+→ Juan con camisa blanca, fondo con paneles solares, expresión alegre
+
+Post estilo "finanzas":
+→ Juan con traje gris, fondo con gráficos financieros
+________________________________________
+Flujo de uso:
+text
+1. Usuario sube imagen → "Guardar como personaje oficial"
+2. Sistema guarda rostro/rasgos únicos
+3. En generación masiva/cola aprobación:
+   → Sistema detecta estilo del post
+   → Genera nueva versión del personaje:
+      - Mismo rostro
+      - Ropa acorde al estilo
+      - Elementos acordes al estilo
+4. Usuario aprueba o ajusta
+5. Se publica
+Condición obligatoria:
+✅ Debe aplicarse en PRODUCCIÓN
+✅ Para todos los usuarios actuales (negocios activos)
+✅ Para todos los usuarios nuevos
+✅ Para toda la app (sin excepción)
+✅ Aplica para generación masiva y cola de aprobación
+Si hace falta crear una nueva skill o función para implementar esto, crearla automáticamente y usarla.
+2. veo 2 ubicaciones necesitamos 2 no se puede dejar solo1? Eso confunde, 

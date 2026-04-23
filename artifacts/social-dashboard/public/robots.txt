@@ -1,0 +1,69 @@
+# HazPost — robots.txt
+User-agent: Googlebot
+Allow: /
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+
+# Social media bots
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Crawlers de IA
+User-agent: GPTBot
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+
+# Default: public pages allowed, private app routes blocked
+User-agent: *
+Allow: /
+Allow: /pricing
+Allow: /register
+Allow: /login
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /data-deletion
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /admin
+Disallow: /admin/
+Disallow: /onboarding
+Disallow: /onboarding/
+Disallow: /api/
+Disallow: /settings
+Disallow: /calendar
+Disallow: /approval
+Disallow: /generate
+Disallow: /history
+Disallow: /billing
+Disallow: /analytics
+Disallow: /backgrounds
+Disallow: /niches
+Disallow: /referidos
+Disallow: /afiliados
+Disallow: /recursos
+Disallow: /businesses
+
+Sitemap: https://hazpost.app/sitemap.xml

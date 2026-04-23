@@ -1,0 +1,185 @@
+Análisis por tarea
+Tarea	¿Crear Skill?	¿Por qué?
+1. Planes y costos (créditos por tipo de publicación)	✅ Sí	Lógica central de negocio. Cambia frecuentemente. Debe ser editable por administrador.
+2. Panel de usuarios (solo créditos, sin métricas de imágenes/reels)	✅ Sí	Cambio estructural en UI/UX. Afecta cómo los usuarios ven y usan su saldo.
+3. Panel de usuarios registrados (ver qué publicaciones hace cada uno)	✅ Sí	Nueva funcionalidad de reportes y analytics para el administrador.
+4. Descripción de planes editable desde panel admin (web se actualiza sola)	✅ Sí	Sistema dinámico de contenido. Muy importante para no tener que tocar código cada vez que cambias precios.
+5. Sistema de afiliados (% comisión, meses, códigos personalizados)	✅ Sí	Módulo complejo e independiente. Merece su propio Skill.
+6. Sistema de referidos (creditos, beneficios, códigos personalizados)		Módulo complejo e independiente. Merece su propio Skill.
+7. Control de generación automática (no generar sin créditos, revisar siempre)	✅ Sí	Regla crítica de negocio para evitar sobreconsumo. Similar a la lógica de saldo que ya vimos.
+8. Registro con elección de plan + opción de cambiar plan + ver información de planes	✅ Sí	Flujo completo de onboarding y gestión de suscripciones.
+________________________________________
+Conclusión: todas merecen Skill propio
+Cada una es independiente y tiene su propia lógica. Te recomiendo crear 7 Skills separadas por estas razones:
+1.	Mantenibilidad: Si cambias los precios, solo tocas Skill 1.
+2.	Ejecución por pasos: La IA puede implementar una por una sin confundirse.
+3.	Reutilización: Skill 6 (control de créditos) ya la usaste antes, se puede reutilizar.
+________________________________________
+Las 7 Skills propuestas (listas para copiar a Replit)
+Skill 1: Planes, costos y créditos por tipo de publicación
+text
+Configurar el sistema de planes y costos de créditos de la siguiente manera:
+si gastas solo 50 de los 200 créditos de tu plan mensual, los 150 restantes NO se acumulan para el mes siguiente. lo que se conoce como política de "úsalo o piérdelo" .
+Costos por tipo de publicación (para el cliente, sin importar si usa o no imágenes de la biblioteca):
+- Imagen = 1 crédito
+- Historia = 1 crédito
+- Carrusel = 5 créditos
+- Reels = 6 créditos
+
+Planes:
+- Free: $0 = 40 créditos
+- Emprendedor: $29.99 = 120 créditos
+- Negocio: $49.99 = 220 créditos
+- Agencia: $199.99 = 1100 créditos (puede manejar 5 negocios, cada negocio adicional cuesta $29.99 y da 220 créditos extra)
+
+Paquetes adicionales:
+- 100 créditos = $19.99 dólares
+
+Crear un panel editable para que el administrador pueda modificar estos costos y precios.
+Todos los precios son en dólares.
+________________________________________
+Skill 2: Panel de usuario simplificado (solo créditos)
+text
+Rediseñar el panel de usuario. Debe mostrar ÚNICAMENTE:
+- Cantidad de créditos disponibles
+- Historial de consumo de créditos
+
+NO debe mostrar:
+- Cantidad de imágenes
+- Cantidad de reels
+- Cantidad de carruseles
+- Cantidad de historias
+
+El usuario debe poder distribuir sus créditos como quiera, según su conveniencia. Los créditos son la única unidad de consumo.
+________________________________________
+Skill 3: Panel de administrador - Ver publicaciones por usuario
+text
+En el panel de usuarios registrados (vista de administrador), agregar la capacidad de ver:
+- Qué tipo de publicaciones hace cada usuario (Imagen, Historia, Carrusel, Reels)
+- Cantidad de cada tipo de publicación
+- Fechas de la ultima publicacion
+- Consumo de créditos 
+
+Esto debe ser visible para el administrador, no para los usuarios normales.
+________________________________________
+Skill 4: Descripción de planes editable desde panel admin (actualización automática en web)
+text
+Crear un módulo en el panel de administrador que permita editar:
+- Nombres de los planes
+- Precios de los planes
+- Descripciones y beneficios (checkboxes) de cada plan
+
+Regla: Cuando el administrador guarde los cambios en el panel, la página web pública (donde los clientes ven los planes al registrarse) debe actualizarse AUTOMÁTICAMENTE sin necesidad de tocar código.
+
+Los textos base son:
+- Free: $0 - Gratis 30 días - Probá HazPost sin compromiso ni tarjeta. Beneficios: 1 negocio, 40 créditos IA (~30 posts) solo imágenes, Instagram+Facebook+TikTok, Calendario editorial, Generador de contenido con IA, Publicación automática.
+- Emprendedor: $29.99/mes - Para marcas que quieren crecer consistentemente. Beneficios: 120 créditos IA (~60 posts) entre reels, carruseles, historias e imágenes, más todo lo anterior.
+- Negocio: $49.99/mes - Para marcas establecidas. Beneficios: 220 créditos IA (~90 posts), Flujo de aprobación, más todo lo anterior.
+- Agencia: $149.99/mes - Para agencias. Beneficios: 5 negocios incluidos, 1.100 créditos IA (~450 posts), Account Manager, más todo lo anterior.
+
+El administrador debe poder marcar/desmarcar beneficios en checkboxes, y eso debe reflejarse en la web.
+________________________________________
+Skill 5: Sistema de afiliados (comisiones, meses, códigos personalizados)
+text
+Crear un sistema completo de afiliados con:
+
+1. Porcentaje de comisión (editable por administrador)
+2. Número de meses que se dará la comisión (editable)
+3. Generación de códigos de referido personalizados
+4. Diferentes condiciones por código (ej: código A da 20% por 3 meses, código B da 15% por 6 meses)
+5. Panel para que el administrador pueda crear, editar y desactivar códigos de afiliados
+
+Esto es SEPARADO del plan de referidos normal (si existe).
+
+Skill 6: Plan de Referidos (completamente editable por administrador)
+text
+Crear un sistema de PLAN DE REFERIDOS (simple, para todos los usuarios) con las siguientes reglas:
+
+MECÁNICA BASE:
+1. Cada usuario tiene un enlace/código de referido único.
+2. El usuario comparte su enlace por WhatsApp, Instagram, etc.
+3. Su amigo se registra usando ese enlace o código.
+4. Cuando el amigo se suscribe a CUALQUIER plan de pago (Emprendedor, Negocio, o Agencia), el referidor recibe los beneficios configurados.
+5. El amigo también recibe un bono de bienvenida configurado.
+
+BENEFICIOS PARA EL REFERIDOR (quien invitó) - TODOS EDITABLES:
+   a) Créditos gratis (cantidad editable: ej: 30)
+   b) Días gratis de su plan actual (cantidad editable: ej: 30)
+   c) Desbloqueo de funcionalidades (toggle para activar/desactivar):
+      - ¿Desbloquear REELS? (Sí/No)
+      - ¿Desbloquear CARRUSEL? (Sí/No)
+      - ¿Desbloquear HISTORIAS? (Sí/No - opcional)
+      - ¿Desbloquear IMÁGENES ILIMITADAS? (Sí/No - opcional)
+
+BENEFICIOS PARA EL AMIGO (quien se registró) - TODOS EDITABLES:
+   a) Créditos de bienvenida (cantidad editable: ej: 15)
+   b) Días gratis de prueba (cantidad editable: ej: 7)
+   c) Desbloqueo temporal de funcionalidades (opcional, con días de duración)
+
+REGLAS EDITABLES POR ADMINISTRADOR:
+
+1. ACTIVAR/DESACTIVAR EL SISTEMA:
+   - ¿Sistema de referidos activo? (Sí/No - global)
+
+2. CONTROL POR USUARIO (REFERIDOR):
+   - ¿Este usuario puede referir? (Sí/No - por usuario individual)
+   - Límite máximo de referidos por usuario (ej: 10, 50, 100, o "sin límite")
+   - ¿Puede referirse a sí mismo? (Sí/No - por defecto NO)
+
+3. CONTROL POR USUARIO (REFERENTE/AMIGO):
+   - ¿Este usuario puede ser referido? (Sí/No - por usuario individual)
+   - ¿Puede un usuario ya existente ser referido? (Sí/No - si NO, solo cuentas nuevas)
+
+4. CONDICIONES PARA ACTIVAR EL BONO:
+   - El amigo debe suscribirse a plan de pago (mínimo: Free / Emprendedor / Negocio / Agencia - seleccionable)
+   - Tiempo máximo desde registro hasta suscripción (ej: 30 días, si no, expira)
+   - ¿El referidor recibe el bono si el amigo ya tenía cuenta? (Sí/No)
+
+5. EDICIÓN DE MONTOS (todos editables en panel):
+   - Créditos para referidor (ej: 30)
+   - Días gratis para referidor (ej: 30)
+   - Créditos para amigo (ej: 15)
+   - Días gratis para amigo (ej: 7)
+   - Toggles de desbloqueo de funcionalidades (cada una independiente)
+
+6. LÍMITES Y VALIDACIONES:
+   - Los 30 créditos se acreditan automáticamente en la cuenta del referidor.
+   - Los días gratis se suman a la fecha de vencimiento de su suscripción actual.
+   - El desbloqueo de funcionalidades puede ser PERMANENTE o TEMPORAL (configurable).
+   - No hay límite de referidos por usuario A MENOS QUE el admin lo configure.
+   - Un usuario no puede referirse a sí mismo (validar por email o ID) - pero configurable.
+   - Si el sistema está desactivado, nadie puede ganar referidos.
+
+PANEL DE ADMINISTRADOR DEBE INCLUIR:
+
+- Sección "Configuración de Referidos" con TODOS los campos anteriores.
+- Lista de usuarios con columna "Puede referir" (Sí/No) - editable.
+- Lista de usuarios con columna "Puede ser referido" (Sí/No) - editable.
+- Historial de referidos: quién refirió a quién, cuándo, si se pagó el bono.
+- Botón para recalcular/ajustar bonos manualmente si algo falló.
+
+________________________________________
+Skill 7: Control de generación automática (nunca generar sin créditos)
+text
+Implementar reglas estrictas de control de créditos para TODA generación de contenido:
+
+- Antes de generar CUALQUIER publicación (automática, manual, masiva, o por API), el sistema DEBE verificar que el usuario tiene créditos suficientes.
+- Si NO tiene créditos suficientes → NO generar el post y mostrar mensaje: "Créditos insuficientes. Recarga tu plan."
+- Si el usuario tiene créditos pero no alcanzan para el tipo de publicación (ej: 4 créditos pero quiere un Reels que cuesta 6) → NO generar.
+- Deshabilitar/desactivar la generación automática de posts si el usuario no tiene créditos.
+- Aplicar la misma regla de doble verificación y transacciones atómicas para evitar sobreconsumo.
+________________________________________
+Skill 8: Registro con elección de plan + cambio de plan + ver información de planes
+text
+Modificar el flujo de registro y gestión de suscripciones:
+
+1. Al registrarse, el usuario DEBE poder elegir qué plan quiere (Free, Emprendedor, Negocio, o Agencia).
+2. Siempre debe haber una opción visible en la plataforma para "Cambiar de plan" o "Actualizar plan".
+3. Dentro de la plataforma, el usuario debe poder ver la información completa de todos los planes (precios, beneficios, créditos) para decidir si quiere cambiarse.
+4. Al cambiar de plan, los créditos deben ajustarse según las reglas de acumulación (o no acumulación) definidas.
+5. El plan Free debe estar siempre disponible como opción.
+________________________________________
+Condición final (para todas las Skills)
+Todos estos cambios deben aplicarse en producción, para todos los usuarios y negocios, es decir, generales para toda la app: usuarios nuevos, usuarios viejos, exactamente toda la app.
+Si falta alguna habilidad nueva (skill, función, endpoint, lógica de base de datos, o sistema) para implementar esto, créala.
+

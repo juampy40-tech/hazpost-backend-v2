@@ -1,0 +1,148 @@
+⚠️ REGLA FUNDAMENTAL
+Este comportamiento NO es opcional ni solo para mí. Es una REGLA DE LA APP que debe aplicarse para TODOS los usuarios que generen contenido (carruseles y reels) en la plataforma.
+
+La IA debe asegurarse de que cualquier usuario que use la herramienta de creación de títulos reciba estas mismas reglas de forma automática.
+
+1. PROBLEMA ACTUAL
+Los títulos son repetitivos. El primer título suele ser original, pero los títulos 2, 3 y 4 se repiten mucho entre diferentes publicaciones de un mismo usuario.
+
+Ejemplo de lo que NO quiero (para ningún usuario):
+
+Título 1: Creativa ✅ (este sí cambia)
+
+Título 2: ¿Cuánto pagas? ❌ (se repite)
+
+Título 3: Eco lo resuelve ❌ (se repite)
+
+Título 4: Cambia hoy ❌ (se repite)
+
+2. OBJETIVO PRINCIPAL (para TODOS los usuarios)
+Al menos el 60-70% de los títulos deben ser nuevos o diferentes en cada publicación de cada usuario.
+
+Los títulos 2, 3 y 4 NO pueden ser siempre los mismos para un mismo usuario. Si en un post el título 2 es "¿Cuánto pagas?", en el siguiente post del mismo usuario debe ser algo completamente distinto.
+
+3. REGLA OBLIGATORIA DE NO REPETICIÓN (GLOBAL)
+Para CADA usuario individualmente: Ningún título o subtítulo puede repetirse hasta después de al menos 15 publicaciones diferentes de ESE usuario.
+
+Es decir, si un usuario usó "Cambia hoy" en un reel, ese mismo texto no puede volver a aparecer para ESE usuario (como título principal o subtítulo) hasta que haya publicado 15 posts nuevos después de ese.
+
+Cómo aplicarlo (automáticamente para cada usuario):
+
+La app debe llevar un registro virtual de los últimos 15 títulos usados por CADA usuario.
+
+Antes de generar un nuevo título para un usuario, verificar que no esté en su lista personal.
+
+Si está repetido, sugerir una alternativa nueva con el mismo significado pero redacción diferente.
+
+Ejemplos de alternativas (válidas para cualquier usuario):
+
+En lugar de "¿Cuánto pagas?" → "¿Qué inversión necesitas?" / "¿Cuál es el costo real?" / "Precio o valor, ¿qué importa?"
+
+En lugar de "Cambia hoy" → "Empieza ahora" / "Da el paso hoy mismo" / "Tu cambio empieza aquí"
+
+4. REGLA DEL SLOGAN (IMPORTANTE - APLICA A MIS CONTENIDOS)
+Para MIS contenidos personales (del dueño de la app):
+
+No uses más la frase "Eco lo resuelve".
+
+En su lugar, usa mi slogan oficial con esta estructura:
+
+"[Nombre de la ciudad] pone el sol, ECO la solución"
+
+Ciudades disponibles: Cali, Yumbo, Palmira, Jamundí, Candelaria.
+
+Ejemplos:
+
+Cali pone el sol, ECO la solución
+
+Yumbo pone el sol, ECO la solución
+
+Palmira pone el sol, ECO la solución
+
+Jamundí pone el sol, ECO la solución
+
+Candelaria pone el sol, ECO la solución
+
+Cómo aplicarlo a mis contenidos:
+
+Cada vez que querías poner "Eco lo resuelve", sustitúyelo por el slogan con la ciudad correspondiente.
+
+Alterna las ciudades entre diferentes posts para evitar repetición.
+
+Esto cuenta como parte del 60-70% de títulos nuevos.
+
+Para OTROS usuarios: Pueden usar sus propios slogans o frases personalizadas si las configuran. Por defecto, aplican las reglas de no repetición pero NO la del slogan de mi ciudad.
+
+5. EJEMPLO COMPLETO (aplicando reglas para un usuario)
+Antes (repetitivo - prohibido):
+
+Creativa
+
+¿Cuánto pagas?
+
+Eco lo resuelve
+
+Cambia hoy
+
+Después (con slogan y variedad - para mí):
+
+Creativa
+
+¿Qué inversión necesitas?
+
+Cali pone el sol, ECO la solución
+
+Da el paso hoy mismo
+
+Siguiente post mío (cambiando ciudad y títulos):
+
+Innovadora
+
+¿Cuál es el costo real?
+
+Yumbo pone el sol, ECO la solución
+
+Empieza ahora
+
+Para otro usuario (sin mi slogan, pero con variedad):
+
+Original
+
+¿Qué inversión necesitas?
+
+Nosotros lo solucionamos
+
+Da el paso hoy mismo
+
+6. REGLA FINAL RESUMIDA (COMPORTAMIENTO DE LA APP)
+Regla	Descripción	Aplica a
+Novedad	60-70% de los títulos deben ser nuevos en cada post	✅ TODOS los usuarios
+No repetición	Un mismo título no puede repetirse hasta después de 15 posts del mismo usuario	✅ TODOS los usuarios
+Registro por usuario	La app debe llevar lista individual de últimos 15 títulos por cada usuario	✅ TODOS los usuarios
+Prohibido	"Eco lo resuelve" ya no se usa	✅ Solo para mí
+Obligatorio (para mí)	Usar el slogan "[Ciudad] pone el sol, ECO la solución"	✅ Solo para mí
+Variación de ciudades	Alternar entre Cali, Yumbo, Palmira, Jamundí, Candelaria	✅ Solo para mí
+Rotación de ciudades para mis contenidos:
+
+Post 1: Cali pone el sol, ECO la solución
+
+Post 2: Yumbo pone el sol, ECO la solución
+
+Post 3: Palmira pone el sol, ECO la solución
+
+Post 4: Jamundí pone el sol, ECO la solución
+
+Post 5: Candelaria pone el sol, ECO la solución
+
+Post 6: Cali pone el sol... (vuelve a empezar)
+
+7. COMPORTAMIENTO ESPERADO DE LA IA
+Para CUALQUIER usuario que genere títulos: aplicar automáticamente las reglas de novedad (60-70%) y no repetición (15 posts por usuario).
+
+Para MÍ específicamente (dueño de la app): además aplicar la regla del slogan con ciudades.
+
+La app debe recordar por usuario los últimos 15 títulos usados y no permitir repeticiones.
+
+Si un usuario intenta repetir un título antes de los 15 posts, la IA debe rechazarlo y sugerir alternativas.
+
+¿Entendiste? Por favor confirma que estas reglas se aplicarán como COMPORTAMIENTO GLOBAL DE LA APP para TODOS los usuarios.

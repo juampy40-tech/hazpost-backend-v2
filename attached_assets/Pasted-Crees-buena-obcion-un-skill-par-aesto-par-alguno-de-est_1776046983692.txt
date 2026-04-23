@@ -1,0 +1,49 @@
+Crees buena obcion un skill par aesto par alguno de estos puntoso todos? O agregarlo en otro?
+He identificado 3 problemas que deben solucionarse:
+________________________________________
+Problema 1: Tamaño de imágenes muy grande, carga lenta
+Situación actual:
+Las imágenes de la biblioteca están en tamaño ejemplo 500 x 500 píxeles (o similar).
+Problema:
+Carga muy lento porque las imágenes son pesadas.
+Solución requerida:
+Reducir las imágenes de la biblioteca a ejemplo 350 x 350 píxeles, es decir, lo importante reducirlas en un 30%.
+Condiciones importantes:
+•	✅ Se debe mantener la calidad visual de la imagen (que se vea igual de bien).
+•	✅ Esta reducción aplica SOLO para la vista previa en la biblioteca (cuando el usuario está escogiendo).
+•	❌ No afectar la imagen original en alta resolución.
+Forma de implementarlo:
+Generar o servir automáticamente una miniatura (thumbnail) a manera de ejemplo no se realmente cuanto miden 350x350 píxeles para la biblioteca, manteniendo el archivo original para descargas o usos posteriores.
+________________________________________
+Problema 2: Contaminación entre tipos de negocio
+Situación actual:
+Me siguen mostrando fotos de cafetería y otros tipos de negocio que no corresponden.
+Problema:
+Un usuario de barbería ve imágenes de cafetería, estética, etc. Esto es contaminación entre industrias.
+Solución requerida (ya definida anteriormente):
+•	Cada usuario solo ve fondos de su mismo tipo específico de negocio (ej: barberías con barberías).
+•	NO se permite mezclar industrias diferentes.
+•	Las reglas de visibilidad por niveles (Nivel 1: propios, Nivel 2: competencia directa) deben aplicarse estrictamente.
+________________________________________
+Problema 3: Algunas imágenes no cargan
+Situación actual:
+Algunas imágenes de la biblioteca no cargan (se ven un fonde negro no cargan).
+Posibles causas:
+•	URLs rotas o imágenes eliminadas.
+•	Errores al generar miniaturas.
+•	Problemas de permisos o almacenamiento.
+Solución requerida:
+•	Implementar un sistema de validación que verifique que la imagen existe y es accesible antes de mostrarla.
+•	Si una imagen no carga, mostrar un placeholder (imagen por defecto) y registrar el error para revisión.
+•	No mostrar imágenes rotas al usuario.
+________________________________________
+Resumen de lo que debe hacer el sistema
+Problema	Solución
+Imágenes grandes, carga lenta	Reducir a  ejemplo lo importante es reducir un 30% 350x350 píxeles (miniatura), mantener calidad
+Contaminación entre negocios	Aplicar reglas estrictas de visibilidad por tipo de negocio
+Imágenes que no cargan	Validar existencia, mostrar placeholder si falla
+________________________________________
+⚙️ Condición final (importante)
+Todos estos cambios deben aplicarse en producción, para todos los usuarios y negocios, es decir, generales para toda la app: usuarios nuevos, usuarios viejos, exactamente toda la app.
+Si falta alguna habilidad nueva (skill, función, endpoint, sistema de miniaturas, sistema de validación de imágenes, o lógica de aislamiento por tipo de negocio) para implementar esto, créala.
+

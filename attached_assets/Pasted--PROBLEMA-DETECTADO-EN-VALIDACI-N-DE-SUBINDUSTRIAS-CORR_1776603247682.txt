@@ -1,0 +1,210 @@
+🐛 PROBLEMA DETECTADO EN VALIDACIÓN DE SUBINDUSTRIAS (CORRECCIÓN):
+
+CASO CONCRETO:
+Industria: "Energía Solar"
+Nueva subindustria que el usuario intenta agregar: 
+→ "Instalación de cargadores para carros eléctricos"
+
+❌ PROBLEMA:
+El sistema muestra: "¿Quisiste decir 'Instalación Residencial'?"
+Sin opciones para responder.
+
+✅ SOLUCIÓN CON REGLA CLARA:
+
+Cuando el usuario escribe una subindustria nueva en "OTRO":
+
+PASO 1: Sistema verifica si es REAL (vía API, base de datos o IA).
+
+PASO 2: Según el resultado:
+
+┌─────────────────────────────────────────────────────────────┐
+│ CASO A: La IA la identifica como REAL                        │
+├─────────────────────────────────────────────────────────────┤
+│ → Se AGREGA a la LISTA MAESTRA (para todos los usuarios).    │
+│ → Se agrega al PERFIL del usuario actual.                    │
+│ → Se propaga a todos los formularios.                        │
+│ → Se envía a la IA.                                          │
+│ → Disponible para FUTUROS usuarios.                          │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ CASO B: La IA NO la identifica como REAL                     │
+├─────────────────────────────────────────────────────────────┤
+│ → NO se agrega a la lista maestra.                           │
+│ → PERO se pregunta al usuario si quiere FORZAR AGREGADO.     │
+│                                                              │
+│   Mensaje: "No pudimos verificar esta subindustria como real.│
+│            ¿Quieres agregarla SOLO a tu perfil?"             │
+│                                                              │
+│   Botones: [SÍ, solo a mi perfil]  [NO]                      │
+│                                                              │
+│ → Si elige SÍ:                                               │
+│     ✅ Se agrega SOLO a su perfil (no a la lista maestra).   │
+│     ✅ La IA la usa para generar SUS posts.                   │
+│     ❌ NO se propaga a otros usuarios.                        │
+│     ❌ NO se agrega a la lista maestra.                       │
+│                                                              │
+│ → Si elige NO:                                               │
+│     ❌ No se agrega a ningún lado.                            │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ CASO C: Similar a una existente (pero diferente)             │
+├─────────────────────────────────────────────────────────────┤
+│ Ejemplo: "Instalación de cargadores para carros eléctricos"  │
+│ vs "Instalación Residencial" (son diferentes).               │
+│                                                              │
+│ → Mostrar: "¿Quisiste decir 'Instalación Residencial'?"      │
+│ → Botones: [SÍ] [NO, es diferente]                           │
+│                                                              │
+│ → Si elige [NO, es diferente]:                               │
+│     Luego validar si es REAL (CASO A o CASO B).              │
+└─────────────────────────────────────────────────────────────┘
+
+---
+
+🔧 REGLAS DEFINITIVAS:
+
+✅ LISTA MAESTRA (industrias y subindustrias):
+   → SOLO contiene elementos VERIFICADOS como REALES.
+   → La IA es la que decide qué es real (vía validación externa).
+   → NO se puede forzar agregado a la lista maestra.
+
+✅ PERFIL DEL USUARIO:
+   → Puede contener industrias/subindustrias NO verificadas.
+   → El usuario puede FORZAR AGREGADO solo a su perfil.
+   → La IA las USA para generar SUS posts (pero no las aprende globalmente).
+
+✅ PROPAGACIÓN:
+   → Solo los elementos REALES (en lista maestra) se propagan a TODOS.
+   → Los elementos forzados quedan SOLO en el perfil de ese usuario.
+
+---
+
+📌 EJEMPLO PRÁCTICO:
+
+Usuario escribe: "Instalación de cargadores para carros eléctricos"
+
+Paso 1: IA verifica si es REAL.
+Paso 2: Resultado: ✅ ES REAL.
+
+→ Entonces:
+   ✅ Se agrega a LISTA MAESTRA.
+   ✅ Se agrega al perfil del usuario.
+   ✅ Se propaga a todos los formularios.
+   ✅ Todos los usuarios futuros la ven.
+
+---
+
+Usuario escribe: "Energía mágica solar"
+
+Paso 1: IA verifica si es REAL.
+Paso 2: Resultado: ❌ NO ES REAL (inventada).
+
+→ Entonces:
+   Mensaje: "No pudimos verificar esta subindustria como real. ¿Quieres agregarla SOLO a tu perfil?"
+   
+   Usuario elige [SÍ, solo a mi perfil]:
+      ✅ Se agrega SOLO a su perfil.
+      ✅ La IA genera posts para ÉL con esa subindustria.
+      ❌ No afecta a otros usuarios.
+      ❌ No se agrega a lista maestra.
+
+   Usuario elige [NO]:
+      ❌ No se agrega nada.
+
+---
+
+🐛 PROBLEMA ADICIONAL DETECTADO:
+
+El botón o opción "TODOS" en las SUBCATEGORÍAS (subindustrias) NO SE VE o NO EXISTE.
+
+📍 DÓNDE DEBE ESTAR:
+Dentro de cada industria, en la sección de subindustrias, debe haber una opción que diga "TODOS" o "Seleccionar todas".
+
+🎯 QUÉ DEBE HACER EL BOTÓN "TODOS":
+✅ Selecciona AUTOMÁTICAMENTE todas las subindustrias disponibles.
+✅ El usuario no tiene que marcar una por una.
+✅ Si luego desmarca UNA subindustria, "TODOS" debe DESMARCARSE automáticamente.
+
+📌 EJEMPLO CONCRETO:
+
+Industria: "Energía Solar"
+Subindustrias:
+   ☐ Instalación industrial
+   ☐ Instalación agrícola
+   ☐ Instalación en minigranjas
+   ☐ Instalación residencial
+   ☐ Instalación de cargadores para carros eléctricos
+
+✅ DEBE HABER una opción adicional:
+   ☑ [TODOS] → Al marcarlo, se seleccionan TODAS las de arriba.
+
+📌 CASO DE USO:
+Un negocio como "Eco" hace 3 de las 4 opciones (todas menos residencial).
+
+Con el botón "TODOS":
+1. El usuario marca [TODOS].
+2. Se seleccionan todas.
+3. El usuario DESMARCA "Instalación residencial".
+4. [TODOS] se DESMARCA automáticamente.
+5. Resultado final: 3 seleccionadas (las que quería).
+
+✅ ESTO AHORRA TIEMPO Y MEJORA LA EXPERIENCIA.
+
+🔧 ACCIÓN REQUERIDA PARA EL BOTÓN "TODOS":
+
+1. AGREGAR el botón o checkbox "TODOS" en la sección de subindustrias.
+2. IMPLEMENTAR la lógica de selección múltiple:
+   - "TODOS" selecciona todas.
+   - Si se desmarca UNA subindustria, "TODOS" se desmarca solo.
+   - Si el usuario marca TODAS una por una, "TODOS" se marca automáticamente.
+3. APLICAR esto para TODAS las industrias que tengan subindustrias.
+
+---
+
+🔁 ACCIONES ESPECÍFICAS QUE DEBE HACER REPLIT AHORA:
+
+1. CREAR o ACTUALIZAR el skill de "Validación de industrias/subindustrias reales"
+   - Debe consultar API externa, base de datos oficial, o IA.
+   - Retorna: REAL ✅ o NO REAL ❌.
+
+2. CREAR o ACTUALIZAR el skill de "Agregado al perfil sin propagación"
+   - Permite agregar elementos NO reales SOLO al perfil del usuario.
+   - No afecta la lista maestra ni a otros usuarios.
+
+3. IMPLEMENTAR la interfaz de confirmación con dos niveles:
+
+   Nivel 1 (similaridad):
+   [SÍ] [NO, es diferente]
+
+   Nivel 2 (validación real):
+   Si NO es real → "¿Agregar solo a tu perfil?" [SÍ] [NO]
+
+4. AGREGAR "Instalación de cargadores para carros eléctricos" a lista maestra:
+   → Porque ES REAL (esto debe verificarlo la IA primero).
+
+5. AGREGAR el botón "TODOS" en la sección de subindustrias.
+
+6. IMPLEMENTAR la lógica de selección múltiple con "TODOS".
+
+7. ASEGURAR que:
+   - Lista maestra = SOLO elementos REALES.
+   - Perfil usuario = puede tener elementos REALES + PERSONALIZADOS.
+   - IA usa AMBAS para generar posts (pero solo aprende de las REALES).
+   - El botón "TODOS" funciona en TODOS los formularios.
+
+✅ CRITERIO DE ÉXITO:
+
+- Subindustria REAL → Va a lista maestra + todos los usuarios.
+- Subindustria inventada → Puede ir SOLO al perfil si el usuario insiste.
+- El sistema SIEMPRE pregunta, NUNCA bloquea sin opciones.
+- La IA distingue entre "real global" y "personalizado no verificado".
+- El usuario puede seleccionar TODAS las subindustrias con UN SOLO CLIC.
+
+🔴 IMPORTANTE:
+
+
+La lista maestra es SAGRADA: solo elementos VERIFICADOS como REALES.
+
+El botón "TODOS" debe estar VISIBLE y FUNCIONAL en TODAS las subcategorías de TODAS las industrias.

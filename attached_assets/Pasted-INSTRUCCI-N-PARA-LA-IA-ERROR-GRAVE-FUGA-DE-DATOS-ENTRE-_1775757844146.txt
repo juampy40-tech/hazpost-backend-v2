@@ -1,0 +1,55 @@
+INSTRUCCIÓN PARA LA IA - ERROR GRAVE: FUGA DE DATOS ENTRE USUARIOS
+________________________________________
+🚨 DESCRIPCIÓN DEL PROBLEMA (URGENTE)
+Usuario afectado: clonenationco@gmail.com
+•	Es el USUARIO 3 (aproximadamente)
+•	Creó una cuenta para ensayar (usuario nuevo, desde cero)
+Lo que pasó (INCORRECTO - GRAVE):
+1.	El usuario clonenationco@gmail.com se registró como usuario nuevo
+2.	Al entrar a la app, le salió TODA la información de "Eco Eso" (mi información)
+3.	Vio mis datos, mis configuraciones, mi contenido, mis estadísticas
+Esto es INACEPTABLE. Un usuario nuevo NO puede ver información de otro usuario.
+________________________________________
+❌ LO QUE NO DEBE PASAR
+Situación	Comportamiento INCORRECTO (actual)
+Usuario nuevo se registra	Ve información de otro usuario ❌
+Usuario 3 entra a la app	Ve datos del Usuario 1 (admin) ❌
+Cualquier usuario	Puede ver datos que no son suyos ❌
+________________________________________
+✅ LO QUE DEBE PASAR (COMPORTAMIENTO CORRECTO)
+Situación	Comportamiento CORRECTO
+Usuario nuevo se registra	Ve TODO EN LIMPIO. Cero información de otros usuarios.
+Usuario 3 entra a la app	Solo ve su propia información (vacía o la que él haya creado)
+Cualquier usuario	Solo puede ver y editar SUS PROPIOS datos
+________________________________________
+📝 SIGNIFICADO DE "EN LIMPIO"
+Cuando un usuario nuevo se registra, debe ver:
+•	✅ Dashboard vacío (sin estadísticas ajenas)
+•	✅ Sin publicaciones (ninguna publicación de otros usuarios)
+•	✅ Sin negocios precargados (excepto si él los crea)
+•	✅ Sin configuraciones de otros (todo por defecto)
+•	✅ Chatbot sin aprendizaje previo (empieza desde cero)
+•	✅ Calendario vacío (sin posts de otros)
+🛠️ ACCIÓN INMEDIATA QUE NECESITO
+1.	CORREGIR LA FUGA DE DATOS URGENTEMENTE - Esto es crítico de seguridad
+2.	Asegurar que CADA usuario vea SOLO sus propios datos
+3.	Probar con un usuario nuevo (crear cuenta nueva y verificar que todo esté en limpio)
+4.	Verificar que clonenationco@gmail.com ahora vea solo su información
+5.	Auditar TODOS los endpoints que devuelven datos de usuarios
+________________________________________
+📌 REGLA OBLIGATORIA (PARA SIEMPRE)
+NUNCA, bajo NINGUNA circunstancia, un usuario puede ver información de otro usuario.
+✅ PRUEBA DE VERIFICACIÓN (HACER DESPUÉS DE CORREGIR)
+Paso	Resultado esperado
+1. Crear usuario nuevo "test@prueba.com"	✅ Todo en limpio, sin datos de nadie
+2. clonenationco@gmail.com inicia sesión	✅ Solo ve su información (vacía)
+3. Yo (admin) inicio sesión	✅ Solo ve mi información (Eco Eso)
+4. Los tres usuarios cambian de pantalla	✅ Cada uno siempre ve sus propios datos
+________________________________________
+📊 RESUMEN DEL PROBLEMA
+Aspecto	Estado actual (MAL)	Estado deseado (BIEN)
+Usuario nuevo ve datos de otro	❌ SÍ (ve mis datos)	✅ NO (todo vacío)
+Aislamiento entre usuarios	❌ Roto	✅ Funcionando
+Seguridad de datos	❌ Vulnerable	✅ Asegurada
+________________________________________
+¿Entendiste la gravedad del problema? Por favor CORRIGE ESTO URGENTEMENTE antes de seguir con cualquier otra tarea. La prioridad #1 ahora es asegurar que cada usuario solo vea sus propios datos.

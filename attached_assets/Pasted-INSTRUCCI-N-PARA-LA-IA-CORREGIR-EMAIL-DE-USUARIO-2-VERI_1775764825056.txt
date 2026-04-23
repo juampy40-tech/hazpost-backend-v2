@@ -1,0 +1,67 @@
+INSTRUCCIÓN PARA LA IA - CORREGIR EMAIL DE USUARIO 2 + VERIFICACIÓN DE EMAIL
+________________________________________
+🐛 PROBLEMA 1: CORREO DEL USUARIO 2 ESTÁ MAL ESCRITO
+Usuario: Usuario 2 (Agencia Digital)
+Correo actual (INCORRECTO):
+juan.yanguas@eco.col.com
+Correo deseado (CORRECTO):
+juan-yanguas@eco.col.com
+Diferencia: Un punto (.) cambió por un guión (-)
+________________________________________
+✅ LO QUE NECESITO: CAMBIAR EL CORREO SIN PERDER NADA
+Al cambiar el correo de juan.yanguas@eco.col.com a juan-yanguas@eco.col.com NO se debe perder:
+Dato a preservar	¿Se debe mantener?
+Posts creados	✅ Sí
+Publicaciones programadas	✅ Sí
+Historial de publicaciones	✅ Sí
+Nichos configurados	✅ Sí
+Negocios asociados	✅ Sí
+Estadísticas	✅ Sí
+Aprendizaje de IA	✅ Sí
+Configuraciones	✅ Sí
+Historial de chats	✅ Sí
+Todo su contenido	✅ Sí
+Regla: El user_id interno debe seguir siendo el mismo. Solo cambia el campo email.
+Verificar después del cambio:
+1.	El usuario puede iniciar sesión con el nuevo correo
+2.	Todo su contenido sigue intacto
+3.	El correo antiguo ya no funciona
+________________________________________
+🚨 PROBLEMA 2: NO ESTAMOS VERIFICANDO QUE EL EMAIL EXISTA
+Problema de fondo:
+Yo (el admin) puse un correo que NO EXISTE (juan.yanguas@eco.col.com) y la app lo aceptó sin verificar.
+Riesgos de NO verificar emails:
+Riesgo	Consecuencia
+Usuarios ponen correos falsos	No pueden recuperar contraseña
+No se confirma propiedad	Cualquiera puede crear cuenta con email ajeno
+Spam y cuentas falsas	Abuso de la plataforma
+Problemas legales	Suplantación de identidad
+________________________________________
+✅ SOLUCIÓN: IMPLEMENTAR VERIFICACIÓN DE EMAIL
+Flujo de verificación de email (OBLIGATORIO):
+┌─────────────────────────────────────────────────────────┐
+│  1. Usuario se registra con email                       │
+│     ↓                                                   │
+│  2. App envía correo de confirmación                    │
+│     ↓                                                   │
+│  3. Usuario hace clic en enlace mágico o código         │
+│     ↓                                                   │
+│  4. App marca email como "verificado" ✅                │
+│     ↓                                                   │
+│  5. Usuario puede usar la app completamente             │
+
+Estados de email:
+Estado	Significado	Acciones permitidas
+Pendiente	Registrado pero no verificado	Solo ver email, funciones limitadas
+Verificado	Confirmó propiedad del email	Todo permitido
+Reintento	No pudo verificar	Reenviar correo
+Funcionalidades RESTRINGIDAS hasta verificar email:
+Funcionalidad	¿Disponible sin verificar?
+Ver dashboard	✅ Sí (limitado)
+Generar contenido	❌ No
+Publicar a redes	❌ No
+Conectar APIs	❌ No
+Acceder a funciones de pago	❌ No
+Ver estadísticas avanzadas	❌ No
+________________________________________
+

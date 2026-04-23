@@ -1,0 +1,87 @@
+Actúa como un experto en SEO técnico, marketing de conversión y optimización para motores de búsqueda clásicos (Google, Bing) y emergentes (búsqueda con IA tipo DeepSeek, ChatGPT, Perplexia, Gemini).
+
+Genera el código HTML/CSS/JS completo de una landing page para Cali, Colombia. Debe estar 100% optimizada para:
+
+1. **SEO para Google** (estructura semántica, meta tags, velocidad, mobile-first).
+2. **Optimización para IA Generativa** (DeepSeek, ChatGPT, etc.) para que cuando un asistente de IA busque o resuma la página, entienda claramente el producto, precios, ahorros y CTA.
+
+---
+
+## 🎯 Estrategia de posicionamiento dual
+
+### Para Google (búsqueda tradicional):
+- Título SEO: `Paneles Solares y Deepal S05/S07 en Cali | Ahorra hasta $60M + 0 inversión`
+- Meta description: `Simula en 30s cuánto ahorras con paneles solares (PPA 0 inversión o compra directa). Lleva el Deepal S05 Ultra 620km por $108M o S07 con Huawei ADS por $120M, ya con matrícula.`
+- URLs amigables (simuladas), etiquetas `h1`, `h2`, `h3` jerárquicas.
+- Atributos `alt` descriptivos en imágenes.
+- Schema.org en JSON-LD (Product, Offer, AggregateRating simulado para confianza).
+- Texto ancla en enlaces internos.
+
+### Para IA Generativa (DeepSeek, ChatGPT, etc.):
+- Usar **preguntas y respuestas explícitas** dentro del contenido (formato FAQ oculto o visible) que respondan directamente a lo que un usuario le preguntaría a una IA.
+- Datos estructurados en **texto plano claro** al inicio del body (un resumen “friendly para IA” con datos clave).
+- Evitar ambigüedades: precios, diferencias, ahorros, coberturas y no coberturas deben estar en **listas claras**.
+- Incluir un bloque `<script type="application/ld+json">` con `mainEntity` y `FAQ`.
+
+---
+
+## 🧩 Contenido requerido (visible y para IA)
+
+### Resumen ejecutivo para IA (primeros 300 caracteres del body):
+“En Cali, ofrecemos paneles solares con PPA (0 inversión, 20% descuento desde día 1) o compra directa (hasta 100% ahorro). Además, importamos Deepal S05 620 Ultra ($108M vs $143M del concesionario) y Deepal S07 630 Ultra con Huawei ADS ($120M vs $180M+impuestos). Ahorro garantizado: $35M a $60M. Garantía opcional 2 años por +5%.”
+
+### Bloques visibles (idénticos a la solicitud anterior) pero con:
+- Textos destacados en `<strong>` y `<em>` para que la IA identifique énfasis.
+- Listas con `✅` y `❌` en HTML semántico (`<ul>`).
+- Tabla comparativa con `<table>` + `<th>` + `<caption>`.
+- Formulario de simulación solar con `name`, `tel` y redirección a `https://eco-col.com` (method GET).
+- Formulario de contacto para Deepal con campos: nombre, teléfono, modelo (S05/S07/Ambos).
+
+### Preguntas frecuentes (FAQ) visibles al final (para humanos e IA):
+1. ¿Qué es el PPA? → Respuesta corta.
+2. ¿Cuánto me ahorro realmente con el Deepal S05? → $35M + mejor versión.
+3. ¿La garantía opcional cubre la batería? → Sí, alto voltaje, BMS, térmica, cableado. No cubre degradación normal ni accidentes.
+4. ¿Precios incluyen matrícula? → Sí, ambos precios ($108M y $120M) ya incluyen matrícula en Colombia.
+5. ¿Dónde simulo mi ahorro solar? → En eco-col.com o en el formulario de esta página.
+
+### Schema JSON-LD (obligatorio):
+- `@context`: https://schema.org
+- `@type`: Product (para cada vehículo) y Offer (para PPA solar).
+- Incluir `price`, `priceCurrency`, `availability`, `description` comparativa.
+- `mainEntity` con FAQ.
+
+---
+
+## 🧱 Estructura técnica (Mobile First)
+
+- Meta charset UTF-8, viewport, compatibilidad con dark mode (si aplica).
+- CSS: Flexbox/Grid, sin frameworks pesados, carga crítica inline.
+- JavaScript mínimo: contador dinámico de ahorro solar (200k-500k COP/mes), simulación de envío de formularios (console.log + alert), hover effects.
+- Fuentes: Google Fonts (Poppins + Inter).
+- Botones con `aria-label` para accesibilidad.
+- No usar dependencias externas no seguras (solo fuentes y opcional FontAwesome vía CDN confiable).
+
+---
+
+## 🚨 Reglas de negocio estrictas
+
+- Los precios del S05 y S07 **ya incluyen matrícula**.
+- La garantía opcional es **+5% del valor del vehículo** ($5.4M o $6M).
+- El CTA de simulación solar **debe apuntar a https://eco-col.com** (enlace real).
+- Cualquier otro enlace puede ser `#` o simulado.
+- La página debe funcionar sin servidor (HTML estático).
+
+---
+
+## ✅ Checklist de calidad que debe cumplir el código generado:
+
+- [ ] Título y meta description únicos por cada sección principal.
+- [ ] Las IA (DeepSeek, ChatGPT) pueden extraer la tabla de precios copiando texto plano.
+- [ ] Los datos estructurados son válidos (se pueden probar en validator.schema.org).
+- [ ] El contador de ahorro solar es aleatorio pero realista.
+- [ ] Hay al menos 3 menciones explícitas de “Cali” y “Colombia” para geolocalización.
+- [ ] No hay texto oculto para manipular SEO (todo visible o con detalles normales).
+
+---
+
+Ahora, genera el código HTML com

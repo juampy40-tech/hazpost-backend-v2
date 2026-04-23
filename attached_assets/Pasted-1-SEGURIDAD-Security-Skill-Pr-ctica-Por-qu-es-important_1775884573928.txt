@@ -1,0 +1,51 @@
+1. 🔐 SEGURIDAD (Security)
+Skill / Práctica	Por qué es importante
+Autenticación y autorización	Manejo seguro de usuarios (JWT, OAuth, sesiones). Cada usuario solo accede a sus propios negocios y posts.
+Validación de entrada	Evitar inyecciones SQL, XSS, y datos maliciosos. Nunca confiar en lo que envía el cliente.
+Rate limiting	Evitar que alguien abuse del generador masivo o de la API.
+Manejo seguro de API keys	Las claves de OpenAI (DALL-E) deben estar en variables de entorno, no en el código.
+Sanitización de imágenes	Las fotos que sube el usuario deben revisarse (tamaño, tipo, malware).
+Logs sin datos sensibles	No registrar contraseñas, tokens o información personal.
+2. 🧹 LIMPIEZA DE CÓDIGO (Code Cleanliness)
+Skill / Práctica	Por qué es importante
+Nombres descriptivos	generarPostConReferencia() no hacerCosas(). El código se lee solo.
+Funciones pequeñas y una sola responsabilidad	Una función = una tarea. Fácil de probar y mantener.
+Eliminar código muerto	Comentarios viejos, funciones sin usar, console.logs. Solo estorban.
+Formateo consistente	Usar Prettier o similar. Todo el equipo escribe igual.
+Comentarios útiles	No explicar "qué" hace el código (eso lo dice el código), sino "por qué" hace algo raro.
+3. 🧱 ARQUITECTURA Y ORGANIZACIÓN
+Skill / Práctica	Por qué es importante
+Separación de responsabilidades	Base de datos, lógica de negocio, rutas, y frontend en capas diferentes.
+Código reutilizable	Si usas la misma lógica en "agregar foto extra" y "generador masivo", que sea la misma función.
+Variables de entorno	Configuración fuera del código (puertos, URLs, claves).
+Control de versiones bien usado	Commits pequeños, mensajes claros, ramas por feature.
+4. 🧪 PRUEBAS (Testing)
+Skill / Práctica	Por qué es importante
+Pruebas unitarias	Probar funciones pequeñas por separado (ej: contador de posts).
+Pruebas de integración	Probar que DALL-E + generador + base de datos funcionan juntos.
+Pruebas de regresión	Que lo que funcionaba antes no se rompa al añadir algo nuevo.
+Pruebas de carga	El generador masivo no debe caerse con varios usuarios a la vez.
+5. 🗄️ BASE DE DATOS
+Skill / Práctica	Por qué es importante
+Índices correctos	Las consultas no deben ser lentas al crecer los datos.
+Migraciones controladas	Cambios en la base de datos versionados, no a mano.
+Cada negocio tiene su propio contador	Independencia de datos. No mezclar Eco con hazpost.
+Backups automáticos	Por si algo sale mal.
+6. ⚡ RENDIMIENTO
+Skill / Práctica	Por qué es importante
+Caché	No llamar a DALL-E si ya generaste algo igual antes.
+Procesamiento asíncrono	El generador masivo debe correr en segundo plano, no bloquear al usuario.
+Paginación	Si hay muchos posts, no cargarlos todos de una vez.
+Lazy loading	Imágenes y recursos solo cuando se necesitan.
+7. 🧠 INTELIGENCIA (IA / Prompts)
+Skill / Práctica	Por qué es importante
+Prompts limpios y sin default de Eco	DALL-E no debe tener "esencia de Eco" por defecto.
+Inyección de referencias	El prompt debe incluir la foto de referencia correctamente.
+Respetar los niveles (local, nacional, internacional)	Aplicar tu regla de aprendizaje por niveles.
+Fallbacks controlados	Si DALL-E falla, qué hacer.
+8. 🐛 DEPURACIÓN Y MONITOREO
+Skill / Práctica	Por qué es importante
+Logs estructurados	Saber qué pasó, cuándo y dónde.
+Manejo de errores	Try/catch, errores amigables para el usuario.
+Monitoreo de uso	Saber cuántos posts genera cada negocio, cuántas veces falla DALL-E.
+Alertas	Si algo se rompe en producción, enterarte rápido

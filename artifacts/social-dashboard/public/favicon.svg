@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#0A0A0F"/>
+  <!-- Bold "h" in white -->
+  <text x="7" y="52" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="52" fill="white">h</text>
+  <!-- Cyan dot for the "post" part of hazpost -->
+  <circle cx="50" cy="14" r="9" fill="#00C2FF"/>
+</svg>

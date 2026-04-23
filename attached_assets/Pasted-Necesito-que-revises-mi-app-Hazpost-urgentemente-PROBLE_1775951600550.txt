@@ -1,0 +1,122 @@
+Necesito que revises mi app Hazpost urgentemente.
+
+PROBLEMA DETECTADO:
+
+Los posts creados con Hazpost se BORRAN SOLOS después de un tiempo. Desaparecen sin que el usuario los elimine.
+
+No hay aviso, no hay confirmación, simplemente ya no están.
+
+Esto es GRAVÍSIMO porque:
+- El usuario pierde su trabajo
+- El contenido generado desaparece
+- No se puede recuperar
+- Genera desconfianza total en la app
+
+POSIBLES CAUSAS:
+
+1. ¿Hay un TTL (time to live) o expiración automática en la base de datos?
+2. ¿Hay un cron job que limpia posts "viejos"?
+3. ¿Hay un límite de almacenamiento que borra los más antiguos?
+4. ¿El caché está borrando datos que deberían ser permanentes?
+5. ¿Hay un error en el guardado y los posts nunca se persistieron realmente?
+
+SKILL NECESARIO:
+
+Necesito un skill que se encargue de:
+
+"POST PERSISTENCE GUARDIAN"
+
+Función principal:
+- Asegurar que NINGÚN post se borre a menos que el usuario lo elimine EXPLÍCITAMENTE
+- Verificar que los posts se guarden correctamente en la base de datos
+- Detectar si hay algún proceso automático borrando posts
+- Alertar si un post está a punto de ser eliminado automáticamente
+- Mantener un historial de eliminaciones (quién, cuándo, por qué)
+
+REQUISITOS DE ESTE SKILL:
+
+✅ Los posts son PERMANENTES hasta que el usuario decida borrarlos
+✅ No hay expiración automática de posts
+✅ No hay límite de tiempo oculto
+✅ El usuario controla sus propios posts
+✅ Si algo intenta borrar un post automáticamente, el skill lo DETECTA y lo BLOQUEA
+✅ Queda registro de cualquier intento de borrado
+
+⚙️ CONDICIÓN FINAL (MUY IMPORTANTE):
+
+Todos estos cambios deben aplicarse EN PRODUCCIÓN, para TODOS los usuarios y negocios, es decir, GENERALES para toda la app.
+
+- Usuarios nuevos
+- Usuarios viejos
+- Usuarios con un negocio
+- Usuarios con múltiples negocios
+
+TODOS deben tener la seguridad de que sus posts NO se borran solos.
+
+Si falta alguna habilidad nueva (skill) para implementar esto, CRÉALA. No importa si son más skills. Lo importante es que los posts NO desaparezcan.
+
+ADVERTENCIA IMPORTANTE:
+
+Antes de implementar este skill, revisa:
+
+1. ¿Hay actualmente algún proceso automático borrando posts?
+2. ¿Hay alguna configuración de expiración en la base de datos?
+3. ¿Hay algún cron job que limpie tablas?
+4. ¿Hay algún límite de almacenamiento configurado?
+
+Si existe algo que esté borrando posts automáticamente, DESACTÍVALO inmediatamente antes de implementar el skill.
+
+SOLUCIÓN PROPUESTA:
+
+PASO 1: Identificar qué está borrando los posts actualmente
+PASO 2: Detener cualquier proceso automático de borrado
+PASO 3: Implementar "Post Persistence Guardian"
+PASO 4: Verificar que los posts antiguos que aún existen NO se borren
+PASO 5: Si hay posts que ya se borraron, investigar si se pueden recuperar
+
+PREGUNTAS QUE NECESITO QUE RESPONDAS:
+
+1. ¿Por qué se están borrando los posts solos?
+2. ¿Hay algún TTL, expiración o límite de tiempo en la base de datos?
+3. ¿Hay algún cron job o proceso automático limpiando posts?
+4. ¿Los posts se están guardando correctamente en la base de datos?
+5. ¿Puedes implementar "Post Persistence Guardian" sin dañar la estructura existente?
+6. ¿Qué otros skills adicionales recomiendas para prevenir esto en el futuro?
+
+PRIORIDAD: ABSOLUTA
+
+Esto es más urgente que cualquier otro skill. Si los posts se borran, la app no sirve. Primero resuelve esto.
+
+CONDICIÓN FUNDAMENTAL:
+
+SOLO ejecutes esto si NO daña la estructura existente y NO crea conflictos.
+
+Si para solucionar esto necesitas crear otros skills adicionales (ej: Backup Manager, Recovery Guardian, Deletion Logger), CRÉALOS. No importa cuántos sean. Lo importante es que los posts NO se pierdan nunca más.
+
+
+Responde con:
+1. El diagnóstico de por qué se borran los posts
+2. El plan para implementar "Post Persistence Guardian"
+3. Qué otros skills adicionales propones crear
+4. Cuándo puedes aplicar esto en PRODUCCIÓN para TODOS los usuarios
+NOTA ADICIONAL:
+
+Siento que la generación de las imágenes es MUY DEMORADA. Por favor, revisa esto.
+
+Tarda demasiado tiempo en crear las imágenes, especialmente en el generador masivo. El usuario espera mucho tiempo y eso causa mala experiencia.
+
+Posibles causas que debes revisar:
+- ¿Las llamadas a DALL-E son secuenciales en lugar de paralelas?
+- ¿No hay caché de resultados previos?
+- ¿El generador masivo procesa 20 imágenes una por una?
+- ¿Hay problemas de timeout con la API de OpenAI?
+
+Necesito que implementes una solución para acelerar la generación, como por ejemplo:
+- Procesar imágenes en PARALELO
+- Mostrar progreso al usuario
+- Implementar caché
+
+Todo esto aplicado en PRODUCCIÓN para TODOS los usuarios.
+
+1.	Condición final (importante)
+Todos estos cambios deben aplicarse en producción, para todos los usuarios y negocios, es decir, generales para toda la app, usuarios nuevos, y viejos, exactamente toda la app.

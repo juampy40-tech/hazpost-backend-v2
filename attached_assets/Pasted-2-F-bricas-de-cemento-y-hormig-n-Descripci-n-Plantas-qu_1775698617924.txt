@@ -1,0 +1,75 @@
+2. Fábricas de cemento y hormigón
+Descripción: Plantas que producen materiales de construcción mediante hornos rotatorios, molinos y trituradoras de alta potencia.
+Palabras clave: producción de cemento, hornos industriales, molienda de clínker, hormigoneras, alto voltaje
+
+3. Centros de datos y servidores (data centers)
+Descripción: Infraestructuras que alojan servidores y equipos de TI funcionando sin interrupción, requiriendo refrigeración constante.
+Palabras clave: data centers, servidores en la nube, refrigeración de equipos, uptime 24/7, consumo energético crítico
+
+4. Hospitales y clínicas de alta complejidad
+Descripción: Centros médicos con equipos de diagnóstico, quirófanos, áreas de UCI y sistemas de climatización operando continuamente.
+Palabras clave: equipos médicos, climatización hospitalaria, respaldo energético, quirófanos, UCI
+
+5. Supermercados y cadenas de retail
+Descripción: Establecimientos comerciales con cámaras frigoríficas, iluminación LED, cajas registradoras y sistemas de climatización.
+Palabras clave: refrigeración comercial, iluminación de tiendas, cadenas de supermercados, congeladores, retail masivo
+
+6. Hoteles y resorts todo incluido
+Descripción: Complejos turísticos con aire acondicionado central, calderas, piscinas climatizadas, lavandería industrial y cocinas eléctricas.
+Palabras clave: climatización hotelera, resorts todo incluido, calderas eléctricas, piscinas climatizadas, lavandería industrial
+
+7. Plantas procesadoras de alimentos (cárnicos, lácteos, conservas)
+Descripción: Fábricas que procesan, cocinan, envasan y refrigeran productos alimenticios con maquinaria de alto consumo.
+Palabras clave: procesamiento de carnes, pasteurización de lácteos, envasado al vacío, cámaras de frío, cocción industrial
+
+8. Industria textil y confección
+Descripción: Fábricas de tejidos, teñido de telas, costura industrial y acabados con maquinaria de hilandería y termofijado.
+Palabras clave: hilandería textil, teñido de telas, termofijado, máquinas de coser industriales, acabado textil
+
+9. Fábricas de plásticos y envases
+Descripción: Plantas de inyección, soplado y extrusión de plásticos para producir envases, botellas y empaques.
+Palabras clave: inyección de plásticos, extrusión de polímeros, soplado de botellas, termoformado, envases flexibles
+
+10. Talleres de fundición y metalmecánica
+Descripción: Talleres que funden metales, operan hornos eléctricos, prensas hidráulicas y tornos de control numérico.
+Palabras clave: fundición de metales, hornos eléctricos, prensas hidráulicas, mecanizado CNC, soldadura industrial
+
+11. Centros comerciales y plazas outlet
+Descripción: Grandes superficies con iluminación general, escaleras eléctricas, ascensores, climatización central y locales comerciales.
+Palabras clave: centros comerciales, iluminación de grandes superficies, escaleras eléctricas, climatización central, plazas outlet
+
+12. Plantas de producción de cerveza y bebidas
+Descripción: Fábricas que producen cerveza, gaseosas y jugos con procesos de cocción, fermentación, enfriamiento y envasado.
+Palabras clave: cocción de mosto, fermentación controlada, enfriamiento rápido, envasado de bebidas, pasteurizadores
+
+13. Industria papelera y cartonera
+Descripción: Plantas que fabrican papel, cartón corrugado y empaques mediante procesos de despulpado, secado y prensado.
+Palabras clave: fabricación de papel, despulpado mecánico, secado industrial, cartón corrugado, prensas continuas
+
+14. Fábricas de autopartes y ensambladoras automotrices
+Descripción: Plantas que fabrican piezas para vehículos y ensamblan automóviles con robots, soldadoras y líneas de pintura.
+Palabras clave: autopartes, ensamblaje automotriz, robots industriales, cabinas de pintura, soldadura robótica
+
+15. Minería y procesamiento de minerales
+Descripción: Operaciones mineras con chancadoras, molinos de bolas, fajas transportadoras y bombas de lodos de alta potencia.
+Palabras clave: chancado de minerales, molinos de bolas, fajas transportadoras, bombeo de lodos, concentración de minerales
+
+16. Plantas de refrigeración y cámaras frigoríficas
+Descripción: Centros de almacenamiento en frío para productos perecederos con compresores, evaporadores y sistemas de monitoreo.
+Palabras clave: almacenamiento en frío, compresores industriales, conservación de alimentos, cadena de frío, evaporadores
+
+17. Lavanderías industriales y tintorerías de gran escala
+Descripción: Plantas que lavan, secan y planchan grandes volúmenes de ropa hospitalaria, hotelera o industrial.
+Palabras clave: lavadoras industriales, secadoras de alta capacidad, planchado continuo, tintorería masiva, proceso de lavado
+
+18. Imprentas y artes gráficas
+Descripción: Talleres de impresión offset, digital y serigráfica con máquinas de alto consumo en calentamiento y secado.
+Palabras clave: impresión offset, rotativas de alto volumen, secado UV, encuadernación industrial, artes gráficas
+
+19. Estaciones de servicio y gasolineras con tiendas de conveniencia
+Descripción: Puntos de venta de combustible con bombas eléctricas, iluminación nocturna, refrigeradores y sistemas de pago.
+Palabras clave: bombas de combustible, iluminación nocturna, tiendas de conveniencia, refrigeración comercial, estaciones de servicio
+
+20. Plantas de acuicultura y criaderos de peces
+Descripción: Instalaciones de cultivo de peces con sistemas de bombeo, oxigenación, calentamiento de agua y alimentación automática.
+Palabras clave: acuicultura intensiva, bombeo continuo, oxigenación de estanques, calentamiento de agua, alimentadores automáticos

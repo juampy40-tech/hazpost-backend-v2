@@ -1,0 +1,174 @@
+🐛 PROBLEMA DETECTADO EN GENERACIÓN DE POSTS (especialmente imágenes DALL-E):
+
+CASO CONCRETO:
+Empresa: "Energía Solar"
+Problema: Los posts sugeridos NO muestran NINGÚN TECHO con paneles solares.
+Resultado actual: Solo muestra gente en oficinas o empresas por dentro.
+
+❌ ESTO ES INACEPTABLE para una empresa de energía solar.
+✅ La imagen de TECHOS CON PANELES SOLARES ES VITAL para esta industria.
+
+---
+
+🔍 ANÁLISIS DE CAUSAS POSIBLES:
+
+1️⃣ El usuario NO tenía seleccionada la industria "Energía Solar" en el formulario.
+   - Esto AFECTA pero NO debería ser un bloqueo total.
+
+2️⃣ El formulario SÍ incluye otros datos que la IA DEBERÍA usar:
+   ✅ Página web (la IA debe navegarla automáticamente)
+   ✅ Descripción del negocio
+   ✅ Audiencia objetivo
+
+3️⃣ A pesar de tener estos datos, DALL-E está fallando en generar imágenes relevantes.
+
+4️⃣ Los textos generados están bien, pero las imágenes no.
+
+---
+
+🎯 LO QUE LA IA DEBE HACER OBLIGATORIAMENTE:
+
+AUNQUE el usuario NO haya seleccionado una industria específica, la IA debe:
+
+✅ LEER y ANALIZAR:
+   - La página web del negocio (navegarla completa).
+   - La descripción del negocio.
+   - La audiencia objetivo.
+   - El nombre de la empresa.
+   - Cualquier otro dato disponible en el perfil.
+
+✅ DEDUCIR la industria o temática principal:
+   - Si ve "energía solar", "paneles", "techos", "instalación fotovoltaica".
+   - Debe entender que las imágenes deben incluir TECHOS, PANELES, ENERGÍA SOLAR.
+
+✅ GENERAR imágenes (DALL-E) que coincidan con la industria DEDUCIDA:
+   - Para energía solar → TECHOS con paneles, instalaciones al aire libre, casas con paneles.
+   - NO oficinas genéricas o gente dentro de empresas, puede ser una escena en el carrusel o reel por que esta felices o algo asi pero no la principal
+
+---
+
+🧠 REGLAS ESPECÍFICAS PARA DALL-E:
+
+Para cada industria, la IA debe tener un "estilo visual por defecto":
+Estos son unos ejemplos
+
+Industria: "Energía Solar"
+✅ Escenas prioritarias:
+   - Techos residenciales con paneles solares.
+   - Techos industriales con paneles solares.
+   - Campos solares (granjas solares).
+   - Instaladores en techos colocando paneles.
+   - Casas ecológicas con paneles visibles.
+Entre otras
+
+Estas puede ser una escena en el carrusel o reel por que esta felices o algo asi pero no la principal
+   - Oficinas genéricas.
+   - Gente dentro de edificios sin paneles visibles o puede ser un antes de los paneles.
+   - Escenas sin relación con energía solar.
+
+Industria: "SaaS / Marketing de contenidos con IA"
+✅ Escenas prioritarias:
+•	Mostrar resultados, empresarios dedicándose a lo suyo y teniendo resultados en manera fácil y automatica
+   - Pantallas con gráficos de marketing.
+   - Personas trabajando con laptops en cafes sinestres y felices.
+   - Representaciones visuales de IA.
+Enrtre otras
+
+Industria: "Construcción"
+✅ Escenas prioritarias:
+   - Obreros, cascos, planos, edificios en construcción.
+   - ingeniweros y arquitectos tomando deciciones
+Obras terminadas, 
+Entre otras 
+
+📌 REGLA GENERAL:
+Si la IA deduce la industria de los datos disponibles (web, descripción, etc.), DEBE aplicar el estilo visual correspondiente para DALL-E.
+
+---
+
+🔧 SOLUCIÓN REQUERIDA:
+
+1. CREAR o ACTUALIZAR el skill de "Análisis de datos del perfil para IA"
+
+   Este skill debe:
+   ✅ Extraer TODOS los datos del usuario/negocio (aunque falte la industria).
+   ✅ Navegar la página web automáticamente y extraer palabras clave.
+   ✅ Leer descripción y audiencia objetivo.
+   ✅ DEDUCIR la industria principal.
+   ✅ Si la industria NO está seleccionada, sugerirla al usuario o usarla internamente.
+
+2. CREAR o ACTUALIZAR el skill de "Generación de imágenes por industria" dewbeagregarse a lo que ya tenemos de skill de genreacion de imágenes ósea complementarlo y actulizarlo
+
+   Este skill debe contener:
+   ✅ Un mapeo de INDUSTRIA → ESTILO VISUAL + ESCENAS PRIORITARIAS.
+   ✅ Instrucciones específicas para DALL-E sobre qué incluir y qué evitar.
+   ✅ Si no hay industria, deducirla del resto de los datos.
+
+3. CREAR un skill de "Navegador web automático para IA" creo ya existe revisar y si hace falta complementar 
+
+   Este skill debe:
+   ✅ Tomar la URL del negocio del formulario.
+   ✅ Navegar la página principal.
+   ✅ Extraer texto relevante (servicios, productos, misión, palabras clave).
+   ✅ Usar esa información para enriquecer el prompt de DALL-E.
+
+4. REVISAR el prompt actual que se le envía a DALL-E
+
+   Problema posible: El prompt es demasiado genérico.
+   
+   Ejemplo de prompt MALO:
+   "Genera una imagen profesional para un negocio"
+
+   Ejemplo de prompt BUENO (para energía solar):
+   "Genera una imagen de un techo residencial con paneles solares instalados, luz solar brillante, cielo despejado, estilo realista y profesional. 
+
+5. IMPLEMENTAR FALLBACK INTELIGENTE
+
+   Si el usuario NO tiene industria seleccionada:
+   ✅ Usar los datos de web + descripción + audiencia para deducir.
+   ✅ Si la deducción es clara (ej: "energía solar" aparece 5+ veces) → usar esa industria.
+   ✅ Si la deducción no es clara → preguntar al usuario o usar imágenes neutras.
+
+---
+
+🔁 ACCIONES ESPECÍFICAS QUE DEBE HACER REPLIT AHORA:
+
+1. REVISAR qué skills existen actualmente para y en caso necesario crearlo o complementar los existentes:
+   - Navegación automática de páginas web.
+   - Extracción de palabras clave de una web.
+   - Deducción de industria a partir de texto.
+   - Generación de imágenes DALL-E específicas por industria.
+
+2. SI NO EXISTEN → CREARLOS.
+3. SI EXISTEN PERO SON INCOMPLETOS → ACTUALIZARLOS.
+
+4. CORREGIR el prompt de DALL-E para la industria "Energía Solar":
+   - Priorizar techos con paneles.
+   - Evitar oficinas e interiores genéricos.
+Pero debe ser una solución general y centralizada para toda la web, industrias, negocios, usuarios, etc
+
+5. IMPLEMENTAR la deducción automática de industria:
+   - Aunque el usuario no la haya seleccionado.
+   - Usando web + descripción + audiencia.
+
+6. ASEGURAR que la IA navegue la página web del negocio automáticamente.
+
+7. PROBAR con el caso concreto "Energía Solar":
+   - Los posts sugeridos deben incluir TECHOS CON PANELES SOLARES como escena principal.
+
+---
+
+📌 NOTAS FINALES:
+
+Los textos están bien, el problema es EXCLUSIVAMENTE de DALL-E y de cómo la IA interpreta los datos disponibles.
+
+La solución NO es solo pedirle al usuario que seleccione la industria.
+La solución es que la IA SEA CAPAZ de DEDUCIR la industria de los datos que YA TIENE (web, descripción, audiencia).
+
+Además, DALL-E necesita instrucciones MUY ESPECÍFICAS sobre qué incluir y qué evitar para cada industria.
+
+✅ CRITERIO DE ÉXITO:
+Una empresa de energía solar, aunque no tenga seleccionada la industria, debe recibir posts sugeridos con imágenes de TECHOS y PANELES SOLARES, no oficinas genéricas.
+
+🔴 IMPORTANTE:
+Estructura centralizada. Todos estos skills deben estar disponibles para TODOS los usuarios y negocios de Hazpost.

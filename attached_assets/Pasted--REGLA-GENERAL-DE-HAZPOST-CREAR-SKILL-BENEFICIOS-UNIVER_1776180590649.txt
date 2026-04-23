@@ -1,0 +1,65 @@
+=== REGLA GENERAL DE HAZPOST (CREAR SKILL: BENEFICIOS UNIVERSALES) ===
+
+NOMBRE DEL SKILL:
+"Beneficios universales fuera de lista"
+
+REGLAS:
+
+1. En HAZPOST existen DOS categorías de funcionalidades:
+
+   CATEGORÍA A - BENEFICIOS DIFERENCIADORES (EJEMPLO 30 beneficios)
+   - Son EXACTAMENTE 30 beneficios (número de ejemplo, puede cambiar)
+   - Estos beneficios SÍ dependen del plan del usuario (Gratis, emprendedor, negocio, agencias,  etc.)
+   - Cada plan tiene habilitados algunos de estos BENEFICIOS DIFERENCIADORES y otros no
+   - Estos BENEFICIOS DIFERENCIADORES que para este ejemplo supuse son 30 son los únicos que USAMOS PARA DIFERENCIAR LOS PLANES
+
+   CATEGORÍA B - BENEFICIOS UNIVERSALES
+   - TODAS las demás funcionalidades de la plataforma que NO están en la lista de 30 (BENEFICIOS DIFERENCIADORES)
+   - Estas funcionalidades están DISPONIBLES PARA TODOS LOS USUARIOS
+   - No importa qué plan tengan, todos pueden usarlas
+
+2. REGLA DE ORO:
+   "Si una funcionalidad NO está en la lista de beneficios diferenciadores, entonces ESA FUNCIONALIDAD ES UNIVERSAL y TODOS los usuarios pueden usarla sin restricción de plan."
+
+3. EJEMPLO PRÁCTICO:
+
+   Supongamos que la lista de 30 a manera de ejemplo de beneficios diferenciadores incluye:
+   - "generar solo imagenes" (Plan Gratis tiene autorizado solo imágenes para publicación)
+- tipos de publicación: un plan puede tenener solo imágenes, e historias y otro todo tipo de publicacion: imágenes, historias, carrusel, reeles.
+
+   Ahora, la funcionalidad "Cambiar título de la página":
+   - NO está en la lista de beneficios diferenciadores
+   - Por lo tanto, según la regla, TODOS los usuarios pueden cambiar el título
+   - No importa si tienen plan Gratis, Básico o Premium
+
+4. OTROS EJEMPLOS DE FUNCIONALIDADES UNIVERSALES:
+   - Subir logo
+   - Ver cantidad de visitas
+   - Exportar datos básicos
+   - Cambiar nombre de usuario
+   - Cualquier otra función que NO esté en la lista de 30
+Lo que no este en la lista de BENEFICIOS DIFERENCIADORES
+5. ¿CÓMO DEBO APLICAR ESTA REGLA COMO IA?
+
+   PASO 1: Cuando te pida una funcionalidad nueva, pregunta:
+   "¿Esta funcionalidad debe estar en la lista de 30 beneficios diferenciadores o es universal?"
+
+   PASO 2: Si la respuesta es "universal" 
+   - Implementas la funcionalidad SIN restricciones de plan
+   - TODOS los usuarios la tienen disponible
+
+   PASO 3: Si la respuesta es "sí, debe estar BENEFICIOS DIFERENCIADORES ":
+   - La agregas a la lista de beneficios diferenciadores
+   - Luego definimos qué plan tiene acceso a ella
+
+6. RESUMEN PARA LA IA:
+   "En HAZPOST hay beneficios que diferencian los planes. CUALQUIER otra funcionalidad que no esté en esos 30 es UNIVERSAL y todos los usuarios pueden usarla, independientemente de su plan."
+
+ANTES DE EMPEZAR: Quiero recordarte que nuestro proyecto usa una arquitectura centralizada (Single Source of Truth).
+
+- Los datos de usuarios y negocios viven en [base de datos PostgreSQL / Replit DB]
+- El estado global se maneja con [Redux / Context API / Zustand]
+- La autenticación está en [archivo de ruta]
+- Los componentes reusables están en /src/components/shared/
+
+Por favor, confirma que entiendes esta estructura antes de sugerir cualquier cambio.

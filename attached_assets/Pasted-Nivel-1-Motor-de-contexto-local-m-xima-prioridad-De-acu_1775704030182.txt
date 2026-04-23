@@ -1,0 +1,40 @@
+Nivel 1 - Motor de contexto local (máxima prioridad)
+✅ De acuerdo.
+Lo que ya ha funcionado para el mismo usuario, en su mismo nicho, es la señal más valiosa. El top-5 de sus mejores posts (por ER%) debe ser la principal referencia para generar nuevo contenido. Esto respeta su estilo, voz y audiencia específica.
+
+Nivel 2 - Motor de contexto global por nicho
+✅ De acuerdo.
+Cuando el usuario aún tiene pocos datos propios (ejemplo: cuenta nueva o pocas publicaciones), el motor debe subir al siguiente nivel: todos los posts del mismo nicho en toda la plataforma. Prioriza primero el mismo nivel geográfico (su misma ciudad o país) y luego se amplía. Esto evita que un usuario nuevo arranque desde cero sin referencias.
+
+Nivel 3 - Detección de viralidad
+✅ De acuerdo.
+Una función periódica (ejemplo: cada 24h o cada semana) que analice todos los posts de todos los nichos, detecte aquellos con ER% anormalmente alto (outliers estadísticos), y los registre como "tendencia global activa". Esto permite reaccionar rápido a lo que está funcionando masivamente.
+
+Nivel 4 - Inspiración con inteligencia previa
+✅ De acuerdo.
+Al generar nuevo contenido, la IA debe recibir todo este contexto (local + nicho + tendencias) como "inteligencia previa". No se trata de copiar, sino de inspirarse en lo que ya demostró funcionar. La IA debe explicar por qué sugiere cierto formato o gancho basándose en los datos históricos.
+
+Nivel 5 - Herencia geográfica: Cali > Colombia > Global
+✅ De acuerdo.
+La priorización está clara:
+
+Lo que funciona en Cali (mismo ciudad) → se aplica a Cali
+
+Si no hay datos de Cali, se usa lo que funciona en Colombia
+
+Si no hay datos de Colombia, se usa lo que funciona a nivel Global
+Esto respeta que los mercados locales tienen comportamientos diferentes.
+
+Nivel 6 - Viralidad global rompe la jerarquía
+✅ De acuerdo.
+Esta es la única excepción. Si se detecta una tendencia viral global (formato, gancho, tipo de contenido) que está funcionando anormalmente bien en TODOS los nichos y ubicaciones, esa tendencia se debe aplicar inmediatamente sin esperar la herencia geográfica. Lo viral global tiene prioridad máxima porque captura momentum del mercado.
+
+Resumen de prioridades final (de mayor a menor importancia):
+
+Viralidad global (excepción que rompe todo)
+
+Contexto local del mismo usuario (top-5 propios)
+
+Herencia geográfica (Cali → Colombia → Global)
+
+Contexto global por nicho (cuando hay pocos datos propios)

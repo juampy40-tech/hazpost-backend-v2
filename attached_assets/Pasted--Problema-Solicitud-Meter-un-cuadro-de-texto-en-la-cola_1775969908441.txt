@@ -1,0 +1,41 @@
+•	Problema / Solicitud:
+•	Meter un cuadro de texto en la cola de producción que permita al usuario, cuando la publicación sea de un tema específico, incluir un texto personalizado en el post.
+•	Ese texto debe ir fuera del que genera la IA, con opción de ponerlo antes o después del texto de la IA.
+•	________________________________________
+•	Comportamiento esperado:
+•	1. Ubicación de la funcionalidad:
+•	Dentro de la cola de producción
+•	Al lado o cerca de donde se genera/publica cada publicación
+•	Accesible antes de generar/confirmar la publicación
+•	2. Configuración por tema:
+•	El usuario puede definir, para cada tema (ejemplo: "paneles solares", "carros eléctricos", etc.):
+•	Campo	•	Descripción
+•	Tema	•	Ej: "Paneles solares"
+•	Texto personalizado	•	Texto que el usuario quiere incluir
+•	Posición	•	[ Antes del texto IA ] o [ Después del texto IA ]
+•	3. Ejemplo concreto:
+•	text
+•	Tema: Paneles solares
+•	Texto personalizado: "¡Ahorra hasta un 70% en tu factura de luz!"
+•	Posición: Antes del texto IA
+•	
+•	Resultado final:
+•	"¡Ahorra hasta un 70% en tu factura de luz!" + [texto generado por IA]
+•	text
+•	Tema: Carros eléctricos
+•	Texto personalizado: "Consulta nuestros descuentos por pronto pago"
+•	Posición: Después del texto IA
+•	
+•	Resultado final:
+•	[texto generado por IA] + "Consulta nuestros descuentos por pronto pago"
+•	4. Flujo en la cola de producción:
+•	Usuario selecciona/ve una publicación en la cola de producción
+•	Según el tema de esa publicación, el sistema muestra el cuadro de texto pre-configurado (o permite configurarlo ahí mismo)
+•	Al generar/publicar, el texto personalizado se incluye automáticamente
+•	Se respeta la posición elegida (antes o después)
+•	Condición obligatoria:
+•	✅ Debe aplicarse en PRODUCCIÓN
+✅ Para todos los usuarios actuales (negocios activos)
+✅ Para todos los usuarios nuevos
+✅ Para toda la app (sin excepción)
+•	Si hace falta crear una nueva skill o función para implementar esto, crearla automáticamente y usarla.

@@ -1,0 +1,76 @@
+ Explicación para Replit (cambios necesarios en producción)
+1. Generador masivo – valor por defecto
+Problema: Por defecto viene en 10 posts.
+Solución:
+•	Predefinir en 5 posts automáticamente.
+•	El usuario puede aumentar o disminuir si quiere.
+________________________________________
+2. Sección Generador de Contenido – título principal
+Texto actual (local):
+"Genera contenido con IA para Cali y el Valle del Cauca — imágenes, reels y carruseles a escala."
+Cambiar por (global y profesional):
+"Genera contenido con IA: imágenes, reels y carruseles. La IA trabaja para ti, sin importar dónde estés."
+________________________________________
+3. Agregar campo "Slogan" en formulario inicial
+Objetivo:
+Que la IA tenga más contexto para generar mejores textos y posts.
+Solución:
+•	Agregar un campo de texto "Slogan del negocio" en el formulario de registro inicial.
+•	La IA debe usarlo en los textos de los posts y en la generación de contenido en general.
+________________________________________
+4. Problema con ID 3 – logo y firma no se guardan
+Problema actual:
+•	No deja cargar logo.
+•	La firma solo se usa una vez y se borra (no se guarda para futuros usos).
+Solución:
+•	Corregir guardado de logo y firma para el ID 3.
+•	Debe comportarse como el ID 1 (que sí guarda correctamente).
+________________________________________
+5. ID 1 – logo y firma guardados pero no usados en generador masivo
+Problema actual:
+El ID 1 sí guarda logo y firma correctamente, pero cuando se usa el generador masivo, no los toma en cuenta.
+Solución:
+•	El generador masivo debe leer y aplicar el logo y la firma que ya están guardados para el usuario/negocio.
+•	No pedirlos de nuevo. Usar los guardados por defecto.
+________________________________________
+6. Error al generar posts masivos – cola vacía hasta refrescar
+Problema actual:
+•	Al generar posts masivos, la web redirige a la cola de aprobación.
+•	Muestra "Cola vacía" aunque los posts se generaron.
+•	Si se refresca la página, sí aparecen los posts.
+Solución:
+•	Corregir el error de actualización/estado después de la generación masiva.
+•	La cola de aprobación debe mostrar los posts inmediatamente sin necesidad de refrescar.
+________________________________________
+7. Tipografías – fuente "Eco" y "HazPost" predeterminadas
+Problema actual:
+Las fuentes "Eco" y "HazPost" existen pero no aparecen seleccionadas ni en la lista de tipografías.
+Solución:
+•	Agregar la tipografia de eco con el nombre que es de la tipo grafia o creale un nombre como opciones en el selector de tipografías.
+•	La tipografía que esté usando actualmente el usuario debe aparecer seleccionada por defecto. Y siempre abre en esa que use el que allá usado la ultima vez.
+•	Agregar una tipografía nueva más al selector.
+8. Sección de selección de logo en la cola de aprobación donde uno lo escoge para generar nuevas fotos – cambiar nombres de opciones
+Problema actual:
+Las opciones para elegir el logo dicen:
+•	"Blanco"
+•	"Azul"
+•	"Solo icono"
+Esto está mal porque:
+•	No siempre el logo será blanco o azul.
+•	El usuario puede subir cualquier logo de cualquier color.
+•	"Solo icono" tampoco es genérico ni profesional.
+Solución:
+Cambiar esas 3 opciones por:
+1, 2, 3
+Explicación:
+•	El usuario puede subir 3 variantes de logo (como ya se definió antes).
+•	Simplemente se numeran como Opción 1, Opción 2, Opción 3.
+•	El usuario decide qué variante usar en cada post sin que la app le imponga nombres de colores o tipos.
+Adicional:
+•	El usuario puede subir cualquier logo con cualquier color (blanco, azul, negro, dorado, etc.).
+•	La app no debe asumir colores. Solo mostrar "1", "2", "3"
+
+________________________________________
+⚙️ Condición final (importante)
+Todos estos cambios deben aplicarse en producción, para todos los usuarios y negocios, es decir, generales para toda la app.
+Si falta alguna habilidad nueva (skill) para implementar esto, crédala.

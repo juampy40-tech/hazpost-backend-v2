@@ -1,0 +1,33 @@
+Otro tema
+Regla principal:
+Cada vez que generes contenido masivo (por ejemplo, para 7 días o un lote de 10+ piezas), al menos el 80% del contenido debe ser completamente nuevo (diseños, personajes, títulos, ángulos visuales). Solo el 20% puede reciclar elementos anteriores, y nunca de forma completa.
+1. Sobre imágenes y fondos
+•	Los fondos generados se guardarán automáticamente en una carpeta "Fondos usados" para que yo pueda reutilizarlos manualmente en publicaciones futuras si quiero.
+Pero la IA puede reutilizar fondos por sí sola pero al menos el 80% del contenido debe ser completamente nuevo (diseños, personajes, títulos, ángulos visuales). Solo el 20% puede reciclar elementos anteriores, y nunca de forma completa.
+•	En cada generación masiva: mínimo 80% de las imágenes deben tener fondos, paletas de colores y composiciones nuevas.
+•	Los personajes deben variar: diferentes estilos, edades, contextos, profesiones o incluso ilustraciones abstractas. No repetir el mismo personaje en más del 20% del lote.
+2. Sobre títulos y textos
+•	No repetir titulares principales ya usados en generaciones anteriores, puede usar segundarios ejemplo en un carrusel el tema y primera imagen debe ser nuevo, pero el de la imagen 3 puede ser uno ya usado que allá generado buenos resultados o creas que lo necesitas.
+•	Cada título debe ser único y relevante al diseño nuevo que lo acompaña.
+•	Si hay una "fórmula" que funcionó (ej: "Nunca hagas esto en [tema]"), se permite 1 vez por lote máximo, cambiando completamente el ejemplo y el enfoque.
+3. Para carruseles (especial importante)
+•	Si el contenido es un carrusel y decides incluir alguna diapositiva ya usada anteriormente:
+o	Solo se permite 1 diapositiva reciclada por cada 5 del carrusel.
+o	La primera diapositiva (la principal) siempre debe ser nueva: diseño, título y gancho.
+o	Las diapositivas recicladas no pueden ser las primeras 2. O en reels que usamos imagenes
+o	Ejemplo: Carrusel de 5 slides → 4 nuevas, 1 reciclada al final o en posición 4.
+4. Control de repetición (lógica para el código)
+Implementa esta lógica:
+•	Lleva un registro de los últimos 50 títulos y descripciones generados.
+•	Antes de generar nuevo contenido, revisa si el nuevo título o idea tiene >60% de similitud semántica con alguno anterior. Si es así, recházalo y regenera.
+•	Guarda un hash de cada diseño de fondo usado y no lo repitas en al menos 4 lotes siguientes.
+•	
+✅ Ejemplo de resultado esperado
+Cojsmos de ejemplo el carrusel, 5 carruseles:
+•	Carrusel 1: 5 slides → 4 nuevos fondos + 1 fondo antiguo al final. Título nuevo.
+•	Carrusel 2: 100% nuevo (personaje nuevo, fondo nuevo, título nuevo).
+•	Carrusel 3: 80% nuevo (recicla 1 slide no principal).
+•	Carrusel 4 y 5: completamente nuevos.
+Sin repeticiones de títulos ni personajes principales en todo el lote.
+•	________________________________________
+

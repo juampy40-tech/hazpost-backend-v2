@@ -1,0 +1,74 @@
+📝 Skill actualizado: "Massive Post Generator v2.0"
+markdown
+# Massive Post Generator Skill v2.0
+
+## 🎯 Objetivo principal
+Generar posts masivos de alta calidad, creativos y no repetitivos, que aprenden del comportamiento del usuario para mejorar continuamente.
+
+---
+
+## 📋 Regla 1: Generación de imágenes (OBLIGATORIA)
+Para CADA post (usuario o negocio, cualquier industria):
+1. PRIMERO genera título y texto del post
+2. SOLO DESPUÉS envía ese título+texto a DALL-E
+3. La imagen debe basarse ESTRICTAMENTE en ese contenido
+4. NUNCA generar imagen sin texto previo
+
+---
+
+## 📋 Regla 2: Rotación de nichos
+- Un mismo nicho NO puede repetirse en menos de 15 días
+- Si hay menos de 15 nichos: días = cantidad de nichos (ej: 10 nichos = repetir cada 10 días)
+- Nichos exitosos (alto engagement): pueden repetir cada 15 días
+- Máximo 7 nichos pueden estar en categoría "frecuente"
+- IDEAL: entre menos se repitan, mejor
+
+---
+
+## 📋 Regla 3: Variedad y creatividad
+- CADA imagen debe ser completamente diferente
+- Revisar los ÚLTIMOS 60 POSTS antes de generar uno nuevo
+- El nuevo post debe ser diferente en: tema, estilo visual, enfoque, colores
+- PROHIBIDO repetir estilos o composiciones
+
+---
+
+## 📋 Regla 4: Personalización y aprendizaje del usuario (NUEVO)
+
+### 4.1 Analizar gustos del usuario desde el registro
+- Revisar el formulario de registro (industria, intereses, preferencias declaradas, descripción negocio, etc) navegar la web 
+- Identificar categorías que mencionó explícitamente
+- Usar eso como punto de partida
+
+### 4.2 Aprender de resultados de posts anteriores (FEEDBACK LOOP)
+Para CADA post generado, registrar:
+- ✅ **Aceptado** (el usuario lo publica o le da like)
+- ❌ **Rechazado** (el usuario lo descarta o lo marca como no deseado)
+- 😐 **Sin interacción** (el usuario lo ignora)
+
+### 4.3 Sistema de pesos y preferencias
+- **Post aceptado:** +10 puntos al tema/nicho/imagen estilo usado
+- **Post rechazado:** -5 puntos (evitar ese estilo/tema en el futuro)
+- **Post sin interacción:** 0 puntos (neutral, pero revisar si se repite)
+
+### 4.4 Análisis de estadísticas
+- Cada 7 días, generar reporte de:
+  - Qué nichos tienen más aceptación
+  - Qué estilos de imagen funcionan mejor
+  - Qué horarios/días generan más engagement
+  - Qué formato de título funciona mejor
+
+### 4.5 Enfoque adaptativo
+- **A corto plazo:** Priorizar temas/estilos con puntuación alta (+10)
+- **A mediano plazo:** Si un nicho tiene 3 rechazos seguidos, suspenderlo por 30 días
+- **A largo plazo:** Construir perfil detallado del usuario (qué le gusta, qué odia, qué ignora)
+
+---
+
+## 📋 Regla 5: Calidad y mejora continua
+- Cada post debe sentirse ÚNICO y CREATIVO
+- No se permite contenido genérico o repetitivo
+- La IA debe demostrar trabajo creativo real
+- **El sistema debe ser más inteligente cada semana** basado en el feedback del usuario
+
+---

@@ -1,0 +1,3907 @@
+<!-- wp:html -->
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+    <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self'; 
+  script-src 'self' https://connect.facebook.net https://cdn.jsdelivr.net https://www.googletagmanager.com; 
+  style-src 'self' https://fonts.googleapis.com 'nonce-${randomNonce}'; 
+  img-src 'self' data: https://eco-col.com https://www.eco-col.com https://facebook.com https://www.facebook.com; 
+  font-src 'self' https://fonts.gstatic.com; 
+  connect-src 'self' https://www.google-analytics.com https://connect.facebook.net https://*.facebook.com https://*.facebook.net;
+  frame-src 'none'; 
+  object-src 'none'; 
+  base-uri 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <title>Simulador Solar en Cali y Colombia | Compra tu Sistema o PPA Sin Inversión | ECO ☀️</title>
+<meta name="description" content="Calcula tu ahorro con paneles solares en Colombia: Compra tu sistema con retorno en 3-5 años o elige PPA sin inversión inicial. ¡Cotiza en 30 segundos! Instalación en Cali, Bogotá, Medellín y todo el Valle del Cauca.">
+
+
+    <!-- === FAVICON Y PRELOADS === -->
+    <link rel="icon" href="https://eco-col.com/favicon.ico" sizes="any">
+    <link rel="icon" href="https://eco-col.com/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="https://eco-col.com/apple-touch-icon.png">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+
+<!-- Agregar estas líneas para las librerías de generación de PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- === VERIFICACIONES Y METADATOS === -->
+    <meta name="google-site-verification" content="uXo78Nn6brIb3uOxaCnRAYB9hDIpy2h6yeFPBWCCyCw"/>
+    <meta name="ahrefs-site-verification" content="54XnmfYrvGNaPosWApV4xg">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta http-equiv="content-language" content="es-CO">
+    <meta name="author" content="Juan Pablo Yanguas - Energy Capital Operation">
+    <meta name="keywords" content="paneles solares Colombia, energía solar, simulador solar, contrato PPA, compra paneles solares, ahorro energía solar">
+
+    <!-- Geo & Local SEO -->
+    <meta name="geo.region" content="CO-VAC">
+    <meta name="geo.placename" content="Cali, Valle del Cauca, Colombia">
+    <meta name="geo.position" content="3.4516;-76.5320">
+    <meta name="ICBM" content="3.4516, -76.5320">
+
+    <!-- Canonical & Alternate URLs -->
+    <link rel="canonical" href="https://eco-col.com/simuladores/">
+    <link rel="alternate" hreflang="es-CO" href="https://eco-col.com/simuladores/">
+
+    <!-- Seguridad mejorada -->
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' https://fonts.googleapis.com 'nonce-${randomNonce}'; img-src 'self' data: https://eco-col.com https://www.eco-col.com https://facebook.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://connect.facebook.net; frame-src 'none'; object-src 'none'; base-uri 'self';">
+
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Energy Capital Operation (ECO)",
+      "url": "https://eco-col.com",
+      "logo": "https://eco-col.com/wp-content/uploads/logo-eco-col.png",
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=61565447362420&locale=es_LA",
+        "https://www.instagram.com/eco.sas",
+        "https://www.tiktok.com/@eco.col"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Carrera 66# 1C-30",
+        "addressLocality": "Cali",
+        "addressRegion": "Valle del Cauca",
+        "postalCode": "760035",
+        "addressCountry": "CO"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "3.4516",
+        "longitude": "-76.5320"
+      },
+      "telephone": "+573011285672",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:00",
+        "closes": "18:00"
+      }
+    }
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Simulador Solar ECO - Compra y PPA en Colombia">
+    <meta property="og:description" content="Calcula tu ahorro con energía solar en Colombia. Compara opciones: Compra del sistema o Contrato PPA sin inversión inicial.">
+    <meta property="og:url" content="https://eco-col.com/simuladores/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.eco-col.com/wp-content/uploads/2025/06/Solar-Energy-Banner2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Instalación de paneles solares en Colombia por Energy Capital Operation">
+    <meta property="og:site_name" content="Energy Capital Operation">
+    <meta property="og:locale" content="es_CO">
+
+    <!-- Preload & Performance -->
+    <link rel="preload" href="https://www.eco-col.com/wp-content/uploads/2025/06/Solar-Energy-Banner2.png" as="image" fetchpriority="high">
+    <link rel="dns-prefetch" href="//eco-col.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Google Analytics Optimizado -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      var script = document.createElement('script');
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-5T54TXWFKS';
+      script.async = true;
+      script.integrity = 'sha384-...';
+      script.crossOrigin = 'anonymous';
+      document.head.appendChild(script);
+      
+      gtag('config', 'G-5T54TXWFKS', {
+        'anonymize_ip': true,
+        'cookie_domain': 'auto',
+        'cookie_flags': 'SameSite=None;Secure'
+      });
+    </script>
+    
+    <!-- Estilos CSS optimizados -->
+    <style>
+        :root {
+            --color-primary: #0066cc;
+            --color-primary-dark: #0052a3;
+            --color-secondary: #1a73e8;
+            --color-secondary-dark: #1557b0;
+            --color-accent: #ff9800;
+            --color-accent-dark: #e68a00;
+            --color-dark: #202124;
+            --color-dark-light: #3c4043;
+            --color-light: #f8f9fa;
+            --color-light-dark: #e8eaed;
+            --color-border: #dadce0;
+            --color-text: #3c4043;
+            --color-success: #34a853;
+            --color-success-dark: #2d8e49;
+            --color-warning: #f9ab00;
+            --color-danger: #ea4335;
+            --color-danger-dark: #d33426;
+            --color-white: #ffffff;
+            --color-black: #000000;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        /* Estilos optimizados (se han compactado selectores similares) */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text);
+            background-color: var(--color-light);
+            scroll-behavior: smooth;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--color-dark);
+            margin-top: 0;
+            font-weight: 600;
+        }
+        
+        h1 { font-size: 2.2rem; }
+        h2 { font-size: 1.8rem; }
+        h3 { font-size: 1.5rem; }
+        h4 { font-size: 1.3rem; }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+        
+        .logo, .logo img {
+            max-width: 250px;
+            margin: 0 auto 20px;
+            height: auto;
+        }
+        
+        .slogan {
+            font-size: 1.2em;
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .intro-container {
+            background-color: var(--color-white);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+            border-left: 6px solid var(--color-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%230066cc" opacity="0.05"><path d="M50 0L100 50L50 100L0 50Z"/></svg>') no-repeat;
+            background-size: contain;
+        }
+        
+        .intro-title {
+            font-size: 1.8em;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+            position: relative;
+        }
+        
+        .intro-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--color-accent);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .benefits-list {
+            margin: 20px 0;
+            padding-left: 20px;
+            list-style-type: none;
+        }
+        
+        .benefits-list li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 35px;
+            font-size: 1.05em;
+        }
+        
+        .benefits-list li:before {
+            content: "✓";
+            color: var(--color-success);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+        
+        .important-note {
+            background-color: #fff8e6;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 6px solid var(--color-accent);
+            margin-top: 25px;
+            position: relative;
+        }
+        
+        .important-note::before {
+            content: "📢";
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            font-size: 1.5em;
+        }
+        
+        .important-note p {
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .important-note p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .simulator-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .simulator-option {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--color-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .simulator-option:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .simulator-header {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
+            padding: 18px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.3em;
+            letter-spacing: 0.5px;
+        }
+        
+        .simulator-header.ppa {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+        }
+        
+        .simulator-content {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--color-dark);
+            font-size: 1.05em;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: var(--color-light);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--color-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            font-weight: 600;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            box-shadow: 0 4px 6px rgba(0, 102, 204, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .calculate-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 102, 204, 0.3);
+        }
+        
+        .calculate-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .calculate-btn.ppa {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+            box-shadow: 0 4px 6px rgba(26, 115, 232, 0.2);
+        }
+        
+        .calculate-btn.ppa:hover {
+            box-shadow: 0 6px 12px rgba(26, 115, 232, 0.3);
+        }
+        
+        .result-container {
+            display: none;
+            margin-top: 40px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-header {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0;
+            text-align: center;
+            font-size: 1.4em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .result-header.ppa {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+        }
+        
+        .result-content {
+            background-color: var(--color-white);
+            padding: 30px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--color-border);
+            border-top: none;
+        }
+        
+        .result-item {
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 12px;
+            align-items: center;
+        }
+        
+        .result-label {
+            font-weight: 500;
+            color: var(--color-dark);
+            font-size: 1.05em;
+        }
+        
+        .highlight {
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .highlight.ppa {
+            color: var(--color-secondary);
+        }
+        
+        #ppa-resultado .resultados-bar .result-item {
+            display: block;
+        }
+        
+        #ppa-resultado .result-label {
+            margin-bottom: 5px;
+        }
+        
+        #ppa-resultado .highlight {
+            display: inline;
+        }
+        
+        .retorno-inversion {
+            color: var(--color-success);
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-top: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+        
+        .projection-table th {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)) !important;
+            color: var(--color-white) !important;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+        
+        .projection-table th, .projection-table td {
+            border: 1px solid var(--color-border);
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .projection-table.ppa th {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark)) !important;
+        }
+        
+        .projection-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .projection-table tr:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .fila-total, .fila-total td {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)) !important;
+            color: var(--color-white) !important;
+            font-weight: 500;
+        }
+        
+        .fila-total.ppa, .fila-total.ppa td {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark)) !important;
+        }
+        
+        .recuperado {
+            background-color: rgba(0, 166, 81, 0.1) !important;
+            font-weight: bold;
+        }
+        
+        .chart-container {
+            margin: 35px 0;
+            padding: 25px;
+            background: var(--color-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            height: 350px;
+            width: 100%;
+            border: 1px solid var(--color-border);
+        }
+        
+        .chart-title {
+            color: var(--color-primary);
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .chart-title.ppa {
+            color: var(--color-secondary);
+        }
+        
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 350px;
+        }
+        
+        .environmental-benefits {
+            margin-top: 20px;
+            padding: 25px;
+            background-color: #f0f7ff;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 102, 204, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .environmental-benefits::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%230066cc" opacity="0.05"><path d="M50 0A50 50 0 1 1 0 50A50 50 0 0 1 50 0Z"/></svg>') no-repeat;
+            background-size: contain;
+        }
+        
+        .environmental-benefits.ppa {
+            background-color: #e8f0fe;
+            border-color: rgba(26, 115, 232, 0.1);
+        }
+        
+        .environmental-title {
+            color: var(--color-primary);
+            margin-top: 0;
+            font-size: 1.3em;
+            position: relative;
+        }
+        
+        .environmental-title::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--color-primary);
+            margin: 10px 0 15px;
+            border-radius: 2px;
+        }
+        
+        .environmental-title.ppa {
+            color: var(--color-secondary);
+        }
+        
+        .environmental-title.ppa::after {
+            background: var(--color-secondary);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            background: var(--color-white);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .benefit-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .benefit-icon {
+            margin-right: 15px;
+            font-size: 2em;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .note {
+            font-size: 14px;
+            color: var(--color-dark-light);
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 6px solid var(--color-border);
+        }
+        
+        .total-acumulado {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
+            font-weight: 600;
+            font-size: 1.2em;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 25px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .total-acumulado.ppa {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+        }
+        
+        .comparison-container {
+            margin: 40px 0;
+            padding: 30px;
+            background: var(--color-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--color-border);
+        }
+        
+        .comparison-title {
+            color: var(--color-primary);
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        
+        .comparison-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--color-accent);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .comparison-column {
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .comparison-column:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .comparison-column.energy {
+            background-color: #f0f7ff;
+            border-left: 6px solid var(--color-primary);
+        }
+        
+        .comparison-column.ppa {
+            background-color: #e8f0fe;
+            border-left: 6px solid var(--color-secondary);
+        }
+        
+        .comparison-header {
+            font-weight: 600;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--color-dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .comparison-header::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--color-dark-light);
+            margin: 10px auto 0;
+            border-radius: 2px;
+            opacity: 0.3;
+        }
+        
+        .comparison-item {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--color-border);
+        }
+        
+        .comparison-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .comparison-value {
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+        
+        .comparison-conclusion {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #fff8e6;
+            border-radius: 8px;
+            border-left: 6px solid var(--color-accent);
+            font-size: 1.05em;
+        }
+        
+        .testimonial-card {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 30px;
+            background: var(--color-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--color-border);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+       .testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 60px;
+    color: rgba(0, 102, 204, 0.1);
+    font-family: serif;
+    line-height: 1;
+}
+        
+        .testimonial-rating {
+            color: #ffcc00;
+            font-size: 1.3em;
+            margin: 15px 0;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+        
+        .testimonial-quote {
+            font-style: italic;
+            margin: 25px 0;
+            padding: 0 20px;
+            text-align: center;
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: var(--color-dark);
+        }
+        
+        .testimonial-author {
+            text-align: right;
+            font-weight: 600;
+            margin-top: 20px;
+            color: var(--color-dark);
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: var(--color-dark-light);
+            font-size: 0.9em;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        
+        .tooltip-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--color-dark);
+            color: var(--color-white);
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+            font-weight: normal;
+            line-height: 1.5;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--color-dark) transparent transparent transparent;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .error-message {
+            color: var(--color-danger);
+            background-color: #fdf7f7;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 6px solid var(--color-danger);
+            margin-bottom: 25px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--color-primary);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .tab-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            background-color: #f0f7ff;
+            margin-right: 5px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            color: var(--color-primary);
+            transition: var(--transition);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        .tab:hover {
+            background-color: #e0f0ff;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
+        }
+        
+        .tab.ppa.active {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+            color: var(--color-white);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-box.ppa {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark));
+        }
+        
+        .cta-box::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        .cta-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            color: #FFD700;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--color-white);
+            color: var(--color-primary);
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: var(--transition);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            color: var(--color-primary-dark);
+        }
+        
+        .cta-button.ppa {
+            color: var(--color-secondary);
+        }
+        
+        .cta-button.ppa:hover {
+            color: var(--color-secondary-dark);
+        }
+        
+        .benefit-box {
+            background-color: rgba(0, 102, 204, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--color-primary);
+        }
+        
+        .benefit-box.ppa {
+            background-color: rgba(26, 115, 232, 0.1);
+            border-left-color: var(--color-secondary);
+        }
+        
+        .benefit-title {
+            color: var(--color-primary);
+            margin-top: 0;
+            font-weight: 600;
+        }
+        
+        .benefit-title.ppa {
+            color: var(--color-secondary);
+        }
+        
+        .fifteen-year-summary {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+        }
+        
+        .fifteen-year-title {
+            color: var(--color-secondary);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .fifteen-year-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--color-secondary);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .coverage-area {
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .coverage-title {
+            font-size: 1.8em;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .coverage-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--color-accent);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .coverage-cities {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .city-tag {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+        
+        .resultados-bar {
+            background-color: #e6f2ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid var(--color-primary);
+            color: #333;
+        }
+        
+        .resultados-bar .result-item:last-child {
+            background-color: #e6f2ff;
+            border-bottom: none;
+            padding: 10px;
+            margin: 0 -15px -15px -15px;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .publicidad-llamativa {
+            background: linear-gradient(135deg, #4fc3f7, #2196f3);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+            font-size: 1.1em;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .publicidad-llamativa button {
+            background-color: #FFD700;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .publicidad-llamativa button:hover {
+            background-color: #FFC000;
+            transform: translateY(-2px);
+        }
+        
+        /* Sección de Garantías */
+        .guarantees {
+            background-color: #f5f9ff;
+            padding: 70px 0;
+            border-top: 1px solid rgba(0,102,204,0.1);
+            border-bottom: 1px solid rgba(0,102,204,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .guarantees::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%230066cc" opacity="0.05"><path d="M50 0A50 50 0 1 1 0 50A50 50 0 0 1 50 0Z"/></svg>') no-repeat;
+            background-size: contain;
+        }
+        
+        .section-title {
+            text-align: center;
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--color-accent);
+            margin: 15px auto 25px;
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--color-dark-light);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+        }
+        
+        .guarantee-item {
+            position: relative;
+            background: white;
+            padding: 35px 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-top: 4px solid var(--color-primary);
+            overflow: hidden;
+        }
+        
+        .guarantee-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,102,204,0.15);
+        }
+        
+        .guarantee-item h3 {
+            color: var(--color-primary);
+            font-size: 1.3rem;
+            margin: 20px 0 15px;
+            position: relative;
+        }
+        
+        .guarantee-item h3::after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 3px;
+            background: var(--color-accent);
+            margin: 10px 0 15px;
+        }
+        
+        .guarantee-item p {
+            color: var(--color-dark-light);
+            min-height: 60px;
+        }
+        
+        .guarantee-details {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--color-border);
+        }
+        
+        .guarantee-details span {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--color-dark);
+            font-size: 0.9rem;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .guarantee-details span::before {
+            content: "✓";
+            color: var(--color-success);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .guarantee-cta {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .guarantee-cta p {
+            font-size: 1.2rem;
+            color: var(--color-dark);
+            margin-bottom: 20px;
+        }
+        
+        /* Media Queries optimizadas */
+        @media (max-width: 768px) {
+            .simulator-option, .benefits-grid, .guarantee-grid {
+                min-width: 100%;
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .projection-table, .projection-table th, .projection-table td {
+                font-size: 12px;
+                padding: 10px 8px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .intro-container, .result-content {
+                padding: 20px;
+            }
+            
+            .guarantees {
+                padding: 50px 0;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .guarantee-item {
+                padding: 25px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .chart-container {
+                height: 250px;
+                padding: 15px;
+            }
+            
+            .tab-container {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+            
+            .tab {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            
+            .benefits-list li {
+                padding-left: 30px;
+                font-size: 1em;
+            }
+            
+            .important-note {
+                padding: 15px;
+            }
+            
+            .important-note p {
+                padding-left: 25px;
+            }
+            
+            .testimonial-card {
+                padding: 20px;
+            }
+            
+            .testimonial-quote {
+                font-size: 1em;
+                margin: 20px 0;
+            }
+            
+            .cta-box {
+                padding: 20px;
+            }
+            
+            .cta-title {
+                font-size: 1.5em;
+            }
+            
+            .cta-subtitle {
+                font-size: 1em;
+            }
+.download-btn {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.download-btn:hover {
+    background-color: #003366;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.download-btn:active {
+    transform: translateY(0);
+}
+
+.eco-logo-pdf {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    opacity: 0.3;
+    z-index: 1000;
+}
+     }
+    </style>
+
+    <!-- Schema adicional -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["WebApplication", "Simulator"],
+      "name": "Simulador Solar ECO",
+      "description": "Calcula tu ahorro con paneles solares en Colombia con opciones de compra o PPA sin inversión inicial",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "COP"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Energy Capital Operation (ECO)",
+        "url": "https://eco-col.com"
+      },
+      "interactionStatistic": {
+        "@type": "InteractionCounter",
+        "interactionType": "http://schema.org/UseAction",
+        "userInteractionCount": "5000"
+      },
+      "potentialAction": {
+        "@type": "Action",
+        "actionStatus": "PotentialActionStatus",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://eco-col.com/simuladores/",
+          "actionPlatform": [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    }
+    </script>
+<script>
+!function(f,b,e,v,n,t,s){
+  if(f.fbq)return;
+  n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+  t=b.createElement(e);t.async=!0;t.src=v;
+  s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
+}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+// Configuración básica del píxel
+fbq('init', '748512984219396');
+fbq('track', 'PageView');
+
+// Función para cargar el píxel de manera asíncrona
+function loadMetaPixel() {
+  if(typeof fbq === 'undefined') {
+    var script = document.createElement('script');
+    script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+    
+    // Configuración después de cargar
+    script.onload = function() {
+      fbq('init', '748512984219396');
+      fbq('track', 'PageView');
+      
+      // Procesar eventos en cola si los hay
+      if(window._pendingPixelEvents) {
+        window._pendingPixelEvents.forEach(function(event) {
+          fbq('track', event.eventName, event.eventData);
+        });
+        window._pendingPixelEvents = [];
+      }
+    };
+  }
+}
+
+// Función mejorada para trackear eventos
+function trackMetaPixelEvent(eventName, eventData) {
+  // Verificar si el píxel está cargado
+  if(typeof fbq === 'undefined') {
+    // Si no está cargado, poner en cola el evento
+    window._pendingPixelEvents = window._pendingPixelEvents || [];
+    window._pendingPixelEvents.push({
+      eventName: eventName,
+      eventData: eventData
+    });
+    
+    // Intentar cargar el píxel
+    loadMetaPixel();
+    return;
+  }
+  
+  // Añadir datos automáticos
+  const enhancedData = Object.assign({
+    content_ids: ['solar_simulator'],
+    content_type: 'product',
+    currency: 'COP',
+    event_time: Math.floor(Date.now() / 1000),
+    url: window.location.href
+  }, eventData);
+  
+  // Enviar el evento
+  fbq('track', eventName, enhancedData);
+  
+  // También enviar a GA4 si está disponible
+  if(typeof gtag === 'function') {
+    gtag('event', eventName.toLowerCase(), enhancedData);
+  }
+}
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none" 
+       src="https://www.facebook.com/tr?id=748512984219396&ev=PageView&noscript=1"/>
+</noscript>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="banner">
+                <img src="https://www.eco-col.com/wp-content/uploads/2025/06/Solar-Energy-Banner2.png" alt="ECO Energy Capital Operation - Paneles Solares en Colombia" loading="lazy" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-sm);">
+            </div>
+        </header>
+
+        <main role="main">
+            <section aria-labelledby="simulador-heading">
+                <h1 id="simulador-heading" class="intro-title">¡Descubre cuánto puedes ahorrar con energía solar en Colombia!</h1>
+                
+                <section class="intro-container" aria-label="Introducción a energía solar">
+                    <p>En <strong>Energy Capital Operation (ECO)</strong> te ayudamos a tomar la mejor decisión para reducir tus costos de energía eléctrica. Nuestro simulador te muestra en menos de <strong>30 segundos:</strong></p>
+                    
+                    <ul class="benefits-list">
+                        <li><strong>Compra del sistema:</strong> Invierte en paneles solares y ahorra hasta el 100% de tu factura con retorno de inversión en pocos años</li>
+                        <li><strong>Contrato PPA:</strong> Sin inversión, comienza a ahorrar desde el primer mes con paneles solares</li>
+                        <li><strong>Beneficios tributarios:</strong> Aprovecha deducciones del 50% en tus impuestos según la ley colombiana (Solo para compra)</li>
+                        <li><strong>Sostenibilidad:</strong> Reduce tu huella de carbono y contribuye al medio ambiente con energía 100% limpia</li>
+                    </ul>
+                    
+                    <div class="important-note">
+                        <p><strong>Importante:</strong></p>               
+                        <p><strong>Opciones sin inversión:</strong> Con nuestro contrato PPA comienzas a ahorrar desde el primer mes (promedio 20% en tu factura)</p>
+                        <p><strong>Compra de sistema:</strong> Ahorro hasta 100% según características técnicas con retorno de inversión entre 2-5 años</p>
+                        <p><strong>Asesoría personalizada:</strong> Para cotización más exacta <strong>contáctanos al</strong> <a href="tel:+573011285672" style="color: var(--color-primary); font-weight: bold; text-decoration: none;">+57 301 1285672</a></p>
+                        <p><strong>Estas cotizaciones:</strong> Cubren hasta 20 metros de cable</p>
+                        <p><strong>Síguenos en redes:</strong> <a href="https://www.tiktok.com/@eco.col" target="_blank" rel="noopener nofollow" style="color: var(--color-primary); text-decoration: none;">TikTok @eco.col</a> | <a href="https://www.instagram.com/eco.sas" target="_blank" rel="noopener nofollow" style="color: var(--color-primary); text-decoration: none;">Instagram @eco.sas</a> | <a href="https://www.facebook.com/profile.php?id=61565447362420" target="_blank" rel="noopener nofollow" style="color: var(--color-primary); text-decoration: none;">Facebook Eco</a></p>
+                    </div>
+                </section>
+
+                <!-- Simulador de Compra -->
+                <div id="compra-tab" class="tab-content active">
+                    <div class="simulator-container">
+                        <div class="simulator-option">
+                            <div class="simulator-header">Compra del Sistema Solar</div>
+                            <div class="simulator-content">
+                                <div class="form-group">
+                                    <label for="compra-kwh-promedio">Consumo promedio mensual (últimos 6 meses) (kWh):<div class="tooltip"><span class="tooltip-icon">?</span>
+                                        <span class="tooltiptext">Revisa tus facturas de energía de los últimos 6 meses, suma los kWh consumidos y divide entre 6. Si no tienes acceso, usa el consumo de tu última factura.</span>
+                                    </div></label>
+                                    <input type="number" id="compra-kwh-promedio" step="0.01" placeholder="Ej: 450" min="1" max="800000">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="compra-valor-factura">Valor pagado en última factura (solo energía, COP):<div class="tooltip"><span class="tooltip-icon">?</span>
+                                        <span class="tooltiptext">Busca en tu factura el valor correspondiente solo al consumo de energía (kWh), excluyendo cargos fijos, alumbrado público u otros conceptos.</span>
+                                    </div></label>
+                                    <input type="text" id="compra-valor-factura" placeholder="Ej: $ 350.000" oninput="formatoMonedaInput(this)">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="compra-kwh-facturados">Total kWh facturados último mes:<div class="tooltip"><span class="tooltip-icon">?</span>
+                                        <span class="tooltiptext">Es el total de kilovatios-hora (kWh) que aparecen en tu última factura de energía como consumo mensual.</span>
+                                    </div></label>
+                                    <input type="number" id="compra-kwh-facturados" step="0.01" placeholder="Ej: 420" min="1" max="800000">
+                                </div>
+                                
+                                <!-- Selector de Simulador -->
+                                <div class="tab-container" style="margin: 20px 0; justify-content: center;">
+                                    <div class="tab active" onclick="showTab('compra')">Compra del Sistema</div>
+                                    <div class="tab ppa" onclick="showTab('ppa')">Contrato PPA (Sin Inversión)</div>
+                                </div>
+                                
+                                <button class="calculate-btn" onclick="calcularSistemaCompra()">CALCULAR MI AHORRO</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resultados Compra -->
+                    <div id="compra-resultado" class="result-container">
+                        <h3 class="result-header">Resultados para la compra tu Sistema Solar</h3>
+                        
+                        <div class="result-content">
+                            <div class="benefit-box">
+                                <h4 class="benefit-title">¡Inversión inteligente con ECO!</h4>
+                                <p>Al comprar tu sistema solar con <strong>Energy Capital Operation</strong>, no solo adquieres un activo, sino que también <span class="highlight">proteges tu hogar o negocio contra los constantes aumentos en las tarifas de energía</span>. Tu inversión se paga sola en pocos años y luego disfrutas de energía gratis por décadas.</p>
+                            </div>
+                            
+                            <div class="resultados-bar">
+                                <div class="result-item">
+                                    <span class="result-label">Tamaño del sistema:</span>
+                                    <span id="compra-tamano-sistema" class="highlight"></span>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Paneles Longi de 645W requeridos:</span>
+                                    <span id="compra-numero-paneles" class="highlight"></span>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Area de instalación aproximada:</span>
+                                    <span id="compra-area-requerida" class="highlight"></span>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Inversión estimada:</span>
+                                    <span id="compra-costo-sistema" class="highlight"></span>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Beneficio tributario (50%):</span>
+                                    <span id="compra-beneficio-tributario" class="highlight"></span>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Ahorro mensual estimado:</span>
+                                    <span id="compra-ahorro-mensual" class="highlight"></span>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Ahorro en el primer año:</span>
+                                    <span id="compra-ahorro-primer-ano" class="highlight"></span>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Resumen de la inversión en 25 años:</span>
+                                    <span id="compra-ahorro-acumulado" class="highlight"></span>
+                                </div>
+                                
+                                <div class="result-item" style="border-bottom: none;">
+                                    <span class="result-label">Retorno de inversión estimado:</span>
+                                    <span id="compra-retorno-inversion" class="retorno-inversion"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="table-container">
+                                <table id="compra-proyeccion-table" class="projection-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Año</th>
+                                            <th>Generación anual (kW)</th>
+                                            <th>Ahorro pago de energía anual</th>
+                                            <th>Mantenimiento anual</th>
+                                            <th>Beneficios Tributarios</th>
+                                            <th>Recuperación de la inversión</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="compra-proyeccion-body"></tbody>
+                                </table>
+                            </div>
+                            
+                            <div id="compra-total-acumulado-container" class="total-acumulado" style="color: var(--color-white);"></div>
+                            
+                            <div id="compra-resumen-inversion">
+                                <h4>Resumen de la Inversión a 25 Años</h4>
+                                <p>La utilidad total de tu inversión en paneles solares durante los 25 años de vida útil del sistema es de <strong id="compra-utilidad-total" class="highlight"></strong>. Esto representa un retorno significativo sobre tu inversión inicial, convirtiendo tu gasto en energía en un activo que genera valor.</p>
+                                
+                                <div class="chart-container">
+                                    <h4 class="chart-title">Evolución de Ahorros Anuales</h4>
+                                    <canvas id="compra-ahorrosChart"></canvas>
+                                </div>
+                                
+                                <div class="chart-container">
+                                    <h4 class="chart-title">Recuperación de Inversión</h4>
+                                    <canvas id="compra-inversionChart"></canvas>
+                                </div>
+
+                                <div class="environmental-benefits">
+                                    <h5 class="environmental-title">Beneficios Ambientales en 25 Años</h5>
+                                    <p>Tu sistema solar no solo te ahorrará dinero, sino que también tendrá un impacto positivo significativo en el medio ambiente:</p>
+                                    <div class="benefits-grid">
+                                        <div class="benefit-item">
+                                            <span class="benefit-icon">🌳</span>
+                                            <span><strong id="compra-arboles-salvados"></strong> árboles equivalentes salvados</span>
+                                        </div>
+                                        <div class="benefit-item">
+                                            <span class="benefit-icon">💨</span>
+                                            <span><strong id="compra-co2-evitar"></strong> toneladas de CO₂ evitadas</span>
+                                        </div>
+                                        <div class="benefit-item">
+                                            <span class="benefit-icon">⛽</span>
+                                            <span><strong id="compra-combustible-equivalente"></strong> galones de gasolina no consumidos</span>
+                                        </div>
+                                        <div class="benefit-item">
+                                            <span class="benefit-icon">🏭</span>
+                                            <span>Equivale a retirar <strong id="compra-carros-vial"></strong> coches de la vía por un año</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sección de Calculadora Financiera -->
+                                <div id="compra-calculadora-financiera" class="form-container" style="margin-top: 30px;">
+                                    <h4 style="color: var(--color-primary);">Calculadora de Financiamiento</h4>
+                                    <p>¿Estás considerando un crédito para financiar tu sistema solar? Puedes acceder a opciones de financiamiento que hacen tu inversión aún más accesible:</p>
+                                    
+                                    <div class="form-group">
+                                        <label for="compra-monto-prestamo">Monto del préstamo (COP):<div class="tooltip"><span class="tooltip-icon">?</span>
+                                            <span class="tooltiptext">Puedes financiar el 100% del sistema o solo una parte. Considera que los paneles generarán ahorros desde el primer día.</span>
+                                        </div></label>
+                                        <input type="text" id="compra-monto-prestamo" placeholder="Ej: $ 30.000.000" oninput="formatoMonedaInput(this)">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="compra-tasa-interes">Tasa de interés anual (%):<div class="tooltip"><span class="tooltip-icon">?</span>
+                                            <span class="tooltiptext">Las tasas para créditos verdes suelen estar entre 12% y 18% anual en Colombia (2024).</span>
+                                        </div></label>
+                                        <input type="number" id="compra-tasa-interes" step="0.01" placeholder="Ej: 12.5" min="0" max="100">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="compra-plazo-prestamo">Plazo del préstamo (años):<div class="tooltip"><span class="tooltip-icon">?</span>
+                                            <span class="tooltiptext">El plazo recomendado es de 4 a 6 años, y suele ser igual o menor que tu pago de energía. Recuerda que el sistema dura 25+ años.</span>
+                                        </div></label>
+                                        <input type="number" id="compra-plazo-prestamo" placeholder="Ej: 5" min="1" max="30">
+                                    </div>
+       
+ <button class="calculate-btn" onclick="calcularFinanciamientoCompra()">CALCULAR CUOTA MENSUAL</button>
+                                    
+                                    <div id="compra-resultado-financiamiento" style="margin-top: 20px; display: none;">
+                                        <div class="result-item">
+                                            <span class="result-label">Cuota mensual estimada:</span>
+                                            <span id="compra-cuota-mensual" class="highlight"></span>
+                                        </div>
+                                        <div class="result-item">
+                                            <span class="result-label">Total a pagar:</span>
+                                            <span id="compra-total-pagar" class="highlight"></span>
+                                        </div>
+                                        <div class="result-item">
+                                            <span class="result-label">Intereses totales:</span>
+                                            <span id="compra-intereses-totales" class="highlight"></span>
+                                        </div>
+                                        <div class="result-item" style="border-bottom: none;">
+                                            <span class="result-label">Comparación con ahorro energético:</span>
+                                            <span id="compra-comparacion-ahorro" class="highlight"></span>
+                                        </div>
+                                        <p class="note"><small>* Aprovecha que tu crédito tiene tasa fija, ¡mientras que la energía sigue subiendo entre un 6% y 20% cada año!</small></p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Sección de comparación financiera -->
+                                <div id="compra-comparison-section" class="comparison-container">
+                                    <h4 class="comparison-title">Comparación: Pago de Energía vs. Inversión en Paneles Solares</h4>
+                                    <div class="comparison-grid">
+                                        <div class="comparison-column energy">
+                                            <div class="comparison-header">Pago Tradicional de Energía</div>
+                                            <div class="comparison-item">
+                                                <span>Factura mensual de energía:</span>
+                                                <span class="comparison-value" id="compra-gasto-energia-inicial"></span>
+                                            </div>
+                                            <div class="comparison-item">
+                                                <span>En 25 años tu factura de energía será:</span>
+                                                <span class="comparison-value" id="compra-gasto-energia-final"></span>
+                                            </div>
+                                            <div class="comparison-item">
+                                                <span>Total gastado en 25 años:</span>
+                                                <span class="comparison-value" id="compra-total-energia"></span>
+                                            </div>
+                                            <div class="comparison-item">
+                                                <span>Resultado final:</span>
+                                                <span class="comparison-value">Sigue pagando indefinidamente</span>
+                                            </div>
+                                        </div>
+                                        <div class="comparison-column loan">
+                                            <div class="comparison-header">Inversión en Paneles Solares</div>
+                                            <div class="comparison-item">
+                                                <span>Cuota mensual:</span>
+                                                <span class="comparison-value" id="compra-cuota-prestamo-inicial"></span>
+                                            </div>
+                                            <div class="comparison-item">
+                                                <span>Mensualidad después del crédito:</span>
+                                                <span class="comparison-value">$0</span>
+                                            </div>
+                                            <div class="comparison-item">
+                                                <span>Total pagado por el crédito:</span>
+                                                <span class="comparison-value" id="compra-total-prestamo"></span>
+                                            </div>
+                                            <div class="comparison-item">
+                                                <span>Resultado final:</span>
+                                                <span class="comparison-value">Activo propio que genera energía gratis</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="comparison-conclusion">
+                                        <p><strong>Conclusión:</strong> Al financiar paneles solares, estás adquiriendo un activo que te pertenece, estabilizas tu gasto energético (la cuota no sube como la energía) y al terminar de pagar el préstamo, eliminas un gasto fijo de tu presupuesto. Además, aumentas el valor de tu propiedad y contribuyes al medio ambiente.</p>
+                                    </div>
+                                </div>
+
+<div style="text-align: center; margin: 30px 0;">
+            <button onclick="descargarPDF()" class="download-btn">DESCARGAR PRESENTACIÓN</button>
+        </div>
+ 
+                         <!-- CTA -->
+                                <div class="cta-box">
+    <h3 class="cta-title">¿Listo para comenzar tu proyecto solar?</h3>
+    <p class="cta-subtitle" style="color: #a8d8ff;">Nuestros asesores están listos para guiarte en cada paso del proceso</p>
+    <a href="https://wa.me/573011285672?text=Hola,%20quiero%20contactar%20a%20un%20asesor%20de%20paneles%20solares" class="cta-button" target="_blank" rel="noopener" onclick="trackContactEvent('asesor_compra')">
+       CONTACTAR A UN ASESOR
+    </a>
+</div>
+                                
+                                <!-- Publicidad -->
+                                <div class="publicidad-llamativa">
+                                    <p style="margin: 0;">
+                                        <strong>¡Lo puedes hacer con recursos propios, con crédito bancario o PPA sin invertir un peso!</strong><br>
+                                        No pierdas más tiempo, ¡cámbiate a energía solar ahora!
+                                    </p>
+                                    <button onclick="showTab('ppa'); scrollToSimulador();">
+  CONOCER OPCIÓN SIN INVERSIÓN
+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulador de PPA -->
+                <div id="ppa-tab" class="tab-content">
+                    <div class="simulator-container">
+                        <div class="simulator-option">
+                            <div class="simulator-header ppa">Contrato PPA (Sin Inversión Inicial)</div>
+                            <div class="simulator-content">
+                                <div class="form-group">
+                                    <label for="ppa-kwh-promedio">
+                                        Consumo promedio mensual (últimos 6 meses) (kWh):
+                                        <div class="tooltip"><span class="tooltip-icon">?</span>
+                                            <span class="tooltiptext">Revisa tus facturas de energía de los últimos 6 meses, suma los kWh consumidos y divide entre 6. Si no tienes acceso, usa el consumo de tu última factura.</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="ppa-kwh-promedio" step="0.01" placeholder="Ej: 450" min="1" max="800000">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="ppa-valor-factura">
+                                        Total pagado en última factura (solo energía, $):
+                                        <div class="tooltip"><span class="tooltip-icon">?</span>
+                                            <span class="tooltiptext">Busca en tu factura el valor correspondiente solo al consumo de energía (no incluye cargos fijos, alumbrado público, etc.)</span>
+                                        </div>
+                                    </label>
+                                    <input type="text" id="ppa-valor-factura" placeholder="Ej: $ 350.000" oninput="formatoMonedaInput(this)">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="ppa-kwh-facturados">
+                                        Total kWh facturados último mes:
+                                        <div class="tooltip"><span class="tooltip-icon">?</span>
+                                            <span class="tooltiptext">Número de kilovatios-hora (kWh) que aparecen en tu última factura como "energía consumida"</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="ppa-kwh-facturados" step="0.01" placeholder="Ej: 420" min="1" max="800000">
+                                </div>
+                                
+                                <!-- Selector de Simulador -->
+                                <div class="tab-container" style="margin: 20px 0; justify-content: center;">
+                                    <div class="tab" onclick="showTab('compra')">Compra del Sistema</div>
+                                    <div class="tab ppa active" onclick="showTab('ppa')">Contrato PPA (Sin Inversión)</div>
+                                </div>
+                                
+                                <button class="calculate-btn ppa" onclick="calcularPPA()">CALCULAR MI AHORRO CON PPA</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resultados PPA -->
+                    <div id="ppa-resultado" class="result-container">
+                        <h3 class="result-header ppa">Resultados de tu Contrato PPA</h3>
+                        
+                        <div class="result-content">
+                            <div class="benefit-box ppa">
+                                <h4 class="benefit-title ppa">¡Beneficio exclusivo ECO!</h4>
+                                <p>Después de 15 años de ahorro continuo en tu factura de energía, <span class="highlight ppa">el sistema solar será 100% tuyo</span> sin haber realizado ninguna inversión inicial. Ahorras desde el primer mes y al final eres dueño del sistema, disfrutando de energía gratis y limpia por muchos años más.</p>
+                            </div>
+                            
+                            <div class="resultados-bar">
+                                <div class="result-item">
+                                    <span class="result-label">Tamaño estimado del sistema:</span>
+                                    <span id="ppa-tamano-sistema" class="highlight ppa"></span> kW
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Número de paneles:</span>
+                                    <span id="ppa-numero-paneles" class="highlight ppa"></span>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Area requerida:</span>
+                                    <span id="ppa-area-requerida" class="highlight ppa"></span> m² (5.2 m² por cada kW instalado)
+                                </div>
+                                
+                                <div class="result-item">
+                                    <span class="result-label">Producción mensual estimada:</span>
+                                    <span id="ppa-produccion-mensual" class="highlight ppa"></span> kWh
+                                </div>
+                            </div>
+                            
+                            <table class="projection-table ppa">
+                                <thead>
+                                    <tr>
+                                        <th>Concepto</th>
+                                        <th>Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ahorro estimado primer mes
+                                            <div class="tooltip"><span class="tooltip-icon">?</span>
+                                                <span class="tooltiptext">Reducción en tu factura eléctrica desde el primer mes de operación. Calculado con tarifa 20% menor a tu tarifa actual.</span>
+                                            </div>
+                                        </td>
+                                        <td><span id="ppa-ahorro-primer-mes" class="highlight ppa"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ahorro estimado primer año
+                                            <div class="tooltip"><span class="tooltip-icon">?</span>
+                                                <span class="tooltiptext">Suma de los ahorros mensuales durante el primer año. Considera variaciones estacionales en producción solar.</span>
+                                            </div>
+                                        </td>
+                                        <td><span id="ppa-ahorro-primer-ano" class="highlight ppa"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ahorro total estimado en 15 años
+                                            <div class="tooltip"><span class="tooltip-icon">?</span>
+                                                <span class="tooltiptext">Ahorro acumulado durante la duración del contrato PPA. Incluye incremento anual del 6% en tarifas eléctricas convencionales.</span>
+                                            </div>
+                                        </td>
+                                        <td><span id="ppa-ahorro-total" class="highlight ppa"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Esto te ahorras por kW (20% menos que tu tarifa actual)
+                                            <div class="tooltip"><span class="tooltip-icon">?</span>
+                                                <span class="tooltiptext">Tarifa que pagarás por la energía solar generada. Siempre será 20% menor que lo que pagas actualmente por kWh.</span>
+                                            </div>
+                                        </td>
+                                        <td><span id="ppa-tarifa-aplicada" class="highlight ppa"></span>/kWh</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <!-- TABLA DE AHORROS DETALLADA -->
+                            <div class="table-container">
+                                <h4>Detalle de Ahorros Anuales</h4>
+                                <table class="projection-table ppa">
+                                    <thead>
+                                        <tr>
+                                            <th>Año</th>
+                                            <th>Producción (kWh)</th>
+                                            <th>Ahorro Anual</th>
+                                            <th>Ahorro Acumulado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ppa-detalle-anual">
+                                        <!-- Los datos anuales se insertarán aquí -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- RESUMEN DE 15 AÑOS -->
+                            <div class="fifteen-year-summary">
+                                <h4 class="fifteen-year-title">Resumen del Ahorro a 15 Años</h4>
+                                
+                                <p>Después de 15 años disfrutando de <strong class="highlight ppa">un ahorro acumulado de <span id="ppa-ahorro-total-destacado"></span></strong> en tu factura de energía, <strong class="highlight ppa">el sistema solar pasará a ser completamente de tu propiedad</strong>, lo que significa que:</p>
+                                
+                                <ul style="font-size: 1.05em;">
+                                    <li><strong>Continuarás generando energía limpia y gratis</strong> por al menos 10-15 años más (vida útil total del sistema: 25-30 años)</li>
+                                    <li><strong>Tus ahorros aumentarán aún más</strong> al dejar de pagar la tarifa de arrendamiento</li>
+                                    <li><strong>Tendrás un activo valioso</strong> en tu propiedad que aumenta su valor comercial</li>
+                                    <li><strong>Seguirás contribuyendo al medio ambiente</strong> sin costo adicional</li>
+                                    <li><strong>Podrás disfrutar de energía gratis</strong> durante toda la vida útil restante del sistema</li>
+                                </ul>
+                                
+                                <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; border-left: 6px solid var(--color-secondary);">
+                                    <p style="font-size: 1.1em; margin: 0;"><strong>Este es el verdadero valor de nuestro programa:</strong> <span class="highlight ppa">Ahorras <span id="ppa-ahorro-total-destacado2"></span> en 15 años y terminas siendo dueño de un sistema solar completamente funcional</span> que seguirá generando ahorros por muchos años más.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- BENEFICIOS AMBIENTALES -->
+                            <div class="environmental-benefits ppa">
+                                <h4 class="environmental-title ppa">Beneficios Ambientales en 15 Años</h4>
+                                <p>Tu sistema solar no solo te ahorrará dinero, sino que también tendrá un impacto positivo significativo en el medio ambiente:</p>
+                                
+                                <div class="benefits-grid">
+                                    <div class="benefit-item">
+                                        <span class="benefit-icon">🌳</span>
+                                        <div>
+                                            <strong id="ppa-arboles-salvados">0</strong>
+                                            <div>árboles equivalentes salvados</div>
+                                        </div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <span class="benefit-icon">💨</span>
+                                        <div>
+                                            <strong id="ppa-co2-evitar">0</strong>
+                                            <div>toneladas de CO₂ evitadas</div>
+                                        </div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <span class="benefit-icon">⛽</span>
+                                        <div>
+                                            <strong id="ppa-combustible-equivalente">0</strong>
+                                            <div>galones de gasolina no consumidos</div>
+                                        </div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <span class="benefit-icon">🏭</span>
+                                        <div>
+                                            Equivale a retirar <strong id="ppa-carros-vial">0</strong> coches de la vía por un año
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <p style="margin-top: 15px; font-size: 0.9em;">* Cálculos basados en factores de conversión estándar de la EPA y la UPME.</p>
+                            </div>
+                           
+ <div style="text-align: center; margin: 30px 0;">
+            <button onclick="descargarPDF()" class="download-btn">DESCARGAR PRESENTACIÓN</button>
+        </div>
+                            <!-- CTA -->
+                            <div class="cta-box ppa">
+    <h3 class="cta-title">¿Listo para comenzar a ahorrar sin inversión?</h3>
+    <p class="cta-subtitle" style="color: #a8d8ff;">Nuestros especialistas en PPA te guiarán en el proceso</p>
+    <a href="https://wa.me/573011285672?text=Hola,%20estoy%20interesado%20en%20el%20programa%20PPA%20de%20paneles%20solares,%20necesito%20asesoría" class="cta-button ppa" target="_blank" rel="noopener" onclick="trackContactEvent('asesor_ppa')">
+       SOLICITAR ASESORÍA
+    </a>
+</div>
+                            
+                            <!-- Publicidad -->
+                            <div class="publicidad-llamativa">
+                                <p style="margin: 0;">
+                                    <strong>¡Lo puedes hacer con recursos propios, con crédito o PPA sin invertir un peso!</strong><br>
+                                    No pierdas más tiempo, ¡cámbiate a energía solar ahora!
+                                </p>
+                                <button onclick="showTab('compra'); scrollToSimulador();">
+  CONOCER OPCIÓN DE COMPRA
+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Área de Cobertura -->
+                <section class="coverage-area" aria-label="Áreas de servicio">
+                    <h2 class="coverage-title">Somos líderes en energía solar en el Valle del Cauca y Colombia. ⚡</h2>
+                    <p>Instalaciones certificadas en las principales ciudades y municipios del país:</p>
+                    
+                    <div class="coverage-cities">
+                        <span class="city-tag">Cali</span>
+                        <span class="city-tag">Yumbo</span>
+                        <span class="city-tag">Palmira</span>
+                        <span class="city-tag">Jamundí</span>
+                        <span class="city-tag">Buga</span>
+                        <span class="city-tag">Tuluá</span>
+                        <span class="city-tag">Zarzal</span>
+                        <span class="city-tag">Roldanillo</span>
+                        <span class="city-tag">Sevilla</span>
+                        <span class="city-tag">Cartago</span>
+                        <span class="city-tag">Bogotá</span>
+                        <span class="city-tag">Medellín</span>
+                        <span class="city-tag">Barranquilla</span>
+                        <span class="city-tag">Bucaramanga</span>
+                        <span class="city-tag">Pereira</span>
+                    </div>
+                    
+                    <p style="margin-top: 25px;">Asesoría técnica por <strong>Energy Capital Operation - ECO</strong>, especialista con 10+ años en energía solar.</p>
+                    <p style="font-weight: bold; font-size: 1.2em; color: var(--color-primary);">Colombia pone el sol, ECO la solución!</p>
+                </section>
+
+                <!-- Testimonios -->
+                <div class="testimonial-card" itemscope itemtype="https://schema.org/Review">
+                    <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness">
+                        <span itemprop="name">Energy Capital Operation (ECO)</span>
+                    </div>
+                    <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                        <meta itemprop="name" content="Carlos M.">
+                    </div>
+                    <div class="testimonial-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <blockquote class="testimonial-quote" itemprop="reviewBody">
+                        "Excelente instalación de paneles en mi casa en Cali. El ahorro en la factura fue inmediato y el servicio muy profesional. En solo 4 meses ya habíamos recuperado parte de la inversión. ¡Totalmente recomendados!"
+                    </blockquote>
+                    <div class="testimonial-author">
+                        — <span itemprop="author">Carlos M.</span>, <span>Condominio Laguna Seca</span>
+                        <meta itemprop="datePublished" content="2025-03-15">
+                    </div>
+                </div>
+                
+                <div class="testimonial-card" itemscope itemtype="https://schema.org/Review">
+                    <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness">
+                        <span itemprop="name">Energy Capital Operation (ECO)</span>
+                    </div>
+                    <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                        <meta itemprop="name" content="Marta L.">
+                    </div>
+                    <div class="testimonial-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="4">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★☆
+                    </div>
+                    <blockquote class="testimonial-quote" itemprop="reviewBody">
+                        "Mi empresa en Yumbo ahorra más de $6.000.000 mensuales desde que instalamos los paneles. El equipo técnico fue muy cuidadoso con la instalación y el seguimiento postventa ha sido excelente. La mejor decisión financiera que hemos tomado en años."
+                    </blockquote>
+                    <div class="testimonial-author">
+                        — <span itemprop="author">Marta L.</span>, <span>Zona Industrial</span>
+                        <meta itemprop="datePublished" content="2025-02-07">
+                    </div>
+                </div>
+                
+                <div class="testimonial-card" itemscope itemtype="https://schema.org/Review">
+                    <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness">
+                        <span itemprop="name">Energy Capital Operation (ECO)</span>
+                    </div>
+                    <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                        <meta itemprop="name" content="Jorge R.">
+                    </div>
+                    <div class="testimonial-rating" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                        <meta itemprop="ratingValue" content="5">
+                        <meta itemprop="bestRating" content="5">
+                        ★★★★★
+                    </div>
+                    <blockquote class="testimonial-quote" itemprop="reviewBody">
+                        "Optamos por el contrato PPA y ha sido increíble. Sin poner un peso inicial, ya estamos ahorrando $850.000 mensuales en nuestra factura. El proceso fue transparente y rápido. Ahora estamos evaluando instalar más paneles en nuestras otras propiedades."
+                    </blockquote>
+                    <div class="testimonial-author">
+                        — <span itemprop="author">Ivan T.</span>, <span>Etagro</span>
+                        <meta itemprop="datePublished" content="2025-06-22">
+                    </div>
+                </div>
+
+                <!-- Schema adicional -->
+                <script type="application/ld+json">
+                {
+                  "@context": "https://schema.org",
+                  "@type": "OfferCatalog",
+                  "name": "Garantías ECO",
+                  "itemListElement": [
+                    {
+                      "@type": "Offer",
+                      "name": "Garantía de Paneles",
+                      "description": "Garantía de rendimiento superior al 90% después de 10 años",
+                      "itemOffered": {
+                        "@type": "Service",
+                        "name": "Mantenimiento de paneles solares"
+                      }
+                    },
+                    {
+                      "@type": "Offer",
+                      "name": "Instalación Certificada",
+                      "description": "Técnicos certificados por los principales fabricantes"
+                    },
+                    {
+                      "@type": "Offer",
+                      "name": "Soporte Postventa",
+                      "description": "Acompañamiento durante todo el ciclo de vida del sistema"
+                    }
+                  ]
+                }
+                </script>
+
+               <!-- Sección de Garantías - Versión compacta -->
+<section class="guarantees" aria-label="Nuestras garantías">
+    <div class="container">
+        <h2 class="section-title">Garantías ECO: Tu tranquilidad está asegurada</h2>
+        <p class="section-subtitle">En Energy Capital Operation respaldamos nuestro trabajo con las mejores garantías del mercado</p>
+        
+        <div class="guarantee-grid" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+            <div class="guarantee-item" style="flex: 1; min-width: 300px; max-width: 350px; margin: 0; padding: 20px;">
+                <div style="text-align: center;">
+                    <svg viewBox="0 0 24 24" width="48" height="48" style="margin: 0 auto;">
+                        <path fill="#0066cc" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/>
+                    </svg>
+                </div>
+                <h3 style="text-align: center; margin: 15px 0 10px; color: var(--color-primary);">Garantía de Paneles</h3>
+                <p style="text-align: center; margin-bottom: 15px;">Paneles solares Tier 1: Tecnología de última generación para máxima eficiencia y durabilidad</p>
+                <div style="text-align: center;">
+                    <div style="display: inline-block; text-align: left;">
+                        <p style="margin: 5px 0;"><span style="color: var(--color-success); font-weight: bold;">✓</span> 12 años en producto</p>
+                        <p style="margin: 5px 0;"><span style="color: var(--color-success); font-weight: bold;">✓</span> 25 años en generación</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="guarantee-item" style="flex: 1; min-width: 300px; max-width: 350px; margin: 0; padding: 20px;">
+                <div style="text-align: center;">
+                    <svg viewBox="0 0 24 24" width="48" height="48" style="margin: 0 auto;">
+                        <path fill="#0066cc" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                </div>
+                <h3 style="text-align: center; margin: 15px 0 10px; color: var(--color-primary);">Instalación Certificada</h3>
+                <p style="text-align: center; margin-bottom: 15px;">Soluciones solares: diseñadas por expertos, instaladas por personal certificado</p>
+                <div style="text-align: center;">
+                    <div style="display: inline-block; text-align: left;">
+                        <p style="margin: 5px 0;"><span style="color: var(--color-success); font-weight: bold;">✓</span> Certificación RETIE</p>
+                        <p style="margin: 5px 0;"><span style="color: var(--color-success); font-weight: bold;">✓</span> Estándares internacionales</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="guarantee-item" style="flex: 1; min-width: 300px; max-width: 350px; margin: 0; padding: 20px;">
+                <div style="text-align: center;">
+                    <svg viewBox="0 0 24 24" width="48" height="48" style="margin: 0 auto;">
+                        <path fill="#0066cc" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    </svg>
+                </div>
+                <h3 style="text-align: center; margin: 15px 0 10px; color: var(--color-primary);">Soporte Integral Postventa</h3>
+                <p style="text-align: center; margin-bottom: 15px;">Monitoreo remoto y mantenimiento preventivo incluido durante el primer año</p>
+                <div style="text-align: center;">
+                    <div style="display: inline-block; text-align: left;">
+                        <p style="margin: 5px 0;"><span style="color: var(--color-success); font-weight: bold;">✓</span> Respuesta en 24 horas</p>
+                        <p style="margin: 5px 0;"><span style="color: var(--color-success); font-weight: bold;">✓</span> Asistencia permanente</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="guarantee-cta" style="text-align: center; margin-top: 30px;">
+            <p style="font-size: 1.2rem; color: var(--color-dark); margin-bottom: 20px;">¿Tienes dudas sobre nuestras garantías?</p>
+            <a href="https://wa.me/573011285672?text=Hola,%20estoy%20interesado%20en%20los%20paneles%20solares%20ECO" class="cta-button" target="_blank" rel="noopener" style="display: inline-block; background-color: var(--color-primary); color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">HABLA CON UN ESPECIALISTA</a>
+        </div>
+    </div>
+</section>
+            </section>
+        </main>
+         
+        <footer>
+            <div class="note">
+                <p><strong>Aviso importante:</strong></p>
+                <p>Esta herramienta es una simulación preliminar y no constituye una cotización final. Para una evaluación exacta y personalizada, contacta a uno de nuestros asesores.<a href="tel:+573011285672" style="color: var(--color-primary); font-weight: bold; text-decoration: none;"><a href="https://wa.me/573011285672?text=Hola,%20necesito%20una%20cotización%20exacta%20para%20paneles%20solares" target="_blank" rel="noopener">+57 301 1285672</a></a> o escríbenos a <a href="mailto:contacto@eco-col.com" style="color: var(--color-primary); font-weight: bold; text-decoration: none;">contacto@eco-col.com</a></p>
+                
+                <p><strong>¿Cómo funciona?</strong></p>
+                <p>La calculadora solar de Energy Capital Operation genera una estimación aproximada del costo y rendimiento de tu sistema fotovoltaico, basada en los datos que ingreses.</p>
+                
+                <p><strong>Factores que pueden afectar los resultados:</strong></p>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li>Distancias de cableado, condiciones del sitio de instalación, variaciones en precios de componentes, Radiación solar local, entre otros.</li>
+                </ul>
+                
+                <p>Energy Capital Operation no asume responsabilidad por decisiones tomadas con base en esta simulación.</p>
+                
+                <p>• Paneles Longi | Inversores Huawei o Solis | Los componentes del sistema cuentan con garantías que oscilan entre 10 y 15 años</p>
+                <p>• Síguenos en redes sociales: <a href="https://www.tiktok.com/@eco.col" target="_blank" rel="noopener nofollow" style="color: var(--color-primary); text-decoration: none;">TikTok @eco.col</a> | <a href="https://www.instagram.com/eco.sas" target="_blank" rel="noopener nofollow" style="color: var(--color-primary); text-decoration: none;">Instagram @eco.sas</a> | <a href="https://www.facebook.com/profile.php?id=61565447362420" target="_blank" rel="noopener nofollow" style="color: var(--color-primary); text-decoration: none;">Facebook Eco</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts optimizados -->
+    <script>
+        
+            // =============================================
+// FUNCIONES GENERALES
+// =============================================
+
+// Generar token CSRF al cargar la página
+const csrfToken = Math.random().toString(36).substring(2, 15) + 
+                  Math.random().toString(36).substring(2, 15);
+document.cookie = `csrfToken=${csrfToken}; Secure; SameSite=Strict`;
+
+// Verificar token en solicitudes
+function verifyCsrfToken() {
+  return document.cookie.split('; ')
+    .find(row => row.startsWith('csrfToken='))
+    ?.split('=')[1] === csrfToken;
+}
+
+// =============================================
+// FUNCIONES DE TRACKING PARA META PIXEL
+// =============================================
+
+// Función para trackear eventos de contacto
+function trackContactEvent(contactType) {
+    trackMetaPixelEvent('Contact', {
+        content_name: 'Solicitud de contacto',
+        content_category: 'Contacto',
+        contact_method: contactType,
+        value: 1,
+        currency: 'COP'
+    });
+}
+
+// Función para trackear vista de resultados
+function trackResultsView(tabType, additionalData = {}) {
+    trackMetaPixelEvent('ViewContent', {
+        content_name: 'Resultados Simulador ' + (tabType === 'compra' ? 'Compra' : 'PPA'),
+        content_category: 'Solar',
+        content_ids: ['simulador_resultados'],
+        result_type: tabType,
+        simulation_completed: true,
+        ...additionalData
+    });
+}
+
+// Función para trackear eventos de cálculo
+function trackCalculationEvent(tabType, calculationData) {
+    trackMetaPixelEvent('CustomEvent', {
+        eventName: 'Calculate',
+        consumption_kwh: calculationData.kwhPromedio,
+        bill_amount: calculationData.valorFactura,
+        system_size: calculationData.tamanoSistema,
+        estimated_cost: calculationData.costoSistema,
+        estimated_savings: calculationData.ahorroEstimado
+    });
+}
+
+// Función mejorada de sanitización para prevenir XSS
+function sanitizeInput(input) {
+  if (typeof input !== 'string') return input;
+  return input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// =============================================
+// META PIXEL & EVENT TRACKING
+// =============================================
+
+// 1. Función principal para rastrear eventos
+function trackMetaPixelEvent(eventName, eventData = {}) {
+    // Añadir datos automáticos
+    const enhancedData = {
+        ...eventData,
+        content_ids: [eventData.content_ids || 'solar_simulator'],
+        content_type: eventData.content_type || 'product',
+        currency: eventData.currency || 'COP',
+        event_time: Math.floor(Date.now() / 1000),
+        tab: document.querySelector('.tab.active')?.textContent.trim() || 'unknown',
+        url: window.location.href
+    };
+
+    // Enviar a Meta Pixel si está disponible
+    if (typeof fbq !== 'undefined') {
+        fbq('track', eventName, enhancedData);
+    } else {
+        console.warn('Meta Pixel no está cargado, no se pudo trackear evento:', eventName);
+        window._pendingPixelEvents = window._pendingPixelEvents || [];
+        window._pendingPixelEvents.push({eventName, eventData: enhancedData});
+    }
+
+    // También enviar a GA4 si está disponible
+    if (typeof gtag !== 'undefined') {
+        gtag('event', eventName.toLowerCase(), enhancedData);
+    }
+}
+
+// 2. Función para cargar el Pixel si falla la carga inicial
+function loadMetaPixel() {
+    if (typeof fbq === 'undefined') {
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '748512984219396');
+        
+        // Procesar cola de eventos pendientes
+        if (window._pendingPixelEvents && window._pendingPixelEvents.length > 0) {
+            window._pendingPixelEvents.forEach(event => {
+                fbq('track', event.eventName, event.eventData);
+            });
+            window._pendingPixelEvents = [];
+        }
+    }
+}
+
+// 3. Funciones específicas de tracking (dependen de trackMetaPixelEvent)
+function trackContactEvent(contactType) {
+    trackMetaPixelEvent('Contact', {
+        content_name: 'Solicitud de contacto',
+        content_category: 'Contacto',
+        contact_method: contactType,
+        value: 1,
+        currency: 'COP'
+    });
+}
+
+function trackResultsView(tabType, additionalData = {}) {
+    trackMetaPixelEvent('ViewResults', {
+        result_type: tabType,
+        simulation_completed: true,
+        ...additionalData
+    });
+}
+        
+    // Función de validación de entrada
+    function validarEntrada(valor, min, max, mensaje, campoId) {
+        // Eliminar mensajes de error existentes
+        const erroresExistentes = document.querySelectorAll('.error-message');
+        erroresExistentes.forEach(error => {
+            if (error.parentNode === document.getElementById(campoId).parentNode) {
+                error.remove();
+            }
+        });
+        
+        if (isNaN(valor) || valor < min || valor > max) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = mensaje;
+            errorDiv.style.display = 'block';
+            
+            // Insertar después del campo correspondiente
+            document.getElementById(campoId).parentNode.appendChild(errorDiv);
+            
+            return false;
+        }
+        return true;
+    }
+    
+    // Mostrar/ocultar pestañas
+    function showTab(tabId) {
+        // Remover clases activas de todos los tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Remover clases activas de todos los contenidos
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Activar el tab seleccionado
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            if (tab.getAttribute('onclick').includes(`'${tabId}'`)) {
+                tab.classList.add('active');
+                if(tabId === 'ppa') {
+                    tab.classList.add('ppa');
+                }
+            }
+        });
+        
+        // Activar el contenido correspondiente
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+        
+        // Copiar datos entre formularios si ya están llenos
+        if(tabId === 'ppa' && document.getElementById('compra-kwh-promedio').value) {
+            document.getElementById('ppa-kwh-promedio').value = document.getElementById('compra-kwh-promedio').value;
+            document.getElementById('ppa-valor-factura').value = document.getElementById('compra-valor-factura').value;
+            document.getElementById('ppa-kwh-facturados').value = document.getElementById('compra-kwh-facturados').value;
+        } else if(tabId === 'compra' && document.getElementById('ppa-kwh-promedio').value) {
+            document.getElementById('compra-kwh-promedio').value = document.getElementById('ppa-kwh-promedio').value;
+            document.getElementById('compra-valor-factura').value = document.getElementById('ppa-valor-factura').value;
+            document.getElementById('compra-kwh-facturados').value = document.getElementById('ppa-kwh-facturados').value;
+        }
+        
+        // Guardar en localStorage la pestaña activa
+        localStorage.setItem('tabActiva', tabId);
+        
+        // Trackear evento de cambio de pestaña
+        trackMetaPixelEvent('TabSwitch', {
+            previous_tab: localStorage.getItem('tabActiva') || 'compra',
+            new_tab: tabId
+        });
+    }
+    
+    // Formatear moneda en inputs
+    function formatoMonedaInput(input) {
+        let value = input.value.replace(/[^0-9]/g, '');
+        if (value.length > 0) {
+            value = parseInt(value, 10);
+            if (!isNaN(value)) {
+                input.value = '$ ' + new Intl.NumberFormat('es-CO').format(value);
+            } else {
+                input.value = '';
+            }
+        } else {
+            input.value = '';
+        }
+    }
+        
+    // Convertir moneda a número
+    function monedaANumero(moneda) {
+        return parseFloat(moneda.replace(/[^0-9]/g, '')) || 0;
+    }
+    
+    // Formatear moneda
+    function formatoMoneda(num) {
+        return new Intl.NumberFormat('es-CO', {style: 'currency', currency: 'COP', maximumFractionDigits: 0}).format(num);
+    }
+    
+    // Formatear número
+    function formatoNumero(num, decimales = 0) {
+        return new Intl.NumberFormat('es-CO', {maximumFractionDigits: decimales}).format(num);
+    }
+    
+    // Guardar datos en localStorage
+    function guardarDatosFormulario(tipo, datos) {
+        try {
+            localStorage.setItem(`formulario_${tipo}`, JSON.stringify(datos));
+        } catch (e) {
+            console.error('Error al guardar en localStorage:', e);
+        }
+    }
+    
+    // Cargar datos desde localStorage
+    function cargarDatosFormulario(tipo) {
+        try {
+            const datos = localStorage.getItem(`formulario_${tipo}`);
+            if (datos) {
+                return JSON.parse(datos);
+            }
+        } catch (e) {
+            console.error('Error al cargar desde localStorage:', e);
+        }
+        return null;
+    }
+
+    // Función mejorada para trackear eventos del Meta Pixel
+    function trackMetaPixelEvent(eventName, eventData = {}) {
+        // Añadir datos automáticos
+        const enhancedData = {
+            ...eventData,
+            content_ids: [eventData.content_ids || 'solar_simulator'],
+            content_type: eventData.content_type || 'product',
+            currency: eventData.currency || 'COP',
+            event_time: Math.floor(Date.now() / 1000),
+            tab: document.querySelector('.tab.active').textContent.trim(),
+            url: window.location.href
+        };
+
+        // Enviar a Meta Pixel si está disponible
+        if (typeof fbq !== 'undefined') {
+            fbq('track', eventName, enhancedData);
+        } else {
+            console.warn('Meta Pixel no está cargado, no se pudo trackear evento:', eventName);
+            window._pendingPixelEvents = window._pendingPixelEvents || [];
+            window._pendingPixelEvents.push({eventName, eventData: enhancedData});
+        }
+
+        // También enviar a GA4 si está disponible
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName.toLowerCase(), enhancedData);
+        }
+    }
+
+    // Función para trackear eventos de contacto
+    function trackContactEvent(contactType) {
+        trackMetaPixelEvent('Contact', {
+            content_name: 'Solicitud de contacto',
+            content_category: 'Contacto',
+            contact_method: contactType,
+            value: 1,
+            currency: 'COP'
+        });
+    }
+
+    // Función para trackear vista de resultados
+    function trackResultsView(tabType, additionalData = {}) {
+        trackMetaPixelEvent('ViewResults', {
+            result_type: tabType,
+            simulation_completed: true,
+            ...additionalData
+        });
+    }
+
+    // Cargar Meta Pixel si no está cargado
+    function loadMetaPixel() {
+        if (typeof fbq === 'undefined') {
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '748512984219396');
+            
+            // Procesar cola de eventos pendientes
+            if (window._pendingPixelEvents && window._pendingPixelEvents.length > 0) {
+                window._pendingPixelEvents.forEach(event => {
+                    fbq('track', event.eventName, event.eventData);
+                });
+                window._pendingPixelEvents = [];
+            }
+        }
+    }
+
+    // =============================================
+    // SIMULADOR DE COMPRA DEL SISTEMA
+    // =============================================
+    
+    // CONSTANTES
+    const eficienciaPorAnoCompra = {
+        1: 0.97, 2: 0.96456, 3: 0.95368, 4: 0.94824, 5: 0.9428,
+        6: 0.936, 7: 0.9292, 8: 0.9224, 9: 0.9156, 10: 0.9088,
+        11: 0.902, 12: 0.8952, 13: 0.8884, 14: 0.8816, 15: 0.8748,
+        16: 0.868, 17: 0.8612, 18: 0.8544, 19: 0.8476, 20: 0.8408,
+        21: 0.834, 22: 0.8272, 23: 0.8204, 24: 0.8136, 25: 0.8068
+    };
+
+    const FACTORES_AMBIENTALES_COMPRA = {
+        CO2_POR_KWH: 0.5,
+        ARBOLES_POR_KWH: 0.02,
+        GASOLINA_POR_KWH: 0.00026,
+        CO2_CARRO_ANUAL: 4.6
+    };
+
+    // VARIABLES GLOBALES
+    let ahorrosChartCompra, inversionChartCompra;
+    let costoSistemaGlobalCompra = 0;
+    let ahorroMensualGlobalCompra = 0;
+    let costoKwhActualGlobalCompra = 0;
+
+    // FUNCIÓN PRINCIPAL DE CÁLCULO
+    function calcularSistemaCompra() {
+        // Obtener valores
+        const kwhPromedio = parseFloat(document.getElementById('compra-kwh-promedio').value) || 0;
+        const valorFactura = monedaANumero(document.getElementById('compra-valor-factura').value);
+        const kwhFacturados = parseFloat(document.getElementById('compra-kwh-facturados').value) || 0;
+        
+        // Validar entradas con la nueva función
+        const esValidoKwhPromedio = validarEntrada(kwhPromedio, 1, 800000, 
+            "El consumo promedio debe ser entre 1 y 800,000 kWh", 'compra-kwh-promedio');
+            
+        const esValidoValorFactura = validarEntrada(valorFactura, 1000, 1000000000, 
+            "El valor de la factura debe ser entre $1,000 y $1,000,000,000", 'compra-valor-factura');
+            
+        const esValidoKwhFacturados = validarEntrada(kwhFacturados, 1, 800000, 
+            "Los kWh facturados deben ser entre 1 y 800,000", 'compra-kwh-facturados');
+        
+        if (!esValidoKwhPromedio || !esValidoValorFactura || !esValidoKwhFacturados) {
+            return;
+        }
+        
+        // Trackear evento de ViewContent para Meta Pixel
+        trackMetaPixelEvent('ViewContent', {
+            content_name: 'Simulador Compra Sistema Solar',
+            content_category: 'Solar',
+            content_ids: ['compra_solar'],
+            content_type: 'product',
+            value: costoSistemaGlobalCompra,
+            currency: 'COP'
+        });
+        
+        // Guardar datos en localStorage
+        guardarDatosFormulario('compra', {
+            kwhPromedio: kwhPromedio,
+            valorFactura: valorFactura,
+            kwhFacturados: kwhFacturados
+        });
+        
+        // Calcular sistema solar
+        const numPanelesTemp = (kwhPromedio / 4 / 30 / 0.84) / 0.645;
+        const numPaneles = Math.ceil(numPanelesTemp);
+        const tamanoSistema = numPaneles * 0.645;
+        
+        if (tamanoSistema < 4.92) {
+            alert("Sistemas menores a 4.92 kW no están disponibles. Tu sistema: " + tamanoSistema.toFixed(2) + " kW");
+            return;
+        }
+        
+        // Determinar costo por kW
+        let costoPorKw;
+        if (tamanoSistema <= 6.14) costoPorKw = 6180000;
+        else if (tamanoSistema <= 6.75) costoPorKw = 5830000;
+        else if (tamanoSistema <= 7.37) costoPorKw = 5580000;
+        else if (tamanoSistema <= 7.98) costoPorKw = 5370000;
+        else if (tamanoSistema <= 8.60) costoPorKw = 5240000;
+        else if (tamanoSistema <= 9.21) costoPorKw = 5070000;
+        else if (tamanoSistema <= 9.83) costoPorKw = 4920000;
+        else if (tamanoSistema <= 10.44) costoPorKw = 4790000;
+        else if (tamanoSistema <= 11.06) costoPorKw = 4850000;
+        else if (tamanoSistema <= 11.67) costoPorKw = 4550000;
+        else if (tamanoSistema <= 12.90) costoPorKw = 4400000;
+        else if (tamanoSistema <= 15.99) costoPorKw = 4400000;
+        else if (tamanoSistema <= 17.83) costoPorKw = 4250000;
+        else if (tamanoSistema <= 19.67) costoPorKw = 4100000;
+        else if (tamanoSistema <= 22.76) costoPorKw = 3900000;
+        else if (tamanoSistema <= 25.22) costoPorKw = 3850000;
+        else if (tamanoSistema <= 28.29) costoPorKw = 3750000;
+        else if (tamanoSistema <= 31.37) costoPorKw = 3700000;
+        else if (tamanoSistema <= 35.66) costoPorKw = 3630000;
+        else if (tamanoSistema <= 37.52) costoPorKw = 3600000;
+        else if (tamanoSistema <= 46.13) costoPorKw = 3470000;
+        else if (tamanoSistema <= 52.28) costoPorKw = 3300000;
+        else if (tamanoSistema <= 56.58) costoPorKw = 3180000;
+        else if (tamanoSistema <= 59.99) costoPorKw = 3130000;
+        else if (tamanoSistema <= 69.99) costoPorKw = 2850000;
+        else if (tamanoSistema <= 79.99) costoPorKw = 2710000;
+        else if (tamanoSistema <= 89.99) costoPorKw = 2620000;
+        else if (tamanoSistema <= 99.99) costoPorKw = 2570000;
+        else if (tamanoSistema <= 109.99) costoPorKw = 2540000;
+        else if (tamanoSistema <= 119.99) costoPorKw = 2480000;
+        else if (tamanoSistema <= 129.99) costoPorKw = 2465000;
+        else if (tamanoSistema <= 139.99) costoPorKw = 2455000;
+        else if (tamanoSistema <= 149.99) costoPorKw = 2455000;
+        else if (tamanoSistema <= 159.99) costoPorKw = 2455000;
+        else if (tamanoSistema <= 169.99) costoPorKw = 2455000;
+        else if (tamanoSistema <= 179.99) costoPorKw = 2435000;
+        else if (tamanoSistema <= 189.99) costoPorKw = 2435000;
+        else if (tamanoSistema <= 199.99) costoPorKw = 2420000;
+        else costoPorKw = 2400000;
+        
+        costoSistemaGlobalCompra = tamanoSistema * costoPorKw;
+        const beneficioTributarioTotal = costoSistemaGlobalCompra * 0.5;
+        costoKwhActualGlobalCompra = valorFactura / kwhFacturados;
+        ahorroMensualGlobalCompra = kwhPromedio * costoKwhActualGlobalCompra;
+        const areaRequerida = (tamanoSistema * 5.2).toFixed(1) + " m²";
+
+        // Mostrar resultados
+        document.getElementById('compra-tamano-sistema').textContent = tamanoSistema.toFixed(2) + " kW";
+        document.getElementById('compra-numero-paneles').textContent = numPaneles;
+        document.getElementById('compra-area-requerida').textContent = areaRequerida;
+        document.getElementById('compra-costo-sistema').textContent = formatoMoneda(costoSistemaGlobalCompra);
+        document.getElementById('compra-beneficio-tributario').textContent = formatoMoneda(beneficioTributarioTotal);
+        document.getElementById('compra-ahorro-mensual').textContent = formatoMoneda(ahorroMensualGlobalCompra);
+
+        // Calcular proyección
+        calcularProyeccionCompra(costoSistemaGlobalCompra, beneficioTributarioTotal, tamanoSistema, kwhPromedio, costoKwhActualGlobalCompra);
+        
+        // Mostrar secciones
+        document.getElementById('compra-resultado').style.display = 'block';
+        document.getElementById('compra-proyeccion-table').style.display = 'table';
+        document.getElementById('compra-resumen-inversion').style.display = 'block';
+        document.getElementById('compra-calculadora-financiera').style.display = 'block';
+        
+        // Mostrar comparación financiera
+        mostrarComparacionFinancieraCompra(kwhPromedio, costoKwhActualGlobalCompra);
+        
+     // Trackear evento de cálculo completado
+trackCalculationEvent('compra', {
+    kwhPromedio: kwhPromedio,
+    valorFactura: valorFactura,
+    tamanoSistema: tamanoSistema.toFixed(2),
+    costoSistema: costoSistemaGlobalCompra,
+    ahorroEstimado: ahorroMensualGlobalCompra * 12
+});
+
+// Trackear vista de resultados
+trackResultsView('compra', {
+    system_size: tamanoSistema.toFixed(2),
+    estimated_cost: costoSistemaGlobalCompra,
+    estimated_savings: ahorroMensualGlobalCompra * 12
+});
+        
+        // Desplazarse a resultados
+        document.getElementById('compra-resultado').scrollIntoView({behavior: 'smooth'});
+    }
+
+    // CÁLCULO DE PROYECCIÓN COMPRA
+    function calcularProyeccionCompra(costoSistema, beneficioTributarioTotal, tamanoSistema, consumoMensual, costoKwhActual) {
+        const tbody = document.getElementById('compra-proyeccion-body');
+        tbody.innerHTML = '';
+        
+        let recuperacionInversion = -costoSistema;
+        let anioRecuperacion = 0;
+        let mantenimientoAnual = 0;
+        let ahorroAcumulado = 0;
+        let totalAcumulado = 0;
+        let generacionTotal = 0;
+        
+        const labels = [];
+        const ahorrosData = [];
+        const inversionData = [];
+        
+        const generacionAnualEstimada = consumoMensual * 12 / 0.84 * 0.86;
+        
+        for (let ano = 0; ano <= 25; ano++) {
+            const row = document.createElement('tr');
+            
+            if (ano === 0) {
+                row.innerHTML = `
+                    <td>${ano}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>${formatoMoneda(recuperacionInversion)}</td>
+                `;
+                tbody.appendChild(row);
+                labels.push(ano);
+                ahorrosData.push(0);
+                inversionData.push(recuperacionInversion);
+                continue;
+            }
+            
+            const eficiencia = eficienciaPorAnoCompra[ano];
+            const generacionAnual = generacionAnualEstimada * eficiencia;
+            generacionTotal += generacionAnual;
+            
+            const costoKwhAnual = costoKwhActual * Math.pow(1.06, ano-1);
+            const ahorroAnual = generacionAnual * costoKwhAnual;
+            ahorroAcumulado += ahorroAnual;
+            
+            if (ano === 1) {
+                document.getElementById('compra-ahorro-primer-ano').textContent = formatoMoneda(ahorroAnual);
+            }
+            
+            if (ano >= 2) {
+                mantenimientoAnual = costoSistema * 0.01 * Math.pow(1.10, ano-2);
+            } else {
+                mantenimientoAnual = 0;
+            }
+            
+            let beneficioTributarioAnual = 0;
+            if (ano === 2) beneficioTributarioAnual = beneficioTributarioTotal * 0.5556;
+            else if (ano === 3 || ano === 4) beneficioTributarioAnual = beneficioTributarioTotal * 0.2222;
+            
+            if (ano === 1) {
+                recuperacionInversion += ahorroAnual;
+            } else {
+                recuperacionInversion += ahorroAnual - mantenimientoAnual + beneficioTributarioAnual;
+            }
+            
+            if (recuperacionInversion >= 0 && anioRecuperacion === 0) {
+                anioRecuperacion = ano;
+                document.getElementById('compra-retorno-inversion').textContent = `Aprox. ${ano} años`;
+            }
+            
+            if (ano === 25) totalAcumulado = recuperacionInversion;
+            
+            row.innerHTML = `
+                <td>${ano}</td>
+                <td>${formatoNumero(generacionAnual.toFixed(2))}</td>
+                <td>${formatoMoneda(ahorroAnual)}</td>
+                <td>${ano >= 2 ? formatoMoneda(mantenimientoAnual) : '-'}</td>
+                <td>${beneficioTributarioAnual > 0 ? formatoMoneda(beneficioTributarioAnual) : '-'}</td>
+                <td>${formatoMoneda(recuperacionInversion)}</td>
+            `;
+            
+            if (ano === anioRecuperacion) row.classList.add('recuperado');
+            
+            tbody.appendChild(row);
+            labels.push(ano);
+            ahorrosData.push(ahorroAnual);
+            inversionData.push(recuperacionInversion);
+        }
+        
+        document.getElementById('compra-ahorro-acumulado').textContent = formatoMoneda(totalAcumulado + costoSistema);
+        
+        const totalContainer = document.getElementById('compra-total-acumulado-container');
+        totalContainer.innerHTML = `TOTAL ACUMULADO EN 25 AÑOS: <strong>${formatoMoneda(totalAcumulado)}</strong>`;
+        totalContainer.style.display = 'block';
+        
+        document.getElementById('compra-utilidad-total').textContent = formatoMoneda(totalAcumulado + costoSistema);
+        mostrarBeneficiosAmbientalesCompra(generacionTotal);
+        
+        const totalRow = document.createElement('tr');
+        totalRow.classList.add('fila-total');
+        totalRow.innerHTML = `
+            <td><strong>25 AÑOS</strong></td>
+            <td><strong>${formatoNumero(generacionTotal.toFixed(2))}</strong></td>
+            <td><strong>${formatoMoneda(ahorroAcumulado)}</strong></td>
+            <td><strong>${formatoMoneda(costoSistema * 0.01 * (Math.pow(1.10, 23) - 1) / 0.10)}</strong></td>
+            <td><strong>${formatoMoneda(beneficioTributarioTotal)}</strong></td>
+            <td><strong>${formatoMoneda(totalAcumulado)}</strong></td>
+        `;
+        tbody.appendChild(totalRow);
+        
+        crearGraficosCompra(labels, ahorrosData, inversionData);
+    }
+
+    // MOSTRAR COMPARACIÓN FINANCIERA COMPRA
+    function mostrarComparacionFinancieraCompra(consumoMensual, costoKwhActual) {
+        // Calcular gasto en energía tradicional
+        const gastoMensualInicial = consumoMensual * costoKwhActual;
+        const gastoMensualFinal = consumoMensual * costoKwhActual * Math.pow(1.06, 25);
+        
+        let gastoTotal = 0;
+        for (let ano = 1; ano <= 25; ano++) {
+            const costoKwhAnual = costoKwhActual * Math.pow(1.06, ano-1);
+            gastoTotal += consumoMensual * 12 * costoKwhAnual;
+        }
+        
+        // Mostrar datos de energía tradicional
+        document.getElementById('compra-gasto-energia-inicial').textContent = formatoMoneda(gastoMensualInicial);
+        document.getElementById('compra-gasto-energia-final').textContent = formatoMoneda(gastoMensualFinal);
+        document.getElementById('compra-total-energia').textContent = formatoMoneda(gastoTotal);
+        
+        // Mostrar datos de préstamo (valores iniciales, se actualizarán al calcular)
+        document.getElementById('compra-cuota-prestamo-inicial').textContent = "Calcula tu préstamo";
+        document.getElementById('compra-total-prestamo').textContent = "Calcula tu préstamo";
+        
+        // Mostrar sección
+        document.getElementById('compra-comparison-section').style.display = 'block';
+    }
+
+    // GRÁFICOS COMPRA
+    function crearGraficosCompra(labels, ahorrosData, inversionData) {
+        if (ahorrosChartCompra) ahorrosChartCompra.destroy();
+        if (inversionChartCompra) inversionChartCompra.destroy();
+        
+        const isMobile = window.innerWidth <= 768;
+        
+        const ahorrosCtx = document.getElementById('compra-ahorrosChart').getContext('2d');
+        ahorrosChartCompra = new Chart(ahorrosCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Ahorro anual (COP)',
+                    data: ahorrosData,
+                    backgroundColor: 'rgba(0, 102, 204, 0.7)',
+                    borderColor: 'rgba(0, 102, 204, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: value => '$' + (value / 1000000).toFixed(0) + 'M',
+                            autoSkip: true,
+                            maxTicksLimit: isMobile ? 5 : 10
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: isMobile ? 10 : 25
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: context => 'Ahorro: ' + formatoMoneda(context.raw)
+                        }
+                    }
+                }
+            }
+        });
+        
+        const inversionCtx = document.getElementById('compra-inversionChart').getContext('2d');
+        inversionChartCompra = new Chart(inversionCtx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Recuperación de inversión (COP)',
+                    data: inversionData,
+                    backgroundColor: 'rgba(0, 102, 204, 0.2)',
+                    borderColor: 'rgba(0, 102, 204, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: value => '$' + (value / 1000000).toFixed(0) + 'M',
+                            autoSkip: true,
+                            maxTicksLimit: isMobile ? 5 : 10
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: isMobile ? 10 : 25
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: context => 'Balance: ' + formatoMoneda(context.raw)
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // BENEFICIOS AMBIENTALES COMPRA
+    function mostrarBeneficiosAmbientalesCompra(generacionTotal) {
+        const co2Evitado = (generacionTotal * FACTORES_AMBIENTALES_COMPRA.CO2_POR_KWH) / 1000;
+        const arbolesEquivalentes = (generacionTotal * FACTORES_AMBIENTALES_COMPRA.ARBOLES_POR_KWH) / 1000;
+        const gasolinaEquivalente = generacionTotal * FACTORES_AMBIENTALES_COMPRA.GASOLINA_POR_KWH;
+        const carrosEquivalentes = co2Evitado / FACTORES_AMBIENTALES_COMPRA.CO2_CARRO_ANUAL;
+        
+        document.getElementById('compra-arboles-salvados').textContent = formatoNumero(arbolesEquivalentes, 0);
+        document.getElementById('compra-co2-evitar').textContent = formatoNumero(co2Evitado, 1);
+        document.getElementById('compra-combustible-equivalente').textContent = formatoNumero(gasolinaEquivalente, 0);
+        document.getElementById('compra-carros-vial').textContent = formatoNumero(carrosEquivalentes, 1);
+    }
+
+    // CALCULADORA FINANCIERA COMPRA
+    function calcularFinanciamientoCompra() {
+        const montoPrestamo = monedaANumero(document.getElementById('compra-monto-prestamo').value);
+        const tasaInteresAnual = parseFloat(document.getElementById('compra-tasa-interes').value) || 0;
+        const plazoAnios = parseFloat(document.getElementById('compra-plazo-prestamo').value) || 0;
+        
+        if (montoPrestamo <= 0 || tasaInteresAnual <= 0 || plazoAnios <= 0) {
+            alert("Por favor complete todos los campos con valores válidos.");
+            return;
+        }
+
+        const tasaMensual = tasaInteresAnual / 100 / 12;
+        const plazoMeses = plazoAnios * 12;
+        
+        // Calcular cuota mensual
+        const cuotaMensual = montoPrestamo * 
+            (tasaMensual * Math.pow(1 + tasaMensual, plazoMeses)) / 
+            (Math.pow(1 + tasaMensual, plazoMeses) - 1);
+        
+        const totalPagar = cuotaMensual * plazoMeses;
+        const interesesTotales = totalPagar - montoPrestamo;
+        
+        // Mostrar resultados
+        document.getElementById('compra-cuota-mensual').textContent = formatoMoneda(cuotaMensual);
+        document.getElementById('compra-total-pagar').textContent = formatoMoneda(totalPagar);
+        document.getElementById('compra-intereses-totales').textContent = formatoMoneda(interesesTotales);
+        
+        // Actualizar comparación financiera
+        document.getElementById('compra-cuota-prestamo-inicial').textContent = formatoMoneda(cuotaMensual);
+        document.getElementById('compra-total-prestamo').textContent = formatoMoneda(totalPagar);
+        
+        // Comparación con ahorro energético
+        if (ahorroMensualGlobalCompra > 0) {
+            const comparacion = ahorroMensualGlobalCompra >= cuotaMensual ? 
+                "¡Tu ahorro energético cubre la cuota del crédito!" : 
+                "Con el ahorro energético cubres el " + ((ahorroMensualGlobalCompra / cuotaMensual) * 100).toFixed(0) + "% de la cuota";
+            
+            document.getElementById('compra-comparacion-ahorro').textContent = comparacion;
+        }
+        
+        document.getElementById('compra-resultado-financiamiento').style.display = 'block';
+        
+        // Trackear evento de cálculo de financiamiento
+        trackMetaPixelEvent('CalculateLoan', {
+            loan_amount: montoPrestamo,
+            interest_rate: tasaInteresAnual,
+            loan_term: plazoAnios,
+            monthly_payment: cuotaMensual,
+            total_payment: totalPagar
+        });
+    }
+
+    // =============================================
+    // SIMULADOR DE CONTRATO PPA
+    // =============================================
+    
+    // CONSTANTES PPA
+    const eficienciaPorAnoPPA = [
+        0.97,    // Año 1
+        0.96456, // Año 2
+        0.95368, // Año 3
+        0.94824, // Año 4
+        0.9428,  // Año 5
+        0.936,   // Año 6
+        0.9292,  // Año 7
+        0.9224,  // Año 8
+        0.9156,  // Año 9
+        0.9088,  // Año 10
+        0.902,   // Año 11
+        0.8952,  // Año 12
+        0.8884,  // Año 13
+        0.8816,  // Año 14
+        0.8748   // Año 15
+    ];
+
+    const FACTORES_AMBIENTALES_PPA = {
+        CO2_POR_KWH: 0.5,
+        ARBOLES_POR_KWH: 0.02,
+        GASOLINA_POR_KWH: 0.00026,
+        CO2_CARRO_ANUAL: 4.6
+    };
+
+    // FUNCIÓN PRINCIPAL DE CÁLCULO PPA
+    function calcularPPA() {
+        // Obtener valores del formulario
+        const kwhPromedio = parseFloat(document.getElementById('ppa-kwh-promedio').value);
+        const valorFacturaInput = document.getElementById('ppa-valor-factura').value;
+        const valorFactura = parseFloat(valorFacturaInput.replace(/[^0-9]/g, ''));
+        const kwhFacturados = parseFloat(document.getElementById('ppa-kwh-facturados').value);
+        
+        // Validar entradas con la nueva función
+        const esValidoKwhPromedio = validarEntrada(kwhPromedio, 1, 800000, 
+            "El consumo promedio debe ser entre 1 y 800,000 kWh", 'ppa-kwh-promedio');
+            
+        const esValidoValorFactura = validarEntrada(valorFactura, 1000, 1000000000, 
+            "El valor de la factura debe ser entre $1,000 y $1,000,000,000", 'ppa-valor-factura');
+            
+        const esValidoKwhFacturados = validarEntrada(kwhFacturados, 1, 800000, 
+            "Los kWh facturados deben ser entre 1 y 800,000", 'ppa-kwh-facturados');
+        
+        if (!esValidoKwhPromedio || !esValidoValorFactura || !esValidoKwhFacturados) {
+            return;
+        }
+        
+        // Trackear evento de ViewContent para Meta Pixel
+        trackMetaPixelEvent('ViewContent', {
+            content_name: 'Simulador PPA Solar',
+            content_category: 'Solar',
+            content_ids: ['ppa_solar'],
+            content_type: 'product',
+            value: 0,
+            currency: 'COP'
+        });
+        
+        // Guardar datos en localStorage
+        guardarDatosFormulario('ppa', {
+            kwhPromedio: kwhPromedio,
+            valorFactura: valorFactura,
+            kwhFacturados: kwhFacturados
+        });
+        
+        // Calcular tamaño del sistema
+        const numPanelesTemp = (kwhPromedio / 4 / 30 / 0.84) / 0.645;
+        const numPaneles = Math.ceil(numPanelesTemp);
+        const tamanoSistema = numPaneles * 0.645;
+        
+        // Verificar tamaño mínimo del sistema (10 kW)
+        if (tamanoSistema < 10) {
+            alert('Lo sentimos, este programa solo aplica para sistemas mayores a 10 kW. Tu sistema calculado es de ' + tamanoSistema.toFixed(2) + ' kW. Por favor contáctanos para otras opciones.');
+            return;
+        }
+        
+        // Calcular producción mensual estimada
+        const produccionMensual = tamanoSistema * 4 * 30 * 0.84;
+        
+        // Calcular tarifa actual por kWh (20% menos que lo que paga actualmente)
+        const tarifaActual = (valorFactura / kwhFacturados) * 0.2;
+        
+        // Calcular ahorros
+        let ahorroAcumulado = 0;
+        let ahorroPrimerAno = 0;
+        let tarifaActualCalculo = tarifaActual;
+        const resultadosAnuales = [];
+        let generacionTotal = 0;
+        
+        for (let ano = 0; ano < 15; ano++) {
+            // Aumentar tarifa 6% cada año (excepto el primero)
+            if (ano > 0) {
+                tarifaActualCalculo *= 1.06;
+            }
+            
+            // Calcular producción anual considerando eficiencia
+            const produccionAnual = produccionMensual * 12 * eficienciaPorAnoPPA[ano];
+            generacionTotal += produccionAnual;
+            
+            // Calcular ahorro anual
+            const ahorroAnual = produccionAnual * tarifaActualCalculo;
+            
+            if (ano === 0) {
+                ahorroPrimerAno = ahorroAnual;
+            }
+            
+            ahorroAcumulado += ahorroAnual;
+            
+            resultadosAnuales.push({
+                ano: ano + 1,
+                produccion: produccionAnual,
+                ahorroAnual: ahorroAnual,
+                ahorroAcumulado: ahorroAcumulado
+            });
+        }
+        
+        // Mostrar resultados principales
+        document.getElementById('ppa-tamano-sistema').textContent = tamanoSistema.toFixed(2);
+        document.getElementById('ppa-numero-paneles').textContent = numPaneles;
+        document.getElementById('ppa-area-requerida').textContent = (tamanoSistema * 5.2).toFixed(2);
+        document.getElementById('ppa-produccion-mensual').textContent = produccionMensual.toFixed(2);
+        
+        // Mostrar resultados financieros
+        document.getElementById('ppa-ahorro-primer-mes').textContent = formatoMoneda(ahorroPrimerAno / 12);
+        document.getElementById('ppa-ahorro-primer-ano').textContent = formatoMoneda(ahorroPrimerAno);
+        document.getElementById('ppa-ahorro-total').textContent = formatoMoneda(ahorroAcumulado);
+        document.getElementById('ppa-ahorro-total-destacado').textContent = formatoMoneda(ahorroAcumulado);
+        document.getElementById('ppa-ahorro-total-destacado2').textContent = formatoMoneda(ahorroAcumulado);
+        document.getElementById('ppa-tarifa-aplicada').textContent = formatoMoneda(tarifaActual);
+        
+        // Calcular y mostrar beneficios ambientales
+        mostrarBeneficiosAmbientalesPPA(generacionTotal);
+        
+        // Llenar tabla detallada
+        const tablaDetalle = document.getElementById('ppa-detalle-anual');
+        tablaDetalle.innerHTML = '';
+        
+        resultadosAnuales.forEach(item => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>${item.ano}</td>
+                <td>${formatoNumero(item.produccion)}</td>
+                <td>${formatoMoneda(item.ahorroAnual)}</td>
+                <td>${formatoMoneda(item.ahorroAcumulado)}</td>
+            `;
+            tablaDetalle.appendChild(fila);
+        });
+        
+        // Mostrar resultados
+        document.getElementById('ppa-resultado').style.display = 'block';
+        
+        // Trackear evento de cálculo completado
+trackCalculationEvent('ppa', {
+    kwhPromedio: kwhPromedio,
+    valorFactura: valorFactura,
+    tamanoSistema: tamanoSistema.toFixed(2),
+    costoSistema: 0, // PPA no tiene costo inicial
+    ahorroEstimado: ahorroAcumulado
+});
+
+// Trackear vista de resultados
+trackResultsView('ppa', {
+    system_size: tamanoSistema.toFixed(2),
+    estimated_savings: ahorroAcumulado,
+    contract_years: 15
+});
+        
+        // Desplazarse a los resultados
+        document.getElementById('ppa-resultado').scrollIntoView({behavior: 'smooth'});
+    }
+    
+    // BENEFICIOS AMBIENTALES PPA
+    function mostrarBeneficiosAmbientalesPPA(generacionTotal) {
+        // Cálculos ambientales
+        const co2Evitado = (generacionTotal * FACTORES_AMBIENTALES_PPA.CO2_POR_KWH) / 1000;
+        const arbolesEquivalentes = (generacionTotal * FACTORES_AMBIENTALES_PPA.ARBOLES_POR_KWH) / 1000;
+        const gasolinaEquivalente = generacionTotal * FACTORES_AMBIENTALES_PPA.GASOLINA_POR_KWH;
+        const carrosEquivalentes = co2Evitado / FACTORES_AMBIENTALES_PPA.CO2_CARRO_ANUAL;
+        
+        // Mostrar resultados
+        document.getElementById('ppa-arboles-salvados').textContent = formatoNumero(arbolesEquivalentes, 0);
+        document.getElementById('ppa-co2-evitar').textContent = formatoNumero(co2Evitado, 1);
+        document.getElementById('ppa-combustible-equivalente').textContent = formatoNumero(gasolinaEquivalente, 0);
+        document.getElementById('ppa-carros-vial').textContent = formatoNumero(carrosEquivalentes, 1);
+    }
+
+    // =============================================
+    // EVENT LISTENERS Y FUNCIONES ADICIONALES
+    // =============================================
+    
+    // Cargar datos guardados al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cargar pestaña activa
+        const tabActiva = localStorage.getItem('tabActiva') || 'compra';
+        showTab(tabActiva);
+        
+        // Cargar datos de formulario de compra
+        const datosCompra = cargarDatosFormulario('compra');
+        if (datosCompra) {
+            document.getElementById('compra-kwh-promedio').value = datosCompra.kwhPromedio;
+            document.getElementById('compra-valor-factura').value = '$ ' + new Intl.NumberFormat('es-CO').format(datosCompra.valorFactura);
+            document.getElementById('compra-kwh-facturados').value = datosCompra.kwhFacturados;
+        }
+        
+        // Cargar datos de formulario PPA
+        const datosPPA = cargarDatosFormulario('ppa');
+        if (datosPPA) {
+            document.getElementById('ppa-kwh-promedio').value = datosPPA.kwhPromedio;
+            document.getElementById('ppa-valor-factura').value = '$ ' + new Intl.NumberFormat('es-CO').format(datosPPA.valorFactura);
+            document.getElementById('ppa-kwh-facturados').value = datosPPA.kwhFacturados;
+        }
+
+        // Cargar Meta Pixel si no está cargado
+        loadMetaPixel();
+        
+        // Trackear evento de PageView para Meta Pixel
+        trackMetaPixelEvent('PageView');
+        
+        // Evento de Scroll para engagement
+        let scrollPercentage = 0;
+        
+        window.addEventListener('scroll', function() {
+            const newPercentage = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+            if (newPercentage > scrollPercentage && newPercentage % 25 === 0) {
+                scrollPercentage = newPercentage;
+                trackMetaPixelEvent('Scroll', {
+                    scroll_percentage: scrollPercentage,
+                    content_name: 'Scroll en Simulador Solar'
+                });
+            }
+        });
+        
+        // Evento de Tiempo en Página
+        let pageLoadTime = Date.now();
+        
+        window.addEventListener('beforeunload', function() {
+            const timeSpent = Math.floor((Date.now() - pageLoadTime) / 1000);
+            trackMetaPixelEvent('TimeSpent', {
+                time_seconds: timeSpent,
+                content_name: 'Tiempo en Simulador Solar'
+            });
+        });
+        
+        // Eventos de Interacción con Gráficos
+        document.querySelectorAll('.chart-container canvas').forEach(chart => {
+            chart.addEventListener('click', function() {
+                const chartTitle = this.closest('.chart-container').querySelector('.chart-title').textContent;
+                trackMetaPixelEvent('ChartInteraction', {
+                    chart_title: chartTitle,
+                    interaction_type: 'click'
+                });
+            });
+        });
+        
+        // Eventos para botones de WhatsApp
+        document.querySelectorAll('a[href*="wa.me"]').forEach(button => {
+            button.addEventListener('click', function() {
+                const contactType = this.textContent.includes('asesor') ? 'asesor' : 'soporte';
+                trackContactEvent(contactType);
+            });
+        });
+        
+        // Eventos para botones de descarga
+        document.querySelectorAll('.download-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabActiva = document.querySelector('.tab.active').textContent.includes('PPA') ? 'ppa' : 'compra';
+                trackMetaPixelEvent('Download', {
+                    document_type: tabActiva === 'compra' ? 'purchase_guide' : 'ppa_guide',
+                    // Puedes añadir más datos relevantes según la pestaña
+                    ...(tabActiva === 'compra' ? {
+                        system_size: document.getElementById('compra-tamano-sistema')?.textContent,
+                        estimated_cost: costoSistemaGlobalCompra
+                    } : {
+                        estimated_savings: document.getElementById('ppa-ahorro-total')?.textContent
+                    })
+                });
+            });
+        });
+        
+        // Convertir números de teléfono en enlaces de WhatsApp
+        document.querySelectorAll('*').forEach(element => {
+            element.childNodes.forEach(childNode => {
+                if (childNode.nodeType === Node.TEXT_NODE && childNode.textContent.includes('+57 301 1285672')) {
+                    const whatsappLink = document.createElement('a');
+                    whatsappLink.href = 'https://wa.me/573011285672';
+                    whatsappLink.target = '_blank';
+                    whatsappLink.rel = 'noopener noreferrer';
+                    whatsappLink.textContent = '+57 301 1285672';
+                    whatsappLink.style.color = 'inherit';
+                    whatsappLink.style.textDecoration = 'underline';
+                    
+                    const span = document.createElement('span');
+                    span.innerHTML = childNode.textContent.replace('+57 301 1285672', whatsappLink.outerHTML);
+                    childNode.replaceWith(span);
+                }
+            });
+        });
+    });
+    
+    // Redibujar gráficos al cambiar el tamaño de la ventana
+    window.addEventListener('resize', function() {
+        if (ahorrosChartCompra && inversionChartCompra) {
+            ahorrosChartCompra.resize();
+            inversionChartCompra.resize();
+        }
+    });
+
+    // =============================================
+    // FUNCIONALIDAD DE DESCARGA DE PDF
+    // =============================================
+
+    // Función principal para manejar la descarga de PDF
+    async function descargarPDF() {
+        // Determinar qué pestaña está activa
+        const tabActiva = document.querySelector('.tab.active').textContent.includes('PPA') ? 'ppa' : 'compra';
+        
+        // Mostrar mensaje de carga
+        const btn = event.target;
+        btn.textContent = 'Generando PDF...';
+        btn.disabled = true;
+        
+        try {
+            // Cargar librerías necesarias
+            await cargarLibreriasPDF();
+            
+            // Generar PDF según la pestaña activa
+            if (tabActiva === 'compra') {
+                await generarPDFCompra();
+            } else {
+                await generarPDFPPA();
+            }
+        } catch (error) {
+            console.error('Error al generar PDF:', error);
+            alert('Ocurrió un error al generar el PDF. Por favor intente nuevamente.');
+        } finally {
+            // Restaurar botón
+            btn.textContent = 'DESCARGAR PRESENTACIÓN';
+            btn.disabled = false;
+        }
+    }
+
+    // Función para cargar las librerías necesarias
+    async function cargarLibreriasPDF() {
+        if (typeof jsPDF === 'undefined') {
+            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+        }
+        
+        if (typeof html2canvas === 'undefined') {
+            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+        }
+    }
+
+    // Función auxiliar para cargar scripts dinámicamente
+    function loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
+    async function generarPDFCompra() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+        });
+        
+        // Hoja 1: Banner Principal y texto introductorio
+        const seccion1 = document.querySelector('.header').cloneNode(true);
+        const introContainer = document.querySelector('.intro-container').cloneNode(true);
+        
+        // Agregar logo ECO
+        const logoImg1 = document.createElement('img');
+        logoImg1.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg1.className = 'eco-logo-pdf';
+        seccion1.appendChild(logoImg1);
+        
+        // Crear elemento temporal para renderizar
+        const tempDiv1 = document.createElement('div');
+        tempDiv1.appendChild(seccion1);
+        tempDiv1.appendChild(introContainer);
+        tempDiv1.style.width = '210mm';
+        tempDiv1.style.padding = '20px';
+        document.body.appendChild(tempDiv1);
+        
+        // Convertir a imagen
+        const canvas1 = await html2canvas(tempDiv1, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        // Agregar al PDF
+        doc.addImage(canvas1.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        doc.addPage();
+        
+        // Remover elemento temporal
+        document.body.removeChild(tempDiv1);
+        
+        // Hoja 2: Resultados principales
+        const resultHeader = document.querySelector('#compra-resultado .result-header').cloneNode(true);
+        const benefitBox = document.querySelector('#compra-resultado .benefit-box').cloneNode(true);
+        const resultadosBar = document.querySelector('#compra-resultado .resultados-bar').cloneNode(true);
+        
+        // Agregar logo ECO
+        const logoImg2 = document.createElement('img');
+        logoImg2.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg2.className = 'eco-logo-pdf';
+        
+        const tempDiv2 = document.createElement('div');
+        tempDiv2.style.width = '210mm';
+        tempDiv2.style.padding = '20px';
+        tempDiv2.style.backgroundColor = 'white';
+        tempDiv2.appendChild(resultHeader);
+        tempDiv2.appendChild(benefitBox);
+        tempDiv2.appendChild(resultadosBar);
+        tempDiv2.appendChild(logoImg2);
+        document.body.appendChild(tempDiv2);
+        
+        const canvas2 = await html2canvas(tempDiv2, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        doc.addImage(canvas2.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        doc.addPage();
+        document.body.removeChild(tempDiv2);
+        
+        // Hoja 3: Tabla de proyección
+        const tableContainer = document.querySelector('#compra-proyeccion-table').cloneNode(true);
+        const totalAcumulado = document.querySelector('#compra-total-acumulado-container').cloneNode(true);
+        
+        // Agregar logo ECO
+        const logoImg3 = document.createElement('img');
+        logoImg3.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg3.className = 'eco-logo-pdf';
+        
+        // Crear contenedor para la tabla
+        const tableDiv = document.createElement('div');
+        tableDiv.style.width = '210mm';
+        tableDiv.style.padding = '20px';
+        tableDiv.style.backgroundColor = 'white';
+        
+        // Agregar título
+        const tableTitle = document.createElement('h3');
+        tableTitle.textContent = 'Detalle de Ahorros Anuales';
+        tableTitle.style.textAlign = 'center';
+        tableTitle.style.color = '#0066cc';
+        tableTitle.style.marginBottom = '20px';
+        tableDiv.appendChild(tableTitle);
+        
+        tableDiv.appendChild(tableContainer);
+        tableDiv.appendChild(totalAcumulado);
+        tableDiv.appendChild(logoImg3);
+        document.body.appendChild(tableDiv);
+        
+        const canvas3 = await html2canvas(tableDiv, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        doc.addImage(canvas3.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        doc.addPage();
+        document.body.removeChild(tableDiv);
+        
+        // Hoja 4: Resumen de inversión y beneficios ambientales
+        const resumenInversion = document.querySelector('#compra-resumen-inversion').cloneNode(true);
+        const environmentalBenefits = document.querySelector('#compra-resultado .environmental-benefits').cloneNode(true);
+        
+        // Agregar logo ECO
+        const logoImg4 = document.createElement('img');
+        logoImg4.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg4.className = 'eco-logo-pdf';
+        
+        // Crear contenedor para el resumen
+        const resumenDiv = document.createElement('div');
+        resumenDiv.style.width = '210mm';
+        resumenDiv.style.padding = '20px';
+        resumenDiv.style.backgroundColor = 'white';
+        
+        // Mejorar formato del resumen
+        const resumenTitle = resumenInversion.querySelector('h4');
+        resumenTitle.style.textAlign = 'center';
+        resumenTitle.style.color = '#0066cc';
+        resumenTitle.style.marginBottom = '20px';
+        
+        resumenDiv.appendChild(resumenTitle);
+        
+        const resumenContent = resumenInversion.querySelector('p');
+        resumenContent.style.fontSize = '1.1em';
+        resumenContent.style.lineHeight = '1.6';
+        resumenDiv.appendChild(resumenContent);
+        
+        // Agregar beneficios ambientales
+        const envTitle = environmentalBenefits.querySelector('.environmental-title');
+        envTitle.style.textAlign = 'center';
+        envTitle.style.marginTop = '30px';
+        resumenDiv.appendChild(envTitle);
+        
+        const envContent = environmentalBenefits.querySelector('p');
+        envContent.style.textAlign = 'center';
+        envContent.style.marginBottom = '20px';
+        resumenDiv.appendChild(envContent);
+        
+        const benefitsGrid = environmentalBenefits.querySelector('.benefits-grid').cloneNode(true);
+        benefitsGrid.style.margin = '0 auto';
+        benefitsGrid.style.maxWidth = '90%';
+        resumenDiv.appendChild(benefitsGrid);
+        
+        resumenDiv.appendChild(logoImg4);
+        document.body.appendChild(resumenDiv);
+        
+        const canvas4 = await html2canvas(resumenDiv, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        doc.addImage(canvas4.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        doc.addPage();
+        document.body.removeChild(resumenDiv);
+        
+        // Hoja 5: Datos de contacto y aviso importante
+        const contactSection = document.createElement('div');
+        contactSection.style.width = '210mm';
+        contactSection.style.padding = '20px';
+        contactSection.style.backgroundColor = 'white';
+        
+        // Título
+        const contactTitle = document.createElement('h3');
+        contactTitle.textContent = 'Contacto Energy Capital Operation - ECO';
+        contactTitle.style.textAlign = 'center';
+        contactTitle.style.color = '#0066cc';
+        contactTitle.style.marginBottom = '20px';
+        contactSection.appendChild(contactTitle);
+        
+        // Información de contacto
+        const contactInfo = document.createElement('div');
+        contactInfo.innerHTML = `
+            <p style="text-align: center; font-size: 1.1em; margin-bottom: 15px;">
+                <strong>Teléfono/WhatsApp:</strong> +57 301 1285672<br>
+                <strong>Correo:</strong> contacto@eco-col.com
+            </p>
+            <p style="text-align: center; margin-bottom: 15px;">
+                <strong>Redes sociales:</strong><br>
+                TikTok @eco.col | Instagram @eco.sas | Facebook Eco
+            </p>
+        `;
+        contactSection.appendChild(contactInfo);
+        
+        // Aviso importante
+        const avisoDiv = document.createElement('div');
+        avisoDiv.style.marginTop = '20px';
+        avisoDiv.style.padding = '15px';
+        avisoDiv.style.backgroundColor = '#f8f9fa';
+        avisoDiv.style.borderLeft = '4px solid #0066cc';
+        avisoDiv.innerHTML = `
+            <h4 style="color: #0066cc; margin-top: 0;">Aviso importante:</h4>
+            <p>Esta herramienta es una simulación preliminar y no constituye una cotización final. Para una evaluación exacta y personalizada, contacta a uno de nuestros asesores.</p>
+            <p><strong>¿Cómo funciona?</strong></p>
+            <p>La calculadora solar de Energy Capital Operation genera una estimación aproximada del costo y rendimiento de tu sistema fotovoltaico, basada en los datos que ingreses.</p>
+            <p><strong>Factores que pueden afectar los resultados:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li>Distancias de cableado</li>
+                <li>Condiciones del sitio de instalación</li>
+                <li>Variaciones en precios de componentes</li>
+                <li>Radiación solar local</li>
+                <li>Entre otros factores técnicos</li>
+            </ul>
+            <p>Energy Capital Operation no asume responsabilidad por decisiones tomadas con base en esta simulación.</p>
+            <p style="margin-top: 15px;">
+                • Paneles Longi | Inversores Huawei o Solis<br>
+                • Los componentes del sistema cuentan con garantías que oscilan entre 10 y 15 años
+            </p>
+        `;
+        contactSection.appendChild(avisoDiv);
+        
+        // Agregar logo ECO
+        const logoImg5 = document.createElement('img');
+        logoImg5.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg5.className = 'eco-logo-pdf';
+        contactSection.appendChild(logoImg5);
+        
+        document.body.appendChild(contactSection);
+        
+        const canvas5 = await html2canvas(contactSection, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        doc.addImage(canvas5.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        document.body.removeChild(contactSection);
+        
+        // Guardar el PDF
+        doc.save('ECO_Sistema_Solar_Compra.pdf');
+    }
+
+    async function generarPDFPPA() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+        });
+        
+        // Hoja 1: Banner Principal y texto introductorio
+        const seccion1 = document.querySelector('.header').cloneNode(true);
+        const introContainer = document.querySelector('.intro-container').cloneNode(true);
+        
+        // Agregar logo ECO
+        const logoImg1 = document.createElement('img');
+        logoImg1.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg1.className = 'eco-logo-pdf';
+        seccion1.appendChild(logoImg1);
+        
+        // Crear elemento temporal para renderizar
+        const tempDiv1 = document.createElement('div');
+        tempDiv1.appendChild(seccion1);
+        tempDiv1.appendChild(introContainer);
+        tempDiv1.style.width = '210mm';
+        tempDiv1.style.padding = '20px';
+        document.body.appendChild(tempDiv1);
+        
+        // Convertir a imagen
+        const canvas1 = await html2canvas(tempDiv1, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        // Agregar al PDF
+        doc.addImage(canvas1.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        doc.addPage();
+        
+        // Remover elemento temporal
+        document.body.removeChild(tempDiv1);
+        
+        // Hoja 2: Resultados principales
+        const resultHeader = document.querySelector('#ppa-resultado .result-header').cloneNode(true);
+        const benefitBox = document.querySelector('#ppa-resultado .benefit-box').cloneNode(true);
+        const resultadosBar = document.querySelector('#ppa-resultado .resultados-bar').cloneNode(true);
+        const projectionTable = document.querySelector('#ppa-resultado .projection-table').cloneNode(true);
+        
+        // Agregar logo ECO
+        const logoImg2 = document.createElement('img');
+        logoImg2.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg2.className = 'eco-logo-pdf';
+        
+        const tempDiv2 = document.createElement('div');
+        tempDiv2.style.width = '210mm';
+        tempDiv2.style.padding = '20px';
+        tempDiv2.style.backgroundColor = 'white';
+        tempDiv2.appendChild(resultHeader);
+        tempDiv2.appendChild(benefitBox);
+        tempDiv2.appendChild(resultadosBar);
+        tempDiv2.appendChild(projectionTable);
+        tempDiv2.appendChild(logoImg2);
+        document.body.appendChild(tempDiv2);
+        
+        const canvas2 = await html2canvas(tempDiv2, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        doc.addImage(canvas2.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        doc.addPage();
+        document.body.removeChild(tempDiv2);
+        
+        // Hoja 3: Tabla de proyección
+        const tableContainer = document.querySelector('#ppa-detalle-anual').parentNode.parentNode.cloneNode(true);
+        
+        // Agregar logo ECO
+        const logoImg3 = document.createElement('img');
+        logoImg3.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg3.className = 'eco-logo-pdf';
+        
+        // Crear contenedor para la tabla
+        const tableDiv = document.createElement('div');
+        tableDiv.style.width = '210mm';
+        tableDiv.style.padding = '20px';
+        tableDiv.style.backgroundColor = 'white';
+        
+        // Agregar título
+        const tableTitle = document.createElement('h3');
+        tableTitle.textContent = 'Detalle de Ahorros Anuales (15 años)';
+        tableTitle.style.textAlign = 'center';
+        tableTitle.style.color = '#1a73e8';
+        tableTitle.style.marginBottom = '20px';
+        tableDiv.appendChild(tableTitle);
+        
+        tableDiv.appendChild(tableContainer);
+        tableDiv.appendChild(logoImg3);
+        document.body.appendChild(tableDiv);
+        
+        const canvas3 = await html2canvas(tableDiv, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        doc.addImage(canvas3.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        doc.addPage();
+        document.body.removeChild(tableDiv);
+        
+        // Hoja 4: Resumen de 15 años y beneficios ambientales
+        const fifteenYearSummary = document.querySelector('.fifteen-year-summary').cloneNode(true);
+        const environmentalBenefits = document.querySelector('.environmental-benefits.ppa').cloneNode(true);
+        
+        // Agregar logo ECO
+        const logoImg4 = document.createElement('img');
+        logoImg4.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg4.className = 'eco-logo-pdf';
+        
+        const tempDiv4 = document.createElement('div');
+        tempDiv4.style.width = '210mm';
+        tempDiv4.style.padding = '20px';
+        tempDiv4.style.backgroundColor = 'white';
+        tempDiv4.appendChild(fifteenYearSummary);
+        tempDiv4.appendChild(environmentalBenefits);
+        tempDiv4.appendChild(logoImg4);
+        document.body.appendChild(tempDiv4);
+        
+        const canvas4 = await html2canvas(tempDiv4, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        doc.addImage(canvas4.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        doc.addPage();
+        document.body.removeChild(tempDiv4);
+        
+        // Hoja 5: Datos de contacto y aviso importante
+        const contactSection = document.createElement('div');
+        contactSection.style.width = '210mm';
+        contactSection.style.padding = '20px';
+        contactSection.style.backgroundColor = 'white';
+        
+        // Título
+        const contactTitle = document.createElement('h3');
+        contactTitle.textContent = 'Contacto Energy Capital Operation - ECO';
+        contactTitle.style.textAlign = 'center';
+        contactTitle.style.color = '#1a73e8';
+        contactTitle.style.marginBottom = '20px';
+        contactSection.appendChild(contactTitle);
+        
+        // Información de contacto
+        const contactInfo = document.createElement('div');
+        contactInfo.innerHTML = `
+            <p style="text-align: center; font-size: 1.1em; margin-bottom: 15px;">
+                <strong>Teléfono/WhatsApp:</strong> +57 301 1285672<br>
+                <strong>Correo:</strong> contacto@eco-col.com
+            </p>
+            <p style="text-align: center; margin-bottom: 15px;">
+                <strong>Redes sociales:</strong><br>
+                TikTok @eco.col | Instagram @eco.sas | Facebook Eco
+            </p>
+        `;
+        contactSection.appendChild(contactInfo);
+        
+        // Aviso importante
+        const avisoDiv = document.createElement('div');
+        avisoDiv.style.marginTop = '20px';
+        avisoDiv.style.padding = '15px';
+        avisoDiv.style.backgroundColor = '#f8f9fa';
+        avisoDiv.style.borderLeft = '4px solid #1a73e8';
+        avisoDiv.innerHTML = `
+            <h4 style="color: #1a73e8; margin-top: 0;">Aviso importante:</h4>
+            <p>Esta herramienta es una simulación preliminar y no constituye una cotización final. Para una evaluación exacta y personalizada, contacta a uno de nuestros asesores.</p>
+            <p><strong>¿Cómo funciona?</strong></p>
+            <p>La calculadora solar de Energy Capital Operation genera una estimación aproximada del costo y rendimiento de tu sistema fotovoltaico, basada en los datos que ingreses.</p>
+            <p><strong>Factores que pueden afectar los resultados:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li>Distancias de cableado</li>
+                <li>Condiciones del sitio de instalación</li>
+                <li>Variaciones en precios de componentes</li>
+                <li>Radiación solar local</li>
+                <li>Entre otros factores técnicos</li>
+            </ul>
+            <p>Energy Capital Operation no asume responsabilidad por decisiones tomadas con base en esta simulación.</p>
+            <p style="margin-top: 15px;">
+                • Paneles Longi | Inversores Huawei o Solis<br>
+                • Los componentes del sistema cuentan con garantías que oscilan entre 10 y 15 años
+            </p>
+        `;
+        contactSection.appendChild(avisoDiv);
+        
+        // Agregar logo ECO
+        const logoImg5 = document.createElement('img');
+        logoImg5.src = 'https://eco-col.com/wp-content/uploads/logo-eco-col.png';
+        logoImg5.className = 'eco-logo-pdf';
+        contactSection.appendChild(logoImg5);
+        
+        document.body.appendChild(contactSection);
+        
+        const canvas5 = await html2canvas(contactSection, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true
+        });
+        
+        doc.addImage(canvas5.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+        document.body.removeChild(contactSection);
+        
+        // Guardar el PDF
+        doc.save('ECO_Contrato_PPA.pdf');
+    }
+</script>
+
+<!-- Carga de Chart.js al final del body para mejor rendimiento -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<script>
+function scrollToSimulador() {
+  const el = document.querySelector("#simulador-heading");
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+</script
+</body>
+</html>
+<!-- /wp:html -->

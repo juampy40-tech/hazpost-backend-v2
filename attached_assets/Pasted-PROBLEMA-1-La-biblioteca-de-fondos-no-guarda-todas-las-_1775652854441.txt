@@ -1,0 +1,50 @@
+PROBLEMA #1: La biblioteca de fondos no guarda todas las fotos
+Lo que pasa:
+•	He generado como 200 publicaciones
+•	Cada publicación usa fotos por las que ya pagué (sin logo ni texto)
+•	La biblioteca de fondos solo tiene 48 fotos
+•	Faltan muchas fotos que no se están guardando
+Lo que debe pasar:
+Todas las fotos que se crean o usan en las publicaciones deben guardarse automáticamente en la biblioteca de fondos, así no se hayan usado todavía.
+Cada foto pagada = debe estar en la biblioteca. No importa si se usó o no.
+________________________________________
+PROBLEMA #2: Genera más publicaciones el mismo día aunque ya esté ocupado
+Lo que pasó (10 de abril):
+Lo que YA estaba programado y aprobado:
+•	10 de abril → Fotos de TikTok e Instagram a las 2:00 AM ✅
+Lo que hizo la app al generar más contenido (ERROR):
+•	Volvió a generar otras fotos para las 2 mismas redes (TikTok e Instagram)
+•	Las puso el mismo 10 de abril pero a las 8:00 AM
+Por qué cree que pasó el error:
+La app probablemente vio los horarios del plan de sugerencias (ejemplo: 2:00 AM y 8:00 AM son horarios permitidos) y como no encontró ocupado el horario de las 8:00 AM, lo llenó.
+Lo que DEBE pasar (REGLAS):
+Regla	Explicación
+❌ No	"Como hay un horario libre a las 8:00 AM, puedo poner otra foto"
+✅ Sí	"Si el día YA TIENE una foto de Instagram programada y aprobada (aunque sea a las 2:00 AM o la hora que sea que no sea la del plan), NO debo crear otra foto de Instagram para el mismo día" aplica para todas las redes
+Regla clave: Un día solo puede tener UNA publicación por tipo de contenido y plataforma.
+•	Si ya hay una foto de Instagram el 10 de abril (a las 2:00 AM) → ❌ No crear otra foto de Instagram el 10 de abril
+•	No importa si hay otro horario libre en el mismo día. El día ya está ocupado para ese tipo de contenido en esa plataforma.
+Aplica para: Foto, Reel, Carrusel, Historia. Cada tipo de contenido es independiente.
+Ejemplo válido (SÍ se puede):
+•	10 de abril → Foto de Instagram a las 2:00 AM ✅
+•	10 de abril → Reel de Instagram a las 8:00 AM ✅ (son tipos diferentes)
+El que puede romper esta regla es el usuario el puede poner las publicaciones que quiera el dia que quiera a la hola que quiera
+Ejemplo inválido (NO se puede):
+•	10 de abril → Foto de Instagram a las 2:00 AM ✅
+•	10 de abril → Foto de Instagram a las 8:00 AM ❌ (mismo tipo, mismo día)
+•	El que puede romper esta regla es el usuario el puede poner las publicaciones que quiera el dia que quiera a la hola que quiera
+
+________________________________________
+PROBLEMA #3: La cola de aprobación se queda pegada
+Lo que pasa:
+•	La cola de aprobación no avanza
+•	Se queda pegada
+Te agrego foto
+RESUMEN DE LOS 3 PROBLEMAS
+#	Problema	Solución requerida
+1	Biblioteca de fondos solo tiene 48 fotos (deberían ser ~200)	Guardar TODAS las fotos pagadas en la biblioteca automáticamente
+2	Genera otra foto el mismo día aunque ya haya una	Un día = máximo 1 publicación por tipo+plataforma (sin importar horario) El que puede romper esta regla es el usuario el puede poner las publicaciones que quiera el dia que quiera a la hola que quiera
+
+3	Cola de aprobación se queda pegada	arreglar
+________________________________________
+¿Ahora sí, Replit? Corrige estos 3 problemas.

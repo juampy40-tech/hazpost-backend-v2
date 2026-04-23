@@ -1,0 +1,107 @@
+Necesito que revises el código de mi app Hazpost y me confirmes cuáles de estos 40 skills ya están implementados y cuáles faltan. Los que falten, por favor inclúyelos, pero con las debidas precauciones.
+
+Aquí está la lista completa de skills que debe tener la app:
+
+=== SEGURIDAD (6) ===
+1. Auth Guardian - Manejo seguro de autenticación (JWT/OAuth), cada usuario solo accede a sus datos
+2. Input Sanitizer - Limpia y valida todos los datos de entrada (textos, URLs, archivos)
+3. Rate Limiter - Limita solicitudes por usuario/tiempo (ej: 10 generaciones por hora)
+4. API Key Vault - Almacena claves de OpenAI/DALL-E en variables de entorno, nunca en el frontend
+5. File Scanner - Escanea imágenes subidas (tamaño, tipo, malware) antes de procesarlas
+6. Audit Logger - Registra acciones críticas sin guardar datos sensibles
+
+=== CALIDAD DE CÓDIGO (5) ===
+7. Code Linter - Revisa malas prácticas, formato, variables sin usar
+8. Dead Code Cleaner - Detecta y elimina código muerto (funciones obsoletas, console.logs)
+9. Naming Validator - Verifica nombres descriptivos en variables y funciones
+10. Single Responsibility Checker - Cada función hace UNA sola cosa
+11. Comment Enforcer - Documenta el "por qué" del código complejo
+
+=== ARQUITECTURA (5) ===
+12. Business Isolator - ⚠️ CRÍTICO: Asegura que negocios del mismo usuario NO se contaminen (colores, prompts, contadores, fotos)
+13. Config Separator - Configuración separada por cada negocio (colores, firma, tipografía)
+14. Env Validator - Verifica que todas las variables de entorno existan antes de iniciar
+15. Version Tracker - Migraciones versionadas de base de datos
+16. Multi-Business Handler - Maneja correctamente usuarios con múltiples negocios sin mezclar datos
+
+=== PRUEBAS (4) ===
+17. Unit Tester - Prueba funciones pequeñas por separado
+18. Integration Tester - Prueba que DALL-E + generador + DB funcionen juntos
+19. Regression Hunter - Detecta si algo que funcionaba antes se rompió
+20. Load Tester - Prueba la app con varios usuarios simultáneos
+
+=== RENDIMIENTO (5) ===
+21. Cache Manager - Guarda resultados previos para no llamar a DALL-E innecesariamente
+22. Async Processor - Generaciones masivas en segundo plano (no bloquea al usuario)
+23. Lazy Loader - Carga imágenes y datos solo cuando se necesitan
+24. Query Optimizer - Consultas a DB con índices, nada de queries lentas
+25. Pagination Handler - Posts paginados, no todos de golpe
+
+=== IA / PROMPTS (6) ===
+26. Prompt Cleaner - ⚠️ CRÍTICO: Elimina del prompt cualquier rastro de "Eco" por defecto
+27. Reference Injector - ⚠️ CRÍTICO: Incluye la foto de referencia del usuario en el prompt de DALL-E
+28. Title Concordance Checker - ⚠️ CRÍTICO: Verifica que títulos de TODAS las imágenes coincidan con el tema del post
+29. Level Learner - Aplica regla de niveles (internacional → nacional → local), prioriza lo local
+30. Viral Booster - Detecta contenido viral y le da más importancia (excepción a la regla de niveles)
+31. Bulk Prompt Builder - Construye prompts correctamente para generación masiva (1-20 imágenes)
+
+=== BASE DE DATOS (4) ===
+32. Counter Isolator - ⚠️ CRÍTICO: Contador de posts INDEPENDIENTE por cada negocio
+33. Business FK Validator - Todas las tablas tienen business_id como clave foránea
+34. Connection Pooler - Maneja pool de conexiones a DB (no abre/cierra por cada consulta)
+35. Backup Automator - Backups automáticos de la base de datos
+
+=== DEPURACIÓN Y MONITOREO (5) ===
+36. Error Handler - Captura errores y muestra mensajes amigables al usuario
+37. Structured Logger - Registros con timestamp, nivel, mensaje y business_id
+38. Performance Monitor - Mide tiempos de respuesta (DALL-E, DB, API)
+39. Health Checker - Revisa cada 5 minutos que la app y APIs funcionen
+40. Alert Dispatcher - Envía alertas (email/telegram) si algo crítico falla
+
+⚠️ IMPORTANTE - ADVERTENCIA PREVIA:
+
+Algunos skills pueden dañar la web si no se conocen a fondo o si generan conflictos con el código existente.
+
+SKILLS CON RIESGO ALTO (ten especial cuidado):
+- Rate Limiter (puede bloquear usuarios legítimos)
+- Business Isolator (puede romper relaciones usuario-negocio)
+- Async Processor (puede perder generaciones masivas)
+- Cache Manager (puede mostrar datos viejos si no se invalida bien)
+- Business FK Validator (puede romper la base de datos)
+- Counter Isolator (puede perder historial de posts existentes)
+
+REGLAS ANTES DE IMPLEMENTAR CUALQUIER SKILL:
+
+1. REVISA si el skill ya existe parcialmente en el código
+2. ANALIZA posibles conflictos con la lógica actual
+3. VERIFICA que no vaya a romper datos existentes (posts, usuarios, negocios)
+4. PRUEBA en entorno de desarrollo primero (no en producción directo)
+5. Si detectas que un skill puede causar problemas, PROPÓN una alternativa o solución gradual
+6. Para skills de RIESGO ALTO → implementación GRADUAL, con FEATURE FLAG, y con ROLLBACK posible
+7. No implementes nada que pueda borrar datos existentes sin migración previa
+8. Si no estás seguro de cómo afectará un skill, DIMELO antes de crearlo
+
+PROCESO QUE DEBES SEGUIR:
+
+PASO 1: Revisa mi código actual contra esta lista
+PASO 2: Dame un informe de: ✅ implementado / ❌ falta / ⚠️ parcial (con notas de conflictos)
+PASO 3: Para los que faltan o están parciales, dime si hay RIESGO DE CONFLICTO
+PASO 4: Propón una implementación SEGURA para cada uno
+PASO 5: Yo reviso tu propuesta y luego la ejecutamos
+
+PRIORIDAD ABSOLUTA (pero con cuidado):
+1. Business Isolator - Para que Eco no contamine a Hazpost ni Emma a Panadería
+2. Reference Injector - Para que DALL-E use las fotos de referencia en generador masivo
+3. Title Concordance Checker - Para que no salgan títulos de Eco en posts de panadería
+4. Prompt Cleaner - Para eliminar "esencia de Eco" por defecto
+5. Counter Isolator - Para que los contadores de posts sean independientes por negocio
+
+Resumen para que respondas:
+
+"Necesito que me digas:
+1. Qué skills de los 40 ya están implementados en mi código
+2. Qué skills faltan
+3. Qué skills tienen riesgo de conflicto con mi código actual
+4. Para los 5 críticos (Business Isolator, Reference Injector, Title Concordance Checker, Prompt Cleaner, Counter Isolator), dime tu plan de implementación SEGURO
+
+Prefiero una solución segura y gradual que una rápida y rota. Si un skill puede dañar la web o no lo conoces a fondo, DIMELO antes de crearlo."

@@ -1,0 +1,63 @@
+Sintoma:
+La Tipografía del texto no está cambiando correctamente.
+Además, no se está cumpliendo la regla de colores por renglón en el título (sin firma).
+________________________________________
+🔍 Regla que debe cumplirse (pero no se cumple)
+Condición:
+Cuando el título (sin incluir la firma) ocupe 2 o más renglones:
+•	Un renglón debe ser del color de acento
+•	Ese renglón nunca debe ser el primero (el de arriba)
+Ejemplos:
+2 renglones:
+text
+Renglón 1 → color normal ✅
+Renglón 2 → color acento ✅
+3 renglones:
+text
+Renglón 1 → color normal ✅
+Renglón 2 → color acento ✅
+Renglón 3 → color normal ✅
+Lo que NO debe pasar:
+text
+Renglón 1 → color acento ❌ (nunca el primero)
+________________________________________
+🛠️ Acción requerida
+1.	Revisar al usuario 3 (Emma Yanguas):
+o	Verificar por qué la Tipografía del texto no está cambiando.
+o	Verificar por qué la regla de colores por renglón no se aplica.
+2.	Corregir la lógica para que:
+o	La tipografía seleccionada se aplique correctamente.
+o	La regla de colores por renglón funcione en todos los casos (2, 3 o más renglones).
+3.	Si falta una habilidad nueva (skill) para implementar esto, créala.
+________________________________________
+⚙️ Condición final (importante)
+Todos estos cambios deben aplicarse en producción, para todos los usuarios y negocios, es decir, generales para toda la app:
+•	Usuarios nuevos ✅
+•	Usuarios viejos ✅
+•	Exactamente toda la app ✅
+Si falta alguna habilidad nueva (skill) para implementar esto, crédala.
+________________________________________
+📋 Resumen corto para copiar/pegar en Replit
+text
+Problema con usuario 3 (Emma Yanguas):
+
+1. La Tipografía del texto no está cambiando correctamente.
+
+2. No se cumple la regla de colores por renglón:
+   - Título sin firma con 2+ renglones → un renglón debe ser color acento
+   - Ese renglón NUNCA debe ser el primero (arriba)
+   - Ejemplo 2 renglones: renglón 1 normal, renglón 2 acento
+   - Ejemplo 3 renglones: renglón 1 normal, renglón 2 acento, renglón 3 normal
+
+Acción:
+- Revisar y corregir al usuario 3
+- Aplicar la regla globalmente
+- Crear skill si falta
+
+Condición:
+- Producción para TODOS (nuevos, viejos, toda la app)
+Si necesitas un skill crealo
+1.	⚙️ Condición final (importante)
+Todos estos cambios deben aplicarse en producción, para todos los usuarios y negocios, es decir, generales para toda la app, usuarios nuevos, y viejos, exactamente toda la app.
+Si falta alguna habilidad nueva (skill) para implementar esto, créala.
+

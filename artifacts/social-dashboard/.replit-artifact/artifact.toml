@@ -1,0 +1,39 @@
+kind = "web"
+  previewPath = "/"
+  title = "ECO Social Manager"
+  version = "1.0.0"
+  id = "artifacts/social-dashboard"
+  router = "path"
+
+  [[integratedSkills]]
+  name = "react-vite"
+  version = "1.0.0"
+
+  [[services]]
+  name = "web"
+  paths = [ "/" ]
+  localPort = 18458
+
+  [services.development]
+  run = "pnpm --filter @workspace/social-dashboard run dev"
+
+  [services.production]
+  serve = "static"
+  publicDir = "artifacts/social-dashboard/dist/public"
+
+  [services.production.build]
+  args = ["pnpm", "--filter", "@workspace/social-dashboard", "run", "build"]
+
+  [services.production.build.env]
+  NODE_ENV = "production"
+  BASE_PATH = "/"
+  NODE_OPTIONS = "--max-old-space-size=1536"
+
+  [[services.production.rewrites]]
+  from = "/*"
+  to = "/index.html"
+
+  [services.env]
+  PORT = "18458"
+  BASE_PATH = "/"
+  

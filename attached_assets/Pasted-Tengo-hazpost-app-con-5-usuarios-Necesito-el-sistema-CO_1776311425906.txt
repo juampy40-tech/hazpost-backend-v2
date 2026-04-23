@@ -1,0 +1,71 @@
+Tengo hazpost.app con 5 usuarios. Necesito el sistema COMPLETO que funcione hoy y ESCALE a millones.
+
+## LENGUAJE Y TECNOLOGÍA:
+- Backend: Python 3.11+ con Flask
+- Base de datos: SQLAlchemy (SQLite hoy, PostgreSQL después)
+- Caché y colas: Redis + RQ (opcional, funciona sin ellos)
+- Frontend: HTML + CSS (página /skills estática)
+
+## ARQUITECTURA DE CRECIMIENTO:
+
+FASE 1 (hoy, 5 usuarios): Todo en un servidor Replit o VPS $5-20/mes
+FASE 2 (100 usuarios): Separar PostgreSQL ($15/mes)
+FASE 3 (1000 usuarios): Agregar Redis + RQ ($15/mes)
+FASE 4 (10000 usuarios): Balanceador de carga + múltiples servidores web
+FASE 5 (millones): Escala horizontal infinita
+
+## ESTRUCTURA OBLIGATORIA:
+data/
+├── usuarios/
+│   ├── usuario_001/  (cada uno aislado)
+│   └── ...
+├── conocimiento_colectivo/
+│   ├── carnicerias.json
+│   └── ...
+├── skills_auto.json  (única fuente de verdad)
+├── logs/
+└── backups/
+
+## LO QUE DEBE HACER (TODO AUTOMÁTICO):
+1. Escanear cada 6 horas (detecta skills reales de mi web)
+2. Detectar duplicados y fusionarlos solo (>80% similitud)
+3. Aislar usuarios (cada uno en su carpeta, NUNCA se mezclan)
+4. Aprendizaje colectivo (IA aprende de todos del mismo rubro)
+5. Seguridad: headers, rate limiting (5 intentos/login)
+6. SEO: meta tags, Open Graph, Twitter Cards, JSON-LD, sitemap.xml
+7. Backup diario a las 2 AM (data/, logs/, .env)
+8. Alertas a mi Telegram @eco_social_alerts_bot
+9. Página /skills se genera sola
+
+## VARIABLES DE ENTORNO (.env):
+DATABASE_URL=sqlite:///data/hazpost.db  (cambiar a postgresql:// cuando crezca)
+REDIS_URL=  (vacío hoy, llenar cuando crezca)
+BACKUP_STORAGE=local  (cambiar a s3 cuando crezca)
+BOT_TOKEN=tu_token
+CHAT_ID=@eco_social_alerts_bot
+MODO=produccion
+SECRET_KEY=tu_clave_secreta
+
+## CÓDIGO REQUERIDO (todos los archivos):
+- app.py (servidor Flask)
+- src/scanner.py (escaneo cada 6h)
+- src/telegram_alerts.py (alertas)
+- src/backup.py (backup diario)
+- src/security.py (headers, rate limiting)
+- src/seo.py (meta tags, sitemap)
+- src/duplicados.py (fusión de skills)
+- src/monitor.py (web caída, rendimiento)
+- src/aislamiento.py (usuarios separados)
+- src/aprendizaje_colectivo.py (IA por rubro)
+- templates/skills.html
+- requirements.txt
+- .env.example
+
+## REQUISITOS CLAVE:
+- El código funciona HOY con 5 usuarios en Replit (SQLite, sin Redis)
+- El código funciona después con millones (PostgreSQL, Redis, múltiples servidores)
+- Yo SOLO cambio variables de entorno. NUNCA reescribo código.
+- TODO automático, nada manual
+- MODO PRUEBA primero (simula), cuando yo diga "activar" escribe realmente
+
+Genera el código completo ahora.

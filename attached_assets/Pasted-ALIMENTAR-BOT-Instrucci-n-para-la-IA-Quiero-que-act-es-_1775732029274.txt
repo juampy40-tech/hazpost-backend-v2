@@ -1,0 +1,37 @@
+ALIMENTAR BOT
+Instrucción para la IA:
+Quiero que actúes como un asistente de automatización de documentación. Tu tarea es:
+1.	Revisar todas las secciones de mi aplicación (por ejemplo: configuración, integración de plataformas, usuarios, reportes, etc.).
+2.	Identificar qué preguntas frecuentes o dudas podría tener un usuario final sobre cada sección.
+3.	Con base en el contenido real de cada sección (textos, botones, flujos, opciones), generar un conjunto de preguntas y respuestas útiles.
+4.	Alimentar un chatbot con esas preguntas y respuestas, para que el usuario pueda preguntar y obtener la respuesta automáticamente.
+5.	En el caso específico de la sección "Integración de plataformas", debes:
+o	Leer todas las integraciones que yo ya creé (por ejemplo: redes sociales, CRM, APIs, etc.).
+o	Hacer un resumen de cada una.
+o	Escribir un paso a paso claro de cómo integrar cada red o plataforma.
+o	Convertir ese resumen + paso a paso en preguntas y respuestas para el chatbot.
+________________________________________
+📌 Ejemplo concreto que le puedes dar (para que entienda exactamente)
+Ejemplo para la IA:
+Imagina que en mi app tengo una sección llamada "Integración de redes sociales" y dentro tengo estas integraciones ya hechas por mí:
+•	Facebook
+•	Instagram
+•	LinkedIn
+•	TikTok
+Para cada una hay campos como: API Key, Secret Key, Callback URL, Permisos.
+Lo que necesito que hagas:
+1.	Resumen de cada integración (qué permite hacer, requisitos, límites).
+2.	Paso a paso de integración, por ejemplo:
+o	Paso 1: Ve a Facebook Developers y crea una app.
+o	Paso 2: Copia el App ID y App Secret.
+o	Paso 3: Pega esos valores en los campos de mi app.
+o	Paso 4: Configura el Callback URL como https://miapp.com/callback/facebook.
+o	Paso 5: Guarda y prueba.
+3.	Preguntas y respuestas para el chatbot, como:
+o	P: ¿Cómo conecto Facebook con la app?
+R: [aquí el paso a paso resumido]
+o	P: ¿Qué permisos necesita Instagram?
+R: [respuesta clara]
+o	P: ¿Por qué falla la integración de LinkedIn?
+R: [posibles errores comunes]
+Regla cada sección nueva o modificaciones que hagamos  hacer lo mismo para alimentar el bot, ES MEJOR HACERLO YA O CUANDO ESTE TERMINADA LA APP?

@@ -1,0 +1,14 @@
+{
+  "_comment": "Configuración central del scheduler de HazPost. Ver skill: .agents/skills/content-scheduler-validator/SKILL.md",
+  "_source": "GET /api/analytics/posting-suggestions — los días y horarios SIEMPRE vienen de ese endpoint, nunca de este archivo",
+  "optimization": {
+    "bestHourWeight": 0.7,
+    "otherHoursWeight": 0.3,
+    "minCoverageOtherMarkets": true
+  },
+  "dynamicRules": {
+    "allowDaysChange": true,
+    "allowHoursChange": true
+  },
+  "_update_procedure": "Si cambias bestHourWeight u otherHoursWeight, actualiza también la sección '70/30' del skill content-scheduler-validator/SKILL.md. Solo esos 2 archivos necesitan cambio."
+}

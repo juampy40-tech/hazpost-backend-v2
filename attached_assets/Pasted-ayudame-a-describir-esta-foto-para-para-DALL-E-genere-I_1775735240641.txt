@@ -1,0 +1,70 @@
+ayudame a describir esta foto para para DALL-E genere:
+INSTRUCCIÓN PARA LA IA - PLANES EDITABLES + ESTRUCTURA DE AGENCIA + COSTOS
+________________________________________
+🎯 PARTE 1 - PLANES Y PRECIOS EDITABLES POR ADMIN
+1.1 Planes actuales (valores iniciales)
+Plan	Precio	Créditos de imagen/mes	Reels incluidos	Negocios permitidos
+Básico	Gratis	30 (~10 posts)	0	1
+Emprendedor	$29.99 USD / ~$120K COP	90 (~30 posts)	15	2
+Negocio	$49.99 USD / ~$245K COP	200 (~90 posts)	30	3
+Agencia	$149.99 USD / ~$620K COP	500 (~450 posts)	150	5
+*(1 post = 3 imágenes aprox)*
+1.2 Lo que necesito
+El usuario ADMIN (usuario 1) debe poder EDITAR todos estos valores en cualquier momento.
+Campos editables:
+•	Nombre del plan
+•	Precio en USD
+•	Precio en COP (manual o automático)
+•	Créditos de imagen por mes
+•	Reels incluidos por mes
+•	Negocios permitidos
+Ubicación: Panel de Administrador → Sección "Planes y Precios"
+Reglas:
+•	El plan Básico (gratis) NO se puede eliminar
+•	Los cambios en precios NO afectan a usuarios ya suscritos (solo a nuevos)
+________________________________________
+🏗️ PARTE 2 - ESTRUCTURA TÉCNICA DE AGENCIA (MUY IMPORTANTE)
+2.1 Estructura de datos obligatoria
+Usuario (Agencia)
+  ├── Negocio 1: Panadería
+  │     ├── Estadísticas propias
+  │     ├── Aprendizaje / FAQ propio
+  │     ├── Historial de chats propio
+  │     └── Configuración propia
+  ├── Negocio 2: Discoteca
+  │     ├── Estadísticas propias
+  │     ├── Aprendizaje / FAQ propio
+  │     ├── Historial de chats propio
+  │     └── Configuración propia
+  └── ... hasta 5 negocios
+2.2 Reglas OBLIGATORIAS
+Regla	Explicación
+Independencia total	Cada negocio tiene sus PROPIOS datos. NUNCA se mezclan.
+Sin cruce de información	La app NO puede usar aprendizaje de la panadería para post en la discoteca.
+Reset de contexto	Al cambiar de negocio, la IA debe reiniciar el contexto y usar SOLO los datos de ese negocio.
+Estadísticas por negocio	Consultas, temas populares, satisfacción → todo es por negocio, NO por agencia.
+2.3 Ejemplo de lo que NO debe pasar
+❌ La IA aprende de la panadería 
+❌ Luego mezcla ese aprendizaje con la discoteca
+❌ Y empieza a recomendar post a la discoteca o as usar la info de la panaderia
+2.4 Ejemplo de lo que SÍ debe pasar
+✅ Panadería → aprendizaje Y estadísticas SOLO de panadería
+✅ Discoteca → aprendizaje Y estadísticas SOLO de discoteca
+✅ Cada negocio tiene su propia base de conocimiento
+Quiero poder cambiar el tipo de cliente en el usuario master id =1
+Cada negocio de la agencia debe tener:
+•	Nombre (ej: "Panadería El Trigal")
+•	Rubro (ej: "Panadería" o "Discoteca")
+•	Descripción
+•	Configuración propia (tono, horarios, productos, etc.)
+•	Su propia base de conocimiento/FAQ
+Que cada tipo de cliente pueda comprar paquetes de créditos en el trascurso del mes si llego a su limite y se pueda cambiar de plan
+El plan gratis solo es el primer mes, de resto debe pagar
+Paquetes extras:
+Plan básico: $19.99 =90 imágenes (~30 posts) y 15 reels
+Plan emprendedor: $19.99 =90 imágenes (~30 posts) y 15 reels
+Plan negocio: $29.99 200 imágenes (~90 posts)	30 reels
+Plan agencia: $99.99 500 imágenes (~450 posts)	150 reels
+La agencia puede agregar mas negocios a administrar cada negocio adicional le cuesta $19.990 y le sube 1/5 parte de sus capacidades ósea por cada negocio extra se le suman 100 imágenes, 90 post, 30 reels,
+
+REVISIÓN DE COSTOS Y GANANCIAS de la app, basada en numero clientes: 10, 100, 1000, 10000, 100000

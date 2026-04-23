@@ -1,0 +1,44 @@
+INSTRUCCIÓN PARA LA IA - USUARIO 2, NEGOCIO DE ENERGÍA SOLAR Y SELECCIÓN DE NEGOCIO PRINCIPAL
+
+🎯 PARTE 1 - USUARIO 2 DEBE TENER UN NEGOCIO EXISTENTE
+Situación actual:
+El Usuario 2 actualmente ya tiene información, datos o configuraciones en la app (posiblemente relacionadas con energía solar). No quiero perder nada de esa información existente.
+
+Lo que necesito:
+Agregar un negocio llamado "Energía Solar" al Usuario 2, pero SIN BORRAR NI PERDER ninguna de sus configuraciones o datos actuales.
+
+Reglas para esta acción:
+Regla	Descripción
+Preservar datos	Toda la información actual del Usuario 2 debe permanecer intacta
+Agregar, no reemplazar	El negocio de energía solar se AÑADE, no sustituye nada
+Sin pérdida de datos	Cero pérdida de configuraciones, historial o preferencias
+Negocio funcional	El nuevo negocio debe tener todas las capacidades (estadísticas, aprendizaje, historial, configuración propia)
+🏢 PARTE 2 - DATOS DEL NEGOCIO "ENERGÍA SOLAR"
+El negocio que debe agregarse tiene estas características:
+
+Campo	Valor
+Nombre del negocio	Energía Solar (o "Eco Energía Solar")
+Rubro	Energías renovables / Paneles solares
+Descripción	Instalación y mantenimiento de paneles solares para hogares y empresas
+Configuración propia	Tono profesional, respuestas sobre ahorro energético, costos de instalación, beneficios ambientales
+🔄 PARTE 3 - EL USUARIO DEBE PODER ELEGIR UN NEGOCIO "DE ENTRADA"
+Problema actual:
+Cuando un usuario (especialmente una Agencia con múltiples negocios) entra a la app, no hay claridad de qué negocio se está usando.
+
+Lo que necesito:
+El usuario debe poder seleccionar un negocio "por defecto" o "de entrada" que considere que usa más frecuentemente.
+
+Comportamiento deseado:
+Al iniciar sesión: El usuario ve su negocio principal seleccionado automáticamente
+
+Pero puede cambiar a otro negocio en cualquier momento
+
+La selección se recuerda para la próxima vez que inicie sesión
+
+🖥️ PARTE 4 - INTERFAZ DE SELECCIÓN DE NEGOCIO
+¿Dónde debe verse?
+En la parte superior de la app (header o navbar)
+
+Cerca del nombre del usuario o del avatar
+
+Siempre visible para que sepa qué negocio está usando

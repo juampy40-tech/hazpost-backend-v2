@@ -1,0 +1,68 @@
+Explicación para Replit (todo en la cola de aprobación)
+1. Rayas blancas invasivas en vista previa
+Problema:
+En la cola de producción, antes de aprobar (etapa de revisión), aparecen 3 rayas blancas en la vista previa del post. Te mando una foto para que las veas es como un error ahi
+
+•	No salen en la publicación final
+•	Confunden al usuario
+Solución:
+Eliminar completamente esas 3 rayas blancas de la vista previa.
+________________________________________
+2. Guardado automático de colores, firma y preferencias
+Actualmente: Hay que volver a elegir cada vez.
+Solución deseada:
+Una vez que el usuario escoja:
+•	Colores de marca
+•	Texto de firma
+•	Si la firma está activada (marcada por defecto)
+→ Eso debe guardarse automáticamente para los próximos posts.
+Además:
+•	El usuario puede desmarcar la firma si no la quiere usar en un post específico.
+•	Puede editar colores, firma y texto cuando quiera.
+•	Las nuevas preferencias se guardan para futuras publicaciones.
+________________________________________
+3. Regla de colores por renglón en el título sin incluir la firma oseas los renglones no hablo de la firma solo el texto del titulo
+Condición:
+Cuando el título (sin incluir la firma) ocupe 2 o más renglones:
+•	Un renglón debe ser del color de acento
+•	Ese renglón nunca debe ser el primero (el de arriba)
+Ejemplo: 2 renglones 
+•	Renglón 1 → color normal
+•	Renglón 2 → color acento ✅
+Ejemplo: 3 renglones 
+•	Renglón 1 → color normal
+•	Renglón 2 → color acento ✅
+•	Renglón 3 → color normal
+Y asi sucesivamente
+________________________________________
+4. Selectores de tipografía: eliminar uno y mejorar el otro
+Problema actual:
+Hay 2 selectores de tipografía:
+•	Lista desplegable ❌
+•	Selector de botones ✅
+Solución:
+•	Eliminar completamente el selector de tipografía de lista desplegable.
+•	Mejorar el selector de tipografía de botones:
+Nuevo selector de tipografía de botones debe tener:
+•	13 tipografías fijas una de ellas debe ser la que usa eco y hazpost para sus post
+•	Un cuadro de texto donde el usuario pueda agregar su tipografía preferida (personalizada)
+Regla de actualización mensual:
+•	Si el usuario no ha usado 3 tipografías en un mes →
+Cambiar 3 de ellas por 3 nuevas que estén:
+o	En tendencia
+o	O que otros usuarios estén usando
+•	Cada mes se repite esta actualización de tendencias.
+________________________________________
+5. Logo: guardado automático + 3 variantes
+Requerimiento:
+•	Cuando el usuario suba un logo, debe guardarse automáticamente para futuros posts.
+•	Puede tener 3 variantes diferentes de logo.
+•	Al hacer un post, el usuario elige cuál de las 3 variantes usar y dejar la opción 1 del logo como predefinida.
+•	Siempre puede cambiar cualquier variante ósea volver a subir otro logo.
+•	Si cambia una variante, se guarda automáticamente para futuros posts.
+•	El logo guardado también debe usarse una vez el usuario decida hacer post de manera por el generado masivo, al ia debe tener en cuenta el logo y las preferencias guardadas como estilo marca, tipografía, firma.
+________________________________________
+⚙️ Condición final (importante)
+Todos estos cambios deben aplicarse en producción, para todos los usuarios y negocios, es decir, generales para toda la app.
+Si falta alguna habilidad nueva (skill) para implementar esto, créala.
+

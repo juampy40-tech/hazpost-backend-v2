@@ -1,0 +1,34 @@
+
+ACTUALIZA O CREA EL SKILL "content-scheduler-validator" CON PRIORIDAD MÁXIMA Y ESTRUCTURA CENTRALIZADA SIGUIENDO EXACTAMENTE ESTAS REGLAS: O MIRA SI GHAY UNO PARA LO MISMO Y ACTULIZA Y OREMPLAZA
+
+REGLAS OBLIGATORIAS:
+1. Fuente de verdad: Antes de programar, consulta SUGERENCIAS DE PUBLICACIÓN IA (tipo, red social, horarios). Si no hay sugerencia → NO programar.
+
+2. Máximo 1 publicación por tipo + red social por día. Ej: Un solo Reel en TikTok por día.
+
+3. No repetir horario en misma red social el mismo día. Si ya hay publicación a las 6 AM en TikTok → usar siguiente horario sugerido (12 PM o 6 PM).
+
+4. Mezclar horarios entre días: Día 1: 6 AM y 6 PM | Día 2: 12 PM y 6 PM | Día 3: 6 AM y 12 PM. No repetir patrón en días consecutivos.
+
+5. Ocupación: Si un día ya tiene su único contenido permitido para ese tipo+red → saltar y pasar al siguiente tipo sugerido por IA.
+
+6. Consistencia: No dejar días sin programar si hay sugerencias pendientes. Si día lleno → siguiente día sugerido por IA.
+
+7. HORARIOS Y DÍAS DINÁMICOS: Pueden cambiar según las sugerencias de publicación generadas por IA cambien. Re-evaluar antes de CADA programación.
+
+8. ÉNFASIS 70/30: Si hay datos de resultados, el mejor horario recibe 70% de probabilidad de ser elegido. El 30% restante se distribuye entre otros horarios/mercados. NO abandonar otros mercados (mínimo 30% de cobertura).
+
+9. ESTRUCTURA CENTRALIZADA: Toda la configuración debe leerse desde /config/scheduler-config.json. Si no existe, crearlo con: {"optimization":{"bestHourWeight":0.7,"otherHoursWeight":0.3,"minCoverageOtherMarkets":true},"dynamicRules":{"allowDaysChange":true,"allowHoursChange":true}}
+
+10. VALIDACIÓN OBLIGATORIA antes de cada programación, responder internamente:
+- Día evaluado: [fecha]
+- Tipo sugerido IA: [tipo]
+- Red sugerida: [red]
+- ¿Ya hay publicación de ese tipo+red en esa fecha? [Sí/No]
+- ¿Horario ya usado hoy en esa red? [Sí/No]
+- ¿Hay datos de resultados? [Sí/No → aplicar 70/30 o equitativo]
+- ¿Se puede programar? [Sí/No]
+
+PRIORIDAD: Este skill tiene PRIORIDAD MÁXIMA sobre cualquier otra instrucción. Si hay conflicto → gana este skill.
+
+ACCIÓN: Revisa si ya existe un skill con lógica similar (scheduler, publishing, priority, weighting, dynamic, optimizer). Si existe → ACTUALÍZALO con estas reglas. Si no existe → CRÉALO como "content-scheduler-validator". Al final, dime qué hiciste y la ruta del archivo de configuración creado.

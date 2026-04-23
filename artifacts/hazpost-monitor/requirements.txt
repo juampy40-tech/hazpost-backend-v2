@@ -1,0 +1,10 @@
+flask==3.0.3
+flask-limiter==3.8.0
+python-dotenv==1.0.1
+requests==2.32.3
+beautifulsoup4==4.12.3
+apscheduler==3.10.4
+thefuzz==0.22.1
+python-Levenshtein==0.25.1
+gunicorn==22.0.0
+SQLAlchemy==2.0.36

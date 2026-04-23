@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es-CO" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="robots" content="index, follow">
+
+<!-- SEO Mejorado -->
+<title>Calculadora Solar Gratis en Cali y Colombia | Simulador Fotovoltaico | Ahorra 20%-100% | ECO</title>
+<meta name="description" content="Instalación profesional de paneles solares en Cali y Valle del Cauca. Calcula tu ahorro con energía solar en 30 segundos. PPA sin inversión inicial para hogares y empresas.">
+
+<!-- Geo Tags más específicos -->
+<meta name="geo.region" content="CO-VAC">
+<meta name="geo.placename" content="Cali, Valle del Cauca">
+<meta name="geo.position" content="3.4516;-76.5320">
+<meta name="ICBM" content="3.4516, -76.5320">
+
+<!-- Canonical y Favicon -->
+<link rel="canonical" href="https://www.eco-col.com">
+<link rel="icon" href="https://eco-col.com/favicon.ico" type="image/x-icon" sizes="32x32">
+<link rel="apple-touch-icon" href="https://eco-col.com/favicon.ico">
+
+<!-- Preconexiones y precargas -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="preload" href="https://eco-col.com/wp-content/uploads/paneles-solares-colombia.jpg" as="image" fetchpriority="high">
+<link rel="preload" href="https://eco-col.com/wp-content/uploads/2024/05/168801-839864542_small-1.mp4" as="video" type="video/mp4">
+<meta name="theme-color" content="#0056b3">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Calculadora Solar para Todo Colombia | Energy Capital Operation (ECO) | Ahorra del 20% al 100% con Energía Solar">
+<meta property="og:description" content="Calcula tu ahorro con energía solar en menos de 30 segundos. PPA sin inversión inicial o financiamiento flexible para paneles solares en Cali y todo Colombia.">
+<meta property="og:url" content="https://www.eco-col.com">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://eco-col.com/wp-content/uploads/paneles-solares-colombia.jpg">
+<meta property="og:image:alt" content="Instalación profesional de paneles solares por Energy Capital Operation (ECO) en Colombia">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Eco-Col - Energy Capital Operation">
+<meta property="og:locale" content="es_CO">
+
+<!-- Seguridad Reforzada -->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline' 'unsafe-eval';
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: https://*.eco-col.com https://www.google-analytics.com;
+  connect-src 'self' https://www.google-analytics.com;
+  frame-src 'self' https://www.googletagmanager.com;
+  media-src 'self' https://eco-col.com blob:;
+  base-uri 'none';
+  form-action 'self' https://wa.me;
+  object-src 'none'
+">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="
+  accelerometer=(),
+  camera=(),
+  geolocation=(),
+  gyroscope=(),
+  magnetometer=(),
+  microphone=(),
+  payment=(),
+  usb=()
+">
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){
+  w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+  j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+  f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','G-5T54TXWFKS');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Schema.org Mejorado -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["EnergyCompany", "LocalBusiness"],
+  "name": "Energy Capital Operation - ECO",
+  "alternateName": "ECO",
+  "image": "https://eco-col.com/wp-content/uploads/logo-eco-col.jpg",
+  "url": "https://www.eco-col.com",
+  "telephone": "+573011285672",
+  "priceRange": "$$$",
+  "sameAs": [
+    "https://www.facebook.com/profile.php?id=61565447362420",
+    "https://www.instagram.com/eco.sas",
+    "https://www.tiktok.com/@eco.col"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Carrera 66 # 1C - 30",
+    "addressLocality": "Cali",
+    "addressRegion": "Valle del Cauca",
+    "postalCode": "760035",
+    "addressCountry": "CO"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "3.4516",
+    "longitude": "-76.5320"
+  },
+  "foundingDate": "2020",
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+    "opens": "08:00",
+    "closes": "18:00"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Servicios de Energía Solar",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "PPA Solar (Sin Inversión Inicial)",
+        "description": "Contrato de compra de energía solar sin necesidad de inversión inicial",
+        "url": "https://eco-col.com/servicios/#contrato"
+      },
+      {
+        "@type": "Offer",
+        "name": "Instalación de Paneles Solares",
+        "description": "Excelente opcion para compra de sistemas fotovoltaicos",
+        "url": "https://eco-col.com/servicios/#instalacion"
+      }
+    ]
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+57 301 1285672",
+    "contactType": ["sales", "customer service"],
+    "areaServed": "CO",
+    "availableLanguage": ["es", "en"],
+    "email": "contacto@eco-col.com"
+  }
+}
+</script>
+
+<!-- Estilos críticos optimizados -->
+<style>
+  /* Layout responsive */
+  .hide-for-small { display: block; }
+  .show-for-small { display: none; }
+  @media (max-width: 767px) {
+    .hide-for-small { display: none !important; }
+    .show-for-small { display: block !important; }
+    .ux-banner { height: 480px !important; }
+    .text-box { width: 84% !important; font-size: 54% !important; }
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .ux-banner { height: 350px !important; }
+  }
+
+  /* Animaciones */
+  @keyframes flash {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* Accesibilidad */
+  .uppercase { text-transform: uppercase; }
+  [aria-hidden="true"] { display: none; }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  
+  /* Fallback para video */
+  .video-fallback {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  /* Mejoras de rendimiento */
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Botón CTA mejorado */
+  .cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #FF6B00 0%, #FFA800 100%);
+    color: white !important;
+    text-decoration: none;
+    padding: 20px 40px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 10px 30px rgba(255, 107, 0, 0.4), 
+                0 0 0 5px rgba(255, 167, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    max-width: 90%;
+    text-align: center;
+  }
+  .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(255, 107, 0, 0.5), 
+                0 0 0 5px rgba(255, 167, 0, 0.3);
+  }
+  .cta-button span {
+    position: relative;
+    z-index: 2;
+  }
+  .cta-button i {
+    margin-right: 12px;
+    color: #FFF;
+  }
+  .cta-button small {
+    font-size: 0.8em;
+    display: block;
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    z-index: 1;
+  }
+</style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '748512984219396');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=748512984219396&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+<!-- Google Tag Manager (noscript) - Seguridad mejorada -->
+<noscript>
+  <iframe src="https://www.googletagmanager.com/ns.html?id=G-5T54TXWFKS" 
+          height="0" 
+          width="0" 
+          style="display:none;visibility:hidden" 
+          sandbox="allow-scripts allow-same-origin" 
+          title="Google Tag Manager">
+  </iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- Slider para desktop (optimizado para accesibilidad) -->
+<div class="ux-slider hide-for-small" style="width: 100%; overflow: hidden;">
+  <div class="ux-banner" style="height: 550px; position: relative; background-color: #000;">
+    <video autoplay muted loop playsinline preload="metadata" 
+           style="width: 100%; height: 100%; object-fit: cover;" 
+           aria-label="Video promocional de paneles solares">
+      <source src="https://eco-col.com/wp-content/uploads/2024/05/168801-839864542_small-1.mp4" type="video/mp4">
+    </video>
+    <div class="bg-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.43);"></div>
+    <div class="text-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; text-align: center; font-size: 123%;">
+      <h1 class="uppercase" style="margin: 0; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Impulsamos soluciones sostenibles</h1>
+    </div>
+  </div>
+</div>
+
+<!-- Slider para móviles (optimizado para performance) -->
+<div class="ux-slider show-for-small" style="width: 100%; overflow: hidden;">
+  <div class="ux-banner" style="height: 480px; position: relative; background-color: #000;">
+    <video autoplay muted loop playsinline preload="metadata" 
+           style="width: 100%; height: 100%; object-fit: cover;" 
+           aria-label="Video promocional de paneles solares">
+      <source src="https://eco-col.com/wp-content/uploads/2024/05/168801-839864542_small-1.mp4" type="video/mp4">
+      <!-- Fallback para navegadores que no soportan video -->
+      <img src="https://eco-col.com/wp-content/uploads/expertos-en-energia-solar.png" 
+           alt="Paneles solares en Colombia" 
+           style="width:100%;height:100%;object-fit:cover;"
+           loading="lazy">
+    </video>
+    <!-- Fallback adicional en caso de error de carga -->
+    <div class="video-fallback">
+      <img src="https://eco-col.com/wp-content/uploads/expertos-en-energia-solar.png" 
+           alt="Paneles solares en Colombia" 
+           style="width:100%;height:100%;object-fit:cover;"
+           loading="lazy">
+    </div>
+    <div class="bg-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.47);"></div>
+    <div class="text-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 84%; text-align: center; font-size: 54%;">
+      <h2 class="uppercase" style="margin: 0; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Impulsamos soluciones sostenibles</h2>
+    </div>
+  </div>
+</div>
+
+[section label="Simple Center" bg_color="rgb(245, 245, 245)" padding="0px" height="300px"]
+[row h_align="center"]
+[col span__sm="12" align="center"]
+<h2 class="uppercase"><span style="font-size: 140%;"><strong>¡Aprovecha los beneficios <span style="background-color: #00ccff; color: #ffffff;">financieros, fiscales y medioambientales</span> de la <span style="background-color: #00ccff; color: #ffffff;">energía solar</span> hoy mismo!</strong></span></h2>
+[/col]
+[/row]
+[/section]
+
+[section bg_color="rgb(255, 255, 255)"]
+
+[row style="large" col_style="divided" h_align="center"]
+
+[col span="4" span__sm="11" animate="bounceInUp"]
+
+[featured_box img="428" img_width="107" pos="center" title="Ahorra sin tener que invertir dinero en Cali y Colombia" font_size="large" margin="0px 0px 0px 0px"]
+
+<p>Si tu empresa paga más de $1’000.000 en energía, nosotros te ayudamos a ahorrar sin inversión, que esperas para tener tus paneles solares?</p>
+
+[/featured_box]
+
+[/col]
+[col span="4" span__sm="11" animate="bounceInUp"]
+
+[featured_box img="307" img_width="107" pos="center" title="Innovación Sostenible con Energía Solar" font_size="large" margin="0px 0px 0px 0px"]
+
+<p>Inspiramos un cambio positivo a través de soluciones solares innovadoras, diseñando un futuro donde la energía limpia, la sostenibilidad y el ahorro económico van de la mano.</p>
+
+[/featured_box]
+
+[/col]
+[col span="4" span__sm="12" animate="bounceInUp"]
+
+[featured_box img="308" img_width="107" pos="center" title="Aliados en tu Transición Energética en Colombia" font_size="large" margin="0px 0px 0px 0px"]
+
+<p>En Cali y todo el territorio nacional, te acompañamos hacia un futuro sostenible y rentable con soluciones fotovoltaicas de vanguardia.</p>
+
+[/featured_box]
+
+[/col]
+
+[/row]
+
+[/section]
+[section label="Media Left" bg_overlay="rgba(255, 255, 255, 0.85)" padding="60px" border="1px 0px 1px 0px"]
+
+[title style="center" text="SERVICIOS" tag_name="h2" color="rgb(3, 84, 171)" size="161"]
+
+[row v_align="middle" h_align="center"]
+
+[col span="5" span__sm="12" align="center"]
+
+[ux_image_box img="446" image_width="80" image_hover="zoom" link="https://eco-col.com/servicios/#contrato" rel="noopener noreferrer"]
+
+<h3><em>Te montamos tu sistema solar sin que tengas que invertir y ahorras desde el primer día.</em></h3>
+
+[/ux_image_box]
+
+[/col]
+[col span="5" span__sm="12" align="center"]
+
+[ux_image_box img="447" image_width="80" image_hover="zoom" link="https://eco-col.com/servicios/#instalacion" rel="noopener noreferrer"]
+
+<h3><em>Instalación y venta </em></h3>
+<h3><em>de sistema solar</em></h3>
+
+[/ux_image_box]
+
+[/col]
+
+[/row]
+<div style="text-align: center; margin: 30px 0;">
+  <a href="https://eco-col.com/simuladores/" 
+     class="cta-button"
+     role="button"
+     aria-label="Simulador de sistema solar gratuito - Descubre tus ahorros en 30 segundos">
+     <span>
+        <i class="fas fa-bolt"></i>
+        SIMULA TU SISTEMA SOLAR GRATIS<br>
+        <small>¡Descubre tus ahorros en 30 segundos!</small>
+     </span>
+  </a>
+</div>
+
+[/section]
+[section]
+
+[title style="center" text="PASOS PARA FIRMAR TU CONTRATO DE ENERGÍA" tag_name="h2" color="rgb(0, 130, 246)" size="123"]
+
+[row width="full-width" v_align="middle" h_align="center"]
+
+[col span__sm="12" visibility="hide-for-small"]
+
+[ux_banner bg="367" bg_size="original" bg_color="rgb(255, 255, 255)" hover="zoom"]
+
+
+[/ux_banner]
+
+[/col]
+[col span__sm="12" visibility="show-for-small"]
+
+[ux_banner bg="366" bg_size="original" bg_color="rgb(255, 255, 255)" hover="zoom"]
+
+
+[/ux_banner]
+
+[/col]
+
+[/row]
+
+[/section]
+[section label="Simple Center" bg_color="rgb(245, 245, 245)" padding="0px" height="300px"]
+
+[row h_align="center"]
+
+[col span__sm="12" align="center"]
+
+<h2 class="uppercase"><span style="font-size: 140%;"><strong><span style="color: #ffffff; background-color: #00ccff;">¡Deshazte de los mitos!</span> Descubre la verdad sobre la energía solar.</strong></span></h2>
+
+[/col]
+
+[/row]
+
+[/section]
+[section label="Media Right" bg_color="rgb(255, 255, 255)" bg_overlay="rgba(255, 255, 255, 0.85)" padding="60px"]
+
+[row style="large" v_align="middle"]
+
+[col span="6" span__sm="12"]
+
+[ux_image id="301" image_hover="zoom" depth="2"]
+
+
+[/col]
+[col span="6" span__sm="12" align="left" animate="bounceInDown"]
+
+<p><span style="font-size: 130%;">Energy Capital Operation: Paneles Solares en Cali, Valle del Cauca y Colombia <p>– ¡Sin Inversión o Compra Directa!</p>
+<p>- Compra tu sistema solar: Adquiere tus paneles solares y ahorra hasta el 100% en tu factura de energía.</p>
+<p><span style="font-size: 130%;">Impulsamos la transición energética en Cali, Valle del Cauca y Colombia con:</p>
+<p>✅ Tecnología limpia y eficiente: Instalación de sistemas fotovoltaicos de alta calidad.</p>
+<p>✅ Sostenibilidad y ahorro: Reduce tu huella ambiental mientras optimizas costos.</p>
+<p>✅ Beneficios económicos y sociales: Proyectos que generan impacto positivo en comunidades.</span></p>
+[button text="Asesoría personalizada sin costo" size="large" radius="99" link="https://wa.me/573011285672" target="_blank" rel="noopener noreferrer" aria-label="Contactar asesor por WhatsApp"]
+
+
+[/col]
+
+[/row]
+
+[/section]
+
+<!-- Carga diferida de scripts no críticos con seguridad -->
+<script defer>
+  // Optimización de carga de imágenes
+  document.addEventListener('DOMContentLoaded', function() {
+    // Lazy loading para imágenes
+    if ('loading' in HTMLImageElement.prototype) {
+      const images = document.querySelectorAll('img:not([loading])');
+      images.forEach(img => {
+        img.loading = 'lazy';
+        if (!img.hasAttribute('decoding')) {
+          img.decoding = 'async';
+        }
+        if (!img.hasAttribute('alt')) {
+          img.setAttribute('alt', '');
+        }
+      });
+    }
+
+    // Mejora de accesibilidad para enlaces externos
+    document.querySelectorAll('a[href^="http"]:not([href*="eco-col.com"])').forEach(link => {
+      if (!link.hasAttribute('rel')) {
+        link.setAttribute('rel', 'noopener noreferrer');
+      }
+      if (!link.hasAttribute('aria-label')) {
+        const text = link.textContent.trim() || 'Enlace externo';
+        link.setAttribute('aria-label', `${text} (se abre en nueva ventana)`);
+      }
+    });
+
+    // Detección de error en video móvil
+    const mobileVideo = document.querySelector('.show-for-small video');
+    const videoFallback = document.querySelector('.video-fallback');
+    
+    if(mobileVideo) {
+      mobileVideo.addEventListener('error', function() {
+        console.error('Error al cargar el video:', this.error);
+        if(videoFallback) {
+          videoFallback.style.display = 'block';
+          this.style.display = 'none';
+        }
+      });
+      
+      // Verificar después de 3 segundos si el video no se ha cargado
+      setTimeout(function() {
+        if(mobileVideo.readyState < 3) { // 3 = HAVE_FUTURE_DATA
+          console.warn('El video está tardando demasiado en cargar');
+          if(videoFallback) {
+            videoFallback.style.display = 'block';
+            mobileVideo.style.display = 'none';
+          }
+        }
+      }, 3000);
+    }
+    
+    // Mejorar interacción del botón CTA
+    const ctaButton = document.querySelector('.cta-button');
+    if(ctaButton) {
+      ctaButton.addEventListener('click', function(e) {
+        if(!this.getAttribute('href') || this.getAttribute('href') === '#') {
+          e.preventDefault();
+        }
+        // Puedes añadir tracking de eventos aquí
+      });
+    }
+  });
+</script>
+</body>
+</html>

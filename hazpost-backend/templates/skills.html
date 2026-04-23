@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skills Detectadas — HazPost Monitor</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+    header {
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    header h1 { font-size: 1.4rem; font-weight: 700; color: #f8fafc; }
+    header .badge {
+      background: #3b82f6;
+      color: white;
+      font-size: 0.75rem;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 32px; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .stat-card .label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-card .value { font-size: 2rem; font-weight: 700; color: #f8fafc; margin-top: 4px; }
+    .stat-card .value.green { color: #34d399; }
+    .stat-card .value.yellow { color: #fbbf24; }
+    .stat-card .value.red { color: #f87171; }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .toolbar input {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #e2e8f0;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      width: 260px;
+      outline: none;
+    }
+    .toolbar input:focus { border-color: #3b82f6; }
+    .toolbar select {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #e2e8f0;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+    }
+    .btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn:hover { background: #2563eb; }
+    .btn.danger { background: #ef4444; }
+    .btn.danger:hover { background: #dc2626; }
+    .btn.secondary { background: #334155; }
+    .btn.secondary:hover { background: #475569; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1e293b;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #334155;
+    }
+    thead tr { background: #0f172a; }
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+    th:hover { color: #94a3b8; }
+    td { padding: 12px 16px; font-size: 0.875rem; border-top: 1px solid #1e293b; }
+    tbody tr { background: #1e293b; transition: background 0.1s; }
+    tbody tr:hover { background: #263248; }
+    tbody tr:nth-child(even) { background: #172033; }
+    tbody tr:nth-child(even):hover { background: #1f2d45; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .tag.active { background: #064e3b; color: #34d399; }
+    .tag.inactive { background: #450a0a; color: #f87171; }
+    .tag.pending { background: #451a03; color: #fbbf24; }
+    .tag.category { background: #1e3a5f; color: #93c5fd; }
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      color: #64748b;
+      font-size: 0.875rem;
+    }
+    .pagination .pages { display: flex; gap: 4px; }
+    .pagination .pages button {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .pagination .pages button.active { background: #3b82f6; border-color: #3b82f6; color: white; }
+    .pagination .pages button:hover:not(.active) { background: #263248; }
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #475569;
+    }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
+    .empty-state p { font-size: 1rem; }
+    .scan-info {
+      background: #0c1a2e;
+      border: 1px solid #1e3a5f;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: 0.85rem;
+      color: #93c5fd;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔍 HazPost Monitor</h1>
+    <span class="badge">Skills Detectadas</span>
+  </header>
+
+  <div class="container">
+    {% if scan_info %}
+    <div class="scan-info">
+      ℹ️ Último escaneo: <strong>{{ scan_info.completed_at }}</strong> —
+      {{ scan_info.pages_scanned }} páginas escaneadas —
+      Tiempo promedio de respuesta: {{ scan_info.avg_response_time_ms }} ms
+    </div>
+    {% endif %}
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Total Skills</div>
+        <div class="value">{{ skills | length }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Skills Activas</div>
+        <div class="value green">{{ skills | selectattr('status', 'equalto', 'active') | list | length }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Duplicados Detectados</div>
+        <div class="value yellow">{{ duplicate_count }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Páginas con Skills</div>
+        <div class="value">{{ pages_with_skills }}</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Buscar skill..." oninput="filterTable()">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select id="categoryFilter" onchange="filterTable()">
+          <option value="">Todas las categorías</option>
+          {% for cat in categories %}
+          <option value="{{ cat }}">{{ cat }}</option>
+          {% endfor %}
+        </select>
+        <select id="statusFilter" onchange="filterTable()">
+          <option value="">Todos los estados</option>
+          <option value="active">Activa</option>
+          <option value="inactive">Inactiva</option>
+          <option value="pending">Pendiente</option>
+        </select>
+        <button class="btn secondary" onclick="window.location.reload()">↻ Actualizar</button>
+      </div>
+    </div>
+
+    {% if skills %}
+    <table id="skillsTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)"># ID ↕</th>
+          <th onclick="sortTable(1)">Nombre ↕</th>
+          <th onclick="sortTable(2)">Categoría ↕</th>
+          <th onclick="sortTable(3)">Estado ↕</th>
+          <th onclick="sortTable(4)">Página detectada ↕</th>
+          <th onclick="sortTable(5)">Creado ↕</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        {% for skill in skills %}
+        <tr data-name="{{ skill.name | lower }}" data-category="{{ skill.category | lower }}" data-status="{{ skill.status | default('active') }}">
+          <td style="color:#475569;font-family:monospace">{{ skill.id | default('#' ~ loop.index) }}</td>
+          <td><strong>{{ skill.name }}</strong>
+            {% if skill.aliases %}
+            <br><small style="color:#64748b">Alias: {{ skill.aliases | join(', ') }}</small>
+            {% endif %}
+          </td>
+          <td>
+            {% if skill.category %}
+            <span class="tag category">{{ skill.category }}</span>
+            {% else %}
+            <span style="color:#475569">—</span>
+            {% endif %}
+          </td>
+          <td>
+            {% set status = skill.status | default('active') %}
+            <span class="tag {{ status }}">
+              {% if status == 'active' %}✓ Activa
+              {% elif status == 'inactive' %}✗ Inactiva
+              {% else %}⏳ Pendiente{% endif %}
+            </span>
+          </td>
+          <td style="color:#94a3b8;font-size:0.8rem">{{ skill.page_url | default('—') }}</td>
+          <td style="color:#64748b;font-size:0.8rem">{{ skill.created_at | default('—') }}</td>
+          <td>
+            <button class="btn secondary" style="padding:4px 10px;font-size:0.75rem" onclick="viewSkill('{{ skill.id | default(loop.index) }}')">Ver</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <span id="paginationInfo">Mostrando {{ skills | length }} skills</span>
+      <div class="pages" id="paginationPages"></div>
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+      <div class="icon">🔍</div>
+      <p>No se han detectado skills aún.<br>Ejecuta un escaneo para comenzar.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    const PAGE_SIZE = 25;
+    let currentPage = 1;
+    let filteredRows = [];
+
+    const allRows = [];
+
+    function filterTable() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const cat = document.getElementById('categoryFilter').value.toLowerCase();
+      const status = document.getElementById('statusFilter').value.toLowerCase();
+
+      filteredRows = allRows.filter(row => {
+        const name = row.dataset.name || '';
+        const rowCat = row.dataset.category || '';
+        const rowStatus = row.dataset.status || '';
+        const matchSearch = !search || name.includes(search);
+        const matchCat = !cat || rowCat === cat;
+        const matchStatus = !status || rowStatus === status;
+        return matchSearch && matchCat && matchStatus;
+      });
+
+      currentPage = 1;
+      renderPage();
+    }
+
+    function renderPage() {
+      allRows.forEach(row => row.style.display = 'none');
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      filteredRows.slice(start, end).forEach(row => row.style.display = '');
+      const total = filteredRows.length;
+      const showing = Math.min(end, total) - start;
+      document.getElementById('paginationInfo').textContent =
+        total === 0
+          ? 'Sin resultados'
+          : `Mostrando ${start + 1}–${start + Math.max(showing, 0)} de ${total} skills`;
+      renderPagination(total);
+    }
+
+    function renderPagination(total) {
+      const totalPages = Math.ceil(total / PAGE_SIZE);
+      const container = document.getElementById('paginationPages');
+      container.innerHTML = '';
+      for (let i = 1; i <= Math.min(totalPages, 10); i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.className = i === currentPage ? 'active' : '';
+        btn.onclick = () => { currentPage = i; renderPage(); };
+        container.appendChild(btn);
+      }
+    }
+
+    let sortDir = {};
+    function sortTable(colIndex) {
+      const tbody = document.getElementById('tableBody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      sortDir[colIndex] = !sortDir[colIndex];
+      rows.sort((a, b) => {
+        const aText = a.cells[colIndex]?.textContent.trim() || '';
+        const bText = b.cells[colIndex]?.textContent.trim() || '';
+        return sortDir[colIndex]
+          ? aText.localeCompare(bText)
+          : bText.localeCompare(aText);
+      });
+      rows.forEach(r => tbody.appendChild(r));
+      filteredRows = rows;
+      renderPage();
+    }
+
+    function viewSkill(id) {
+      window.location.href = `/api/duplicados/skills`;
+    }
+
+    window.onload = () => {
+      allRows.push(...Array.from(document.querySelectorAll('#tableBody tr')));
+      filteredRows = [...allRows];
+      renderPage();
+    };
+  </script>
+</body>
+</html>

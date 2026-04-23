@@ -1,0 +1,73 @@
+Proyecto: eco-social-manager (TypeScript/React)
+
+Necesito que este proyecto sea 100% AUTOMÁTICO, que se actualice solo cuando haya cambios en GitHub y que funcione con el backend hazpost-backend.
+
+## PARTE 1: AUTO-ACTUALIZACIÓN (como ya tiene hazpost-backend)
+
+Crear src/autoUpdate.ts que:
+- Cada 6 horas ejecute `git pull origin main`
+- Si hay cambios, ejecute `npm install` y recargue la página automáticamente
+- Envíe alerta a Telegram (usar mismo bot @eco_social_alerts_bot)
+- Guarde log en localStorage o archivo
+
+Modificar src/index.tsx para:
+- Al iniciar, verificar si hay actualizaciones pendientes
+- Ejecutar auto-actualización en segundo plano
+- Si el servidor se cae, reintentar 3 veces
+
+## PARTE 2: CONEXIÓN CON BACKEND
+
+Backend URL: https://hazpot-backend.juampy40-tech.replit.co
+
+Crear archivo .env:
+REACT_APP_BACKEND_URL=https://hazpot-backend.juampy40-tech.replit.co
+REACT_APP_API_KEY= 06e4e3fe5778ef940c8f03ee75905d6ebffdcd19a0903b7e8a38568a59fd056b
+
+Crear src/services/hazpostBackend.ts con:
+- getMonitorEstado() - GET /api/monitor/estado
+- getSkills() - GET /api/skills/lista  
+- getDuplicados() - GET /api/skills/duplicados
+- fusionarDuplicados(skill1, skill2) - POST /api/skills/duplicados/fusionar
+- ejecutarEscaneo() - POST /api/escaneo/ejecutar
+- ejecutarBackup() - POST /api/backup/ejecutar
+- getBackupEstado() - GET /api/backup/estado
+- subirImagen(archivo, tipo) - POST /api/imagenes/subir
+- listarImagenes(tipo) - GET /api/imagenes/listar
+- eliminarImagen(nombre, tipo) - DELETE /api/imagenes/{nombre}
+
+Todas las peticiones incluir header: X-User-ID y X-API-Key
+
+## PARTE 3: PANEL DE ADMINISTRACIÓN
+
+Crear src/components/HazpostAdminPanel.tsx que muestre:
+- Estado del monitor (verde/rojo, último check, tiempo respuesta)
+- Lista de skills detectados (con badges de colores)
+- Lista de duplicados (cada uno con botón "Fusionar")
+- Botones: "Ejecutar escaneo manual", "Ejecutar backup manual"
+- Sección de imágenes: drag & drop para subir, lista de imágenes, botón eliminar
+- Estado de carga y mensajes de éxito/error
+- Diseño responsive con Tailwind CSS o CSS modules
+
+## PARTE 4: INTEGRAR EN APP
+
+Actualizar src/App.tsx para:
+- Importar HazpostAdminPanel
+- Agregar ruta /admin (si usa React Router)
+- O mostrar el panel en el dashboard principal
+
+## PARTE 5: REINICIO AUTOMÁTICO
+
+Agregar en package.json script:
+"auto-pull": "git pull origin main && npm install && npm run build"
+
+Crear .github/workflows/auto-deploy.yml:
+- Se ejecuta cada 6 horas
+- Hace pull, instala, construye y despliega
+
+## REQUISITOS CLAVE:
+- El frontend debe actualizarse solo cuando hay cambios en GitHub
+- Debe mostrar datos reales del backend
+- Las imágenes deben poder subirse y verse
+- Todo debe funcionar sin que yo haga nada manual
+
+Genera TODO el código completo para todos estos archivos.

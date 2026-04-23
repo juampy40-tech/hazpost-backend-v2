@@ -1,0 +1,70 @@
+REGLA ÚNICA Y CENTRAL DE ZONA HORARIA PARA TODA LA PLATAFORMA
+La regla (sin excepciones):
+
+Base de datos: Todo se guarda en UTC.
+
+Admin: Siempre usa America/Bogota para ver y operar todo.
+
+Cada usuario: Siempre usa la zona horaria del país que eligió al crear su cuenta (ej: Nueva Zelanda → Pacific/Auckland, Colombia → America/Bogota).
+
+Esto aplica a TODA la plataforma, absolutamente todo:
+
+Programar, editar y eliminar posts
+
+Calendario de contenido
+
+Analytics y estadísticas
+
+Historial y logs
+
+Reportes exportados
+
+Notificaciones por email
+
+API endpoints
+
+Generación de contenido con IA que incluya fechas/horarios
+
+Dashboard y cualquier lugar donde se muestre una fecha u hora
+
+Problema que evita:
+Un usuario de Nueva Zelanda programa un post para las 8:00 AM (su hora local). Sin esta regla, el sistema lo interpretaría como 8:00 AM hora Bogotá (UTC-5) en lugar de 8:00 AM Nueva Zelanda (UTC+12), causando una diferencia de 17 horas y publicando el post en el momento totalmente equivocado.
+
+Implementación centralizada (hacer una vez, usar en todas partes):
+
+javascript
+// utils/timezone.js - ÚNICO archivo con lógica de zonas horarias
+
+const { toZonedTime, formatInTimeZone } = require('date-fns-tz');
+
+// Guardar: hora local del usuario -> UTC
+function saveToUTC(localDateTime, userTimezone) {
+    const zoned = toZonedTime(localDateTime, userTimezone);
+    return new Date(zoned);
+}
+
+// Mostrar al usuario: UTC -> su zona local
+function showToUser(utcDate, userTimezone) {
+    return formatInTimeZone(utcDate, userTimezone, 'yyyy-MM-dd HH:mm:ss');
+}
+
+// Mostrar al admin: UTC -> Bogotá
+function showToAdmin(utcDate) {
+    return formatInTimeZone(utcDate, 'America/Bogota', 'yyyy-MM-dd HH:mm:ss');
+}
+
+// Middleware global (se ejecuta en cada request)
+app.use((req, res, next) => {
+    if (req.user?.role === 'admin') {
+        req.timezone = 'America/Bogota';
+    } else if (req.user?.timezone) {
+        req.timezone = req.user.timezone;
+    } else {
+        req.timezone = 'America/Bogota'; // fallback
+    }
+    res.locals.timezone = req.timezone;
+    next();
+});
+Regla de oro: Ninguna función fuera de utils/timezone.js puede tener lógica de zonas horarias. Todo el código que maneje fechas DEBE importar y usar SOLO estas funciones.
+
+No puede pasar esto: ❌ Una función usa Bogotá y otra usa la zona del usuario. ❌ Un usuario programa a las 8 AM y se guarda como 8 AM Bogotá. ❌ El admin ve una fecha en zona de usuario.

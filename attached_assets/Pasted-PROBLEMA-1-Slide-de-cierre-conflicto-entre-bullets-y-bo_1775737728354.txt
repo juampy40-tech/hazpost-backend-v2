@@ -1,0 +1,53 @@
+PROBLEMA 1 - Slide de cierre: conflicto entre bullets y botón CTA
+Descripción del problema:
+En el Reel Studio, cuando activo la opción "Slide de cierre" (el último slide del reel), tengo un comportamiento incorrecto.
+Paso a paso del error:
+1.	Activo el Slide de cierre
+2.	Decido quitar los bullets (los indicadores de página/puntos)
+3.	Resultado inesperado: También se quita el botón CTA (Call To Action)
+Lo que debería pasar:
+•	Quitar los bullets NO debería afectar al botón CTA
+•	El botón CTA debe seguir visible aunque los bullets estén desactivados
+•	Bullets y botón CTA deben ser independientes entre sí
+Lo que NO debe pasar:
+❌ Al desactivar bullets → desaparece el botón CTA
+Lo que SÍ debe pasar:
+✅ Bullets = OFF, CTA = visible y funcionando
+________________________________________
+🎨 PROBLEMA 2 - Estilo de bullets actual es feo y tapa el logo
+Descripción del problema:
+Los bullets actuales (puntos indicadores de página/slide) son:
+•	Feos / poco atractivos visualmente
+•	Tapan el logo que normalmente está en la parte superior en una esquina
+Lo que necesito:
+Diseñar bullets MÁS BONITOS (KOOL) que:
+1.	Sean visualmente atractivos (modernos, elegantes, con estilo)
+2.	NO tapen el logo que está arriba (izquierda o derecha)
+3.	Se puedan personalizar (color, tamaño, forma, posición)
+Ejemplos de bullets más bonitos que me gustaría:
+•	Bullets tipo líneas horizontales (en lugar de círculos)
+•	Bullets más pequeños y sutiles
+•	Bullets con transparencia para no tapar contenido
+•	Bullets ubicados más abajo (no en la misma línea que el logo)
+•	Bullets con animación suave al cambiar de slide
+•	Bullets con diseño minimalista (tipo iOS/Android moderno)
+✅ REQUISITOS ESPECÍFICOS PARA LA SOLUCIÓN
+Para el Problema 1 (Slide de cierre):
+Requisito	Estado esperado
+Bullets pueden estar OFF	✅
+Botón CTA debe seguir visible	✅
+Bullets y CTA son independientes	✅
+Para el Problema 2 (Bullets bonitos):
+Requisito	Estado esperado
+Bullets no tapan el logo	✅
+Diseño moderno/kool	✅
+Posición ajustable (abajo preferiblemente)	✅
+Tamaño reducido	✅
+Opción de transparencia	✅
+Compatible con todas las pantallas	✅
+________________________________________
+🛠️ ACCIÓN INMEDIATA QUE NECESITO
+1.	Corregir el bug del Slide de cierre: bullets OFF no debe ocultar el botón CTA
+2.	Rediseñar los bullets para que sean más bonitos (kool)
+3.	Reposicionar los bullets para que NO tapen el logo (moverlos hacia abajo)
+4.	Asegurar que el logo siempre sea visible sin obstrucciones

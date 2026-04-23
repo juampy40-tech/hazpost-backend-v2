@@ -1,0 +1,1058 @@
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+    /* ── WordPress overrides: hide theme header/footer, reset body ── */
+    #page, #masthead, #colophon, .site-header, .site-footer,
+    header.site-header, footer.site-footer, .wp-block-template-part,
+    .entry-header, .entry-footer, .post-navigation, .comments-area,
+    #wpadminbar ~ #page > header, #wpadminbar ~ #page > footer { display: none !important; }
+    html, body { background: #0A0A0F !important; padding: 0 !important; margin: 0 !important; }
+    .entry-content, .wp-block-group, .is-layout-flow, .wp-site-blocks,
+    main, #primary, #main, article, .entry { padding: 0 !important; margin: 0 !important; max-width: none !important; }
+    .wp-block-post-content { margin: 0 !important; max-width: 100% !important; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #00C2FF;
+      --cyan-dark: #0099CC;
+      --cyan-glow: rgba(0,194,255,0.3);
+      --dark: #0A0A0F;
+      --dark2: #12121A;
+      --dark3: #1C1C28;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #E8E8F0;
+      --muted: #8888A8;
+      --white: #FFFFFF;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 40px;
+      backdrop-filter: blur(20px);
+      background: rgba(10,10,15,0.85);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .logo span:first-child { color: var(--white); }
+    .logo span:last-child { color: var(--cyan); }
+
+    nav .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    nav .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn-outline {
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+    }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .btn-primary {
+      padding: 10px 24px;
+      background: var(--cyan);
+      border: none;
+      border-radius: 50px;
+      color: #000;
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.2s;
+      box-shadow: 0 0 20px var(--cyan-glow);
+    }
+    .btn-primary:hover {
+      background: #22D4FF;
+      transform: translateY(-1px);
+      box-shadow: 0 0 30px var(--cyan-glow);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(0,194,255,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,194,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,194,255,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 860px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(0,194,255,0.12);
+      border: 1px solid rgba(0,194,255,0.3);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--cyan);
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    .hero h1 .highlight { color: var(--cyan); }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+    .hero-ctas .btn-primary { padding: 16px 36px; font-size: 1rem; }
+    .hero-ctas .btn-outline { padding: 16px 28px; font-size: 1rem; }
+
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .avatars {
+      display: flex;
+    }
+    .avatars span {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--dark);
+      margin-left: -10px;
+      background: linear-gradient(135deg, var(--cyan), #7B2FFF);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700; color: white;
+    }
+    .avatars span:first-child { margin-left: 0; }
+    .proof-text { font-size: 0.85rem; color: var(--muted); }
+    .stars { color: #FFB800; letter-spacing: 2px; }
+
+    /* ── LOGOS BAR ── */
+    .logos-bar {
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      background: var(--dark2);
+    }
+    .logos-bar p {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .logos-list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .brand-pill {
+      padding: 8px 20px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 24px; max-width: 1200px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--cyan);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps-wrapper { position: relative; padding: 80px 24px; background: var(--dark2); }
+    .steps { max-width: 1200px; margin: 0 auto; }
+    .steps-header { text-align: center; margin-bottom: 64px; }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2px;
+    }
+    .step {
+      padding: 40px 32px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      position: relative;
+      transition: background 0.3s;
+    }
+    .step:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+    .step:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+    .step:hover { background: rgba(0,194,255,0.05); }
+
+    .step-num {
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(0,194,255,0.15);
+      line-height: 1;
+      margin-bottom: 16px;
+      letter-spacing: -3px;
+    }
+    .step-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .step h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .step p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 56px;
+    }
+    .feature-card {
+      padding: 40px 32px;
+      background: var(--dark);
+      transition: background 0.3s;
+    }
+    .feature-card:hover { background: var(--dark3); }
+
+    .feature-icon {
+      width: 52px; height: 52px;
+      background: rgba(0,194,255,0.1);
+      border: 1px solid rgba(0,194,255,0.2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .feature-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── PLATFORMS ── */
+    .platforms-wrapper { background: var(--dark2); padding: 80px 24px; }
+    .platforms { max-width: 1200px; margin: 0 auto; }
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .platform-card {
+      padding: 40px 32px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--card);
+      text-align: center;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .platform-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+      border-radius: var(--radius);
+    }
+    .platform-card.ig::before { background: radial-gradient(ellipse at 50% 0%, rgba(214,41,118,0.12), transparent 70%); }
+    .platform-card.tt::before { background: radial-gradient(ellipse at 50% 0%, rgba(0,194,255,0.12), transparent 70%); }
+    .platform-card.fb::before { background: radial-gradient(ellipse at 50% 0%, rgba(24,119,242,0.12), transparent 70%); }
+    .platform-card:hover::before { opacity: 1; }
+    .platform-card:hover { transform: translateY(-4px); }
+
+    .platform-emoji { font-size: 3rem; margin-bottom: 16px; display: block; }
+    .platform-card h3 { font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .platform-card p { font-size: 0.85rem; color: var(--muted); }
+    .platform-badge {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 4px 12px;
+      background: rgba(0,194,255,0.1);
+      border: 1px solid rgba(0,194,255,0.3);
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .pricing-card {
+      padding: 40px 32px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--dark2);
+      position: relative;
+      transition: all 0.3s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); }
+    .pricing-card.popular {
+      border-color: var(--cyan);
+      background: var(--dark3);
+      box-shadow: 0 0 40px rgba(0,194,255,0.12);
+    }
+    .popular-badge {
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 20px;
+      background: var(--cyan);
+      color: #000;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .plan-name { font-size: 0.85rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .plan-price { margin-bottom: 8px; }
+    .plan-price strong { font-size: 2.8rem; font-weight: 900; color: var(--white); letter-spacing: -2px; }
+    .plan-price span { font-size: 0.85rem; color: var(--muted); }
+    .plan-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 28px; }
+    .plan-features { list-style: none; margin-bottom: 32px; }
+    .plan-features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.85rem; color: var(--text);
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .plan-features li:last-child { border-bottom: none; }
+    .check { color: var(--cyan); font-weight: 700; flex-shrink: 0; }
+    .plan-btn {
+      display: block; width: 100%; padding: 14px;
+      border-radius: 50px; font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: 0.9rem; text-align: center;
+      text-decoration: none; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .plan-btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .plan-btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+    .plan-btn-solid {
+      background: var(--cyan);
+      border: none;
+      color: #000;
+      box-shadow: 0 0 20px var(--cyan-glow);
+    }
+    .plan-btn-solid:hover { background: #22D4FF; transform: translateY(-1px); }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-wrapper { background: var(--dark2); padding: 80px 24px; }
+    .testimonials { max-width: 1200px; margin: 0 auto; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .testimonial-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--dark);
+    }
+    .testimonial-stars { color: #FFB800; margin-bottom: 16px; letter-spacing: 2px; }
+    .testimonial-text { font-size: 0.9rem; color: var(--text); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), #7B2FFF);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem; color: white; flex-shrink: 0;
+    }
+    .author-name { font-size: 0.875rem; font-weight: 600; color: var(--white); }
+    .author-role { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── FAQ ── */
+    .faq-list { margin-top: 48px; max-width: 720px; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+    .faq-q {
+      font-weight: 600; color: var(--white);
+      font-size: 0.95rem; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px;
+    }
+    .faq-q::after { content: '+'; color: var(--cyan); font-size: 1.2rem; flex-shrink: 0; }
+    .faq-a { font-size: 0.875rem; color: var(--muted); line-height: 1.7; margin-top: 12px; }
+
+    /* ── FINAL CTA ── */
+    .final-cta-wrapper {
+      padding: 80px 24px;
+      background: linear-gradient(180deg, transparent, var(--dark2) 50%, transparent);
+      text-align: center;
+    }
+    .final-cta-box {
+      max-width: 700px; margin: 0 auto;
+      padding: 72px 40px;
+      background: var(--dark3);
+      border: 1px solid rgba(0,194,255,0.25);
+      border-radius: 24px;
+      box-shadow: 0 0 80px rgba(0,194,255,0.08), inset 0 0 60px rgba(0,194,255,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    }
+    .final-cta-box h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .final-cta-box p { font-size: 1rem; color: var(--muted); margin-bottom: 36px; }
+    .final-cta-box .btn-primary { padding: 18px 48px; font-size: 1.05rem; }
+    .no-cc { font-size: 0.78rem; color: var(--muted); margin-top: 16px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 24px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+    .footer-brand p { font-size: 0.85rem; color: var(--muted); margin-top: 8px; max-width: 240px; line-height: 1.6; }
+    .footer-links h4 { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; }
+    .footer-links ul { list-style: none; }
+    .footer-links ul li { margin-bottom: 8px; }
+    .footer-links ul a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links ul a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-bottom p { font-size: 0.78rem; color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      nav .nav-links { display: none; }
+      .platforms-grid { grid-template-columns: 1fr; }
+      .step:first-child, .step:last-child { border-radius: 0; }
+      .step:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+      .step:last-child { border-radius: 0 0 var(--radius) var(--radius); }
+      .steps-grid { grid-template-columns: 1fr; gap: 0; }
+      .footer-top { flex-direction: column; }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-badge, .hero h1, .hero p, .hero-ctas, .hero-social-proof {
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero h1 { animation-delay: 0.1s; }
+    .hero p { animation-delay: 0.2s; }
+    .hero-ctas { animation-delay: 0.3s; }
+    .hero-social-proof { animation-delay: 0.4s; }
+  </style>
+<!-- NAV -->
+  <nav>
+    <a href="/" class="logo"><span>haz</span><span>post</span></a>
+    <ul class="nav-links">
+      <li><a href="#como-funciona">Cómo funciona</a></li>
+      <li><a href="#funciones">Funciones</a></li>
+      <li><a href="#precios">Precios</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="https://hazpost.app/login" class="btn-outline">Iniciar sesión</a>
+      <a href="https://hazpost.app/registro" class="btn-primary">Probar gratis</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">✦ IA para redes sociales — Nuevo en 2025</div>
+      <h1>Publicá en redes<br /><span class="highlight">sin levantar un dedo</span></h1>
+      <p>HazPost crea, programa y publica contenido para Instagram, TikTok y Facebook con IA. Adaptada al tono de tu marca, en el horario óptimo, todos los días.</p>
+      <div class="hero-ctas">
+        <a href="https://hazpost.app/registro" class="btn-primary">Empezar gratis — 14 días</a>
+        <a href="#como-funciona" class="btn-outline">Ver cómo funciona →</a>
+      </div>
+      <div class="hero-social-proof">
+        <div class="avatars">
+          <span>LP</span><span>MC</span><span>JR</span><span>AS</span><span>+</span>
+        </div>
+        <div>
+          <div class="stars">★★★★★</div>
+          <div class="proof-text">Más de 100 negocios ya usan HazPost</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGOS BAR -->
+  <div class="logos-bar">
+    <p>Funciona con tus redes favoritas</p>
+    <div class="logos-list">
+      <div class="brand-pill">📸 Instagram Business</div>
+      <div class="brand-pill">🎵 TikTok Business</div>
+      <div class="brand-pill">📘 Facebook Pages</div>
+      <div class="brand-pill">🤖 GPT-5</div>
+      <div class="brand-pill">🇨🇴 Pagos en COP</div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="steps-wrapper" id="como-funciona">
+    <div class="steps">
+      <div class="steps-header">
+        <div class="section-label">Cómo funciona</div>
+        <h2 class="section-title">4 pasos. <span style="color:var(--cyan)">Todo automático.</span></h2>
+        <p class="section-sub" style="margin:0 auto;">Sin agencias, sin diseñadores, sin aprender herramientas complicadas.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">01</div>
+          <span class="step-icon">🏢</span>
+          <h3>Describe tu negocio</h3>
+          <p>Contanos quién sos, qué vendés y cuál es tu tono de comunicación. Solo una vez.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <span class="step-icon">🤖</span>
+          <h3>La IA crea el contenido</h3>
+          <p>Generamos imágenes, captions y hashtags optimizados para cada red social con GPT-5.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <span class="step-icon">✅</span>
+          <h3>Aprobás o editás</h3>
+          <p>Revisás el contenido en segundos. Si te gusta, lo aprobás. Si no, la IA lo rehace.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <span class="step-icon">🚀</span>
+          <h3>Publicación automática</h3>
+          <p>HazPost publica en el horario de mayor engagement. Sin que toques nada.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="funciones">
+    <div class="section-label">Funciones</div>
+    <h2 class="section-title">Todo lo que necesitás<br /><span style="color:var(--cyan)">en un solo lugar</span></h2>
+    <p class="section-sub">Olvidate de malabarear Canva, Buffer, ChatGPT y el calendario editorial. HazPost lo hace todo.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">✍️</div>
+        <h3>Generación de contenido con IA</h3>
+        <p>Captions, imágenes y hashtags creados por GPT-5 adaptados al tono de tu marca en segundos.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Calendario editorial visual</h3>
+        <p>Visualizá y reorganizá tu contenido semana a semana. Arrastrá y soltá para reprogramar.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Generador masivo</h3>
+        <p>Creá 30 posts de un mes entero en minutos. Ideal para campañas y fechas especiales.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✅</div>
+        <h3>Flujo de aprobación</h3>
+        <p>Tu equipo revisa y aprueba antes de publicar. Control total sin perder velocidad.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Estadísticas reales</h3>
+        <p>Alcance, impresiones, engagement y mejores horarios directamente desde Meta y TikTok.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>Biblioteca de fondos e imágenes</h3>
+        <p>Catálogo propio de fondos y overlays de marca para mantener coherencia visual siempre.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>Publicación automática</h3>
+        <p>Publica en el horario óptimo sin intervención humana. Funciona 24/7 incluso cuando dormís.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Compartir por WhatsApp</h3>
+        <p>Enviá previsualizaciones del contenido a clientes o socios por WhatsApp con un click.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏢</div>
+        <h3>Multi-negocio</h3>
+        <p>Gestioná múltiples marcas o clientes desde una sola cuenta. Perfecto para agencias.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORMS -->
+  <div class="platforms-wrapper">
+    <div class="platforms">
+      <div style="text-align:center;">
+        <div class="section-label">Plataformas</div>
+        <h2 class="section-title">Una app, <span style="color:var(--cyan)">todas tus redes</span></h2>
+        <p class="section-sub" style="margin:0 auto;">Conectá tus cuentas una sola vez y publicá en todas desde HazPost.</p>
+      </div>
+      <div class="platforms-grid">
+        <div class="platform-card ig">
+          <span class="platform-emoji">📸</span>
+          <h3>Instagram</h3>
+          <p>Posts de feed, reels y stories. Captions con emojis y hashtags optimizados para el algoritmo.</p>
+          <span class="platform-badge">✓ Publicación automática</span>
+        </div>
+        <div class="platform-card tt">
+          <span class="platform-emoji">🎵</span>
+          <h3>TikTok</h3>
+          <p>Videos cortos y contenido viral. La IA adapta el tono para la audiencia joven de TikTok.</p>
+          <span class="platform-badge">✓ Publicación automática</span>
+        </div>
+        <div class="platform-card fb">
+          <span class="platform-emoji">📘</span>
+          <h3>Facebook</h3>
+          <p>Posts en página de empresa con imágenes y texto. Ideal para comunidades y negocios locales.</p>
+          <span class="platform-badge">✓ Publicación automática</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <section id="precios" style="max-width:1000px;">
+    <div style="text-align:center;">
+      <div class="section-label">Precios</div>
+      <h2 class="section-title">Simple. Transparente. <span style="color:var(--cyan)">Sin sorpresas.</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Todos los planes incluyen 14 días gratis. Sin tarjeta de crédito.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="plan-name">Emprendedor</div>
+        <div class="plan-price"><strong>$49.000</strong><span> COP/mes</span></div>
+        <div class="plan-desc">Para emprendedores que empiezan en redes sociales.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> 1 negocio</li>
+          <li><span class="check">✓</span> Instagram + Facebook</li>
+          <li><span class="check">✓</span> 100 créditos IA/mes</li>
+          <li><span class="check">✓</span> Generador de contenido</li>
+          <li><span class="check">✓</span> Calendario editorial</li>
+        </ul>
+        <a href="https://hazpost.app/registro" class="plan-btn plan-btn-ghost">Empezar gratis</a>
+      </div>
+      <div class="pricing-card popular">
+        <div class="popular-badge">⚡ Más popular</div>
+        <div class="plan-name">Profesional</div>
+        <div class="plan-price"><strong>$99.000</strong><span> COP/mes</span></div>
+        <div class="plan-desc">Para marcas que quieren crecer en serio en redes sociales.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> 3 negocios</li>
+          <li><span class="check">✓</span> Instagram + TikTok + Facebook</li>
+          <li><span class="check">✓</span> 500 créditos IA/mes</li>
+          <li><span class="check">✓</span> Generador masivo (30 posts)</li>
+          <li><span class="check">✓</span> Flujo de aprobación</li>
+          <li><span class="check">✓</span> Estadísticas avanzadas</li>
+          <li><span class="check">✓</span> Soporte prioritario</li>
+        </ul>
+        <a href="https://hazpost.app/registro" class="plan-btn plan-btn-solid">Empezar gratis</a>
+      </div>
+      <div class="pricing-card">
+        <div class="plan-name">Agencia</div>
+        <div class="plan-price"><strong>$249.000</strong><span> COP/mes</span></div>
+        <div class="plan-desc">Para agencias que manejan múltiples clientes.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Negocios ilimitados</li>
+          <li><span class="check">✓</span> Todas las plataformas</li>
+          <li><span class="check">✓</span> Créditos IA ilimitados</li>
+          <li><span class="check">✓</span> Multi-usuario por negocio</li>
+          <li><span class="check">✓</span> API de acceso</li>
+          <li><span class="check">✓</span> Account Manager dedicado</li>
+        </ul>
+        <a href="https://hazpost.app/registro" class="plan-btn plan-btn-ghost">Empezar gratis</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <div class="testimonials-wrapper">
+    <div class="testimonials">
+      <div style="text-align:center;">
+        <div class="section-label">Testimonios</div>
+        <h2 class="section-title">Lo que dicen<br /><span style="color:var(--cyan)">nuestros clientes</span></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Antes tardaba 3 horas a la semana en crear contenido para Instagram. Ahora HazPost lo hace en 5 minutos y el engagement subió un 40%."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">LP</div>
+            <div>
+              <div class="author-name">Laura Pérez</div>
+              <div class="author-role">Dueña de tienda de ropa, Bogotá</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Manejo 8 clientes de agencia. HazPost me ahorró contratar a dos personas más. El generador masivo es increíble."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">MC</div>
+            <div>
+              <div class="author-name">Martín Cárdenas</div>
+              <div class="author-role">Director de agencia digital, Medellín</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"La calidad del contenido que genera es sorprendente. Entiende mi marca mejor que algunos community managers que contraté."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">AS</div>
+            <div>
+              <div class="author-name">Andrea Salcedo</div>
+              <div class="author-role">Restaurante El Patio, Cali</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section id="faq" style="max-width:800px;">
+    <div class="section-label">Preguntas frecuentes</div>
+    <h2 class="section-title">¿Tenés dudas? <span style="color:var(--cyan)">Acá respondemos todo.</span></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">¿Qué es HazPost y para qué sirve?</div>
+        <div class="faq-a">HazPost es una plataforma SaaS que usa Inteligencia Artificial para crear, programar y publicar contenido en Instagram, TikTok y Facebook de forma automática. Está diseñada para empresas, emprendedores y agencias en Colombia y Latinoamérica que quieren crecer en redes sociales sin invertir horas en contenido manual.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Necesito conocimientos de diseño o marketing?</div>
+        <div class="faq-a">No. Solo necesitás describir tu negocio una vez. La IA genera las imágenes, los textos y los hashtags adaptados a tu marca. Si algún post no te convence, podés editarlo o pedirle a la IA que lo rehaga.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Funciona con Instagram de empresa y TikTok Business?</div>
+        <div class="faq-a">Sí. HazPost usa las APIs oficiales de Meta (Instagram Business) y TikTok Business. La conexión es segura vía OAuth. Publicamos directamente en tu feed sin necesidad de apps adicionales.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Cómo pago? ¿Aceptan pagos en Colombia?</div>
+        <div class="faq-a">Sí. Aceptamos pagos en pesos colombianos (COP) con tarjetas de crédito, débito y PSE a través de Wompi. También podés pagar con tarjetas internacionales.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Puedo cancelar en cualquier momento?</div>
+        <div class="faq-a">Sí, podés cancelar tu suscripción cuando quieras desde la configuración de tu cuenta. No hay contratos ni cargos ocultos. Los 14 días de prueba son completamente gratis, sin tarjeta de crédito.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Puedo manejar múltiples negocios o clientes?</div>
+        <div class="faq-a">Sí. Los planes Profesional y Agencia permiten gestionar múltiples negocios desde una sola cuenta. Ideal para agencias de marketing digital y community managers que trabajan con varios clientes.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <div class="final-cta-wrapper">
+    <div class="final-cta-box">
+      <h2>Tu negocio merece estar<br /><span style="color:var(--cyan)">en todas las redes</span></h2>
+      <p>Empezá hoy gratis. Sin tarjeta de crédito. Sin compromisos.<br />La IA trabaja, vos crecés.</p>
+      <a href="https://hazpost.app/registro" class="btn-primary">Crear cuenta gratis →</a>
+      <div class="no-cc">✓ 14 días gratis · ✓ Sin tarjeta de crédito · ✓ Cancelá cuando quieras</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="logo" style="font-size:1.25rem;"><span>haz</span><span>post</span></a>
+        <p>Gestión de redes sociales con IA para empresas en Colombia y Latinoamérica.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Producto</h4>
+        <ul>
+          <li><a href="#funciones">Funciones</a></li>
+          <li><a href="#precios">Precios</a></li>
+          <li><a href="#como-funciona">Cómo funciona</a></li>
+          <li><a href="https://hazpost.app/registro">Prueba gratis</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="https://hazpost.app/privacy-policy">Política de privacidad</a></li>
+          <li><a href="https://hazpost.app/terms">Términos de servicio</a></li>
+          <li><a href="https://hazpost.app/data-deletion">Eliminación de datos</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="https://instagram.com/hazpost.app">Instagram</a></li>
+          <li><a href="mailto:hola@hazpost.app">hola@hazpost.app</a></li>
+          <li><a href="https://hazpost.app/registro">Empezar gratis</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 HazPost. Hecho con ❤️ en Colombia 🇨🇴</p>
+      <p style="color:var(--cyan);font-size:0.78rem;font-weight:600;">haz<span style="color:var(--muted)">post</span>.app</p>
+    </div>
+  </footer>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "HazPost",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://hazpost.app",
+        "description": "Plataforma de gestión de redes sociales con IA para empresas. Crea, programa y publica contenido en Instagram, TikTok y Facebook automáticamente.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "COP",
+          "description": "Plan gratuito 14 días"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "127"
+        },
+        "featureList": [
+          "Generación de contenido con IA",
+          "Programación masiva de posts",
+          "Publicación automática en Instagram",
+          "Publicación automática en TikTok",
+          "Publicación automática en Facebook",
+          "Flujo de aprobación de contenido",
+          "Calendario editorial",
+          "Estadísticas y análisis"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Qué es HazPost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HazPost es una plataforma de gestión de redes sociales con Inteligencia Artificial. Genera automáticamente contenido para Instagram, TikTok y Facebook adaptado al estilo de tu marca, y lo publica en los mejores horarios sin que tengas que hacer nada."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Funciona con Instagram y TikTok?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí. HazPost se conecta con Instagram Business, TikTok Business y Facebook Pages mediante OAuth oficial. Publica imágenes, reels y videos automáticamente."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Necesito conocimientos técnicos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. HazPost está diseñado para dueños de negocio y equipos de marketing. Solo describís tu empresa una vez y la IA se encarga del resto."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cuánto cuesta HazPost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HazPost tiene un plan gratuito de 14 días sin tarjeta de crédito. Después, los planes parten desde $49.000 COP/mes para emprendedores hasta planes empresariales personalizados."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "name": "HazPost",
+        "url": "https://hazpost.app",
+        "logo": "https://hazpost.app/logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "availableLanguage": "Spanish"
+        }
+      }
+    ]
+  }
+  </script>

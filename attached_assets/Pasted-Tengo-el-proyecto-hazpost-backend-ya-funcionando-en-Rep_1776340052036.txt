@@ -1,0 +1,56 @@
+Tengo el proyecto hazpost-backend ya funcionando en Replit. Necesito que lo hagas 100% AUTOMÁTICO, sin que yo tenga que hacer nada más.
+
+## PARTE 1: ESCÁNER DE IMÁGENES (ya pedido, solo asegurar)
+
+Asegúrate que existe `src/escaneo_imagenes.py` con:
+- Escanear carpetas `data/usuarios/*/imagenes/` y `data/usuarios/*/logos/`
+- Detectar imágenes nuevas (comparar con registro anterior)
+- Detectar imágenes eliminadas
+- Enviar alerta por Telegram por cada imagen nueva (usuario, tipo, nombre, tamaño)
+- Guardar registro en `data/registro_imagenes.json`
+- Ejecutar escaneo cada 24 horas automáticamente
+
+## PARTE 2: ACTUALIZACIÓN AUTOMÁTICA DESDE GITHUB (NUEVO)
+
+Agrega a `app.py` la capacidad de actualizarse sola:
+
+1. Importar `subprocess` y `schedule` (si no están)
+2. Crear función `actualizar_desde_github()` que:
+   - Ejecute `git pull origin main`
+   - Si hay cambios nuevos, reinicie automáticamente el servidor
+   - Envíe alerta por Telegram: "📦 Actualización automática: cambios detectados"
+   - Guarde log en `logs/actualizaciones.log`
+3. En `iniciar_servicios()`, agregar:
+   - Ejecutar `actualizar_desde_github()` al inicio
+   - Programar `schedule.every(6).hours.do(actualizar_desde_github)`
+
+## PARTE 3: MONITOREO DE CAMBIOS EN CÓDIGO (adicional)
+
+Crear `src/monitor_codigo.py` que:
+- Verifique cada hora si hay cambios en GitHub (`git fetch` y comparar)
+- Si detecta cambios, ejecute `actualizar_desde_github()`
+- No es necesario si ya funciona lo de arriba
+
+## PARTE 4: REINICIO AUTOMÁTICO SI FALLA
+
+Agregar a `app.py`:
+- Si el servidor se cae, que se reinicie solo
+- Usar `try/except` alrededor del `app.run()`
+- Enviar alerta: "🔄 Servicio reiniciado automáticamente"
+
+## PARTE 5: VERIFICACIÓN FINAL
+
+Al terminar, debe pasar esto automáticamente:
+- Cada 6 horas: revisar GitHub y traer cambios
+- Cada 24 horas: escanear imágenes nuevas
+- Si hay cambios: reiniciar servidor solo
+- Si falla: reiniciar solo
+- Todo sin que yo toque nada
+
+## REQUISITOS CLAVE:
+- NO necesito hacer nada manual después de esto
+- Todo debe ser automático
+- Las alertas llegan a mi Telegram
+- El sistema se mantiene solo
+
+Genera TODO el código necesario. Modifica `app.py` y crea los archivos que falten.

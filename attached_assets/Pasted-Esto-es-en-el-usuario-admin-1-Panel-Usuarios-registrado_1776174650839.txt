@@ -1,0 +1,15 @@
+Esto es en el usuario admin:
+1.	Panel Usuarios registrados Me gustaría ver que tipo de publicaciones hace y cantidades de cada usuario agregarle esos datos. Y si se puede el costo de cada usuario a la plataforma-
+2.	 Debemos mirar todos los beneficios que se ofrecen en los planes y yo creo que esos beneficios no deben ser de escribir sino una lista desplegable con todos los beneficios que podemos ofrecer obvio que hay unos que son muy generales esos no se incluyen en lalista sino que están por defecto, y uno va agregando beneficios a cada plan según los que quiera uno dar, con el fin de que que se guarde y se publique en todos lados incluso landing, pero adicional se cofigure el plan según beneficios señalados, ejemplo el free no ve estadísticas entonces no lo chuleo. Pero que sea editable para el administrador ósea que escoja los beneficios por plan
+3.	Panel de Control: tener una estadística cuanto me esta costando cada tipo de publicación en dólares exactamente tambien cuantas publicaciones se crearon en un dia de que tipo, y cuanto me gaste ese dia en la creación de las publicaciones, por tipo y total, hacer lo mismo semanal, quincenal y mensual.
+
+4.	Necesito poder editar reglas de lo afiliados como el % de comisión, los meses que voy a dar la comisión para el plan general que siempre se muestra. Crear codigos para referir afiliados con condiciones diferentes. Necesito poder crear reglas de referidos en general  el que siempre se muestra en la web, y poder crear códigos para referidos con diferentes beneficios tanto para el que refiere como el referido.
+
+ANTES DE EMPEZAR: Quiero recordarte que nuestro proyecto usa una arquitectura centralizada (Single Source of Truth).
+
+- Los datos de usuarios y negocios viven en [base de datos PostgreSQL / Replit DB]
+- El estado global se maneja con [Redux / Context API / Zustand]
+- La autenticación está en [archivo de ruta]
+- Los componentes reusables están en /src/components/shared/
+
+Por favor, confirma que entiendes esta estructura antes de sugerir cualquier cambio.

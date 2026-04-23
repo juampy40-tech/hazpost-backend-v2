@@ -1,0 +1,62 @@
+PROBLEMA #1: DOS PLANES DIFERENTES
+El problema detectado:
+Hay 2 planes diferentes y no está claro cuál es el real que debe usarse.
+
+Los dos planes:
+Plan	Archivo	Descripción
+Plan A	image_1775672474392.png	El usuario prefiere la forma visual de este plan (cómo se ve, el diseño, los colores, la interfaz)
+Plan B	image_1775672440194.png	Este apareció en configuración con días y horarios diferentes
+Aclaración importante:
+El usuario prefiere la forma visual del image_1775672474392.png (el diseño, la interfaz, cómo se ve).
+
+Pero para la programación (días y horarios de publicación), se debe usar lo que de verdad funciona y nos dice la IA.
+
+Es decir:
+Aspecto	Qué usar
+Diseño visual (colores, distribución, estilo)	El del image_1775672474392.png (el que le gusta al usuario)
+Programación (qué días y horarios toca cada tipo de contenido)	Lo que diga la IA / lo que funciona según estrategia
+Resumen:
+No mezclar las dos cosas:
+
+El diseño visual puede ser el que el usuario prefiera (el de image_1775672474392.png)
+
+Pero la lógica de programación (días y horarios) debe ser la correcta según la IA y la estrategia, sin importar de qué plan venga.
+
+El usuario solo prefiere la apariencia visual de un plan, no su programación. La programación debe venir de la IA.
+
+PROBLEMA #2: CREA PUBLICACIONES DEL MISMO TIPO EL MISMO DÍA
+El problema:
+La app deja crear publicaciones del mismo tipo el mismo día, cuando la regla es clara.
+
+La regla que se debe aplicar:
+Si la IA ya tiene programado ese tipo de publicación en esa plataforma para ese día, NO debe dejar crear otra del mismo tipo para ese mismo día.
+
+Ejemplo del error:
+Plataforma	Tipo	Día	¿Qué hizo la app?	¿Qué DEBÍA hacer?
+Instagram	Foto	Lunes 10	✅ Ya había una foto programada	❌ No debía crear otra foto
+Instagram	Foto	Lunes 10	❌ Creó una segunda foto	❌ ERROR: No debió permitirlo
+Lo que debe revisar Replit:
+En las 3 funciones de generación masiva:
+
+Generar 30 días
+
+Generar 15 días
+
+Generar Posts Extra
+
+Antes de crear CADA publicación, preguntar:
+"¿Ya existe una publicación aprobada o programada de este mismo tipo (foto/reel/carrusel/historia) en esta misma plataforma (Instagram/TikTok/Facebook) para este mismo día?"
+
+Respuesta	Acción
+✅ SÍ existe	❌ NO crear. Buscar otro día disponible
+❌ NO existe	✅ Crear la publicación
+Resumen:
+La regla es clara: mismo tipo + misma plataforma + mismo día = NO permitir otra publicación.
+
+Arreglar la lógica de creación masiva (30 días, 15 días y Posts Extra) para que respete esta regla.
+
+RESUMEN FINAL PARA REPLIT
+Problema	Solución
+#1: Dos planes diferentes	Unificar: Diseño visual del Plan A, programación según IA
+#2: Repite mismo tipo mismo día	Aplicar regla: mismo tipo + misma plataforma + mismo día = NO
+¿Ahora sí, Replit? Corrige ambos problemas.

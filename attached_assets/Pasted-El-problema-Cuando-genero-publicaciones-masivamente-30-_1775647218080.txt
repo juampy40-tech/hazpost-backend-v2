@@ -1,0 +1,70 @@
+El problema
+Cuando genero publicaciones masivamente (30 días, 15 días o Posts Extra), la app no respeta los días que ya están ocupados y vuelve a programar publicaciones en fechas que ya tienen contenido aprobado.
+________________________________________
+Ejemplo concreto del error
+Situación inicial (ya existe):
+•	Jueves 9 de abril → TikTok: ya tiene un reel programado y aprobado (según la sugerencia de publicación que se definió como estrategia al usuario)
+Lo que hice:
+•	Le di a "Generar 30 días"
+Lo que pasó (ERROR):
+•	La app volvió a poner otro reel de TikTok el Jueves 30 de abril
+•	Ese día ya tenía un reel de TikTok aprobado y programado
+•	La app me puso otro reel pendiente en el MISMO día
+Lo que DEBÍA pasar (CORRECTO):
+La app debía haber buscado el siguiente día y horario disponible para reel de TikTok, según la sugerencia de publicación que se definió como estrategia al usuario, y NO repetir el mismo día que ya estaba ocupado.
+________________________________________
+El mismo error ocurre con TODO
+Esto pasa con todas las plataformas y todos los tipos de contenido:
+Plataforma	Tipo de contenido
+TikTok	Reel
+TikTok	Foto
+TikTok	Carrusel
+TikTok	Historia
+Instagram	Reel
+Instagram	Foto
+Instagram	Carrusel
+Instagram	Historia
+En todos los casos: La app vuelve a poner publicaciones en días que ya están ocupados, en lugar de buscar el siguiente día libre según la sugerencia de publicación que se definió como estrategia al usuario.
+________________________________________
+Dónde ocurre el error
+Este problema me ocurrio en Generar 30 días , pero revísate las 3 funciones, y debe aplicar la misma logica:
+1.	✅ Generar 30 días
+2.	✅ Generar 15 días
+3.	✅ Generar Posts Extra
+________________________________________
+Datos específicos del caso actual
+•	Los nuevos posts generados son del #184 al #231
+•	Aquí se presentó el error, no respeto días ocupados, ocupando días que ya tenían contenido programado
+________________________________________
+¿Qué debe hacer la app (la lógica correcta)?
+Cuando se genera una publicación masiva, la app debe:
+Paso 1:
+Revisar qué días ya están ocupados en cada plataforma con cada tipo de contenido (reel, foto, carrusel, historia) que ya estén aprobados y programados.
+Paso 2:
+Para cada nueva publicación que va a crear:
+•	Identificar la plataforma (Instagram, TikTok, etc.)
+•	Identificar el tipo de contenido (reel, foto, carrusel, historia)
+•	Buscar el próximo día disponible según la sugerencia de publicación que se definió como estrategia al usuario
+•	Saltarse los días que ya tienen ese tipo de contenido programado
+Paso 3:
+Asignar la nueva publicación al primer día libre que encuentre, no al día que ya está ocupado.
+________________________________________
+Ejemplo de cómo DEBERÍA funcionar
+Calendario actual:
+•	Jueves 9 abril → TikTok reel ✅ (aprobado)
+Usuario hace clic en "Generar 30 días"
+Lo que la app DEBE hacer:
+•	Ver que el Jueves 9 de abril YA TIENE reel de TikTok o la red social que sea
+•	Buscar el siguiente dia disponible según la sugerencia de publicación que se definió como estrategia al usuario.
+•	Programar ahí el nuevo reel
+Lo que la app NO debe hacer:
+•	Volver a poner otro reel el Jueves 9 de abril ❌ hablando de este ejemplo
+________________________________________
+Resumen para Replit
+No repitas fechas. Si un día ya tiene una publicación aprobada de ese tipo y plataforma, busca el siguiente día disponible según la sugerencia de publicación que se definió como estrategia al usuario.
+Pregunta clave que debe hacerse la app antes de programar:
+"Este día, en esta plataforma, con este tipo de contenido (reel/foto/carrusel/historia), ¿ya tiene una publicación aprobada?"
+•	Si SÍ → Buscar el siguiente día disponible según la sugerencia de publicación que se definió como estrategia al usuario
+•	Si NO → Programar ahí
+________________________________________
+¿Ahora sí, Replit? Arregla la lógica para que al generar 30 días, 15 días o Posts Extra, no se repitan días que ya están ocupados.

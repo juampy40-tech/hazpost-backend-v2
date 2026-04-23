@@ -1,0 +1,69 @@
+Soy el dueño de hazpost.app. Quiero un sistema AUTOMÁTICO que funcione 24/7 sin que yo haga nada.
+
+MI BOT DE TELEGRAM: @eco_social_alerts_bot
+
+ESTRUCTURA OBLIGATORIA (única fuente de verdad):
+- data/skills_auto.json → ÚNICO archivo con los skills detectados
+- logs/ → Todos los logs aquí
+- backups/ → Todos los backups aquí
+- .env → Única configuración
+
+QUÉ DEBE HACER EL SISTEMA (todo automático):
+
+1. CADA 6 HORAS escanea https://hazpost.app y detecta skills REALES (no inventados)
+2. Si encuentra duplicados (skills con nombre similar >80%), los FUSIONA automáticamente
+3. ME AVISA POR TELEGRAM (@eco_social_alerts_bot) de:
+   - Skills nuevos
+   - Skills que desaparecen
+   - Duplicados fusionados
+   - Web caída
+   - Backup completado o fallido
+   - Ataques de fuerza bruta
+   - Resumen diario a las 9 AM
+
+4. SEGURIDAD SIEMPRE ACTIVA:
+   - Headers de seguridad en todas las respuestas
+   - Rate limiting: 5 intentos de login por IP
+   - HTTPS forzado
+
+5. POSICIONAMIENTO SEO SIEMPRE ACTIVO:
+   - Meta tags (description, keywords) en cada ruta
+   - Open Graph (og:title, og:description, og:image)
+   - Twitter Cards
+   - JSON-LD con los skills detectados
+   - sitemap.xml y robots.txt generados automáticamente
+
+6. BACKUP AUTOMÁTICO DIARIO a las 2 AM
+   - Guarda data/, logs/ y .env
+   - Borra backups de más de 30 días
+
+7. PÁGINA /skills DINÁMICA:
+   - Muestra los skills detectados (lee de skills_auto.json)
+   - Se actualiza sola cada 6 horas
+   - Muestra historial de duplicados fusionados
+
+8. MONITOREO CONTINUO:
+   - Si la web cae, me avisa en 5 minutos
+   - Si la web carga lento (>2 segundos), me avisa
+
+CÓDIGO REQUERIDO (Python + Flask):
+- app.py (servidor)
+- src/scanner.py (escaneo cada 6h)
+- src/telegram_alerts.py (alertas a mi bot)
+- src/backup.py (backup diario)
+- src/security.py (headers + rate limiting)
+- src/seo.py (meta tags + sitemap)
+- src/duplicados.py (fusionar skills similares)
+- src/monitor.py (web caída + lentitud)
+- templates/skills.html
+- requirements.txt
+- .env.example
+
+REQUISITOS CLAVE:
+- UN solo comando para iniciar: python app.py
+- TODO automático, nada manual
+- skills_auto.json es la ÚNICA fuente de verdad
+- Las alertas van a @eco_social_alerts_bot
+- Funciona 24/7 en Replit
+
+Genera el código completo ahora.
