@@ -54,12 +54,6 @@ def create_app():
     app.config['BACKUP_HOUR_UTC'] = int(os.getenv('BACKUP_HOUR_UTC', '2'))
     app.config['API_KEY'] = os.getenv('API_KEY', '')
 
-    if not app.config['API_KEY'] and not app.config['DEBUG']:
-        logger.warning(
-            'API_KEY is not set — all write endpoints (POST/DELETE) are UNPROTECTED. '
-            'Set API_KEY in .env before deploying to production.'
-        )
-
     init_security(app)
 
     app.register_blueprint(seo_bp)
@@ -72,150 +66,21 @@ def create_app():
     app.register_blueprint(aislamiento_bp, url_prefix='/api/aislamiento')
     app.register_blueprint(aprendizaje_bp, url_prefix='/api/aprendizaje')
 
-    data_dir = app.config['DATA_DIR']
-    lock_file = _try_acquire_scheduler_lock(data_dir)
-    if lock_file is not None:
-        _SCHEDULER_LOCK_FILE = lock_file
-        logger.info('Acquired scheduler lock — starting background scheduler for this worker')
-
-        scan_hours = app.config['SCAN_INTERVAL_HOURS']
-        monitor_minutes = app.config['MONITOR_INTERVAL_MINUTES']
-        backup_hour = app.config['BACKUP_HOUR_UTC']
-
-        scheduler = BackgroundScheduler()
-        scheduler.add_job(
-            func=lambda: run_full_scan(
-                app.config['TARGET_SITE'],
-                app.config['TELEGRAM_BOT_TOKEN'],
-                app.config['TELEGRAM_CHAT_ID']
-            ),
-            trigger='interval',
-            hours=scan_hours,
-            id='full_scan',
-            replace_existing=True
-        )
-        scheduler.add_job(
-            func=lambda: check_site_status(
-                app.config['TARGET_SITE'],
-                app.config['TELEGRAM_BOT_TOKEN'],
-                app.config['TELEGRAM_CHAT_ID']
-            ),
-            trigger='interval',
-            minutes=monitor_minutes,
-            id='site_monitor',
-            replace_existing=True
-        )
-        scheduler.add_job(
-            func=lambda: run_backup(
-                retention_days=app.config['BACKUP_RETENTION_DAYS'],
-                bot_token=app.config['TELEGRAM_BOT_TOKEN'],
-                chat_id=app.config['TELEGRAM_CHAT_ID']
-            ),
-            trigger='cron',
-            hour=backup_hour,
-            minute=0,
-            id='daily_backup',
-            replace_existing=True
-        )
-        scheduler.add_job(
-            func=run_github_backup,
-            trigger='interval',
-            hours=6,
-            id='github_backup',
-            replace_existing=True
-        )
-        scheduler.add_job(
-            func=lambda: run_image_scan(
-                app.config['TELEGRAM_BOT_TOKEN'],
-                app.config['TELEGRAM_CHAT_ID'],
-                app.config['DATA_DIR'],
-            ),
-            trigger='interval',
-            hours=24,
-            id='image_scan',
-            replace_existing=True
-        )
-        scheduler.add_job(
-            func=lambda: check_and_update(
-                app.config['TELEGRAM_BOT_TOKEN'],
-                app.config['TELEGRAM_CHAT_ID'],
-            ),
-            trigger='interval',
-            hours=6,
-            id='auto_actualizacion',
-            replace_existing=True
-        )
-        scheduler.start()
-        logger.info(
-            f'Scheduler started: scan every {scan_hours}h, '
-            f'monitor every {monitor_minutes}min, '
-            f'backup at {backup_hour:02d}:00 UTC, '
-            f'github backup every 6h, '
-            f'image scan every 24h, '
-            f'auto-update every 6h'
-        )
-
-        import threading
-        threading.Thread(
-            target=lambda: check_and_update(
-                app.config['TELEGRAM_BOT_TOKEN'],
-                app.config['TELEGRAM_CHAT_ID'],
-            ),
-            daemon=True,
-            name='startup-auto-update',
-        ).start()
-    else:
-        logger.info('Scheduler lock already held by another worker — skipping scheduler init')
-
     @app.route('/')
     def index():
-        return {
-            'service': 'HazPost Backend',
-            'version': '1.0.0',
-            'status': 'running',
-            'endpoints': [
-                '/api/monitor',
-                '/api/scanner',
-                '/api/backup',
-                '/api/duplicados',
-                '/api/aislamiento',
-                '/api/aprendizaje',
-                '/sitemap.xml',
-                '/robots.txt',
-                '/skills'
-            ]
-        }
+        return {"status": "ok"}
 
     @app.route('/health')
     def health():
-        return {'status': 'ok'}
-
-    @app.route('/skills')
-    def skills_view():
-        from src.scanner import _load_results, _load_skills
-        from src.duplicados import find_duplicates
-
-        results = _load_results()
-        scan_info = results[-1] if results else None
-        skills = _load_skills()
-        duplicates = find_duplicates(skills)
-
-        categories = sorted({s.get('category') for s in skills if s.get('category')})
-        pages_with_skills = len({s.get('page_url') for s in skills if s.get('page_url')})
-
-        return render_template(
-            'skills.html',
-            skills=skills,
-            scan_info=scan_info,
-            duplicate_count=len(duplicates),
-            categories=categories,
-            pages_with_skills=pages_with_skills
-        )
+        return {"status": "ok"}
 
     return app
 
 
+# 🔥 ESTA LÍNEA ES CLAVE PARA GUNICORN
+app = create_app()
+
+
 if __name__ == '__main__':
-    app = create_app()
     port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
