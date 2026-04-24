@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { PlanCard, PlanCardData, PlanFeature } from "@/components/PlanCard";
 
-const BASE = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+const BASE = "";
 
 interface ApiPlan {
   key: string;
