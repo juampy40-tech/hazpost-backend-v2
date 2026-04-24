@@ -195,8 +195,15 @@ router.get("/meta/callback", async (req, res) => {
     const [appIdRow] = await db.select().from(appSettingsTable).where(eq(appSettingsTable.key, "meta_app_id"));
     const [appSecretRow] = await db.select().from(appSettingsTable).where(eq(appSettingsTable.key, "meta_app_secret"));
 
-    const appId = appIdRow?.value;
-    const appSecret = appSecretRow?.value;
+    const appId =
+  process.env["FACEBOOK_APP_ID"] ||
+  process.env["META_APP_ID"] ||
+  appIdRow?.value;
+
+const appSecret =
+  process.env["FACEBOOK_APP_SECRET"] ||
+  process.env["META_APP_SECRET"] ||
+  appSecretRow?.value;
 
     if (!appId || !appSecret) {
       res.redirect(`/settings?error=${encodeURIComponent("Meta App ID or Secret not configured")}`);
