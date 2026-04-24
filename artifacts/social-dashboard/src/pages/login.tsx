@@ -269,7 +269,7 @@ export default function Login() {
   }
 
 function handleGoogleLogin() {
-  window.location.href = `${BASE}/api/social/google`;
+  window.location.href = "https://v2.hazpost.com/api/social/google";
 }
 
   return (
