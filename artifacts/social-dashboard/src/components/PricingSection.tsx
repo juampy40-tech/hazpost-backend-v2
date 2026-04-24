@@ -193,7 +193,12 @@ export function PricingSection({
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-          {apiPlans.map(api => {
+          {[...apiPlans]
+  .sort((a, b) => {
+    const order = ["starter", "business", "agency"]; // ajusta nombres reales
+    return order.indexOf(a.key) - order.indexOf(b.key);
+  })
+  .map(api => {
             const showAnnual = annual && (api.priceAnnualUsd ?? 0) > 0;
             const planData = toPlanCardData(api, showAnnual);
             const isCurrent = mode === "billing" && api.key === currentPlanKey;
