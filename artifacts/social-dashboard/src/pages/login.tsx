@@ -269,8 +269,8 @@ export default function Login() {
   }
 
   function handleGoogleLogin() {
-    window.location.href = `${BASE}/api/auth/google`;
-  }
+  window.location.href = "https://v2.hazpost.com/api/auth/google";
+}
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 dark">
