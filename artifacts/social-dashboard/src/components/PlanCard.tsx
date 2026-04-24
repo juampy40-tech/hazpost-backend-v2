@@ -91,13 +91,15 @@ export function PlanCard({ plan, onSelect, loading, mode = "landing" }: any) {
       </div>
 
       <ul className="space-y-2 flex-1">
-        {features.slice(0, 5).map((f: string, i: number) => (
-          <li key={i} className="flex items-start gap-2 text-sm">
-            <Check className="w-4 h-4 text-primary mt-0.5" />
-            {f}
-          </li>
-        ))}
-      </ul>
+  {features
+    .slice(0, plan.key === "business" ? 8 : 6)
+    .map((f: string, i: number) => (
+      <li key={i} className="flex items-start gap-2 text-sm">
+        <Check className="w-4 h-4 text-primary mt-0.5" />
+        {f}
+      </li>
+    ))}
+</ul>
 
       <Button
         onClick={() => onSelect(plan.key)}
