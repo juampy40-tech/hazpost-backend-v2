@@ -471,7 +471,7 @@ export default function Landing() {
         <section id="precios" aria-label="Planes y precios" style={{maxWidth:"1200px", margin:"0 auto", padding:"100px 24px 80px"}}>
           <div style={{textAlign:"center", marginBottom:"32px"}}>
             <div className="hz-label">Precios</div>
-            <h2 className="hz-title">Simple. Transparente. <span style={{color:"#00C2FF"}}>Sin sorpresas.</span></h2>
+            <h2 className="hz-title">Crea contenido TODOS los días en minutos con IA <span style={{color:"#00C2FF"}}>Ahorra 10+ horas a la semana y publica automáticamente en tus redes</span></h2>
             <p className="hz-sub" style={{margin:"0 auto"}}>Empezá gratis 30 días. Sin tarjeta de crédito.</p>
           </div>
           <PricingSection mode="landing" />
