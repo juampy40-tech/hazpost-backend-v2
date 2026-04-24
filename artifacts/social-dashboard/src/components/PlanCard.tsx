@@ -84,11 +84,17 @@ export function PlanCard({ plan, onSelect, loading, mode = "landing" }: any) {
       </div>
 
       <div>
-        <div className="text-3xl font-semibold">
-          ${plan.priceUsd}
-          <span className="text-sm text-muted-foreground">/mes</span>
-        </div>
-      </div>
+  <div className="text-3xl font-semibold">
+    ${plan.priceUsd}
+    <span className="text-sm text-muted-foreground">/mes</span>
+  </div>
+
+  {plan.key === "business" && (
+    <p className="text-[11px] text-amber-400/80 mt-1 font-medium">
+      ⏳ Oferta por tiempo limitado – precios pueden cambiar
+    </p>
+  )}
+</div>
 
       <ul className="space-y-2 flex-1">
   {features
