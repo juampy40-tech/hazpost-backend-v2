@@ -39,8 +39,8 @@ function formatFeature(text: string) {
     .replace(/Generación automática de contenido/i, "Genera contenido automáticamente")
     .replace(/Publicación programada a Instagram, TikTok y Facebook/i, "Publica en Instagram, TikTok y Facebook")
 
-    .replace(/Bulk scheduling hasta 30 posts/i, "Programa hasta 30 posts")
-    .replace(/Bulk scheduling hasta 60 posts/i, "Programa hasta 60 posts")
+    .replace(/Bulk scheduling hasta 30 posts/i, "Publicación masiva y cola de aprobación", "Programa hasta 30 posts")
+    .replace(/Bulk scheduling hasta 60 posts/i, "Publicación masiva y cola de aprobación", "Programa hasta 60 posts")
 
     .replace(/Métricas de engagement/i, "Mide qué contenido funciona mejor")
     .replace(/Estadísticas e informes/i, "Estadísticas para mejorar tus resultados")
