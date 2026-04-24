@@ -1,20 +1,13 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, Sparkles, Building2 } from "lucide-react";
+import { Check } from "lucide-react";
 
 const PLAN_BORDER: Record<string, string> = {
   free: "border-border",
   starter: "border-blue-500/70",
   business: "border-cyan-400",
   agency: "border-violet-500/80",
-};
-
-const PLAN_ACCENT: Record<string, string> = {
-  free: "text-gray-400",
-  starter: "text-blue-400",
-  business: "text-cyan-300",
-  agency: "text-violet-400",
 };
 
 const CTA_LABELS: Record<string, string> = {
@@ -39,8 +32,9 @@ function formatFeature(text: string) {
     .replace(/Generación automática de contenido/i, "Genera contenido automáticamente")
     .replace(/Publicación programada a Instagram, TikTok y Facebook/i, "Publica en Instagram, TikTok y Facebook")
 
-    .replace(/Bulk scheduling hasta 30 posts/i, "Publicación masiva y cola de aprobación", "Programa hasta 30 posts")
-    .replace(/Bulk scheduling hasta 60 posts/i, "Publicación masiva y cola de aprobación", "Programa hasta 60 posts")
+    // 🔥 IMPORTANTE (ARREGLADO)
+    .replace(/Bulk scheduling hasta 30 posts/i, "Programa hasta 30 posts")
+    .replace(/Bulk scheduling hasta 60 posts/i, "Programa hasta 60 posts")
 
     .replace(/Métricas de engagement/i, "Mide qué contenido funciona mejor")
     .replace(/Estadísticas e informes/i, "Estadísticas para mejorar tus resultados")
@@ -56,8 +50,23 @@ export function PlanCard({ plan, onSelect, loading, mode = "landing" }: any) {
   const isBusiness = plan.key === "business";
   const isLanding = mode === "landing";
 
-  const features =
+  // 🔥 ORDENAMOS FEATURES PARA QUE SIEMPRE SE VEA LO IMPORTANTE
+  const rawFeatures =
     plan.resolvedFeatures?.map((t: string) => formatFeature(t)) || [];
+
+  const priorityFeatures = rawFeatures.filter(
+    (f: string) =>
+      f.includes("Programa hasta 30 posts") ||
+      f.includes("Programa hasta 60 posts")
+  );
+
+  const otherFeatures = rawFeatures.filter(
+    (f: string) =>
+      !f.includes("Programa hasta 30 posts") &&
+      !f.includes("Programa hasta 60 posts")
+  );
+
+  const features = [...priorityFeatures, ...otherFeatures];
 
   return (
     <div
@@ -83,42 +92,46 @@ export function PlanCard({ plan, onSelect, loading, mode = "landing" }: any) {
         </p>
       </div>
 
+      {/* PRECIO + URGENCIA */}
       <div>
-  <div className="text-3xl font-semibold">
-    ${plan.priceUsd}
-    <span className="text-sm text-muted-foreground">/mes</span>
-  </div>
+        <div className="text-3xl font-semibold">
+          ${plan.priceUsd}
+          <span className="text-sm text-muted-foreground">/mes</span>
+        </div>
 
-  {plan.key === "business" && (
-    <p className="text-[11px] text-amber-400/80 mt-1 font-medium">
-      ⏳ Oferta por tiempo limitado – precios pueden cambiar
-    </p>
-  )}
-</div>
+        {plan.key === "business" && (
+          <p className="text-[11px] text-amber-400/80 mt-1 font-medium">
+            ⏳ Oferta por tiempo limitado – precios pueden cambiar
+          </p>
+        )}
+      </div>
 
+      {/* FEATURES */}
       <ul className="space-y-2 flex-1">
-  {features
-    .slice(0, plan.key === "business" ? 8 : 6)
-    .map((f: string, i: number) => (
-      <li key={i} className="flex items-start gap-2 text-sm">
-        <Check className="w-4 h-4 text-primary mt-0.5" />
-        {f}
-      </li>
-    ))}
-</ul>
+        {features
+          .slice(0, plan.key === "business" ? 8 : 6)
+          .map((f: string, i: number) => (
+            <li key={i} className="flex items-start gap-2 text-sm">
+              <Check className="w-4 h-4 text-primary mt-0.5" />
+              {f}
+            </li>
+          ))}
+      </ul>
 
+      {/* BOTÓN */}
       <Button
         onClick={() => onSelect(plan.key)}
         disabled={loading}
         className={
           isBusiness
-            ? "bg-cyan-400 text-black font-bold"
+            ? "bg-cyan-400 text-black font-bold shadow-[0_0_20px_rgba(0,194,255,0.35)]"
             : ""
         }
       >
         {CTA_LABELS[plan.key]}
       </Button>
 
+      {/* MICROCOPY */}
       <p className="text-[11px] text-center text-muted-foreground">
         Sin tarjeta · Cancela cuando quieras · Activación inmediata
       </p>
