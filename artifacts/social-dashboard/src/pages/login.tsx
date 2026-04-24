@@ -268,8 +268,8 @@ export default function Login() {
     }
   }
 
- function handleGoogleLogin() {
-  window.location.href = `${BASE}/api/auth/google`;
+function handleGoogleLogin() {
+  window.location.href = `${BASE}/api/social/google`;
 }
 
   return (
