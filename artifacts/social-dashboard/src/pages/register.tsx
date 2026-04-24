@@ -741,6 +741,17 @@ export default function Register() {
                 >
                   Puedes empezar gratis y cambiar de plan en cualquier momento desde tu cuenta.
                 </p>
+
+                <p
+                  style={{
+                    fontSize: "0.75rem",
+                    color: BRAND.primary,
+                    marginTop: 8,
+                    fontWeight: 600,
+                  }}
+                >
+                  +100 negocios ya están creciendo con HazPost 🚀
+                </p>
               </div>
 
               {incompleteReg && (
@@ -777,8 +788,8 @@ export default function Register() {
                   {loading
                     ? "Creando cuenta…"
                     : selectedPlan === "free"
-                      ? "Crear cuenta gratis"
-                      : `Crear cuenta con ${selectedPlanName}`}
+                      ? "Empezar gratis 🚀"
+                      : `Continuar con ${selectedPlanName} →`}
                 </Button>
               </div>
 
@@ -788,44 +799,29 @@ export default function Register() {
                 onSelectPlan={setSelectedPlan}
               />
 
-              {selectedPlan && selectedPlan !== "free" && (
-                <div
-                  style={{
-                    background: "rgba(245,158,11,0.08)",
-                    border: "1px solid rgba(245,158,11,0.3)",
-                    borderRadius: 12,
-                    padding: "12px 16px",
-                    fontSize: "0.78rem",
-                    color: "#f59e0b",
-                  }}
-                >
-                  Los planes de pago requieren confirmación después del registro. Primero
-                  creamos tu cuenta y luego pasas al pago de forma segura.
+              {selectedPlan && (
+                <div className="text-center text-xs text-muted-foreground">
+                  Plan seleccionado:{" "}
+                  <span style={{ color: BRAND.primary, fontWeight: 600 }}>
+                    {selectedPlanName}
+                  </span>
                 </div>
               )}
 
-              <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  className="gap-2"
-                  onClick={() => setStep(1)}
-                  disabled={loading}
+              {selectedPlan && selectedPlan !== "free" && (
+                <div
+                  style={{
+                    background: "rgba(0,194,255,0.08)",
+                    border: "1px solid rgba(0,194,255,0.3)",
+                    borderRadius: 12,
+                    padding: "12px 16px",
+                    fontSize: "0.78rem",
+                    color: BRAND.primary,
+                  }}
                 >
-                  <ArrowLeft className="w-4 h-4" /> Atrás
-                </Button>
-
-                <Button
-                  className="flex-1 gap-2 font-semibold"
-                  onClick={goToWizard}
-                  disabled={loading || incompleteReg}
-                >
-                  {loading
-                    ? "Creando cuenta…"
-                    : selectedPlan === "free"
-                      ? "Crear cuenta gratis"
-                      : `Crear cuenta con ${selectedPlanName}`}
-                </Button>
-              </div>
+                  🔥 Precio de lanzamiento activo. Primero creamos tu cuenta y luego pasas al pago seguro.
+                </div>
+              )}
             </div>
           )}
 
