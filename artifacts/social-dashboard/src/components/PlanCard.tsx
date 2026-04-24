@@ -81,6 +81,7 @@ function formatFeature(text: string) {
     .replace("Créditos de IA por mes: 1100", "Contenido masivo para múltiples marcas")
     .replace("Hasta 1 negocio(s)", "1 negocio incluido")
     .replace("Hasta 5 negocio(s)", "Hasta 5 negocios incluidos")
+    .replace("Publicación masiva y cola de aprobación", "Programa hasta 60 posts")
     .replace("Generación automática de contenido", "Genera contenido automáticamente")
     .replace("Publicación programada a Instagram, TikTok y Facebook", "Publica en Instagram, TikTok y Facebook")
     .replace("Publicación masiva y cola de aprobación", "Crea, revisa y aprueba contenido en lote")
