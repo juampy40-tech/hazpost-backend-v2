@@ -193,9 +193,9 @@ export function PricingSection({
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-          {[...apiPlans]
+         {[...apiPlans]
   .sort((a, b) => {
-    const order = ["starter", "business", "agency"]; // ajusta nombres reales
+    const order = ["starter", "business", "agency", "free"];
     return order.indexOf(a.key) - order.indexOf(b.key);
   })
   .map(api => {
