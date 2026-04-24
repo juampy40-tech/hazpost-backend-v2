@@ -78,7 +78,6 @@ function formatFeature(text: string) {
     .replace("Créditos de IA por mes: 40", "40 créditos para probar HazPost")
     .replace("Créditos de IA por mes: 120", "Contenido constante para tu negocio")
     .replace("Créditos de IA por mes: 220", "Más contenido, más formatos y más automatización")
-    .replace("Publicación masiva y cola de aprobación", "Programa hasta 60 posts")
     .replace("Créditos de IA por mes: 1100", "Contenido masivo para múltiples marcas")
     .replace("Hasta 1 negocio(s)", "1 negocio incluido")
     .replace("Hasta 5 negocio(s)", "Hasta 5 negocios incluidos")
