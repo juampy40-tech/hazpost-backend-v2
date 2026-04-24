@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { PrimaryButton } from "@/components/ui/primary-button";
+import { AuthCard } from "@/components/ui/auth-card";
+import { BRAND } from "@/config/brand";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -21,7 +24,6 @@ import { PricingSection } from "@/components/PricingSection";
 import { OnboardingWizard } from "@/components/OnboardingWizard";
 
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
-const BRAND = "#00C2FF";
 
 function GoogleIcon() {
   return (
@@ -83,23 +85,17 @@ function PasswordStrengthHints({ password }: { password: string }) {
   );
 }
 
-function TrustBadge({
-  icon,
-  text,
-}: {
-  icon: React.ReactNode;
-  text: string;
-}) {
+function TrustBadge({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
     <div
       className="flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-[11px] font-semibold text-white transition-all"
       style={{
-        border: `1px solid ${BRAND}`,
+        border: `1px solid ${BRAND.primary}`,
         background: "rgba(0, 194, 255, 0.10)",
-        boxShadow: "0 0 18px rgba(0, 194, 255, 0.12)",
+        boxShadow: `0 0 18px ${BRAND.glow}`,
       }}
     >
-      <span style={{ color: BRAND }}>{icon}</span>
+      <span style={{ color: BRAND.primary }}>{icon}</span>
       <span>{text}</span>
     </div>
   );
@@ -364,7 +360,7 @@ export default function Register() {
                 style={{
                   fontFamily: "Poppins,sans-serif",
                   letterSpacing: "-0.03em",
-                  color: BRAND,
+                  color: BRAND.primary,
                 }}
               >
                 post
@@ -388,7 +384,10 @@ export default function Register() {
                     <div
                       className="w-6 h-px"
                       style={{
-                        background: isCurrent || step > sNum ? BRAND : "hsl(var(--border))",
+                        background:
+                          isCurrent || step > sNum
+                            ? BRAND.primary
+                            : "hsl(var(--border))",
                         opacity: isCurrent || step > sNum ? 0.7 : 1,
                       }}
                     />
@@ -402,7 +401,7 @@ export default function Register() {
                           ? "text-green-400"
                           : "text-muted-foreground"
                     }`}
-                    style={isCurrent ? { color: BRAND } : undefined}
+                    style={isCurrent ? { color: BRAND.primary } : undefined}
                   >
                     <div
                       className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border ${
@@ -411,9 +410,9 @@ export default function Register() {
                       style={
                         isCurrent
                           ? {
-                              borderColor: BRAND,
+                              borderColor: BRAND.primary,
                               background: "rgba(0,194,255,0.12)",
-                              color: BRAND,
+                              color: BRAND.primary,
                             }
                           : !isDone
                             ? { borderColor: "hsl(var(--border))" }
@@ -431,13 +430,7 @@ export default function Register() {
           </div>
 
           {step === 1 && (
-            <div
-              className="bg-card border rounded-2xl p-6 shadow-xl space-y-4"
-              style={{
-                borderColor: "rgba(0, 194, 255, 0.22)",
-                boxShadow: "0 18px 60px rgba(0,0,0,0.35), 0 0 32px rgba(0,194,255,0.06)",
-              }}
-            >
+            <AuthCard>
               <div className="text-center">
                 <h1 className="text-2xl font-bold text-foreground mb-2">
                   Empieza gratis 🚀
@@ -543,7 +536,9 @@ export default function Register() {
                       placeholder="Repite tu contraseña"
                       required
                       className={`pr-16 ${
-                        confirmMismatch ? "border-destructive focus-visible:ring-destructive" : ""
+                        confirmMismatch
+                          ? "border-destructive focus-visible:ring-destructive"
+                          : ""
                       }`}
                       style={{ fontSize: "16px" }}
                       autoComplete="new-password"
@@ -703,23 +698,18 @@ export default function Register() {
                   </span>
                 </label>
 
-                <Button
+                <PrimaryButton
                   type="submit"
-                  className="w-full gap-2 font-bold h-11 text-black hover:opacity-90"
-                  style={{
-                    background: BRAND,
-                    boxShadow: "0 0 22px rgba(0,194,255,0.28)",
-                  }}
                   disabled={!termsAccepted || !isPasswordStrong || !passwordsMatch}
                 >
                   Crear cuenta gratis <ArrowRight className="w-4 h-4" />
-                </Button>
+                </PrimaryButton>
 
                 <p className="text-center text-[11px] text-muted-foreground leading-relaxed">
                   Configura tu negocio, elige tu plan y empieza a crear contenido con IA.
                 </p>
               </form>
-            </div>
+            </AuthCard>
           )}
 
           {step === 2 && (
