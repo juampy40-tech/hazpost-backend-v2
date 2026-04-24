@@ -106,6 +106,55 @@ const css = `
     font-size: 0.85rem; font-weight: 600; color: #8888A8;
     background: rgba(255,255,255,0.04);
   }
+
+  /* CONVERSION SECTIONS */
+  .hz-split {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; margin-top: 52px;
+  }
+  .hz-panel {
+    padding: 36px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04); position: relative; overflow: hidden;
+  }
+  .hz-panel.bad { background: rgba(255,82,82,0.05); border-color: rgba(255,82,82,0.16); }
+  .hz-panel.good { background: rgba(0,194,255,0.06); border-color: rgba(0,194,255,0.22); }
+  .hz-panel h3 { font-size: 1.35rem; color: #fff; font-weight: 800; margin-bottom: 18px; letter-spacing: -0.4px; }
+  .hz-list { list-style: none; display: grid; gap: 12px; }
+  .hz-list li { color: #E8E8F0; font-size: 0.95rem; display: flex; gap: 10px; align-items: flex-start; }
+  .hz-list span { flex-shrink: 0; }
+  .hz-result-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 48px;
+  }
+  .hz-result-card {
+    padding: 28px 22px; border-radius: 18px; background: #12121A;
+    border: 1px solid rgba(255,255,255,0.08); text-align: center;
+  }
+  .hz-result-card strong { display: block; font-size: 2rem; color: #00C2FF; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px; }
+  .hz-result-card p { color: #8888A8; font-size: 0.85rem; line-height: 1.5; }
+  .hz-demo-box {
+    margin-top: 50px; border-radius: 24px; border: 1px solid rgba(0,194,255,0.18);
+    background: linear-gradient(135deg, rgba(0,194,255,0.08), rgba(123,47,255,0.08));
+    padding: 32px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 28px; align-items: center;
+  }
+  .hz-demo-screen {
+    border-radius: 18px; background: #0A0A0F; border: 1px solid rgba(255,255,255,0.10);
+    padding: 22px; box-shadow: 0 20px 80px rgba(0,0,0,0.28);
+  }
+  .hz-demo-top { display: flex; gap: 8px; margin-bottom: 18px; }
+  .hz-demo-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .hz-demo-post {
+    border-radius: 16px; padding: 18px; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08); margin-bottom: 12px;
+  }
+  .hz-demo-post h4 { color: #fff; font-size: 0.95rem; margin-bottom: 8px; }
+  .hz-demo-post p { color: #8888A8; font-size: 0.82rem; line-height: 1.55; }
+  .hz-demo-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .hz-demo-meta span { font-size: 0.72rem; color: #00C2FF; padding: 4px 10px; border-radius: 999px; background: rgba(0,194,255,0.10); border: 1px solid rgba(0,194,255,0.22); }
+  .hz-urgency {
+    margin-top: 28px; padding: 18px 22px; border-radius: 18px;
+    background: rgba(255,184,0,0.08); border: 1px solid rgba(255,184,0,0.22);
+    color: #FFD36A; font-size: 0.92rem; font-weight: 650; text-align: center;
+  }
+  .hz-microproof { margin-top: 14px; color: #8888A8; font-size: 0.82rem; text-align: center; }
   /* SECTION */
   .hz-section { padding: 100px 24px; max-width: 1200px; margin: 0 auto; }
   .hz-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; color: #00C2FF; font-weight: 700; margin-bottom: 12px; }
@@ -260,6 +309,8 @@ const css = `
   @media (max-width: 768px) {
     .hz-nav { padding: 14px 20px; }
     .hz-nav-links { display: none; }
+    .hz-split, .hz-demo-box { grid-template-columns: 1fr; }
+    .hz-result-grid { grid-template-columns: repeat(2, 1fr); }
     .hz-plat-grid { grid-template-columns: 1fr; }
     .hz-step:first-child { border-radius: 16px 16px 0 0; }
     .hz-step:last-child { border-radius: 0 0 16px 16px; }
@@ -297,11 +348,11 @@ export default function Landing() {
   return (
     <>
       <SeoMeta
-        title="HazPost — Publica en Instagram, TikTok y Facebook con IA"
-        description="HazPost automatiza tu contenido en redes sociales con Inteligencia Artificial. Crea imágenes, textos y hashtags en segundos. Prueba gratis 30 días."
+        title="HazPost — Publica todos los días sin hacerlo tú"
+        description="HazPost crea, diseña y publica contenido por ti en Instagram, TikTok y Facebook. Ahorra horas cada semana y consigue más clientes con redes activas."
         canonical="https://hazpost.app/"
-        ogTitle="HazPost — Gestión de Redes Sociales con IA"
-        ogDescription="Publica en Instagram, TikTok y Facebook automáticamente. La IA genera imágenes, textos y hashtags personalizados para tu negocio. Prueba gratis."
+        ogTitle="HazPost — Publica contenido todos los días sin hacerlo tú"
+        ogDescription="HazPost crea, diseña y publica contenido automáticamente para que tu negocio nunca se quede quieto en redes."
         ogUrl="https://hazpost.app/"
         ogImage="https://hazpost.app/opengraph.jpg"
         jsonLd={faqJsonLd}
@@ -331,12 +382,12 @@ export default function Landing() {
           <div className="hz-hero-glow" />
           <div className="hz-hero-grid" />
           <div className="hz-hero-content">
-           <div className="hz-badge">✦ IA que aprende de tus publicaciones</div>
-           <h1>Publica en redes<br /><span className="hl">todos los días con IA</span></h1>
-           <p>HazPost crea, programa y publica contenido en Instagram, TikTok y Facebook. Aprende qué funciona y mejora tus resultados automáticamente.</p>
+           <div className="hz-badge">🔥 Oferta de lanzamiento · primeros negocios</div>
+           <h1>Publica contenido <span className="hl">todos los días</span><br />sin hacerlo tú</h1>
+           <p>HazPost crea, diseña y publica contenido por ti en Instagram, TikTok y Facebook. Tú solo revisas, apruebas y sigues atendiendo clientes.</p>
             <div className="hz-hero-ctas">
-              <a href="/register" className="hz-btn-primary">Probar gratis 30 días</a>
-              <a href="#como-funciona" className="hz-btn-outline">Ver demo →</a>
+              <a href="/register" className="hz-btn-primary">Automatizar mi negocio</a>
+              <a href="#demo-real" className="hz-btn-outline">Ver cómo funciona →</a>
             </div>
             <div className="hz-proof">
               <div className="hz-avatars">
@@ -344,7 +395,7 @@ export default function Landing() {
               </div>
               <div>
                 <div className="hz-stars">★★★★★</div>
-                <div className="hz-proof-text">Más de 100 negocios automatizan sus redes con HazPost</div>
+                <div className="hz-proof-text">Sin experiencia · Ahorra horas cada semana · Publica automáticamente</div>
               </div>
             </div>
           </div>
@@ -362,16 +413,43 @@ export default function Landing() {
           </div>
         </section>
 
+        {/* PROBLEM / SOLUTION */}
+        <section className="hz-section" aria-label="El problema que resuelve HazPost">
+          <div className="hz-label">El problema</div>
+          <h2 className="hz-title">Tu negocio pierde clientes cuando <span style={{color:"#00C2FF"}}>deja de publicar.</span></h2>
+          <p className="hz-sub">La mayoría de negocios sabe que debe estar activo en redes, pero no tiene tiempo, ideas ni constancia para hacerlo bien.</p>
+          <div className="hz-split">
+            <div className="hz-panel bad">
+              <h3>Sin HazPost</h3>
+              <ul className="hz-list">
+                <li><span>❌</span> Publicas cuando te acuerdas.</li>
+                <li><span>❌</span> Pierdes horas pensando qué decir.</li>
+                <li><span>❌</span> Dependencia de diseñador o community manager.</li>
+                <li><span>❌</span> Redes abandonadas justo cuando el cliente te busca.</li>
+              </ul>
+            </div>
+            <div className="hz-panel good">
+              <h3>Con HazPost</h3>
+              <ul className="hz-list">
+                <li><span>✅</span> Contenido listo todos los días.</li>
+                <li><span>✅</span> Imágenes, captions y hashtags en minutos.</li>
+                <li><span>✅</span> Calendario automático para Instagram, TikTok y Facebook.</li>
+                <li><span>✅</span> Más visibilidad sin contratar equipo adicional.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         {/* HOW IT WORKS */}
         <section className="hz-steps-wrap" id="como-funciona" aria-label="Cómo funciona HazPost">
-  <div className="hz-steps">
+  <div className="hz-steps" id="demo-real">
     <div className="hz-steps-head">
       <div className="hz-label">Cómo funciona</div>
       <h2 className="hz-title">
-        De idea a publicación <span style={{ color: "#00C2FF" }}>en minutos.</span>
+        De negocio quieto a redes activas <span style={{ color: "#00C2FF" }}>en minutos.</span>
       </h2>
       <p className="hz-sub">
-        HazPost crea, organiza y publica contenido por ti. Tú solo revisas y apruebas.
+        HazPost convierte la información de tu negocio en publicaciones listas para vender, educar y mantenerte presente.
       </p>
     </div>
 
@@ -381,13 +459,13 @@ export default function Landing() {
           n: "01",
           icon: "🏢",
           t: "Conecta tu negocio",
-          d: "Cuéntale a HazPost qué vendes, cómo hablas y qué quieres comunicar.",
+          d: "Cuéntale qué vendes, a quién le vendes y cómo habla tu marca.",
         },
         {
           n: "02",
           icon: "🤖",
           t: "La IA crea contenido",
-          d: "Genera posts, captions y hashtags listos para Instagram, TikTok y Facebook.",
+          d: "Genera ideas, diseños, captions y hashtags listos para publicar.",
         },
         {
           n: "03",
@@ -399,7 +477,7 @@ export default function Landing() {
           n: "04",
           icon: "🚀",
           t: "Publica y aprende",
-          d: "HazPost publica en el mejor horario y aprende de tus resultados.",
+          d: "Publica automáticamente y mejora con los resultados de tus redes.",
         },
       ].map((s) => (
         <div key={s.n} className="hz-step">
@@ -413,14 +491,53 @@ export default function Landing() {
   </div>
 </section>
 
+        {/* DEMO / VISUAL PROOF */}
+        <section className="hz-section" aria-label="Demo visual de HazPost">
+          <div className="hz-label">Demo real</div>
+          <h2 className="hz-title">Así se ve tener un asistente de contenido <span style={{color:"#00C2FF"}}>trabajando por ti.</span></h2>
+          <p className="hz-sub">El objetivo no es solo crear posts: es mantener tu negocio activo, organizado y vendiendo en redes sin que tú pierdas horas cada semana.</p>
+          <div className="hz-demo-box">
+            <div className="hz-demo-screen" aria-label="Mockup del dashboard HazPost">
+              <div className="hz-demo-top">
+                <span className="hz-demo-dot" /><span className="hz-demo-dot" /><span className="hz-demo-dot" />
+              </div>
+              <div className="hz-demo-post">
+                <h4>📅 Calendario de contenido</h4>
+                <p>Lunes: Reel educativo · Miércoles: Promoción · Viernes: Testimonio · Domingo: Historia.</p>
+                <div className="hz-demo-meta"><span>Auto programado</span><span>Mejor horario</span></div>
+              </div>
+              <div className="hz-demo-post">
+                <h4>🤖 Post generado por IA</h4>
+                <p>“¿Sabías que puedes ahorrar tiempo y publicar mejor? Hoy te mostramos cómo elegir el servicio ideal para tu negocio...”</p>
+                <div className="hz-demo-meta"><span>Caption listo</span><span>Hashtags</span><span>Imagen</span></div>
+              </div>
+              <div className="hz-demo-post" style={{marginBottom:0}}>
+                <h4>✅ Pendiente de aprobación</h4>
+                <p>Edita, aprueba o publica. Tú mantienes el control, HazPost hace el trabajo pesado.</p>
+                <div className="hz-demo-meta"><span>5 segundos</span><span>Listo para publicar</span></div>
+              </div>
+            </div>
+            <div>
+              <h3 style={{fontSize:"1.5rem", color:"#fff", marginBottom:"16px", fontWeight:800}}>Deja de improvisar contenido.</h3>
+              <ul className="hz-list">
+                <li><span>⚡</span> Crea publicaciones en segundos.</li>
+                <li><span>⏱️</span> Ahorra 10+ horas a la semana.</li>
+                <li><span>📈</span> Mantén tus redes activas para atraer más clientes potenciales.</li>
+                <li><span>🚀</span> Publica incluso cuando estás ocupado atendiendo tu negocio.</li>
+              </ul>
+              <div className="hz-urgency">⏳ Oferta por tiempo limitado — precios pueden cambiar</div>
+            </div>
+          </div>
+        </section>
+
         {/* FEATURES */}
         <section className="hz-section" id="funciones" aria-label="Funciones de HazPost">
-          <div className="hz-label">Funciones</div>
-          <h2 className="hz-title">Todo lo que necesitás<br /><span style={{color:"#00C2FF"}}>en un solo lugar</span></h2>
-          <p className="hz-sub">Olvidate de malabarear Canva, Buffer y ChatGPT. HazPost lo hace todo.</p>
+          <div className="hz-label">Solución completa</div>
+          <h2 className="hz-title">Contenido, diseño, calendario y publicación<br /><span style={{color:"#00C2FF"}}>en un solo lugar</span></h2>
+          <p className="hz-sub">HazPost reemplaza el caos de ideas sueltas, diseños manuales y publicaciones olvidadas por un sistema simple para mantener tu negocio visible.</p>
           <div className="hz-features-grid">
             {[
-              { i:"✍️", t:"Generación de contenido con IA", d:"Captions, imágenes y hashtags creados por GPT-5 adaptados al tono de tu marca en segundos." },
+              { i:"✍️", t:"Generación de contenido con IA", d:"Captions, imágenes y hashtags adaptados al tono de tu marca en segundos." },
               { i:"📅", t:"Calendario editorial visual", d:"Visualizá y reorganizá tu contenido semana a semana. Arrastrá y soltá para reprogramar." },
               { i:"⚡", t:"Generador masivo", d:"Creá 30 posts de un mes entero en minutos. Ideal para campañas y fechas especiales." },
               { i:"✅", t:"Flujo de aprobación", d:"Tu equipo revisa y aprueba antes de publicar. Control total sin perder velocidad." },
@@ -464,6 +581,19 @@ export default function Landing() {
           </div>
         </section>
 
+        {/* RESULTS */}
+        <section className="hz-section" aria-label="Resultados de usar HazPost">
+          <div className="hz-label">Resultados</div>
+          <h2 className="hz-title">Lo que cambia cuando <span style={{color:"#00C2FF"}}>dejas de hacerlo todo manual.</span></h2>
+          <p className="hz-sub">HazPost está pensado para negocios que necesitan constancia, velocidad y una presencia profesional sin contratar un equipo completo.</p>
+          <div className="hz-result-grid">
+            <div className="hz-result-card"><strong>30+</strong><p>posts al mes listos para revisar y publicar.</p></div>
+            <div className="hz-result-card"><strong>10h+</strong><p>ahorradas cada semana en ideas, textos y diseño.</p></div>
+            <div className="hz-result-card"><strong>24/7</strong><p>contenido programado incluso cuando estás ocupado.</p></div>
+            <div className="hz-result-card"><strong>1</strong><p>lugar para crear, aprobar y publicar.</p></div>
+          </div>
+        </section>
+
       </div>
 
       {/* PRICING — fuera de hz-root para que el reset CSS no aplaste el padding de Tailwind en PlanCard */}
@@ -471,8 +601,9 @@ export default function Landing() {
         <section id="precios" aria-label="Planes y precios" style={{maxWidth:"1200px", margin:"0 auto", padding:"100px 24px 80px"}}>
           <div style={{textAlign:"center", marginBottom:"32px"}}>
             <div className="hz-label">Precios</div>
-            <h2 className="hz-title">Crea contenido TODOS los días en minutos con IA <span style={{color:"#00C2FF"}}>Ahorra 10+ horas a la semana y publica automáticamente en tus redes</span></h2>
-            <p className="hz-sub" style={{margin:"0 auto"}}>Empezá gratis 30 días. Sin tarjeta de crédito.</p>
+            <h2 className="hz-title">Menos que un community manager.<br /><span style={{color:"#00C2FF"}}>Más constancia para vender en redes.</span></h2>
+            <p className="hz-sub" style={{margin:"0 auto"}}>Empieza gratis, valida el valor y activa el plan cuando tu negocio esté listo para publicar en serio.</p>
+            <div className="hz-urgency" style={{maxWidth:"640px", margin:"24px auto 0"}}>🔥 Precios de lanzamiento para los primeros negocios · pueden cambiar en cualquier momento</div>
           </div>
           <PricingSection mode="landing" />
         </section>
@@ -483,14 +614,14 @@ export default function Landing() {
         <section className="hz-testi-wrap" aria-label="Testimonios de clientes">
           <div className="hz-testi">
             <div className="hz-testi-head">
-              <div className="hz-label">Testimonios</div>
-              <h2 className="hz-title">Lo que dicen<br /><span style={{color:"#00C2FF"}}>nuestros clientes</span></h2>
+              <div className="hz-label">Prueba social</div>
+              <h2 className="hz-title">Negocios reales ya están probando<br /><span style={{color:"#00C2FF"}}>contenido automático.</span></h2>
             </div>
             <div className="hz-testi-grid">
               {[
-                { init:"LP", name:"Laura Pérez", role:"Dueña de tienda de ropa, Bogotá", text:'"Antes tardaba 3 horas a la semana en crear contenido para Instagram. Ahora HazPost lo hace en 5 minutos y el engagement subió un 40%."' },
-                { init:"MC", name:"Martín Cárdenas", role:"Director de agencia digital, Medellín", text:'"Manejo 8 clientes de agencia. HazPost me ahorró contratar a dos personas más. El generador masivo es increíble."' },
-                { init:"AS", name:"Andrea Salcedo", role:"Restaurante El Patio, Cali", text:'"La calidad del contenido que genera es sorprendente. Entiende mi marca mejor que algunos community managers que contraté."' },
+                { init:"LP", name:"Negocio local", role:"Prueba real HazPost", text:'"Pasamos de publicar cuando podíamos a tener contenido organizado para toda la semana. Eso nos quitó una carga enorme."' },
+                { init:"MC", name:"Empresa de servicios", role:"Prueba real HazPost", text:'"Lo más valioso es que ya no empezamos desde cero. La IA propone, nosotros revisamos y publicamos más rápido."' },
+                { init:"AS", name:"Emprendedora", role:"Prueba real HazPost", text:'"Antes dependía de sacar tiempo para redes. Ahora tengo ideas, captions y posts listos para aprobar."' },
               ].map(t => (
                 <article key={t.name} className="hz-tcard" aria-label={`Testimonio de ${t.name}`}>
                   <div className="hz-tcard-stars" aria-label="5 estrellas">★★★★★</div>
@@ -534,22 +665,22 @@ export default function Landing() {
   <div className="hz-cta-box">
 
     <h2>
-      Empieza a publicar contenido<br />
+      Empieza hoy y automatiza<br />
       <span style={{ color: "#00C2FF" }}>
-        todos los días automáticamente
+        el contenido de tu negocio
       </span>
     </h2>
 
     <p>
-      Activa tu cuenta en minutos y deja que la IA haga el trabajo por ti.
+      Crea contenido, organiza tu calendario y publica sin volver a empezar desde cero cada semana.
     </p>
 
     <a href="/register" className="hz-btn-primary">
-      Probar gratis ahora →
+      Crear contenido automático ahora →
     </a>
 
     <div className="hz-nocc">
-      ✓ 30 días gratis · ✓ Sin tarjeta · ✓ Cancela cuando quieras
+      ✓ Empieza en minutos · ✓ Sin complicaciones · ✓ Cancela cuando quieras
     </div>
     
      </div>
@@ -593,7 +724,7 @@ export default function Landing() {
           </div>
         </div>
         <div className="hz-footer-bottom">
-          <p>© 2025 HazPost. Hecho con ❤️</p>
+          <p>© 2026 HazPost. Hecho con ❤️</p>
           <div style={{display:"flex",gap:"20px",alignItems:"center",flexWrap:"wrap"}}>
             <a href="/terms-of-service" style={{color:"#8888A8",fontSize:"0.78rem",textDecoration:"none"}} onMouseOver={e=>(e.currentTarget.style.color="#fff")} onMouseOut={e=>(e.currentTarget.style.color="#8888A8")}>Términos de servicio</a>
             <a href="/privacy-policy" style={{color:"#8888A8",fontSize:"0.78rem",textDecoration:"none"}} onMouseOver={e=>(e.currentTarget.style.color="#fff")} onMouseOut={e=>(e.currentTarget.style.color="#8888A8")}>Privacidad</a>
