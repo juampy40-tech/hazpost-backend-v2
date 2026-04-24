@@ -84,7 +84,12 @@ if (process.env.APP_URL && !EXPLICIT_ORIGINS.includes(process.env.APP_URL)) {
 const DEV_ORIGIN_PATTERNS = [/\.replit\.dev$/, /\.repl\.co$/, /^https?:\/\/localhost(:\d+)?$/];
 // replit.app is always the production deployment domain for Replit-hosted apps.
 // hazpost.app is the custom production domain.
-const PROD_ORIGIN_PATTERNS = [/\.replit\.app$/, /hazpost\.app$/];
+// hazpost-frontend.vercel.app is the Vercel frontend preview/production URL currently used for testing.
+const PROD_ORIGIN_PATTERNS = [
+  /\.replit\.app$/,
+  /hazpost\.app$/,
+  /^https:\/\/hazpost-frontend\.vercel\.app$/,
+];
 
 app.use(cors({
   origin: (origin, callback) => {
