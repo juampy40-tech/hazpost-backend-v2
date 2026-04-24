@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { PrimaryButton } from "@/components/ui/primary-button";
+import { AuthCard } from "@/components/ui/auth-card";
+import { BRAND } from "@/config/brand";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -16,7 +19,6 @@ import {
 } from "@/components/ui/dialog";
 
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
-const BRAND = "#00C2FF";
 
 function GoogleIcon() {
   return (
@@ -184,8 +186,8 @@ function TotpStep({
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
           style={{
-            background: "rgba(0, 194, 255, 0.14)",
-            color: BRAND,
+            background: "rgba(0,194,255,0.14)",
+            color: BRAND.primary,
           }}
         >
           <ShieldCheck className="w-5 h-5" />
@@ -223,7 +225,7 @@ function TotpStep({
           {error && <p className="text-xs text-red-400 text-center">{error}</p>}
 
           <p className="text-xs text-muted-foreground text-center">
-            Abre <span className="font-medium text-foreground">Google Authenticator</span> y usa el código de hazpost
+            Abre <span className="font-medium text-foreground">Google Authenticator</span> y usa el código de hazpost.
           </p>
         </div>
 
@@ -239,8 +241,8 @@ function TotpStep({
             <div
               className="w-4 h-4 rounded border bg-background transition-colors flex items-center justify-center"
               style={{
-                borderColor: trustDevice ? BRAND : "hsl(var(--border))",
-                background: trustDevice ? BRAND : "hsl(var(--background))",
+                borderColor: trustDevice ? BRAND.primary : "hsl(var(--border))",
+                background: trustDevice ? BRAND.primary : "hsl(var(--background))",
               }}
             >
               {trustDevice && (
@@ -255,22 +257,14 @@ function TotpStep({
             Confiar en este dispositivo por <span className="font-medium text-foreground">30 días</span>
             <br />
             <span className="text-muted-foreground/60">
-              No se pedirá el código en este navegador durante ese tiempo
+              No se pedirá el código en este navegador durante ese tiempo.
             </span>
           </span>
         </label>
 
-        <Button
-          type="submit"
-          className="w-full h-11 font-bold text-black hover:opacity-90"
-          style={{
-            background: BRAND,
-            boxShadow: "0 0 22px rgba(0,194,255,0.28)",
-          }}
-          disabled={loading || code.length < 6}
-        >
+        <PrimaryButton type="submit" disabled={loading || code.length < 6}>
           {loading ? "Verificando…" : "Verificar y entrar"}
-        </Button>
+        </PrimaryButton>
       </form>
 
       <button
@@ -317,7 +311,7 @@ export default function Login() {
         variant: "destructive",
       });
     }
-  }, []);
+  }, [toast]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -373,7 +367,7 @@ export default function Login() {
               style={{
                 fontFamily: "Poppins,sans-serif",
                 letterSpacing: "-0.03em",
-                color: BRAND,
+                color: BRAND.primary,
               }}
             >
               post
@@ -385,13 +379,7 @@ export default function Login() {
           </p>
         </div>
 
-        <div
-          className="bg-card border rounded-2xl p-6 shadow-xl"
-          style={{
-            borderColor: "rgba(0, 194, 255, 0.22)",
-            boxShadow: "0 18px 60px rgba(0,0,0,0.35), 0 0 32px rgba(0,194,255,0.06)",
-          }}
-        >
+        <AuthCard>
           {totpState ? (
             <TotpStep
               preAuthToken={totpState.preAuthToken}
@@ -473,17 +461,9 @@ export default function Login() {
                   </div>
                 </div>
 
-                <Button
-                  type="submit"
-                  className="w-full h-11 font-bold text-black hover:opacity-90"
-                  style={{
-                    background: BRAND,
-                    boxShadow: "0 0 22px rgba(0,194,255,0.28)",
-                  }}
-                  disabled={loading}
-                >
+                <PrimaryButton type="submit" disabled={loading}>
                   {loading ? "Verificando…" : "Entrar a mi panel"}
-                </Button>
+                </PrimaryButton>
               </form>
 
               <div className="text-center pt-1 space-y-2">
@@ -506,7 +486,7 @@ export default function Login() {
                   <a
                     href={`${BASE}/register`}
                     className="font-semibold hover:underline underline-offset-4"
-                    style={{ color: BRAND }}
+                    style={{ color: BRAND.primary }}
                   >
                     Crear cuenta gratis
                   </a>
@@ -514,7 +494,7 @@ export default function Login() {
               </div>
             </div>
           )}
-        </div>
+        </AuthCard>
 
         <div className="text-center mt-6 space-y-1.5">
           <p className="text-xs text-muted-foreground">
