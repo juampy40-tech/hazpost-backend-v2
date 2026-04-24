@@ -6,11 +6,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { SeoMeta } from "@/hooks/useSeoMeta";
-import { Eye, EyeOff, ChevronDown, Check, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  ChevronDown,
+  Check,
+  ArrowLeft,
+  ArrowRight,
+  CreditCard,
+  Zap,
+  Sparkles,
+} from "lucide-react";
 import { PricingSection } from "@/components/PricingSection";
 import { OnboardingWizard } from "@/components/OnboardingWizard";
 
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
+const BRAND = "#00C2FF";
 
 function GoogleIcon() {
   return (
@@ -68,6 +79,28 @@ function PasswordStrengthHints({ password }: { password: string }) {
           {label}
         </div>
       ))}
+    </div>
+  );
+}
+
+function TrustBadge({
+  icon,
+  text,
+}: {
+  icon: React.ReactNode;
+  text: string;
+}) {
+  return (
+    <div
+      className="flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-[11px] font-semibold text-white transition-all"
+      style={{
+        border: `1px solid ${BRAND}`,
+        background: "rgba(0, 194, 255, 0.10)",
+        boxShadow: "0 0 18px rgba(0, 194, 255, 0.12)",
+      }}
+    >
+      <span style={{ color: BRAND }}>{icon}</span>
+      <span>{text}</span>
     </div>
   );
 }
@@ -331,7 +364,7 @@ export default function Register() {
                 style={{
                   fontFamily: "Poppins,sans-serif",
                   letterSpacing: "-0.03em",
-                  color: "#00C2FF",
+                  color: BRAND,
                 }}
               >
                 post
@@ -351,25 +384,41 @@ export default function Register() {
 
               return (
                 <div key={label} className="flex items-center gap-2">
-                  {i > 0 && <div className="w-6 h-px bg-border" />}
+                  {i > 0 && (
+                    <div
+                      className="w-6 h-px"
+                      style={{
+                        background: isCurrent || step > sNum ? BRAND : "hsl(var(--border))",
+                        opacity: isCurrent || step > sNum ? 0.7 : 1,
+                      }}
+                    />
+                  )}
 
                   <div
                     className={`flex items-center gap-1.5 text-xs ${
                       isCurrent
-                        ? "text-primary font-medium"
+                        ? "font-semibold"
                         : isDone
                           ? "text-green-400"
                           : "text-muted-foreground"
                     }`}
+                    style={isCurrent ? { color: BRAND } : undefined}
                   >
                     <div
                       className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold border ${
-                        isCurrent
-                          ? "border-primary bg-primary/10 text-primary"
-                          : isDone
-                            ? "border-green-500 bg-green-500/10 text-green-400"
-                            : "border-border"
+                        isDone ? "border-green-500 bg-green-500/10 text-green-400" : ""
                       }`}
+                      style={
+                        isCurrent
+                          ? {
+                              borderColor: BRAND,
+                              background: "rgba(0,194,255,0.12)",
+                              color: BRAND,
+                            }
+                          : !isDone
+                            ? { borderColor: "hsl(var(--border))" }
+                            : undefined
+                      }
                     >
                       {isDone ? <Check className="w-3 h-3" /> : sNum}
                     </div>
@@ -382,37 +431,39 @@ export default function Register() {
           </div>
 
           {step === 1 && (
-            <div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
-              <div>
-                <h1 className="text-xl font-semibold text-foreground mb-1">
+            <div
+              className="bg-card border rounded-2xl p-6 shadow-xl space-y-4"
+              style={{
+                borderColor: "rgba(0, 194, 255, 0.22)",
+                boxShadow: "0 18px 60px rgba(0,0,0,0.35), 0 0 32px rgba(0,194,255,0.06)",
+              }}
+            >
+              <div className="text-center">
+                <h1 className="text-2xl font-bold text-foreground mb-2">
                   Empieza gratis 🚀
                 </h1>
 
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Crea contenido para tus redes en minutos con IA. Sin tarjeta de crédito.
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Crea contenido para tus redes en minutos con IA.
+                  <br />
+                  Sin tarjeta de crédito.
                 </p>
 
-                <div className="mt-3 grid grid-cols-3 gap-2 text-[10px] text-muted-foreground">
-                  <div className="rounded-lg border border-border/70 bg-background/40 px-2 py-2 text-center">
-                    Sin tarjeta
-                  </div>
-                  <div className="rounded-lg border border-border/70 bg-background/40 px-2 py-2 text-center">
-                    Menos de 1 min
-                  </div>
-                  <div className="rounded-lg border border-border/70 bg-background/40 px-2 py-2 text-center">
-                    Con IA
-                  </div>
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  <TrustBadge icon={<CreditCard className="w-4 h-4" />} text="Sin tarjeta" />
+                  <TrustBadge icon={<Zap className="w-4 h-4" />} text="Menos de 1 min" />
+                  <TrustBadge icon={<Sparkles className="w-4 h-4" />} text="Con IA" />
                 </div>
               </div>
 
               <Button
                 type="button"
                 variant="outline"
-                className="w-full flex items-center justify-center gap-2 h-10 border-border hover:bg-white/5"
+                className="w-full flex items-center justify-center gap-2 h-11 border-border hover:bg-white/5 font-semibold"
                 onClick={handleGoogleRegister}
               >
                 <GoogleIcon />
-                <span>Registrarte en 1 clic con Google</span>
+                <span>Regístrate en 1 clic con Google</span>
               </Button>
 
               <div className="flex items-center gap-3">
@@ -654,7 +705,11 @@ export default function Register() {
 
                 <Button
                   type="submit"
-                  className="w-full gap-2 font-semibold"
+                  className="w-full gap-2 font-bold h-11 text-black hover:opacity-90"
+                  style={{
+                    background: BRAND,
+                    boxShadow: "0 0 22px rgba(0,194,255,0.28)",
+                  }}
                   disabled={!termsAccepted || !isPasswordStrong || !passwordsMatch}
                 >
                   Crear cuenta gratis <ArrowRight className="w-4 h-4" />
