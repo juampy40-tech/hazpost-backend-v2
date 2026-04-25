@@ -1372,7 +1372,7 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
       const payload: Record<string, unknown> = { ...data, onboardingStep: nextStep };
       // Only set onboardingCompleted if explicitly requested (avoids resetting a completed profile during step navigation)
       if (markComplete !== undefined) payload.onboardingCompleted = markComplete;
-      const res = await fetch(`${BASE}/api/brand-profile`, {
+      const res = await fetch(`/api/brand-profile`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
