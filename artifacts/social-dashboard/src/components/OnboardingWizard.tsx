@@ -311,42 +311,38 @@ function Step1({
               {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
+                  <div className="grid gap-2">
+          <Label>Ciudad *</Label>
+          <Input
+            value={data.city ?? ""}
+            onChange={e => onChange({ city: e.target.value })}
+            placeholder="Ej: Bogotá, Ciudad de México, Madrid..."
+          />
         </div>
-      <div className="grid gap-2">
-  <Label>Ciudad *</Label>
-  <Input
-    value={data.city ?? ""}
-    onChange={e => onChange({ city: e.target.value })}
-    placeholder="Ej: Madrid, Miami, Buenos Aires, Ciudad de México…"
-  />
-</div>
 
-<div className="grid gap-2">
-  <Label>
-    Sitio web <span className="text-muted-foreground font-normal">(opcional)</span>
-  </Label>
+        <div className="grid gap-2">
+          <Label>
+            Sitio web <span className="text-muted-foreground font-normal">(opcional)</span>
+          </Label>
 
-  <div className="flex items-center gap-2">
-    <Globe className="w-4 h-4 text-muted-foreground shrink-0" />
-    <Input
-      value={data.website ?? ""}
-      onChange={e => onChange({ website: e.target.value })}
-      placeholder="Ej: www.tumarca.com"
-      className="flex-1"
-    />
-  </div>
-
-  <p className="text-[11px] text-muted-foreground/70 leading-tight">
-    Si agregas tu sitio web, la IA podrá analizarlo para entender mejor tu negocio, tus productos y tu estilo de marca.
-  </p>
-</div>
+          <div className="flex items-center gap-2">
+            <Globe className="w-4 h-4 text-muted-foreground shrink-0" />
+            <Input
+              value={data.website ?? ""}
+              onChange={e => onChange({ website: e.target.value })}
+              placeholder="Ej: https://tumarca.com"
+              className="flex-1"
+            />
           </div>
+
+          <p className="text-[11px] text-muted-foreground/70 leading-tight">
+            Si agregas tu sitio web, HazPost podrá entender mejor tu negocio, tus productos y el estilo de tu marca.
+          </p>
         </div>
       </div>
     </div>
   );
 }
-
 // ── Checkerboard transparent bg style ─────────────────────────────────────────
 const checkerStyle: React.CSSProperties = {
   backgroundImage:
