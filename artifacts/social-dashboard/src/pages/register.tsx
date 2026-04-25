@@ -299,7 +299,7 @@ export default function Register() {
   async function handleWizardComplete() {
     if (pendingPlanAfterWizard) {
       try {
-        const resp = await fetch(`${BASE}/api/billing/checkout`, {
+        const resp = await fetch(`${API_URL}/api/billing/checkout`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -323,7 +323,7 @@ export default function Register() {
   function handleGoogleRegister() {
     if (!checkTerms()) return;
 
-    window.location.href = `${BASE}/api/auth/google`;
+    window.location.href = `${API_URL}/api/auth/google`;
   }
 
   const selectedPlanName = PLAN_NAMES[selectedPlan] ?? selectedPlan;
