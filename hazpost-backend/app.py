@@ -26,6 +26,95 @@ from src.aprendizaje_colectivo import aprendizaje_bp
 _SCHEDULER_LOCK_FILE = None
 
 
+# ============================================================
+# CORS CENTRALIZADO HAZPOST
+# ============================================================
+# IMPORTANTE:
+# - No borrar dominios viejos: así no rompemos producción, Vercel ni localhost.
+# - Si agregas otro frontend, agrégalo aquí o en Railway con CORS_ORIGIN.
+# - CORS_ORIGIN puede traer varios dominios separados por coma.
+#   Ejemplo:
+#   CORS_ORIGIN=https://hazpost-frontend.vercel.app,https://hazpost.app
+# ============================================================
+DEFAULT_ALLOWED_ORIGINS = [
+    "https://hazpost-frontend.vercel.app",
+    "https://hazpost.app",
+    "https://www.hazpost.app",
+    "https://v2.hazpost.com",
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5173",
+]
+
+DEFAULT_ALLOWED_METHODS = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+DEFAULT_ALLOWED_HEADERS = (
+    "Content-Type, Authorization, X-Requested-With, X-API-Key, X-User-ID, "
+    "Accept, Origin, Cache-Control, Pragma"
+)
+
+
+def _normalize_origin(origin: str | None) -> str:
+    if not origin:
+        return ""
+    return origin.strip().rstrip("/")
+
+
+def _get_allowed_origins() -> list[str]:
+    env_origins = [
+        _normalize_origin(origin)
+        for origin in os.getenv("CORS_ORIGIN", "").split(",")
+        if _normalize_origin(origin)
+    ]
+
+    origins = [_normalize_origin(origin) for origin in DEFAULT_ALLOWED_ORIGINS]
+    return list(dict.fromkeys(origins + env_origins))
+
+
+def _is_origin_allowed(origin: str | None) -> bool:
+    clean_origin = _normalize_origin(origin)
+    if not clean_origin:
+        return False
+    return clean_origin in _get_allowed_origins()
+
+
+def _attach_cors_headers(response):
+    origin = request.headers.get("Origin")
+    clean_origin = _normalize_origin(origin)
+
+    if _is_origin_allowed(clean_origin):
+        response.headers["Access-Control-Allow-Origin"] = clean_origin
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Vary"] = "Origin"
+
+    requested_headers = request.headers.get("Access-Control-Request-Headers")
+    response.headers["Access-Control-Allow-Methods"] = DEFAULT_ALLOWED_METHODS
+    response.headers["Access-Control-Allow-Headers"] = requested_headers or DEFAULT_ALLOWED_HEADERS
+    response.headers["Access-Control-Max-Age"] = "86400"
+
+    return response
+
+
+def _apply_cors(app: Flask):
+    allowed_origins = _get_allowed_origins()
+    logger.info(f"CORS allowed origins: {allowed_origins}")
+
+    @app.before_request
+    def handle_cors_preflight():
+        if request.method != "OPTIONS":
+            return None
+
+        response = make_response("", 204)
+        return _attach_cors_headers(response)
+
+    @app.after_request
+    def add_cors_headers(response):
+        return _attach_cors_headers(response)
+
+
+# ============================================================
+# SCHEDULER LOCK
+# ============================================================
 def _try_acquire_scheduler_lock(data_dir: str):
     lock_path = os.path.join(data_dir, '.scheduler.lock')
     os.makedirs(data_dir, exist_ok=True)
@@ -35,63 +124,6 @@ def _try_acquire_scheduler_lock(data_dir: str):
         return lock_file
     except (IOError, OSError):
         return None
-
-
-def _get_allowed_origins():
-    default_origins = [
-        "https://hazpost.app",
-        "https://www.hazpost.app",
-        "https://hazpost-frontend.vercel.app",
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-    ]
-
-    env_origins = [
-        origin.strip()
-        for origin in os.getenv("CORS_ORIGIN", "").split(",")
-        if origin.strip()
-    ]
-
-    return list(dict.fromkeys(default_origins + env_origins))
-
-
-def _apply_cors(app: Flask):
-    allowed_origins = _get_allowed_origins()
-
-    @app.before_request
-    def handle_cors_preflight():
-        if request.method != "OPTIONS":
-            return None
-
-        response = make_response("", 204)
-        origin = request.headers.get("Origin")
-
-        if origin in allowed_origins:
-            response.headers["Access-Control-Allow-Origin"] = origin
-            response.headers["Access-Control-Allow-Credentials"] = "true"
-            response.headers["Vary"] = "Origin"
-
-        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-        response.headers["Access-Control-Allow-Headers"] = (
-            request.headers.get("Access-Control-Request-Headers")
-            or "Content-Type, Authorization, X-Requested-With"
-        )
-        response.headers["Access-Control-Max-Age"] = "86400"
-
-        return response
-
-    @app.after_request
-    def add_cors_headers(response):
-        origin = request.headers.get("Origin")
-
-        if origin in allowed_origins:
-            response.headers["Access-Control-Allow-Origin"] = origin
-            response.headers["Access-Control-Allow-Credentials"] = "true"
-            response.headers["Vary"] = "Origin"
-
-        return response
 
 
 def create_app():
@@ -111,8 +143,11 @@ def create_app():
     app.config['BACKUP_HOUR_UTC'] = int(os.getenv('BACKUP_HOUR_UTC', '2'))
     app.config['API_KEY'] = os.getenv('API_KEY', '')
 
-    init_security(app)
+    # CORS primero para que incluso errores, OPTIONS y respuestas bloqueadas lleven headers correctos.
     _apply_cors(app)
+
+    # Seguridad después, manteniendo rate limit, headers, bloqueo de IP y API key.
+    init_security(app)
 
     app.register_blueprint(seo_bp)
     app.register_blueprint(security_bp, url_prefix='/api/security')
@@ -131,6 +166,12 @@ def create_app():
     @app.route('/health')
     def health():
         return {"status": "ok"}
+
+    # Catch-all OPTIONS para que cualquier endpoint nuevo del backend responda preflight.
+    @app.route('/api/<path:_path>', methods=['OPTIONS'])
+    def api_options(_path):
+        response = make_response("", 204)
+        return _attach_cors_headers(response)
 
     return app
 
