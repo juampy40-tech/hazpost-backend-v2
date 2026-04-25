@@ -320,7 +320,7 @@ function Step1({
             <Input
               value={data.website ?? ""}
               onChange={e => onChange({ website: e.target.value })}
-              placeholder="tuempresa.com o www.tuempresa.com"
+              placeholder="Ej: www.tumarca.com"
               className="flex-1"
             />
           </div>
