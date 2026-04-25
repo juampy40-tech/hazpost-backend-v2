@@ -312,12 +312,14 @@ function Step1({
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>Ciudad *</Label>
-          <Input
-            value={data.city ?? ""}
-            onChange={e => onChange({ city: e.target.value })}
-            placeholder="Ej: Madrid, Miami, Buenos Aires, Ciudad de México…"
-          />
+  <Label>Ciudad *</Label>
+  <Input
+    value={data.city ?? ""}
+    onChange={e => onChange({ city: e.target.value })}
+    placeholder="Ej: Madrid, Miami, Buenos Aires, Ciudad de México…"
+  />
+</div>
+
 <div className="grid gap-2">
   <Label>
     Sitio web <span className="text-muted-foreground font-normal">(opcional)</span>
@@ -335,7 +337,7 @@ function Step1({
 
   <p className="text-[11px] text-muted-foreground/70 leading-tight">
     Si agregas tu sitio web, la IA podrá analizarlo para entender mejor tu negocio, tus productos y tu estilo de marca.
- </p>
+  </p>
 </div>
           </div>
         </div>
