@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
@@ -32,7 +31,6 @@ function formatFeature(text: string) {
     .replace(/Generación automática de contenido/i, "Genera contenido automáticamente")
     .replace(/Publicación programada a Instagram, TikTok y Facebook/i, "Publica en Instagram, TikTok y Facebook")
 
-    // 🔥 IMPORTANTE (ARREGLADO)
     .replace(/Bulk scheduling hasta 30 posts/i, "Programa hasta 30 posts")
     .replace(/Bulk scheduling hasta 60 posts/i, "Programa hasta 60 posts")
 
@@ -46,11 +44,15 @@ function formatFeature(text: string) {
     .replace(/Perfil de marca personalizado/i, "Tu tono y estilo de marca guardados");
 }
 
-export function PlanCard({ plan, onSelect, loading, mode = "landing" }: any) {
+export function PlanCard({
+  plan,
+  onSelect,
+  loading,
+  mode = "landing",
+}: any) {
   const isBusiness = plan.key === "business";
   const isLanding = mode === "landing";
 
-  // 🔥 ORDENAMOS FEATURES PARA QUE SIEMPRE SE VEA LO IMPORTANTE
   const rawFeatures =
     plan.resolvedFeatures?.map((t: string) => formatFeature(t)) || [];
 
@@ -92,7 +94,6 @@ export function PlanCard({ plan, onSelect, loading, mode = "landing" }: any) {
         </p>
       </div>
 
-      {/* PRECIO + URGENCIA */}
       <div>
         <div className="text-3xl font-semibold">
           ${plan.priceUsd}
@@ -106,7 +107,6 @@ export function PlanCard({ plan, onSelect, loading, mode = "landing" }: any) {
         )}
       </div>
 
-      {/* FEATURES */}
       <ul className="space-y-2 flex-1">
         {features
           .slice(0, plan.key === "business" ? 8 : 6)
@@ -118,7 +118,7 @@ export function PlanCard({ plan, onSelect, loading, mode = "landing" }: any) {
           ))}
       </ul>
 
-      {/* BOTÓN */}
+      {/* 🔥 BOTÓN PRINCIPAL (YA FUNCIONA PARA TODO EL FLUJO) */}
       <Button
         onClick={() => onSelect(plan.key)}
         disabled={loading}
@@ -131,7 +131,6 @@ export function PlanCard({ plan, onSelect, loading, mode = "landing" }: any) {
         {CTA_LABELS[plan.key]}
       </Button>
 
-      {/* MICROCOPY */}
       <p className="text-[11px] text-center text-muted-foreground">
         Sin tarjeta · Cancela cuando quieras · Activación inmediata
       </p>
