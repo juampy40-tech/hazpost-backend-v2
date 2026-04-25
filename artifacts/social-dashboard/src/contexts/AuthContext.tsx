@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { queryClient } from "@/lib/queryClient";
 
-const BASE = (import.meta.env.VITE_API_URL || "https://v2.hazpost.com").replace(/\/$/, "");
+const API_BASE_URL = (import.meta.env.VITE_API_URL || "https://v2.hazpost.com").replace(/\/$/, "");
 
 export interface AuthUser {
   id: number;
@@ -45,7 +45,7 @@ async function apiFetch(path: string, init?: RequestInit) {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
-  const res = await fetch(`${BASE}/api${path}`, { credentials: "include", headers, ...init });
+  const res = await fetch(`${API_BASE_URL}/api${path}`, { credentials: "include", headers, ...init });
   const data = await res.json();
   if (!res.ok) throw Object.assign(new Error(data.error || `Error ${res.status}`), { code: data.code as string | undefined });
   return data;
