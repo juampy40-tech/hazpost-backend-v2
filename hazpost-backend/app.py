@@ -250,12 +250,12 @@ def create_app():
         ]
 
         return jsonify({
-            "plans": plans,
-            "creditPack": {
-                "credits": 50,
-                "priceUsd": 19.99,
-            },
-        })
+    "plans": plans,
+    "creditPack": {
+        "credits": 50,
+        "priceUsd": 19.99
+    }
+})
 
 
     # ============================================================
