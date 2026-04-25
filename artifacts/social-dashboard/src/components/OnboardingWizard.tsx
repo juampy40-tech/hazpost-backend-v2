@@ -1275,7 +1275,7 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
   }
 
   useEffect(() => {
-    fetch(`${BASE}/api/businesses`, { credentials: "include" })
+    fetch(`/api/businesses`, { credentials: "include" })
       .then(r => r.json())
       .then((d: { businesses?: { id: number; isDefault?: boolean }[] }) => {
         const list = d.businesses ?? [];
