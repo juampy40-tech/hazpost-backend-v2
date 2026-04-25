@@ -1,7 +1,7 @@
 import os
 import fcntl
 import logging
-from flask import Flask, render_template
+from flask import Flask, render_template, request, make_response
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -37,6 +37,63 @@ def _try_acquire_scheduler_lock(data_dir: str):
         return None
 
 
+def _get_allowed_origins():
+    default_origins = [
+        "https://hazpost.app",
+        "https://www.hazpost.app",
+        "https://hazpost-frontend.vercel.app",
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+    ]
+
+    env_origins = [
+        origin.strip()
+        for origin in os.getenv("CORS_ORIGIN", "").split(",")
+        if origin.strip()
+    ]
+
+    return list(dict.fromkeys(default_origins + env_origins))
+
+
+def _apply_cors(app: Flask):
+    allowed_origins = _get_allowed_origins()
+
+    @app.before_request
+    def handle_cors_preflight():
+        if request.method != "OPTIONS":
+            return None
+
+        response = make_response("", 204)
+        origin = request.headers.get("Origin")
+
+        if origin in allowed_origins:
+            response.headers["Access-Control-Allow-Origin"] = origin
+            response.headers["Access-Control-Allow-Credentials"] = "true"
+            response.headers["Vary"] = "Origin"
+
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = (
+            request.headers.get("Access-Control-Request-Headers")
+            or "Content-Type, Authorization, X-Requested-With"
+        )
+        response.headers["Access-Control-Max-Age"] = "86400"
+
+        return response
+
+    @app.after_request
+    def add_cors_headers(response):
+        origin = request.headers.get("Origin")
+
+        if origin in allowed_origins:
+            response.headers["Access-Control-Allow-Origin"] = origin
+            response.headers["Access-Control-Allow-Credentials"] = "true"
+            response.headers["Vary"] = "Origin"
+
+        return response
+
+
 def create_app():
     global _SCHEDULER_LOCK_FILE
 
@@ -55,6 +112,7 @@ def create_app():
     app.config['API_KEY'] = os.getenv('API_KEY', '')
 
     init_security(app)
+    _apply_cors(app)
 
     app.register_blueprint(seo_bp)
     app.register_blueprint(security_bp, url_prefix='/api/security')
