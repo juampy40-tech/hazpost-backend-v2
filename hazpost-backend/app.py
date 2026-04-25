@@ -257,6 +257,39 @@ def create_app():
             },
         })
 
+
+    # ============================================================
+    # REGISTER USER
+    # ============================================================
+    @app.route('/api/user/register', methods=['POST'])
+    def register_user():
+        try:
+            data = request.get_json()
+
+            email = data.get("email")
+            password = data.get("password")
+            name = data.get("name", "")
+
+            if not email or not password:
+                return jsonify({"error": "Email y contraseña requeridos"}), 400
+
+            return jsonify({
+                "success": True,
+                "user": {
+                    "id": 1,
+                    "email": email,
+                    "name": name
+                }
+            }), 201
+
+        except Exception as e:
+            logger.error(f"REGISTER ERROR: {e}")
+            return jsonify({"error": "Error interno"}), 500
+
+
+    # ============================================================
+    # HEALTH + ROOT
+    # ============================================================
     @app.route('/')
     def index():
         return {"status": "ok"}
@@ -265,16 +298,20 @@ def create_app():
     def health():
         return {"status": "ok"}
 
-    # Catch-all OPTIONS para que cualquier endpoint nuevo del backend responda preflight.
+
+    # ============================================================
+    # CORS OPTIONS (IMPORTANTE)
+    # ============================================================
     @app.route('/api/<path:_path>', methods=['OPTIONS'])
     def api_options(_path):
         response = make_response("", 204)
         return _attach_cors_headers(response)
 
+
     return app
 
 
-# 🔥 ESTA LÍNEA ES CLAVE PARA GUNICORN
+# 🔥 CLAVE PARA RAILWAY
 app = create_app()
 
 
