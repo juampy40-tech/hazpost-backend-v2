@@ -57,7 +57,8 @@ interface AiSuggestions {
 async function fetchIndustryCatalog(): Promise<IndustryCatalogEntry[]> {
   try {
     const res = await fetch(`/api/industries`, {
-  credentials: "include"
+  credentials: "include",
+});
     if (!res.ok) return [];
     const data = await res.json() as { industries?: IndustryCatalogEntry[] };
     return data.industries ?? [];
