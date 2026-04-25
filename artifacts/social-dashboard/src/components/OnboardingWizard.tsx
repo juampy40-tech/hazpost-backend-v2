@@ -1443,15 +1443,15 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
     const freqMap: Record<string, string> = { daily: "daily", "3x": "3x_week", weekly: "weekly" };
     const genFreq = isManual ? "none" : (freqMap[data.aiGenFrequency ?? "daily"] ?? "daily");
     try {
-      await fetch(`${BASE}/api/settings`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          auto_generation: isManual ? "false" : "true",
-          generation_frequency: genFreq,
-        }),
-      });
+     await fetch(`/api/settings`, {
+  method: "PUT",
+  credentials: "include",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    auto_generation: isManual ? "false" : "true",
+    generation_frequency: genFreq,
+  }),
+});
     } catch { /* non-blocking */ }
 
     if (isManual) {
