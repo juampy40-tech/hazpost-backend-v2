@@ -880,7 +880,7 @@ function Step4({
           {currentImages.map((path, idx) => (
             <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-border bg-black/20">
               <img
-                src={`${BASE}/api/storage${path}`}
+                src={`/api/storage${path}`}
                 alt={`Referencia ${idx + 1}`}
                 className="w-full h-full object-cover"
               />
