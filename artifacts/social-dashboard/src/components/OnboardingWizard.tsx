@@ -55,13 +55,23 @@ interface AiSuggestions {
 
 async function fetchIndustryCatalog(): Promise<IndustryCatalogEntry[]> {
   try {
-   const API_BASE = import.meta.env.VITE_API_URL || "";
+    const API_BASE = import.meta.env.VITE_API_URL || "";
 
-const res = await fetch(`${API_BASE}/api/industries`, {
-  credentials: "include",
-});
+    const res = await fetch(`${API_BASE}/api/industries`, {
+      credentials: "include",
+    });
+
     if (!res.ok) return [];
-    const data = await res.json() as { industries?: IndustryCatalogEntry[] };
+
+    const data = await res.json() as IndustryCatalogEntry[] | { industries?: IndustryCatalogEntry[] };
+
+    if (Array.isArray(data)) {
+      return data.map((item: any) => ({
+        name: item.name,
+        subcategories: item.subcategories ?? [],
+      }));
+    }
+
     return data.industries ?? [];
   } catch {
     return [];
