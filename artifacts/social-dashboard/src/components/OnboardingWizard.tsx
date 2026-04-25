@@ -55,7 +55,9 @@ interface AiSuggestions {
 
 async function fetchIndustryCatalog(): Promise<IndustryCatalogEntry[]> {
   try {
-    const res = await fetch(`/api/industries`, {
+   const API_BASE = import.meta.env.VITE_API_URL || "";
+
+const res = await fetch(`${API_BASE}/api/industries`, {
   credentials: "include",
 });
     if (!res.ok) return [];
