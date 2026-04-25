@@ -406,7 +406,7 @@ function Step2({
   async function handleRemoveBg(idx: number) {
     setRemovingBgIdx(idx);
     try {
-      const res = await fetch(`${BASE}/api/brand-profile/remove-logo-bg`, {
+      const res = await fetch(`/api/brand-profile/remove-logo-bg`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
