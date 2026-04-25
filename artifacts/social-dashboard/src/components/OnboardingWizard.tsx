@@ -321,6 +321,9 @@ function Step1({
               value={data.website ?? ""}
               onChange={e => onChange({ website: e.target.value })}
               placeholder="Ej: www.tumarca.com"
+              <p className="text-[11px] text-muted-foreground/70 leading-tight">
+  Si agregas tu sitio web, la IA podrá analizarlo para entender mejor tu negocio, tus productos y tu estilo de marca.
+</p>
               className="flex-1"
             />
           </div>
