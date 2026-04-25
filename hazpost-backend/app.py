@@ -40,6 +40,8 @@ DEFAULT_ALLOWED_ORIGINS = [
     "https://hazpost-frontend.vercel.app",
     "https://hazpost.app",
     "https://www.hazpost.app",
+    "https://hazpost.com",
+    "https://www.hazpost.com",
     "https://v2.hazpost.com",
     "http://localhost:3000",
     "http://localhost:5173",
