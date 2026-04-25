@@ -256,7 +256,10 @@ export default function Register() {
     setStep(2);
   }
 
-  async function goToWizard() {
+  async function goToWizard(planOverride?: string) {
+    const planToRegister = planOverride || selectedPlan;
+
+    setSelectedPlan(planToRegister);
     setLoading(true);
 
     try {
@@ -268,7 +271,7 @@ export default function Register() {
         displayName || undefined,
         affiliateCode,
         referralCode,
-        selectedPlan
+        planToRegister
       );
 
       setPendingPlanAfterWizard(result.pendingPlan);
@@ -286,6 +289,11 @@ export default function Register() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function handlePlanSelect(planKey: string) {
+    if (loading || incompleteReg) return;
+    void goToWizard(planKey);
   }
 
   async function handleWizardComplete() {
@@ -770,7 +778,7 @@ export default function Register() {
                 </div>
               )}
 
-              <div className="flex gap-3">
+              <div className="flex items-center justify-between gap-3">
                 <Button
                   variant="outline"
                   className="gap-2"
@@ -780,23 +788,17 @@ export default function Register() {
                   <ArrowLeft className="w-4 h-4" /> Atrás
                 </Button>
 
-                <Button
-                  className="flex-1 gap-2 font-semibold"
-                  onClick={goToWizard}
-                  disabled={loading || incompleteReg}
-                >
-                  {loading
-                    ? "Creando cuenta…"
-                    : selectedPlan === "free"
-                      ? "Empezar gratis 🚀"
-                      : `Continuar con ${selectedPlanName} →`}
-                </Button>
+                <p className="text-xs text-muted-foreground text-right">
+                  Elige un plan desde su tarjeta para continuar.
+                </p>
               </div>
 
               <PricingSection
                 mode="register"
                 selectedPlanKey={selectedPlan}
-                onSelectPlan={setSelectedPlan}
+                onSelectPlan={handlePlanSelect}
+                loadingPlanKey={loading ? selectedPlan : null}
+                disabled={loading || incompleteReg}
               />
 
               {selectedPlan && (
