@@ -311,7 +311,7 @@ function Step1({
             </select>
           </div>
         </div>
-        <div className="grid gap-2">
+      <div className="grid gap-2">
   <Label>Ciudad *</Label>
   <Input
     value={data.city ?? ""}
