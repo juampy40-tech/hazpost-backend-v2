@@ -1206,7 +1206,7 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(`${BASE}/api/auth/meta/redirect`, "_blank", "noopener,noreferrer")}
+            onClick={() => window.open(`/api/auth/meta/redirect`, "_blank", "noopener,noreferrer")}
             className="border-pink-500/40 text-pink-400 hover:bg-pink-500/10"
           >
             <Instagram className="w-4 h-4 mr-2" />
@@ -1215,7 +1215,7 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(`${BASE}/api/auth/tiktok/redirect`, "_blank", "noopener,noreferrer")}
+            onClick={() => window.open(`/api/auth/tiktok/redirect`, "_blank", "noopener,noreferrer")}
             className="border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10"
           >
             <PlaySquare className="w-4 h-4 mr-2" />
