@@ -162,159 +162,176 @@ def create_app():
     app.register_blueprint(aprendizaje_bp, url_prefix='/api/aprendizaje')
 
 
-    # ============================================================
-    # PUBLIC PLANS — Registro / Pricing
-    # ============================================================
-    @app.route('/api/plans', methods=['GET'])
-    def get_public_plans():
-        plans = [
-            {
-                "key": "free",
-                "name": "Gratis",
-                "priceUsd": 0,
-                "priceCop": 0,
-                "creditsPerMonth": 40,
-                "descriptionJson": {
-                    "description": "Para comenzar sin costo",
-                    "features": [
-                        "40 créditos para probar HazPost",
-                        "1 negocio incluido",
-                        "Genera contenido automáticamente",
-                        "Publica en Instagram, TikTok y Facebook",
-                        "Calendario y programación",
-                        "Publicación masiva y cola de aprobación",
-                    ],
-                    "cta": "Probar gratis",
-                },
-            },
-            {
-                "key": "starter",
-                "name": "Emprendedor",
-                "priceUsd": 29.99,
-                "priceCop": 119000,
-                "creditsPerMonth": 30,
-                "descriptionJson": {
-                    "description": "Ideal para emprendedores en crecimiento",
-                    "features": [
-                        "Programa hasta 30 posts",
-                        "Contenido constante para tu negocio",
-                        "1 negocio incluido",
-                        "Genera contenido automáticamente",
-                        "Publica en Instagram, TikTok y Facebook",
-                        "Calendario y programación",
-                    ],
-                    "cta": "Quiero empezar",
-                },
-            },
-            {
-                "key": "business",
-                "name": "Negocio",
-                "priceUsd": 49.99,
-                "priceCop": 199000,
-                "creditsPerMonth": 60,
-                "descriptionJson": {
-                    "description": "Para marcas y equipos establecidos",
-                    "badge": "Más popular",
-                    "features": [
-                        "Programa hasta 60 posts",
-                        "Más contenido, más formatos y más automatización",
-                        "1 negocio incluido",
-                        "Genera contenido automáticamente",
-                        "Publica en Instagram, TikTok y Facebook",
-                        "Calendario y programación",
-                        "Publicación masiva y cola de aprobación",
-                        "Tu tono y estilo de marca guardados",
-                    ],
-                    "cta": "Escalar mi negocio 🚀",
-                },
-            },
-            {
-                "key": "agency",
-                "name": "Agencia",
-                "priceUsd": 199.99,
-                "priceCop": 799000,
-                "creditsPerMonth": 250,
-                "descriptionJson": {
-                    "description": "Para agencias y múltiples marcas",
-                    "badge": "Pro",
-                    "features": [
-                        "Contenido masivo para múltiples marcas",
-                        "Hasta 5 negocios incluidos",
-                        "Gestiona más de una marca",
-                        "Todo lo del plan Negocio incluido",
-                        "Negocios adicionales por $29.99 USD/mes",
-                    ],
-                    "cta": "Automatizar todo",
-                },
-            },
-        ]
+  # ============================================================
+# PUBLIC PLANS — Registro / Pricing
+# ============================================================
+
+@app.route('/api/plans', methods=['GET'])
+def get_public_plans():
+    plans = [
+        {
+            "key": "free",
+            "name": "Gratis",
+            "priceUsd": 0,
+            "priceCop": 0,
+            "creditsPerMonth": 40,
+            "descriptionJson": {
+                "description": "Para comenzar sin costo",
+                "features": [
+                    "40 créditos para probar HazPost",
+                    "1 negocio incluido",
+                    "Genera contenido automáticamente",
+                    "Publica en Instagram, TikTok y Facebook",
+                    "Calendario y programación",
+                    "Publicación masiva y cola de aprobación"
+                ],
+                "cta": "Probar gratis"
+            }
+        },
+        {
+            "key": "starter",
+            "name": "Emprendedor",
+            "priceUsd": 29.99,
+            "priceCop": 119000,
+            "creditsPerMonth": 30,
+            "descriptionJson": {
+                "description": "Ideal para emprendedores en crecimiento",
+                "features": [
+                    "Programa hasta 30 posts",
+                    "Contenido constante para tu negocio",
+                    "1 negocio incluido",
+                    "Genera contenido automáticamente",
+                    "Publica en Instagram, TikTok y Facebook",
+                    "Calendario y programación"
+                ],
+                "cta": "Quiero empezar"
+            }
+        },
+        {
+            "key": "business",
+            "name": "Negocio",
+            "priceUsd": 49.99,
+            "priceCop": 199000,
+            "creditsPerMonth": 60,
+            "descriptionJson": {
+                "description": "Para marcas y equipos establecidos",
+                "features": [
+                    "Programa hasta 60 posts",
+                    "Más contenido y automatización",
+                    "1 negocio incluido",
+                    "Genera contenido automáticamente",
+                    "Publica en Instagram, TikTok y Facebook",
+                    "Calendario y programación",
+                    "Publicación masiva y cola de aprobación",
+                    "Tu tono y estilo de marca guardados"
+                ],
+                "cta": "Escalar mi negocio 🚀",
+                "badge": "Más popular"
+            }
+        },
+        {
+            "key": "agency",
+            "name": "Agencia",
+            "priceUsd": 199.99,
+            "priceCop": 799000,
+            "creditsPerMonth": 250,
+            "descriptionJson": {
+                "description": "Para agencias y múltiples marcas",
+                "features": [
+                    "Contenido masivo para múltiples marcas",
+                    "Hasta 5 negocios incluidos",
+                    "Gestiona más de una marca",
+                    "Todo lo del plan Negocio incluido",
+                    "Negocios adicionales por $29.99 USD/mes"
+                ],
+                "cta": "Automatizar todo",
+                "badge": "Pro"
+            }
+        }
+    ]
+
+    return jsonify({
+        "plans": plans,
+        "creditPack": {
+            "credits": 50,
+            "priceUsd": 19.99
+        }
+    })
+
+
+# ============================================================
+# REGISTER USER
+# ============================================================
+
+@app.route('/api/user/register', methods=['POST'])
+def register_user():
+    try:
+        data = request.get_json()
+
+        email = data.get("email")
+        password = data.get("password")
+        name = data.get("name", "")
+
+        if not email or not password:
+            return jsonify({"error": "Email y contraseña requeridos"}), 400
 
         return jsonify({
-    "plans": plans,
-    "creditPack": {
-        "credits": 50,
-        "priceUsd": 19.99
-    }
-})
+            "success": True,
+            "user": {
+                "id": 1,
+                "email": email,
+                "name": name
+            }
+        }), 201
+
+    except Exception as e:
+        logger.error(f"REGISTER ERROR: {e}")
+        return jsonify({"error": "Error interno"}), 500
 
 
-    # ============================================================
-    # REGISTER USER
-    # ============================================================
-    @app.route('/api/user/register', methods=['POST'])
-    def register_user():
-        try:
-            data = request.get_json()
+# ============================================================
+# INDUSTRIES (dropdown frontend)
+# ============================================================
 
-            email = data.get("email")
-            password = data.get("password")
-            name = data.get("name", "")
-
-            if not email or not password:
-                return jsonify({"error": "Email y contraseña requeridos"}), 400
-
-            return jsonify({
-                "success": True,
-                "user": {
-                    "id": 1,
-                    "email": email,
-                    "name": name
-                }
-            }), 201
-
-        except Exception as e:
-            logger.error(f"REGISTER ERROR: {e}")
-            return jsonify({"error": "Error interno"}), 500
+@app.route('/api/industries', methods=['GET'])
+def get_industries():
+    return jsonify([
+        {"id": 1, "name": "Restaurantes"},
+        {"id": 2, "name": "Energía Solar"},
+        {"id": 3, "name": "Seguros"},
+        {"id": 4, "name": "E-commerce"},
+        {"id": 5, "name": "Marketing"}
+    ])
 
 
-    # ============================================================
-    # HEALTH + ROOT
-    # ============================================================
-    @app.route('/')
-    def index():
-        return {"status": "ok"}
+# ============================================================
+# CREATE BUSINESS
+# ============================================================
 
-    @app.route('/health')
-    def health():
-        return {"status": "ok"}
+@app.route('/api/businesses', methods=['POST'])
+def create_business():
+    try:
+        data = request.get_json()
 
+        return jsonify({
+            "success": True,
+            "business": data
+        }), 201
 
-    # ============================================================
-    # CORS OPTIONS (IMPORTANTE)
-    # ============================================================
-    @app.route('/api/<path:_path>', methods=['OPTIONS'])
-    def api_options(_path):
-        response = make_response("", 204)
-        return _attach_cors_headers(response)
+    except Exception as e:
+        logger.error(f"CREATE BUSINESS ERROR: {e}")
+        return jsonify({"error": "Error interno"}), 500
 
 
-    return app
+# ============================================================
+# HEALTH CHECK
+# ============================================================
+
+@app.route('/')
+def index():
+    return {"status": "ok"}
 
 
-# 🔥 CLAVE PARA RAILWAY
-app = create_app()
-
-
-if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+@app.route('/health')
+def health():
+    return {"status": "healthy"}
