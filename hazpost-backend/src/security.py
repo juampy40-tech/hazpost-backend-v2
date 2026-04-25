@@ -21,6 +21,142 @@ BLOCK_EVENTS: list = []
 _MAX_BLOCK_EVENTS = 500
 
 
+# ============================================================
+# HAZPOST — CENTRALIZED FRONTEND / CORS / SECURITY CONFIG
+# ============================================================
+# Mantener aquí todos los dominios oficiales que pueden consumir el backend.
+# Esto evita tener CORS repartido en varios archivos y mantiene la estructura centralizada.
+DEFAULT_ALLOWED_ORIGINS = [
+    'https://hazpost-frontend.vercel.app',
+    'https://hazpost.app',
+    'https://www.hazpost.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:3000',
+]
+
+DEFAULT_ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+
+DEFAULT_ALLOWED_HEADERS = [
+    'Authorization',
+    'Content-Type',
+    'X-API-Key',
+    'X-User-ID',
+    'X-Requested-With',
+    'Accept',
+    'Origin',
+]
+
+DEFAULT_EXPOSE_HEADERS = [
+    'Content-Type',
+    'Authorization',
+]
+
+
+def _split_csv_env(value: str) -> list[str]:
+    return [item.strip() for item in value.split(',') if item.strip()]
+
+
+def get_allowed_origins(app=None) -> list[str]:
+    """
+    Fuente centralizada de orígenes permitidos.
+
+    Prioridad:
+    1. app.config['ALLOWED_ORIGINS'] si existe.
+    2. Variable de entorno ALLOWED_ORIGINS separada por comas.
+    3. Lista DEFAULT_ALLOWED_ORIGINS.
+
+    Además permite FRONTEND_URL / FRONTEND_ORIGIN si existen en Railway,
+    sin reemplazar los dominios oficiales.
+    """
+    origins = list(DEFAULT_ALLOWED_ORIGINS)
+
+    cfg_origins = None
+    if app is not None:
+        cfg_origins = app.config.get('ALLOWED_ORIGINS')
+
+    if cfg_origins:
+        if isinstance(cfg_origins, str):
+            origins.extend(_split_csv_env(cfg_origins))
+        elif isinstance(cfg_origins, (list, tuple, set)):
+            origins.extend([str(origin).strip() for origin in cfg_origins if str(origin).strip()])
+
+    env_origins = os.getenv('ALLOWED_ORIGINS', '')
+    if env_origins:
+        origins.extend(_split_csv_env(env_origins))
+
+    frontend_url = os.getenv('FRONTEND_URL', '').strip()
+    if frontend_url:
+        origins.append(frontend_url)
+
+    frontend_origin = os.getenv('FRONTEND_ORIGIN', '').strip()
+    if frontend_origin:
+        origins.append(frontend_origin)
+
+    # Quitar duplicados conservando orden.
+    clean_origins = []
+    seen = set()
+    for origin in origins:
+        normalized = origin.rstrip('/')
+        if normalized and normalized not in seen:
+            clean_origins.append(normalized)
+            seen.add(normalized)
+    return clean_origins
+
+
+def _is_origin_allowed(origin: str, allowed_origins: list[str]) -> bool:
+    if not origin:
+        return False
+    normalized = origin.rstrip('/')
+    return normalized in allowed_origins
+
+
+def _apply_cors_headers(response, app=None):
+    """
+    CORS manual centralizado para Railway/Vercel.
+    Solo refleja el Origin cuando está en la lista permitida.
+    """
+    origin = request.headers.get('Origin', '').rstrip('/')
+    allowed_origins = get_allowed_origins(app or current_app)
+
+    if _is_origin_allowed(origin, allowed_origins):
+        response.headers['Access-Control-Allow-Origin'] = origin
+        response.headers['Vary'] = 'Origin'
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Methods'] = ', '.join(DEFAULT_ALLOWED_METHODS)
+        response.headers['Access-Control-Allow-Headers'] = ', '.join(DEFAULT_ALLOWED_HEADERS)
+        response.headers['Access-Control-Expose-Headers'] = ', '.join(DEFAULT_EXPOSE_HEADERS)
+        response.headers['Access-Control-Max-Age'] = '86400'
+
+    return response
+
+
+def _build_security_headers(app=None) -> dict:
+    allowed_origins = get_allowed_origins(app)
+    connect_src = "'self' " + ' '.join(allowed_origins)
+
+    return {
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'X-XSS-Protection': '1; mode=block',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+        'Content-Security-Policy': (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; "
+            "style-src 'self' 'unsafe-inline' https:; "
+            "img-src 'self' data: blob: https:; "
+            "font-src 'self' data: https:; "
+            f"connect-src {connect_src}; "
+            "media-src 'self' blob: data: https:; "
+            "frame-src 'self' https:; "
+            "object-src 'none';"
+        )
+    }
+
+
 def _record_block_event(ip: str, event: str, origin: str):
     BLOCK_EVENTS.append({
         'ip': ip,
@@ -30,6 +166,7 @@ def _record_block_event(ip: str, event: str, origin: str):
     })
     if len(BLOCK_EVENTS) > _MAX_BLOCK_EVENTS:
         del BLOCK_EVENTS[:-_MAX_BLOCK_EVENTS]
+
 
 AUTH_FAIL_THRESHOLD = 10
 AUTH_FAIL_WINDOW_SECONDS = 60
@@ -42,22 +179,9 @@ SUSPICIOUS_USER_AGENTS = [
     'dirbuster', 'gobuster', 'wfuzz', 'hydra'
 ]
 
-SECURITY_HEADERS = {
-    'X-Content-Type-Options': 'nosniff',
-    'X-Frame-Options': 'DENY',
-    'X-XSS-Protection': '1; mode=block',
-    'Referrer-Policy': 'strict-origin-when-cross-origin',
-    'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
-    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-    'Content-Security-Policy': (
-        "default-src 'self'; "
-        "script-src 'self' 'unsafe-inline'; "
-        "style-src 'self' 'unsafe-inline'; "
-        "img-src 'self' data: https:; "
-        "font-src 'self' data:; "
-        "connect-src 'self';"
-    )
-}
+# Se mantiene el nombre SECURITY_HEADERS para no romper imports existentes,
+# pero ahora los headers reales se construyen dinámicamente en init_security().
+SECURITY_HEADERS = _build_security_headers()
 
 
 def _persist_state():
@@ -219,14 +343,30 @@ def init_security(app):
 
     limiter.init_app(app)
 
+    @app.before_request
+    def handle_cors_preflight():
+        # Responder preflight antes de bloqueo por seguridad/rate-limit.
+        if request.method == 'OPTIONS':
+            response = current_app.make_response(('', 204))
+            return _apply_cors_headers(response, current_app)
+
     @app.after_request
     def add_security_headers(response):
-        for header, value in SECURITY_HEADERS.items():
+        # Headers de seguridad centralizados.
+        for header, value in _build_security_headers(current_app).items():
             response.headers[header] = value
+
+        # CORS centralizado. Debe ejecutarse en todas las respuestas,
+        # incluyendo errores 401/403/500, para que el frontend pueda leerlas.
+        response = _apply_cors_headers(response, current_app)
         return response
 
     @app.before_request
     def check_blocked_ip():
+        # El preflight ya se respondió arriba; no bloquear OPTIONS.
+        if request.method == 'OPTIONS':
+            return None
+
         ip = get_remote_address()
 
         if ip in BLOCKED_IPS:
@@ -243,13 +383,20 @@ def init_security(app):
             logger.warning(f'Suspicious user-agent from {ip}: {ua}')
             return jsonify({'error': 'Access denied'}), 403
 
-    logger.info('Security middleware initialized — rate limiting by user-id (X-User-ID header) with IP fallback')
+    logger.info(
+        'Security middleware initialized — rate limiting by user-id (X-User-ID header) with IP fallback. '
+        f'Allowed CORS origins: {get_allowed_origins(app)}'
+    )
     return app
 
 
 def require_api_key(f):
     @wraps(f)
     def decorated(*args, **kwargs):
+        # No exigir API key en preflight CORS.
+        if request.method == 'OPTIONS':
+            return current_app.make_response(('', 204))
+
         api_key = request.headers.get('X-API-Key')
         expected_key = current_app.config.get('API_KEY', '')
         if not expected_key or api_key == expected_key:
