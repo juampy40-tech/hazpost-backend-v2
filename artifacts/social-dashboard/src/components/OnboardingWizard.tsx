@@ -1322,8 +1322,8 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
   }
 
   function getAnalyzeEndpoint(): string {
-    if (activeBizId) return `${BASE}/api/businesses/${activeBizId}/analyze-website`;
-    return `${BASE}/api/analyze-website`;
+    if (activeBizId) return `/api/businesses/${activeBizId}/analyze-website`;
+    return `/api/analyze-website`;
   }
 
   function handleAiAnalysis(suggestions: AiSuggestions) {
