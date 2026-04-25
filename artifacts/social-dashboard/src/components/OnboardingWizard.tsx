@@ -175,12 +175,16 @@ function FontPreview({ font, companyName }: { font: string; companyName?: string
 // ── Upload helper ──────────────────────────────────────────────────────────────
 
 async function uploadFile(file: File): Promise<string> {
-  const urlRes = await fetch(`${BASE}/api/storage/uploads/request-url`, {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: file.name, size: file.size, contentType: file.type }),
-  });
+const urlRes = await fetch(`/api/storage/uploads/request-url`, {
+  method: "POST",
+  credentials: "include",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    name: file.name,
+    size: file.size,
+    contentType: file.type
+  }),
+});
   if (!urlRes.ok) throw new Error("No se pudo obtener la URL de carga");
   const { uploadURL, objectPath } = await urlRes.json();
 
