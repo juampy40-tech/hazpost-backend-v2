@@ -37,6 +37,7 @@ export interface PricingSectionProps {
   annual?: boolean;
   onAnnualChange?: (val: boolean) => void;
   loadingPlanKey?: string | null;
+  disabled?: boolean;
 }
 
 function toPlanCardData(api: ApiPlan, showAnnual: boolean): PlanCardData {
@@ -110,6 +111,7 @@ export function PricingSection({
   annual: externalAnnual,
   onAnnualChange,
   loadingPlanKey,
+  disabled = false,
 }: PricingSectionProps) {
   const [apiPlans, setApiPlans] = useState<ApiPlan[]>([]);
   const [creditPack, setCreditPack] = useState<CreditPack | null>(null);
@@ -150,6 +152,8 @@ export function PricingSection({
   const intro = getModeIntro(mode);
 
   function handleSelect(planKey: string) {
+    if (disabled) return;
+
     if (mode === "landing") {
       window.location.href = `${BASE}/register?plan=${planKey}`;
       return;
@@ -261,7 +265,7 @@ export function PricingSection({
                 isCurrent={isCurrent}
                 isSelected={isSelected}
                 onSelect={handleSelect}
-                loading={loadingPlanKey !== null && loadingPlanKey !== undefined}
+                loading={disabled || loadingPlanKey === api.key}
                 mode={cardMode}
                 pricePeriodLabel={pricePeriodLabel}
                 isDowngrade={isDowngrade && !isCurrent}
