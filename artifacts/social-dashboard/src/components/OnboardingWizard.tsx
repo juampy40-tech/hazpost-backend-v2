@@ -460,7 +460,7 @@ function Step2({
         {logos.length > 0 && (
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
             {logos.map((url, idx) => {
-              const src = `${BASE}/api/storage${url}`;
+              const src = `/api/storage${url}`;
               const isProcessing = removingBgIdx === idx;
               return (
                 <div key={url + idx} className="group relative">
