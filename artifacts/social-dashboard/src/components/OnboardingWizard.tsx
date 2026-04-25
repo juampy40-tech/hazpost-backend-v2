@@ -233,8 +233,10 @@ function Step1({
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-2xl font-bold text-foreground mb-1">Cuéntanos sobre tu empresa</h2>
-        <p className="text-muted-foreground">Esta información contextualiza todo el contenido que generemos para ti.</p>
+       <h2 className="text-2xl font-bold text-foreground mb-1">Cuéntanos sobre tu negocio</h2>
+<p className="text-muted-foreground">
+  Esta información ayudará a la IA a crear contenido alineado con tu marca, estilo y objetivos.
+</p>
       </div>
       <div className="grid gap-4">
         <div className="grid gap-2">
