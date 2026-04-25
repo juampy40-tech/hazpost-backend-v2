@@ -252,7 +252,7 @@ function Step1({
           <Input
             value={data.slogan ?? ""}
             onChange={e => onChange({ slogan: e.target.value.slice(0, 150) })}
-            placeholder="Ej: La energía del futuro, hoy."
+            placeholder="Ej: Creamos experiencias únicas, Moda que inspira, Soluciones digitales para crecer..."
             maxLength={150}
           />
           <p className="text-[11px] text-muted-foreground/70 leading-tight">
