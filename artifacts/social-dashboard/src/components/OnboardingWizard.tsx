@@ -240,11 +240,12 @@ function Step1({
   return (
     <div className="space-y-5">
       <div>
-       <h2 className="text-2xl font-bold text-foreground mb-1">Cuéntanos sobre tu negocio</h2>
-<p className="text-muted-foreground">
-  Esta información ayudará a la IA a crear contenido alineado con tu marca, estilo y objetivos.
-</p>
+        <h2 className="text-2xl font-bold text-foreground mb-1">Cuéntanos sobre tu negocio</h2>
+        <p className="text-muted-foreground">
+          Esta información ayuda a HazPost a crear contenido alineado con tu marca, tu estilo y tus objetivos.
+        </p>
       </div>
+
       <div className="grid gap-4">
         <div className="grid gap-2">
           <Label>Nombre de la empresa *</Label>
@@ -254,8 +255,11 @@ function Step1({
             placeholder="Ej: Acme Studio, BrandNova, TuMarca..."
           />
         </div>
+
         <div className="grid gap-2">
-          <Label>Slogan del negocio <span className="text-muted-foreground font-normal">(opcional)</span></Label>
+          <Label>
+            Slogan del negocio <span className="text-muted-foreground font-normal">(opcional)</span>
+          </Label>
           <Input
             value={data.slogan ?? ""}
             onChange={e => onChange({ slogan: e.target.value.slice(0, 150) })}
@@ -263,21 +267,30 @@ function Step1({
             maxLength={150}
           />
           <p className="text-[11px] text-muted-foreground/70 leading-tight">
-            La IA usará tu slogan para darle más personalidad al contenido generado. Máximo 150 caracteres.
+            Esto ayuda a que el contenido tenga una voz más coherente con tu marca. Máximo 150 caracteres.
           </p>
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>Industria <span className="text-muted-foreground font-normal">(opcional)</span></Label>
+            <Label>
+              Industria <span className="text-muted-foreground font-normal">(opcional)</span>
+            </Label>
+
             <select
               value={selectValue}
               onChange={e => handleSelectChange(e.target.value)}
               className={SELECT_CLS}
             >
               <option value="">Selecciona una industria...</option>
-              {catalog.map(e => <option key={e.name} value={e.name}>{e.name}</option>)}
+              {catalog.map(e => (
+                <option key={e.name} value={e.name}>
+                  {e.name}
+                </option>
+              ))}
               <option value={OTRA_INDUSTRIA}>Otra industria</option>
             </select>
+
             {isOtra && (
               <Input
                 value={data.industry ?? ""}
@@ -286,6 +299,7 @@ function Step1({
                 autoFocus
               />
             )}
+
             {!isOtra && subcategories.length > 0 && (
               <select
                 value={data.subIndustry ?? ""}
@@ -293,13 +307,19 @@ function Step1({
                 className={SELECT_CLS}
               >
                 <option value="">Tipo específico (opcional)...</option>
-                {subcategories.map(s => <option key={s.slug} value={s.name}>{s.name}</option>)}
+                {subcategories.map(s => (
+                  <option key={s.slug} value={s.name}>
+                    {s.name}
+                  </option>
+                ))}
               </select>
             )}
+
             <p className="text-[11px] text-muted-foreground/70 leading-tight">
-              Ayuda a la IA a generar contenido más preciso y relevante para tu sector.
+              Nos ayuda a adaptar el contenido a tu industria y mejorar los resultados desde el primer día.
             </p>
           </div>
+
           <div className="grid gap-2">
             <Label>País *</Label>
             <select
@@ -308,10 +328,16 @@ function Step1({
               className={SELECT_CLS}
             >
               <option value="">Selecciona un país...</option>
-              {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+              {COUNTRIES.map(c => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
             </select>
           </div>
-                  <div className="grid gap-2">
+        </div>
+
+        <div className="grid gap-2">
           <Label>Ciudad *</Label>
           <Input
             value={data.city ?? ""}
