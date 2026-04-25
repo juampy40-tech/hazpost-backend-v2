@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://hazpost.app/api/:path*"
+      "destination": "https://v2.hazpost.com/api/:path*"
     },
     {
       "source": "/(.*)",
