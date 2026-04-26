@@ -1,16 +1,21 @@
 // src/lib/api.ts
 
-const BASE = import.meta.env.VITE_API_URL || "";
+const API_BASE = import.meta.env.VITE_API_URL || "";
 
-type Options = RequestInit & {
-  json?: any;
-};
-
-export async function apiFetch(path: string, options: Options = {}) {
+/**
+ * Wrapper centralizado para llamadas al backend HazPost
+ * - Incluye cookies (LOGIN / SESSION)
+ * - Maneja JSON automáticamente
+ * - Mantiene estructura limpia
+ */
+export async function apiFetch(
+  path: string,
+  options: RequestInit & { json?: any } = {}
+) {
   const { json, headers, ...rest } = options;
 
-  const res = await fetch(`${BASE}${path}`, {
-    credentials: "include", // 🔥 CRÍTICO (LOGIN)
+  const response = await fetch(`${API_BASE}${path}`, {
+    credentials: "include", // 🔥 CRÍTICO (SIN ESTO NO FUNCIONA LOGIN)
     headers: {
       "Content-Type": "application/json",
       ...(headers || {}),
@@ -19,15 +24,20 @@ export async function apiFetch(path: string, options: Options = {}) {
     ...rest,
   });
 
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || "API error");
+  if (!response.ok) {
+    let errorText = "";
+    try {
+      errorText = await response.text();
+    } catch {}
+
+    throw new Error(errorText || "Error en API");
   }
 
-  const contentType = res.headers.get("content-type");
+  const contentType = response.headers.get("content-type");
+
   if (contentType && contentType.includes("application/json")) {
-    return res.json();
+    return response.json();
   }
 
-  return res.text();
+  return response.text();
 }
