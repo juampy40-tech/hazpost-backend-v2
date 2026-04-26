@@ -32,41 +32,38 @@ export default function Dashboard() {
   const [socialAccountsLoaded, setSocialAccountsLoaded] = useState(false);
 
   useEffect(() => {
-  (async () => {
-    try {
-      const [healthRes, settingsRes] = await Promise.all([
-        fetch(`${BASE}/api/health/status`, { credentials: "include" }),
-        fetch(`${BASE}/api/settings`, { credentials: "include" }),
-      ]);
+    (async () => {
+      try {
+        const [healthRes, settingsRes] = await Promise.all([
+          fetch(`${BASE}/api/health/status`, { credentials: "include" }),
+          fetch(`${BASE}/api/settings`, { credentials: "include" }),
+        ]);
 
-      if (healthRes.ok) {
-        const h = await healthRes.json();
-        setHealthStatus(h);
-      }
+        if (healthRes.ok) {
+          const h = await healthRes.json();
+          setHealthStatus(h);
+        }
 
-      if (settingsRes.ok) {
-        const s = await settingsRes.json() as Record<string, any>;
+        if (settingsRes.ok) {
+          const s = await settingsRes.json() as Record<string, any>;
 
-        setAiSettings({
-          // Compatible con backend nuevo y viejo
-          autoGen:
-            s["aiEnabled"] === true ||
-            s["auto_generation"] === "true" ||
-            s["auto_generation"] === true,
-
-          freq:
-            String(
+          setAiSettings({
+            autoGen:
+              s["aiEnabled"] === true ||
+              s["auto_generation"] === true ||
+              s["auto_generation"] === "true",
+            freq: String(
               s["frequency"] ??
               s["generation_frequency"] ??
               "daily"
             ),
-        });
+          });
+        }
+      } catch (e) {
+        console.error("Error loading dashboard data", e);
       }
-    } catch (e) {
-      console.error("Error loading dashboard data", e);
-    }
-  })();
-}, []);
+    })();
+  }, []);
 
   useEffect(() => {
     const refetch = () => {
@@ -94,7 +91,7 @@ export default function Dashboard() {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ auto_generation: "true", generation_frequency: "daily" }),
+        body: JSON.stringify({ aiEnabled: true, frequency: "daily" }),
       });
       setAiSettings(prev => prev ? { ...prev, autoGen: true } : { autoGen: true, freq: "daily" });
     } catch {}
@@ -177,9 +174,9 @@ export default function Dashboard() {
           <div className="flex items-start gap-3 mb-4">
             <BrainCircuit className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-bold text-amber-300">Tu IA está dormida — no está generando contenido</p>
+              <p className="text-sm font-bold text-amber-300">🚀 Activa tu IA y empieza a generar contenido automáticamente</p>
               <p className="text-xs text-muted-foreground mt-1">
-                Activa la generación automática y la IA creará posts listos para aprobar, sin que tengas que hacer nada.
+                Configura la frecuencia y HazPost creará posts listos para aprobar sin esfuerzo.
                 Esto es <strong className="text-amber-300">la clave de HazPost</strong>: contenido constante en piloto automático.
               </p>
             </div>
@@ -194,7 +191,7 @@ export default function Dashboard() {
               {aiActivating ? (
                 <><span className="w-3 h-3 border-2 border-black/40 border-t-black rounded-full animate-spin mr-2" /> Activando...</>
               ) : (
-                <><Zap className="w-3.5 h-3.5 mr-2" /> Activar IA ahora</>
+                <><Zap className="w-3.5 h-3.5 mr-2" /> Activar piloto automático</>
               )}
             </Button>
             <Link href="/settings" className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors">
