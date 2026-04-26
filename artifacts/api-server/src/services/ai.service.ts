@@ -17,7 +17,7 @@ import { resolveFont } from "./fontLoader.js";
 import { contentHistoryScopeSafe } from "../lib/tenant.js";
 import { subIndustryToSlug, INDUSTRY_CATALOG } from "../lib/industries.js";
 import type { IndustryAiContext } from "../lib/industries.js";
-import { getCustomIndustryAiContext } from "../lib/industryAiContext.js";
+import { getCustomIndustryAiContext, buildEnhancedIndustryContext } from "../lib/industryAiContext.js";
 import { IG_CAPTION_BODY_LIMIT, getBodyLimitForPlatform } from "../lib/socialLimits.js";
 import { buildOccupationMap, dayKeyForTimezone } from "../lib/platformDates.js";
 import { localHourToUTC, hourInTimezone, ADMIN_TZ, startOfDayInTimezone } from "../lib/timezone.js";
@@ -2225,6 +2225,56 @@ async function resolveIndustryAiContext(industryName: string | null | undefined)
 }
 
 /**
+ * Normaliza subcategorías sin romper compatibilidad:
+ * - subIndustries puede venir como JSON array: ["A","B"]
+ * - subIndustries también puede venir como string separado por comas
+ * - subIndustry legacy puede venir como una o varias separadas por comas
+ * Devuelve lista limpia, sin vacíos y sin duplicados.
+ */
+function normalizeSubIndustryList(
+  legacySubIndustry?: string | null,
+  subIndustriesRaw?: string | null,
+): string[] {
+  const collected: string[] = [];
+
+  const addOne = (value: unknown) => {
+    if (typeof value !== "string") return;
+    const clean = value.trim();
+    if (clean) collected.push(clean);
+  };
+
+  const addFromString = (value?: string | null) => {
+    if (!value) return;
+    const clean = value.trim();
+    if (!clean) return;
+
+    try {
+      const parsed = JSON.parse(clean);
+      if (Array.isArray(parsed)) {
+        parsed.forEach(addOne);
+        return;
+      }
+    } catch {
+      // No era JSON: lo tratamos como CSV legacy.
+    }
+
+    clean.split(",").forEach(addOne);
+  };
+
+  // Preferimos la lista nueva, pero también aceptamos legacy por compatibilidad.
+  addFromString(subIndustriesRaw);
+  addFromString(legacySubIndustry);
+
+  const seen = new Set<string>();
+  return collected.filter(item => {
+    const key = item.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+/**
  * Fetches the brand profile for a given userId and returns an additional context
  * block to inject into AI prompts. Returns empty string if no profile exists.
  */
@@ -2249,13 +2299,21 @@ async function getBrandContextBlock(userId?: number, businessId?: number): Promi
       if (biz.name) parts.push(`EMPRESA: ${biz.name}`);
       if (biz.industry) {
         parts.push(`INDUSTRIA: ${biz.industry}`);
-        // Sub-industrias (especialidades) — N2 precision for caption context
-        const parsedSubs = (() => { try { return JSON.parse(biz.subIndustries ?? "[]") as string[]; } catch { return []; } })();
-        const activeSubs = parsedSubs.length ? parsedSubs : (biz.subIndustry ? [biz.subIndustry] : []);
+        // Sub-industrias (especialidades) — N2 precision for caption context.
+        // Lee tanto el campo nuevo subIndustries como el legacy subIndustry.
+        const activeSubs = normalizeSubIndustryList(biz.subIndustry, biz.subIndustries);
+        const enhancedIndustry = buildEnhancedIndustryContext(
+          biz.industry,
+          activeSubs.length ? JSON.stringify(activeSubs) : null,
+        );
+
+        if (enhancedIndustry && enhancedIndustry !== biz.industry) {
+          parts.push(`INDUSTRIA ESPECIALIZADA PARA IA: ${enhancedIndustry}`);
+        }
         if (activeSubs.length === 1) {
           parts.push(`ESPECIALIDAD DEL NEGOCIO: ${activeSubs[0]}`);
         } else if (activeSubs.length > 1) {
-          parts.push(`ESPECIALIDADES DEL NEGOCIO: ${activeSubs.join(", ")} — el negocio opera en todas estas áreas.`);
+          parts.push(`ESPECIALIDADES DEL NEGOCIO: ${activeSubs.join(", ")} — priorizar estas áreas al crear hooks, captions, hashtags e ideas visuales.`);
         }
         // Inyectar contexto IA de la industria para posts más relevantes
         const industryCtx = await resolveIndustryAiContext(biz.industry);
@@ -2301,13 +2359,21 @@ async function getBrandContextBlock(userId?: number, businessId?: number): Promi
       if (profile.companyName) parts.push(`EMPRESA: ${profile.companyName}`);
       if (profile.industry) {
         parts.push(`INDUSTRIA: ${profile.industry}`);
-        // Sub-industrias (especialidades) from brand_profiles
-        const bpParsedSubs = (() => { try { return JSON.parse(profile.subIndustries ?? "[]") as string[]; } catch { return []; } })();
-        const bpActiveSubs = bpParsedSubs.length ? bpParsedSubs : (profile.subIndustry ? [profile.subIndustry] : []);
+        // Sub-industrias (especialidades) from brand_profiles.
+        // Lee tanto el campo nuevo subIndustries como el legacy subIndustry.
+        const bpActiveSubs = normalizeSubIndustryList(profile.subIndustry, profile.subIndustries);
+        const bpEnhancedIndustry = buildEnhancedIndustryContext(
+          profile.industry,
+          bpActiveSubs.length ? JSON.stringify(bpActiveSubs) : null,
+        );
+
+        if (bpEnhancedIndustry && bpEnhancedIndustry !== profile.industry) {
+          parts.push(`INDUSTRIA ESPECIALIZADA PARA IA: ${bpEnhancedIndustry}`);
+        }
         if (bpActiveSubs.length === 1) {
           parts.push(`ESPECIALIDAD DEL NEGOCIO: ${bpActiveSubs[0]}`);
         } else if (bpActiveSubs.length > 1) {
-          parts.push(`ESPECIALIDADES DEL NEGOCIO: ${bpActiveSubs.join(", ")} — el negocio opera en todas estas áreas.`);
+          parts.push(`ESPECIALIDADES DEL NEGOCIO: ${bpActiveSubs.join(", ")} — priorizar estas áreas al crear hooks, captions, hashtags e ideas visuales.`);
         }
         const industryCtx = await resolveIndustryAiContext(profile.industry);
         if (industryCtx) {
@@ -7039,6 +7105,8 @@ export async function suggestNichesForUser(userId: number, businessId?: number):
     .select({
       name:                businessesTable.name,
       industry:            businessesTable.industry,
+      subIndustry:         businessesTable.subIndustry,
+      subIndustries:       businessesTable.subIndustries,
       defaultLocation:     businessesTable.defaultLocation,
       audienceDescription: businessesTable.audienceDescription,
       brandTone:           businessesTable.brandTone,
@@ -7049,13 +7117,22 @@ export async function suggestNichesForUser(userId: number, businessId?: number):
     .limit(1);
 
   // Build profile context lines — only include fields that are actually set
+  const nicheSubIndustries = normalizeSubIndustryList(biz?.subIndustry, biz?.subIndustries);
+  const nicheEnhancedIndustry = buildEnhancedIndustryContext(
+    biz?.industry,
+    nicheSubIndustries.length ? JSON.stringify(nicheSubIndustries) : null,
+  );
+
   const companyCtx  = biz?.name                ? `Empresa: ${biz.name}` : "";
-  const industryCtx = biz?.industry            ? `Industria: ${biz.industry}` : "";
+  const industryCtx = biz?.industry            ? `Industria: ${nicheEnhancedIndustry || biz.industry}` : "";
+  const specialtyCtx = nicheSubIndustries.length
+    ? `Especialidades del negocio: ${nicheSubIndustries.join(", ")}`
+    : "";
   const locationCtx = biz?.defaultLocation     ? `Ubicación: ${biz.defaultLocation}` : "";
   const audienceCtx = biz?.audienceDescription ? `Mercado objetivo: ${biz.audienceDescription}` : "";
   const toneCtx     = biz?.brandTone           ? `Tono de voz: ${biz.brandTone}` : "";
   const descCtx     = biz?.description         ? `Descripción del negocio: ${biz.description}` : "";
-  const brandContext = [companyCtx, industryCtx, locationCtx, audienceCtx, toneCtx, descCtx].filter(Boolean).join("\n");
+  const brandContext = [companyCtx, industryCtx, specialtyCtx, locationCtx, audienceCtx, toneCtx, descCtx].filter(Boolean).join("\n");
 
   // 4. Build the AI prompt — niches are generated 100% from the brand profile,
   //    never from other users' catalogues. Each user's suggestions are private.
