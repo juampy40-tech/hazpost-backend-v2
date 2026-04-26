@@ -31,27 +31,29 @@ export default function Dashboard() {
   const [socialAccounts, setSocialAccounts] = useState<Array<{ id: number; platform: string; username: string | null; businessId: number | null; connected?: string }>>([]);
   const [socialAccountsLoaded, setSocialAccountsLoaded] = useState(false);
 
-  useEffect(() => {
+ import { apiFetch } from "@/lib/api";
+
+useEffect(() => {
   (async () => {
     try {
-      const [healthRes, settingsRes] = await Promise.all([
-        fetch(`${BASE}/api/health/status`, { credentials: "include" }),
-        fetch(`${BASE}/api/settings`, { credentials: "include" }),
+      const [health, settings] = await Promise.all([
+        apiFetch("/api/health/status"),
+        apiFetch("/api/settings"),
       ]);
 
-      if (healthRes.ok) {
-        const h = await healthRes.json();
-        setHealthStatus(h);
-      }
+      setHealthStatus(health);
 
-      if (settingsRes.ok) {
-        const s = await settingsRes.json();
-
-        setAiSettings({
-          autoGen: s["aiEnabled"] === true,
-          freq: String(s["frequency"] ?? "daily"),
-        });
-      }
+      setAiSettings({
+        autoGen:
+          settings["aiEnabled"] === true ||
+          settings["auto_generation"] === true ||
+          settings["auto_generation"] === "true",
+        freq: String(
+          settings["frequency"] ??
+          settings["generation_frequency"] ??
+          "daily"
+        ),
+      });
     } catch (e) {
       console.error("Error loading dashboard data", e);
     }
