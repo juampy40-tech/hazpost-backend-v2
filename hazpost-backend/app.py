@@ -414,32 +414,6 @@ def create_app():
 
 
     # ============================================================
-    # USER ME / BOOTSTRAP / LOGOUT — Compatibilidad frontend
-    # ============================================================
-    @app.route('/api/user/bootstrap', methods=['GET'])
-    def user_bootstrap():
-        return jsonify({"hasUsers": True})
-
-
-    @app.route('/api/user/me', methods=['GET'])
-    def user_me():
-        user = session.get("user")
-        if not user:
-            return jsonify({"error": "Not authenticated"}), 401
-
-        return jsonify({
-            "user": user,
-            "subscription": session.get("subscription"),
-        })
-
-
-    @app.route('/api/user/logout', methods=['POST'])
-    def user_logout():
-        session.clear()
-        return jsonify({"success": True})
-
-
-    # ============================================================
     # INDUSTRIES — Dropdown onboarding
     # ============================================================
     @app.route('/api/industries', methods=['GET'])
