@@ -139,6 +139,25 @@ async function fetchIndustryCatalog(): Promise<IndustryCatalogEntry[]> {
   return industries;
 }
 
+async function sendIndustrySuggestion(name?: string): Promise<void> {
+  const cleanName = name?.trim();
+  if (!cleanName || cleanName.length < 3) return;
+
+  try {
+    await fetch(`${API_BASE}/api/industries/suggestions`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ name: cleanName }),
+    });
+  } catch {
+    // No bloqueamos el onboarding si falla el buzón de sugerencias.
+  }
+}
+
 const COUNTRIES = [
   "Alemania", "Argentina", "Australia", "Bolivia", "Brasil", "Canadá", "Chile",
   "China", "Colombia", "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España",
