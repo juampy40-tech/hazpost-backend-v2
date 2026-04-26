@@ -378,6 +378,32 @@ def create_app():
         except Exception as e:
             logger.exception(f"SUGGESTION ERROR: {e}")
             return jsonify({"error": "Error interno"}), 500
+            
+
+    # ============================================================
+    # BRAND PROFILE — Guardado progreso onboarding
+    # ============================================================
+    @app.route('/api/brand-profile', methods=['GET', 'PUT', 'POST'])
+    def brand_profile():
+        try:
+            if request.method == 'GET':
+                return jsonify({"brandProfile": {}})
+
+            data = request.get_json(silent=True) or {}
+
+            profile = {
+                "id": 1,
+                **data,
+            }
+
+            return jsonify({
+                "success": True,
+                "brandProfile": profile,
+            })
+
+        except Exception as e:
+            logger.exception(f"BRAND PROFILE ERROR: {e}")
+            return jsonify({"error": "Error interno"}), 500
 
     
     # ============================================================
