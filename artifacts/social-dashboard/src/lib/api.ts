@@ -1,13 +1,7 @@
 // src/lib/api.ts
 
-const API_BASE = import.meta.env.VITE_API_URL || "";
+const API_BASE = "";
 
-/**
- * Wrapper centralizado para llamadas al backend HazPost
- * - Incluye cookies (LOGIN / SESSION)
- * - Maneja JSON automáticamente
- * - Mantiene estructura limpia
- */
 export async function apiFetch(
   path: string,
   options: RequestInit & { json?: any } = {}
@@ -15,7 +9,7 @@ export async function apiFetch(
   const { json, headers, ...rest } = options;
 
   const response = await fetch(`${API_BASE}${path}`, {
-    credentials: "include", // 🔥 CRÍTICO (SIN ESTO NO FUNCIONA LOGIN)
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...(headers || {}),
