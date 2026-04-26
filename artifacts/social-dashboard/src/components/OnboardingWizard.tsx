@@ -1656,9 +1656,9 @@ async function doNext() {
   credentials: "include",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    auto_generation: isManual ? "false" : "true",
-    generation_frequency: genFreq,
-  }),
+  aiEnabled: !isManual,
+  frequency: genFreq,
+}),
 });
     } catch { /* non-blocking */ }
 
