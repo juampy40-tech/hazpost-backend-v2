@@ -1536,11 +1536,18 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
     }
   }, [data, toast]);
 
- async function doNext() {
+async function doNext() {
   const nextStep = step + 1;
 
-  if (step === 0 && selectValue === "__otra__" && data.industry?.trim()) {
-    await sendIndustrySuggestion(data.industry);
+  if (step === 0 && data.industry?.trim()) {
+    const catalog = readCachedIndustryCatalog() ?? [];
+    const isKnownIndustry = catalog.some(
+      item => item.name === data.industry?.trim()
+    );
+
+    if (!isKnownIndustry) {
+      await sendIndustrySuggestion(data.industry);
+    }
   }
 
   const ok = await saveProgress(nextStep);
