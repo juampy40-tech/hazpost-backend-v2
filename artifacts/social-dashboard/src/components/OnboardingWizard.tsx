@@ -418,20 +418,72 @@ function Step1({
               />
             )}
 
-            {!isOtra && subcategories.length > 0 && (
-              <select
-                value={data.subIndustry ?? ""}
-                onChange={e => onChange({ subIndustry: e.target.value })}
-                className={SELECT_CLS}
-              >
-                <option value="">Tipo específico (opcional)...</option>
-                {subcategories.map(s => (
-                  <option key={s.slug} value={s.name}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
-            )}
+     {!isOtra && subcategories.length > 0 && (
+  <div className="grid gap-2">
+    <div className="flex items-center justify-between gap-2">
+      <Label className="text-xs text-muted-foreground">
+        Tipos específicos <span className="font-normal">(puedes elegir varios)</span>
+      </Label>
+
+      <button
+        type="button"
+        className="text-[11px] text-primary hover:underline"
+        onClick={() =>
+          onChange({
+            subIndustry:
+              (data.subIndustry ?? "").split(",").filter(Boolean).length === subcategories.length
+                ? ""
+                : subcategories.map(s => s.name).join(","),
+          })
+        }
+      >
+        {(data.subIndustry ?? "").split(",").filter(Boolean).length === subcategories.length
+          ? "Quitar todas"
+          : "Seleccionar todas"}
+      </button>
+    </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 rounded-xl border border-border p-2 bg-background/60">
+      {subcategories.map(s => {
+        const selected = (data.subIndustry ?? "")
+          .split(",")
+          .map(x => x.trim())
+          .filter(Boolean)
+          .includes(s.name);
+
+        return (
+          <label
+            key={s.slug}
+            className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm cursor-pointer transition-colors ${
+              selected
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-border hover:border-primary/40"
+            }`}
+          >
+            <input
+              type="checkbox"
+              checked={selected}
+              onChange={e => {
+                const current = (data.subIndustry ?? "")
+                  .split(",")
+                  .map(x => x.trim())
+                  .filter(Boolean);
+
+                const next = e.target.checked
+                  ? Array.from(new Set([...current, s.name]))
+                  : current.filter(x => x !== s.name);
+
+                onChange({ subIndustry: next.join(",") });
+              }}
+              className="h-4 w-4"
+            />
+            <span>{s.name}</span>
+          </label>
+        );
+      })}
+    </div>
+  </div>
+)}
 
             <p className="text-[11px] text-muted-foreground/70 leading-tight">
               Nos ayuda a adaptar el contenido a tu industria y mejorar los resultados desde el primer día.
