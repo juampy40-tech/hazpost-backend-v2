@@ -15,6 +15,7 @@ import { conversations, messages, appSettingsTable, brandProfilesTable } from "@
 import { eq, desc, asc } from "drizzle-orm";
 import { openai } from "@workspace/integrations-openai-ai-server";
 import { notifyChatLeadHot } from "./telegram.service.js";
+import { buildEnhancedIndustryContext } from "../lib/industryAiContext.js";
 
 // ─── Lead Detection ───────────────────────────────────────────────────────────
 
@@ -80,9 +81,11 @@ async function buildSystemPrompt(): Promise<string> {
       .select({
         companyName: brandProfilesTable.companyName,
         industry: brandProfilesTable.industry,
+        subIndustry: brandProfilesTable.subIndustry,
+        subIndustries: brandProfilesTable.subIndustries,
         audienceDescription: brandProfilesTable.audienceDescription,
         defaultLocation: brandProfilesTable.defaultLocation,
-        toneOfVoice: brandProfilesTable.toneOfVoice,
+        brandTone: brandProfilesTable.brandTone,
       })
       .from(brandProfilesTable)
       .limit(1);
@@ -95,29 +98,37 @@ async function buildSystemPrompt(): Promise<string> {
 
     const knowledge = knowledgeRow?.value?.trim();
     const extraKnowledge = knowledge && knowledge.length > 5
-      ? `\n\n═══ INFORMACIÓN ADICIONAL DE LA EMPRESA ═══\n${knowledge}`
+      ? `
+
+═══ INFORMACIÓN ADICIONAL DE LA EMPRESA ═══
+${knowledge}`
       : "";
 
     const companyName = profile?.companyName || "nuestra empresa";
     const industry    = profile?.industry    || "";
+    const subIndustrySource = profile?.subIndustries || profile?.subIndustry || "";
+    const industryContext = buildEnhancedIndustryContext(industry, subIndustrySource) || industry;
     const audience    = profile?.audienceDescription || "";
     const location    = profile?.defaultLocation || "";
-    const tone        = profile?.toneOfVoice   || "profesional y amigable";
+    const tone        = profile?.brandTone   || "profesional y amigable";
 
     const brandLines = [
-      industry  ? `Industria: ${industry}` : "",
-      audience  ? `Público objetivo: ${audience}` : "",
-      location  ? `Ubicación: ${location}` : "",
-      tone      ? `Tono de comunicación: ${tone}` : "",
-    ].filter(Boolean).join("\n");
+      industryContext ? `Industria y especialidad: ${industryContext}` : "",
+      audience        ? `Público objetivo: ${audience}` : "",
+      location        ? `Ubicación: ${location}` : "",
+      tone            ? `Tono de comunicación: ${tone}` : "",
+    ].filter(Boolean).join("
+");
 
     return `Eres el asistente virtual de ${companyName}. Tu misión es responder preguntas de visitantes con claridad, honestidad y en el tono de la marca — y convertirlos en clientes potenciales calificados.
 
-${brandLines ? `CONTEXTO DE LA MARCA:\n${brandLines}` : ""}${extraKnowledge}
+${brandLines ? `CONTEXTO DE LA MARCA:
+${brandLines}` : ""}${extraKnowledge}
 
 INSTRUCCIONES:
 • Sé cálido, directo y útil — nunca genérico ni robótico
 • Respuestas breves (máximo 3-4 párrafos)
+• Usa la industria y las especialidades del negocio para responder con ejemplos más concretos
 • Si preguntan algo que no sabes, sé honesto y sugiere contactar a la empresa directamente
 • Si muestran interés real en comprar o contratar, anima a dar el siguiente paso (contacto, visita, demo)
 • Responde siempre en el idioma en que te hablen`;
@@ -164,7 +175,9 @@ export async function processChat(
       ...history.map(h => `${h.role === "user" ? "👤 Visitante" : "🤖 Chatbot IA"}: ${h.content}`),
       `👤 Visitante: ${userMessage}`,
       `🤖 Chatbot IA: ${reply}`,
-    ].join("\n\n");
+    ].join("
+
+");
 
     await notifyChatLeadHot(conversationId, visitorName ?? "Visitante anónimo", conversationText).catch(() => {});
   }
