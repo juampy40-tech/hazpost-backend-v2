@@ -50,24 +50,6 @@ router.put("/", requireAuth, async (req, res) => {
   ]);
 
   const updates: Record<string, unknown> = { updatedAt: new Date() };
-
-  const normalizeSubIndustries = (value: unknown): string[] => {
-    const rawList = Array.isArray(value)
-      ? value
-      : typeof value === "string"
-        ? value.split(",")
-        : [];
-
-    return Array.from(
-      new Set(
-        rawList
-          .filter((item): item is string => typeof item === "string")
-          .map(item => item.trim())
-          .filter(item => item.length > 0)
-      )
-    ).slice(0, 50);
-  };
-
   for (const [key, value] of Object.entries(body)) {
     if (!allowedFields.has(key)) continue;
     // Basic type/range validation per field
@@ -80,14 +62,70 @@ router.put("/", requireAuth, async (req, res) => {
       if (value === true || value === "true") updates[key] = true;
       else if (value === false || value === "false") updates[key] = false;
       // Ignore invalid values
-    } else if (key === "subIndustry" || key === "subIndustries") {
+    } else if (key === "subIndustry") {
       // Compatibilidad PRO:
-      // - Frontend actual puede enviar subIndustry como texto separado por comas.
-      // - Futuro frontend puede enviar subIndustries como array.
-      // Guardamos ambos formatos para no romper código viejo ni contexto nuevo de IA.
-      const arr = normalizeSubIndustries(value);
-      updates.subIndustries = JSON.stringify(arr);
-      updates.subIndustry = arr.length > 0 ? arr.join(", ") : null;
+      // El frontend puede enviar varias subcategorías como string separado por comas:
+      // "Hamburguesas, Comida rápida, Postres"
+      // Guardamos:
+      // - subIndustry: string completo para compatibilidad legacy.
+      // - subIndustries: JSON array para que la IA pueda usar varias categorías.
+      if (typeof value === "string") {
+        const arr = Array.from(
+          new Set(
+            value
+              .split(",")
+              .map(s => s.trim())
+              .filter(Boolean)
+          )
+        );
+
+        updates.subIndustry = arr.join(", ");
+        updates.subIndustries = JSON.stringify(arr);
+      } else if (value === null) {
+        updates.subIndustry = null;
+        updates.subIndustries = JSON.stringify([]);
+      }
+    } else if (key === "subIndustries") {
+      // También aceptamos el formato nuevo como array.
+      if (Array.isArray(value)) {
+        const arr = Array.from(
+          new Set(
+            value
+              .filter((s): s is string => typeof s === "string")
+              .map(s => s.trim())
+              .filter(Boolean)
+          )
+        );
+
+        updates.subIndustries = JSON.stringify(arr);
+        updates.subIndustry = arr.join(", ");
+      } else if (typeof value === "string") {
+        // Por seguridad, si algún cliente lo manda como string JSON o string con comas.
+        let arr: string[] = [];
+
+        try {
+          const parsed = JSON.parse(value);
+          if (Array.isArray(parsed)) {
+            arr = parsed
+              .filter((s): s is string => typeof s === "string")
+              .map(s => s.trim())
+              .filter(Boolean);
+          }
+        } catch {
+          arr = value
+            .split(",")
+            .map(s => s.trim())
+            .filter(Boolean);
+        }
+
+        arr = Array.from(new Set(arr));
+
+        updates.subIndustries = JSON.stringify(arr);
+        updates.subIndustry = arr.join(", ");
+      } else if (value === null) {
+        updates.subIndustries = JSON.stringify([]);
+        updates.subIndustry = null;
+      }
     } else if (key === "slogan" && typeof value === "string") {
       updates[key] = value.slice(0, 150);
     } else if (typeof value === "string" && value.length > 5000) {
@@ -153,11 +191,8 @@ router.put("/", requireAuth, async (req, res) => {
       .catch(() => {});
   }
 
-  // Invalidar caché de ai_context si cambió industria o subcategorías (sincronización: perfil → IA)
+  // Invalidar caché de ai_context si la industria cambió (sincronización: perfil → IA)
   if ("industry" in updates && typeof updates.industry === "string") {
-    invalidateIndustryContextCache(updates.industry);
-  }
-  if ("subIndustry" in updates && typeof updates.industry === "string") {
     invalidateIndustryContextCache(updates.industry);
   }
 
