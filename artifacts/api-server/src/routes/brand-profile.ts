@@ -18,37 +18,6 @@ interface ReferenceImageEntry {
   addedAt: string;  // ISO date
 }
 
-function normalizeSubIndustries(value: unknown): string[] {
-  const rawItems = Array.isArray(value)
-    ? value
-    : typeof value === "string"
-      ? value.split(",")
-      : [];
-
-  const cleaned: string[] = [];
-  const seen = new Set<string>();
-
-  for (const item of rawItems) {
-    if (typeof item !== "string") continue;
-    const name = item.trim().replace(/\s+/g, " ").slice(0, 120);
-    if (!name) continue;
-
-    const key = name.toLowerCase();
-    if (seen.has(key)) continue;
-
-    seen.add(key);
-    cleaned.push(name);
-  }
-
-  return cleaned.slice(0, 20);
-}
-
-function applySubIndustryUpdates(updates: Record<string, unknown>, value: unknown) {
-  const arr = normalizeSubIndustries(value);
-  updates.subIndustry = arr.length > 0 ? arr.join(", ") : null;
-  updates.subIndustries = JSON.stringify(arr);
-}
-
 const router = Router();
 const objectStorage = new ObjectStorageService();
 
@@ -81,6 +50,24 @@ router.put("/", requireAuth, async (req, res) => {
   ]);
 
   const updates: Record<string, unknown> = { updatedAt: new Date() };
+
+  const normalizeSubIndustries = (value: unknown): string[] => {
+    const rawList = Array.isArray(value)
+      ? value
+      : typeof value === "string"
+        ? value.split(",")
+        : [];
+
+    return Array.from(
+      new Set(
+        rawList
+          .filter((item): item is string => typeof item === "string")
+          .map(item => item.trim())
+          .filter(item => item.length > 0)
+      )
+    ).slice(0, 50);
+  };
+
   for (const [key, value] of Object.entries(body)) {
     if (!allowedFields.has(key)) continue;
     // Basic type/range validation per field
@@ -94,10 +81,13 @@ router.put("/", requireAuth, async (req, res) => {
       else if (value === false || value === "false") updates[key] = false;
       // Ignore invalid values
     } else if (key === "subIndustry" || key === "subIndustries") {
-      // Centralized multi-subcategory support.
-      // Accepts legacy comma-separated subIndustry OR modern subIndustries array,
-      // stores both formats so old and new parts of HazPost keep working.
-      applySubIndustryUpdates(updates, value);
+      // Compatibilidad PRO:
+      // - Frontend actual puede enviar subIndustry como texto separado por comas.
+      // - Futuro frontend puede enviar subIndustries como array.
+      // Guardamos ambos formatos para no romper código viejo ni contexto nuevo de IA.
+      const arr = normalizeSubIndustries(value);
+      updates.subIndustries = JSON.stringify(arr);
+      updates.subIndustry = arr.length > 0 ? arr.join(", ") : null;
     } else if (key === "slogan" && typeof value === "string") {
       updates[key] = value.slice(0, 150);
     } else if (typeof value === "string" && value.length > 5000) {
@@ -163,7 +153,7 @@ router.put("/", requireAuth, async (req, res) => {
       .catch(() => {});
   }
 
-  // Invalidar caché de ai_context si la industria o subcategorías cambiaron (sincronización: perfil → IA)
+  // Invalidar caché de ai_context si cambió industria o subcategorías (sincronización: perfil → IA)
   if ("industry" in updates && typeof updates.industry === "string") {
     invalidateIndustryContextCache(updates.industry);
   }
