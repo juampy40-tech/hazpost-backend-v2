@@ -354,7 +354,32 @@ def create_app():
             logger.exception(f"INDUSTRIES ERROR: {e}")
             return jsonify({"error": "Error interno"}), 500
 
+    # ============================================================
+    # INDUSTRY SUGGESTIONS — Guardar nuevas industrias
+    # ============================================================
+    @app.route('/api/industries/suggestions', methods=['POST'])
+    def save_industry_suggestion_api():
+        try:
+            data = request.get_json(silent=True) or {}
+            name = data.get("name")
 
+            if not name or not name.strip():
+                return jsonify({"error": "Nombre requerido"}), 400
+
+            from src.catalogs.industry_suggestions import save_industry_suggestion
+
+            result = save_industry_suggestion(name)
+
+            return jsonify({
+                "success": True,
+                "result": result
+            })
+
+        except Exception as e:
+            logger.exception(f"SUGGESTION ERROR: {e}")
+            return jsonify({"error": "Error interno"}), 500
+
+    
     # ============================================================
     # BUSINESSES — Guardado inicial del negocio
     # ============================================================
