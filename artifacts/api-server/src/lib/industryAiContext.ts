@@ -74,3 +74,36 @@ export async function getCustomIndustryAiContext(
     return null;
   }
 }
+
+export function buildEnhancedIndustryContext(
+  industry: string | null | undefined,
+  subIndustriesRaw?: string | null
+): string | null {
+  if (!industry) return null;
+
+  let subIndustries: string[] = [];
+
+  if (subIndustriesRaw) {
+    try {
+      // Puede venir como JSON
+      const parsed = JSON.parse(subIndustriesRaw);
+      if (Array.isArray(parsed)) {
+        subIndustries = parsed;
+      }
+    } catch {
+      // Puede venir como string separado por comas
+      subIndustries = subIndustriesRaw
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean);
+    }
+  }
+
+  if (subIndustries.length === 0) {
+    return industry;
+  }
+
+  const subText = subIndustries.join(", ");
+
+  return `${industry} especializado en ${subText}`;
+}
