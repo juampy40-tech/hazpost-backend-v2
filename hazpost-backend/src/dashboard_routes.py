@@ -3,98 +3,90 @@ from flask import Blueprint, jsonify, request, session
 dashboard_bp = Blueprint('dashboard', __name__)
 
 
-def _default_social_accounts():
-    return {
-        "instagram": None,
-        "facebook": None,
-        "tiktok": None,
-        "linkedin": None,
-        "youtube": None,
-    }
+def _as_list(value):
+    return value if isinstance(value, list) else []
 
 
 @dashboard_bp.route('/health/status', methods=['GET'])
 def health_status():
     return jsonify({
         "status": "ok",
-        "message": "Dashboard backend funcionando"
+        "message": "Dashboard backend funcionando",
+        "checks": {
+            "backend": True,
+            "database": True,
+            "instagram": False,
+            "facebook": False,
+            "tiktok": False,
+            "linkedin": False,
+            "youtube": False
+        }
     })
 
 
-@dashboard_bp.route('/settings', methods=['GET', 'PUT', 'PATCH', 'POST'])
+@dashboard_bp.route('/settings', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def settings():
     if request.method == 'GET':
-        return jsonify({
-            "settings": session.get("settings", {})
-        })
+        return jsonify(session.get("settings", {}))
+
+    if request.method == 'DELETE':
+        session["settings"] = {}
+        session.permanent = True
+        return jsonify({"success": True})
 
     data = request.get_json(silent=True) or {}
     current = session.get("settings", {})
-    current.update(data)
+    if not isinstance(current, dict):
+        current = {}
 
+    current.update(data)
     session["settings"] = current
     session.permanent = True
 
-    return jsonify({
-        "success": True,
-        "settings": current
-    })
+    return jsonify(current)
 
 
-@dashboard_bp.route('/social-accounts', methods=['GET', 'POST', 'PUT', 'PATCH'])
+@dashboard_bp.route('/social-accounts', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def social_accounts():
-    if request.method == 'GET':
-        accounts = session.get("social_accounts", [])
-        social_accounts_obj = session.get("social_accounts_obj", _default_social_accounts())
+    accounts = _as_list(session.get("social_accounts", []))
 
-        return jsonify({
-            "accounts": accounts,
-            "socialAccounts": social_accounts_obj,
-            "instagram": social_accounts_obj.get("instagram"),
-            "facebook": social_accounts_obj.get("facebook"),
-            "tiktok": social_accounts_obj.get("tiktok"),
-            "linkedin": social_accounts_obj.get("linkedin"),
-            "youtube": social_accounts_obj.get("youtube"),
-        })
+    if request.method == 'GET':
+        return jsonify(accounts)
+
+    if request.method == 'DELETE':
+        session["social_accounts"] = []
+        session.permanent = True
+        return jsonify([])
 
     data = request.get_json(silent=True) or {}
-    accounts = session.get("social_accounts", [])
-    social_accounts_obj = session.get("social_accounts_obj", _default_social_accounts())
-
-    platform = data.get("platform") or data.get("provider") or data.get("network")
 
     account = {
         "id": len(accounts) + 1,
+        "platform": data.get("platform") or data.get("provider") or data.get("network"),
         "connected": data.get("connected", True),
         **data
     }
 
     accounts.append(account)
-
-    if platform:
-        social_accounts_obj[platform] = account
-
     session["social_accounts"] = accounts
-    session["social_accounts_obj"] = social_accounts_obj
     session.permanent = True
 
-    return jsonify({
-        "success": True,
-        "account": account,
-        "accounts": accounts,
-        "socialAccounts": social_accounts_obj
-    }), 201
+    return jsonify(accounts), 201
 
 
-@dashboard_bp.route('/posts', methods=['GET', 'POST', 'PUT', 'PATCH'])
+@dashboard_bp.route('/posts', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def posts():
+    posts_list = _as_list(session.get("posts", []))
+
     if request.method == 'GET':
-        return jsonify({
-            "posts": session.get("posts", [])
-        })
+        return jsonify(posts_list)
+
+    if request.method == 'DELETE':
+        session["posts"] = []
+        session.permanent = True
+        return jsonify([])
 
     data = request.get_json(silent=True) or {}
-    posts_list = session.get("posts", [])
 
     post = {
         "id": len(posts_list) + 1,
@@ -106,22 +98,22 @@ def posts():
     session["posts"] = posts_list
     session.permanent = True
 
-    return jsonify({
-        "success": True,
-        "post": post,
-        "posts": posts_list
-    }), 201
+    return jsonify(posts_list), 201
 
 
-@dashboard_bp.route('/approvals', methods=['GET', 'POST', 'PUT', 'PATCH'])
+@dashboard_bp.route('/approvals', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def approvals():
+    approvals_list = _as_list(session.get("approvals", []))
+
     if request.method == 'GET':
-        return jsonify({
-            "approvals": session.get("approvals", [])
-        })
+        return jsonify(approvals_list)
+
+    if request.method == 'DELETE':
+        session["approvals"] = []
+        session.permanent = True
+        return jsonify([])
 
     data = request.get_json(silent=True) or {}
-    approvals_list = session.get("approvals", [])
 
     approval = {
         "id": len(approvals_list) + 1,
@@ -133,22 +125,22 @@ def approvals():
     session["approvals"] = approvals_list
     session.permanent = True
 
-    return jsonify({
-        "success": True,
-        "approval": approval,
-        "approvals": approvals_list
-    }), 201
+    return jsonify(approvals_list), 201
 
 
-@dashboard_bp.route('/schedule', methods=['GET', 'POST', 'PUT', 'PATCH'])
+@dashboard_bp.route('/schedule', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def schedule():
+    schedule_list = _as_list(session.get("schedule", []))
+
     if request.method == 'GET':
-        return jsonify({
-            "schedule": session.get("schedule", [])
-        })
+        return jsonify(schedule_list)
+
+    if request.method == 'DELETE':
+        session["schedule"] = []
+        session.permanent = True
+        return jsonify([])
 
     data = request.get_json(silent=True) or {}
-    schedule_list = session.get("schedule", [])
 
     item = {
         "id": len(schedule_list) + 1,
@@ -159,23 +151,22 @@ def schedule():
     session["schedule"] = schedule_list
     session.permanent = True
 
-    return jsonify({
-        "success": True,
-        "item": item,
-        "schedule": schedule_list
-    }), 201
+    return jsonify(schedule_list), 201
 
 
-@dashboard_bp.route('/unread', methods=['GET', 'POST', 'PUT', 'PATCH'])
+@dashboard_bp.route('/unread', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def unread():
+    unread_list = _as_list(session.get("unread", []))
+
     if request.method == 'GET':
-        return jsonify({
-            "unread": session.get("unread", []),
-            "count": len(session.get("unread", []))
-        })
+        return jsonify(unread_list)
+
+    if request.method == 'DELETE':
+        session["unread"] = []
+        session.permanent = True
+        return jsonify([])
 
     data = request.get_json(silent=True) or {}
-    unread_list = session.get("unread", [])
 
     item = {
         "id": len(unread_list) + 1,
@@ -187,24 +178,22 @@ def unread():
     session["unread"] = unread_list
     session.permanent = True
 
-    return jsonify({
-        "success": True,
-        "item": item,
-        "unread": unread_list,
-        "count": len(unread_list)
-    }), 201
+    return jsonify(unread_list), 201
 
 
-@dashboard_bp.route('/alerts', methods=['GET', 'POST', 'PUT', 'PATCH'])
+@dashboard_bp.route('/alerts', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def alerts():
+    alerts_list = _as_list(session.get("alerts", []))
+
     if request.method == 'GET':
-        return jsonify({
-            "alerts": session.get("alerts", []),
-            "count": len(session.get("alerts", []))
-        })
+        return jsonify(alerts_list)
+
+    if request.method == 'DELETE':
+        session["alerts"] = []
+        session.permanent = True
+        return jsonify([])
 
     data = request.get_json(silent=True) or {}
-    alerts_list = session.get("alerts", [])
 
     alert = {
         "id": len(alerts_list) + 1,
@@ -216,9 +205,4 @@ def alerts():
     session["alerts"] = alerts_list
     session.permanent = True
 
-    return jsonify({
-        "success": True,
-        "alert": alert,
-        "alerts": alerts_list,
-        "count": len(alerts_list)
-    }), 201
+    return jsonify(alerts_list), 201
