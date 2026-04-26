@@ -139,20 +139,34 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* ── Indicador: IA activa ── */}
-      {aiSettings?.autoGen && (
-        <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-primary/30 bg-primary/5 w-fit">
-          <div className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_6px_rgba(0,201,83,0.8)]" />
-          <span className="text-xs font-semibold text-primary">IA activa</span>
-          <span className="text-xs text-muted-foreground">—</span>
-          <span className="text-xs text-muted-foreground">
-            {aiSettings.freq === "daily" ? "Generando contenido diariamente" :
-             aiSettings.freq === "3x_week" ? "Generando 3× por semana" :
-             "Generando semanalmente"}
-          </span>
-          <Link href="/settings" className="text-xs text-primary/60 hover:text-primary underline underline-offset-2 transition-colors ml-1">Cambiar</Link>
-        </div>
-      )}
+     {/* — Estado IA — */}
+{aiSettings?.autoGen ? (
+  <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-primary/30 bg-primary/5 w-fit">
+    <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(20,201,183,0.8)]" />
+    <span className="text-xs font-semibold text-primary">IA activa</span>
+    <span className="text-xs text-muted-foreground">
+      — Generando contenido{" "}
+      {aiSettings.freq === "daily"
+        ? "diariamente"
+        : aiSettings.freq === "3x_week"
+        ? "3x por semana"
+        : "semanalmente"}
+    </span>
+    <Link href="/settings" className="text-xs text-primary/60 hover:text-primary underline ml-1">
+      Cambiar
+    </Link>
+  </div>
+) : (
+  <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-amber-400/40 bg-amber-500/10 w-fit">
+    <div className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.8)]" />
+    <span className="text-xs font-semibold text-amber-300">
+      Tu IA está dormida
+    </span>
+    <span className="text-xs text-muted-foreground">
+      — Actívala para generar contenido automáticamente
+    </span>
+  </div>
+)}
 
       {/* ── Banner: IA dormida ── */}
       {aiSettings && !aiSettings.autoGen && !aiBannerDismissed && (
