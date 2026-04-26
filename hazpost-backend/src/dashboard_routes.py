@@ -27,7 +27,15 @@ def health_status():
 @dashboard_bp.route('/settings', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def settings():
     if request.method == 'GET':
-        return jsonify(session.get("settings", {}))
+        current = session.get("settings", {})
+        if not isinstance(current, dict):
+            current = {}
+
+        # defaults PRO
+        current.setdefault("aiEnabled", False)
+        current.setdefault("frequency", None)
+
+        return jsonify(current)
 
     if request.method == 'DELETE':
         session["settings"] = {}
@@ -36,10 +44,12 @@ def settings():
 
     data = request.get_json(silent=True) or {}
     current = session.get("settings", {})
+
     if not isinstance(current, dict):
         current = {}
 
     current.update(data)
+
     session["settings"] = current
     session.permanent = True
 
