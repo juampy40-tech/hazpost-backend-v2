@@ -139,6 +139,11 @@ def create_app():
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = os.getenv('SESSION_COOKIE_SAMESITE', 'None')
     app.config['SESSION_COOKIE_SECURE'] = os.getenv('SESSION_COOKIE_SECURE', 'true').lower() == 'true'
+
+    # 🔥 FIX LOGIN / SESIONES (CRÍTICO)
+    app.config['SESSION_PERMANENT'] = True
+    app.config['PERMANENT_SESSION_LIFETIME'] = 60 * 60 * 24 * 7  # 7 días
+
     app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
     app.config['TARGET_SITE'] = os.getenv('TARGET_SITE', 'https://hazpost.app')
     app.config['TELEGRAM_BOT_TOKEN'] = os.getenv('TELEGRAM_BOT_TOKEN', '')
