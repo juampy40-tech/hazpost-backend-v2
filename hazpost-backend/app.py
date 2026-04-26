@@ -23,6 +23,7 @@ from src.duplicados import duplicados_bp
 from src.aislamiento import aislamiento_bp
 from src.aprendizaje_colectivo import aprendizaje_bp
 from src.catalogs.industries import get_industries_response
+from src.dashboard_routes import dashboard_bp
 
 _SCHEDULER_LOCK_FILE = None
 
