@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { apiFetch } from "@/lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useBusinessPosts } from "@/hooks/useBusinessPosts";
@@ -30,8 +31,6 @@ export default function Dashboard() {
   );
   const [socialAccounts, setSocialAccounts] = useState<Array<{ id: number; platform: string; username: string | null; businessId: number | null; connected?: string }>>([]);
   const [socialAccountsLoaded, setSocialAccountsLoaded] = useState(false);
-
- import { apiFetch } from "@/lib/api";
 
 useEffect(() => {
   (async () => {
