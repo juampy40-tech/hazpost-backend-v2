@@ -1,7 +1,15 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { queryClient } from "@/lib/queryClient";
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "https://v2.hazpost.com").replace(/\/$/, "");
+/**
+ * API base seguro:
+ * - En Vercel puedes poner VITE_API_URL con o sin /api.
+ * - Este código normaliza y evita errores tipo /api/api o /login suelto.
+ */
+const RAW_API_BASE_URL = (import.meta.env.VITE_API_URL || "https://v2.hazpost.com").replace(/\/$/, "");
+const API_ROOT = RAW_API_BASE_URL.endsWith("/api")
+  ? RAW_API_BASE_URL
+  : `${RAW_API_BASE_URL}/api`;
 
 export interface AuthUser {
   id: number;
@@ -42,12 +50,31 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 async function apiFetch(path: string, init?: RequestInit) {
+  const safePath = path.startsWith("/") ? path : `/${path}`;
+
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
+    ...(init?.headers as Record<string, string> | undefined),
   };
-  const res = await fetch(`${API_BASE_URL}/api${path}`, { credentials: "include", headers, ...init });
-  const data = await res.json();
-  if (!res.ok) throw Object.assign(new Error(data.error || `Error ${res.status}`), { code: data.code as string | undefined });
+
+  const res = await fetch(`${API_ROOT}${safePath}`, {
+    credentials: "include",
+    ...init,
+    headers,
+  });
+
+  const contentType = res.headers.get("content-type") || "";
+  const data = contentType.includes("application/json")
+    ? await res.json()
+    : { error: await res.text() };
+
+  if (!res.ok) {
+    throw Object.assign(
+      new Error(data.error || `Error ${res.status}`),
+      { code: data.code as string | undefined }
+    );
+  }
+
   return data;
 }
 
