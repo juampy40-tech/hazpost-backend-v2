@@ -344,20 +344,15 @@ def create_app():
     # ============================================================
     # INDUSTRIES — Dropdown onboarding
     # ============================================================
-    @app.route('/api/industries', methods=['GET'])
-    def get_industries():
-        return jsonify([
-            {"id": 1, "name": "Restaurantes"},
-            {"id": 2, "name": "Energía Solar"},
-            {"id": 3, "name": "Seguros"},
-            {"id": 4, "name": "E-commerce"},
-            {"id": 5, "name": "Marketing"},
-            {"id": 6, "name": "Belleza y estética"},
-            {"id": 7, "name": "Salud"},
-            {"id": 8, "name": "Educación"},
-            {"id": 9, "name": "Inmobiliaria"},
-            {"id": 10, "name": "Otro"},
-        ])
+   @app.route('/api/industries', methods=['GET'])
+def get_industries():
+    try:
+        response = jsonify(get_industries_response())
+        response.headers["Cache-Control"] = "public, max-age=3600"
+        return response
+    except Exception as e:
+        logger.exception(f"INDUSTRIES ERROR: {e}")
+        return jsonify({"error": "Error interno"}), 500
 
 
     # ============================================================
