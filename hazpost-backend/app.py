@@ -1,7 +1,7 @@
 import os
 import fcntl
 import logging
-from flask import Flask, render_template, request, make_response, jsonify
+from flask import Flask, render_template, request, make_response, jsonify, session
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -135,6 +135,9 @@ def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
+    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['SESSION_COOKIE_SAMESITE'] = os.getenv('SESSION_COOKIE_SAMESITE', 'None')
+    app.config['SESSION_COOKIE_SECURE'] = os.getenv('SESSION_COOKIE_SECURE', 'true').lower() == 'true'
     app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
     app.config['TARGET_SITE'] = os.getenv('TARGET_SITE', 'https://hazpost.app')
     app.config['TELEGRAM_BOT_TOKEN'] = os.getenv('TELEGRAM_BOT_TOKEN', '')
@@ -260,6 +263,61 @@ def create_app():
 
 
     # ============================================================
+    # LOGIN USER — Compatibilidad frontend HazPost
+    # ============================================================
+    @app.route('/api/user/login', methods=['POST'])
+    def login_user():
+        try:
+            data = request.get_json(silent=True) or {}
+
+            email = (data.get("email") or "").strip().lower()
+            password = data.get("password") or ""
+
+            if not email or not password:
+                return jsonify({"error": "Email y contraseña requeridos"}), 400
+
+            # Puente temporal compatible con el frontend actual.
+            # Mantiene la sesión viva con cookie segura mientras conectamos
+            # el módulo real de usuarios/base de datos. No elimina lógica existente.
+            user = {
+                "id": 1,
+                "email": email,
+                "displayName": email.split("@")[0],
+                "role": "user",
+                "plan": "free",
+                "aiCredits": 40,
+                "onboardingStep": 1,
+                "emailVerified": True,
+                "avatarUrl": None,
+                "timezone": "America/Bogota",
+            }
+
+            subscription = {
+                "id": 1,
+                "userId": user["id"],
+                "plan": user["plan"],
+                "status": "active",
+                "creditsRemaining": user["aiCredits"],
+                "creditsTotal": user["aiCredits"],
+                "periodEnd": None,
+            }
+
+            session["user"] = user
+            session["subscription"] = subscription
+            session.permanent = True
+
+            return jsonify({
+                "success": True,
+                "user": user,
+                "subscription": subscription,
+            })
+
+        except Exception as e:
+            logger.exception(f"LOGIN ERROR: {e}")
+            return jsonify({"error": "Error interno"}), 500
+
+
+    # ============================================================
     # REGISTER USER — Registro desde frontend
     # ============================================================
     @app.route('/api/user/register', methods=['POST'])
@@ -305,6 +363,10 @@ def create_app():
                 "periodEnd": None,
             }
 
+            session["user"] = user
+            session["subscription"] = subscription
+            session.permanent = True
+
             response = jsonify({
                 "success": True,
                 "user": user,
@@ -333,11 +395,19 @@ def create_app():
 
     @app.route('/api/user/me', methods=['GET'])
     def user_me():
-        return jsonify({"error": "Not authenticated"}), 401
+        user = session.get("user")
+        if not user:
+            return jsonify({"error": "Not authenticated"}), 401
+
+        return jsonify({
+            "user": user,
+            "subscription": session.get("subscription"),
+        })
 
 
     @app.route('/api/user/logout', methods=['POST'])
     def user_logout():
+        session.clear()
         return jsonify({"success": True})
 
 
@@ -387,14 +457,18 @@ def create_app():
     def brand_profile():
         try:
             if request.method == 'GET':
-                return jsonify({"brandProfile": {}})
+                return jsonify({"brandProfile": session.get("brandProfile", {})})
 
             data = request.get_json(silent=True) or {}
 
             profile = {
                 "id": 1,
+                **session.get("brandProfile", {}),
                 **data,
             }
+
+            session["brandProfile"] = profile
+            session.permanent = True
 
             return jsonify({
                 "success": True,
@@ -413,14 +487,19 @@ def create_app():
     def businesses():
         try:
             if request.method == 'GET':
-                return jsonify({"businesses": []})
+                return jsonify({"businesses": session.get("businesses", [])})
 
             data = request.get_json(silent=True) or {}
+            businesses_list = session.get("businesses", [])
 
             business = {
-                "id": 1,
+                "id": len(businesses_list) + 1,
                 **data,
             }
+
+            businesses_list.append(business)
+            session["businesses"] = businesses_list
+            session.permanent = True
 
             return jsonify({
                 "success": True,
