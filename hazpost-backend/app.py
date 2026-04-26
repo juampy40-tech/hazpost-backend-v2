@@ -268,9 +268,9 @@ def create_app():
             },
         })
 
-# ============================================================
-# LOGIN USER — Compatibilidad frontend HazPost
-# ============================================================
+    # ============================================================
+    # LOGIN USER — Compatibilidad frontend HazPost
+    # ============================================================
     @app.route('/api/user/login', methods=['POST'])
     def login_user():
         try:
@@ -319,6 +319,30 @@ def create_app():
         except Exception as e:
             logger.exception(f"LOGIN ERROR: {e}")
             return jsonify({"error": "Error interno"}), 500
+
+
+    # ============================================================
+    # USER ME
+    # ============================================================
+    @app.route('/api/user/me', methods=['GET'])
+    def user_me():
+        user = session.get("user")
+        if not user:
+            return jsonify({"error": "Not authenticated"}), 401
+
+        return jsonify({
+            "user": user,
+            "subscription": session.get("subscription"),
+        })
+
+
+    # ============================================================
+    # LOGOUT
+    # ============================================================
+    @app.route('/api/user/logout', methods=['POST'])
+    def user_logout():
+        session.clear()
+        return jsonify({"success": True})
 
 
     # ============================================================
