@@ -22,6 +22,7 @@ from src.imagenes_routes import imagenes_bp
 from src.duplicados import duplicados_bp
 from src.aislamiento import aislamiento_bp
 from src.aprendizaje_colectivo import aprendizaje_bp
+from src.catalogs.industries import get_industries_response
 
 _SCHEDULER_LOCK_FILE = None
 
