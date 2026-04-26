@@ -136,11 +136,16 @@ def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
-    app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['SESSION_COOKIE_SAMESITE'] = os.getenv('SESSION_COOKIE_SAMESITE', 'None')
-    app.config['SESSION_COOKIE_SECURE'] = os.getenv('SESSION_COOKIE_SECURE', 'true').lower() == 'true'
 
-    # 🔥 FIX LOGIN / SESIONES (CRÍTICO)
+    # ============================================================
+    # 🍪 COOKIES / SESIÓN — FIX CRÍTICO PARA VERCEL + RAILWAY
+    # ============================================================
+    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'   # 🔥 obligatorio cross-domain
+    app.config['SESSION_COOKIE_SECURE'] = True       # 🔥 obligatorio HTTPS
+    app.config['SESSION_COOKIE_DOMAIN'] = None       # 🔥 evita conflictos de dominio
+
+    # 🔥 Persistencia de sesión
     app.config['SESSION_PERMANENT'] = True
     app.config['PERMANENT_SESSION_LIFETIME'] = 60 * 60 * 24 * 7  # 7 días
 
