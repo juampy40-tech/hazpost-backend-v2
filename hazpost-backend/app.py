@@ -271,59 +271,54 @@ def create_app():
 # ============================================================
 # LOGIN USER — Compatibilidad frontend HazPost
 # ============================================================
-@app.route('/api/user/login', methods=['POST'])
+    @app.route('/api/user/login', methods=['POST'])
     def login_user():
-    try:
-        data = request.get_json(silent=True) or {}
+        try:
+            data = request.get_json(silent=True) or {}
 
-        email = (data.get("email") or "").strip().lower()
-        password = data.get("password") or ""
+            email = (data.get("email") or "").strip().lower()
+            password = data.get("password") or ""
 
-        if not email or not password:
-            return jsonify({"error": "Email y contraseña requeridos"}), 400
+            if not email or not password:
+                return jsonify({"error": "Email y contraseña requeridos"}), 400
 
-        # Puente temporal compatible con el frontend actual.
-        user = {
-            "id": 1,
-            "email": email,
-            "displayName": email.split("@")[0],
-            "role": "user",
-            "plan": "free",
-            "aiCredits": 40,
-            "onboardingStep": 1,
-            "emailVerified": True,
-            "avatarUrl": None,
-            "timezone": "America/Bogota",
-        }
+            user = {
+                "id": 1,
+                "email": email,
+                "displayName": email.split("@")[0],
+                "role": "user",
+                "plan": "free",
+                "aiCredits": 40,
+                "onboardingStep": 1,
+                "emailVerified": True,
+                "avatarUrl": None,
+                "timezone": "America/Bogota",
+            }
 
-        subscription = {
-            "id": 1,
-            "userId": user["id"],
-            "plan": user["plan"],
-            "status": "active",
-            "creditsRemaining": user["aiCredits"],
-            "creditsTotal": user["aiCredits"],
-            "periodEnd": None,
-        }
+            subscription = {
+                "id": 1,
+                "userId": user["id"],
+                "plan": user["plan"],
+                "status": "active",
+                "creditsRemaining": user["aiCredits"],
+                "creditsTotal": user["aiCredits"],
+                "periodEnd": None,
+            }
 
-        # 🔥 FIX SESIÓN (IMPORTANTE)
-        session.clear()
+            session.clear()
+            session["user"] = user
+            session["subscription"] = subscription
+            session.permanent = True
 
-        session["user"] = user
-        session["subscription"] = subscription
-        session.permanent = True
+            return jsonify({
+                "success": True,
+                "user": user,
+                "subscription": subscription,
+            })
 
-        response = jsonify({
-            "success": True,
-            "user": user,
-            "subscription": subscription,
-        })
-
-        return response
-
-    except Exception as e:
-        logger.exception(f"LOGIN ERROR: {e}")
-        return jsonify({"error": "Error interno"}), 500
+        except Exception as e:
+            logger.exception(f"LOGIN ERROR: {e}")
+            return jsonify({"error": "Error interno"}), 500
 
 
     # ============================================================
