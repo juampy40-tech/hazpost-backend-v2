@@ -165,6 +165,7 @@ def create_app():
     app.register_blueprint(duplicados_bp, url_prefix='/api/duplicados')
     app.register_blueprint(aislamiento_bp, url_prefix='/api/aislamiento')
     app.register_blueprint(aprendizaje_bp, url_prefix='/api/aprendizaje')
+    app.register_blueprint(dashboard_bp, url_prefix='/api')
 
 
     # ============================================================
