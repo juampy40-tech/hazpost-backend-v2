@@ -18,7 +18,16 @@ import {
 
 interface IndustryCatalogEntry {
   name: string;
+  slug?: string;
   subcategories: { name: string; slug: string }[];
+  aiContext?: {
+    description?: string;
+    content_topics?: string[];
+    recommended_tone?: string;
+    audience?: string;
+    content_formats?: string[];
+    keywords?: string[];
+  };
 }
 
 interface BrandProfile {
@@ -53,29 +62,81 @@ interface AiSuggestions {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-async function fetchIndustryCatalog(): Promise<IndustryCatalogEntry[]> {
+const API_BASE = import.meta.env.VITE_API_URL || "";
+const INDUSTRY_CACHE_KEY = "hz_industry_catalog_v1";
+const INDUSTRY_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hora
+let industryCatalogMemoryCache: IndustryCatalogEntry[] | null = null;
+
+function normalizeIndustryCatalog(raw: unknown): IndustryCatalogEntry[] {
+  const payload = raw as IndustryCatalogEntry[] | { industries?: IndustryCatalogEntry[] };
+  const list = Array.isArray(payload) ? payload : payload?.industries;
+
+  if (!Array.isArray(list)) return [];
+
+  return list
+    .filter((item: any) => item && typeof item.name === "string")
+    .map((item: any) => ({
+      name: item.name,
+      slug: item.slug,
+      subcategories: Array.isArray(item.subcategories) ? item.subcategories : [],
+      aiContext: item.aiContext,
+    }));
+}
+
+function readCachedIndustryCatalog(): IndustryCatalogEntry[] | null {
+  if (industryCatalogMemoryCache?.length) return industryCatalogMemoryCache;
+
   try {
-    const API_BASE = import.meta.env.VITE_API_URL || "";
+    const raw = localStorage.getItem(INDUSTRY_CACHE_KEY);
+    if (!raw) return null;
 
-    const res = await fetch(`${API_BASE}/api/industries`, {
-      credentials: "include",
-    });
+    const cached = JSON.parse(raw) as { savedAt?: number; industries?: IndustryCatalogEntry[] };
+    const fresh = cached.savedAt && Date.now() - cached.savedAt < INDUSTRY_CACHE_TTL_MS;
 
-    if (!res.ok) return [];
+    if (!fresh || !Array.isArray(cached.industries) || cached.industries.length === 0) return null;
 
-    const data = await res.json() as IndustryCatalogEntry[] | { industries?: IndustryCatalogEntry[] };
-
-    if (Array.isArray(data)) {
-      return data.map((item: any) => ({
-        name: item.name,
-        subcategories: item.subcategories ?? [],
-      }));
-    }
-
-    return data.industries ?? [];
+    industryCatalogMemoryCache = cached.industries;
+    return cached.industries;
   } catch {
-    return [];
+    return null;
   }
+}
+
+function saveCachedIndustryCatalog(industries: IndustryCatalogEntry[]) {
+  industryCatalogMemoryCache = industries;
+
+  try {
+    localStorage.setItem(
+      INDUSTRY_CACHE_KEY,
+      JSON.stringify({ savedAt: Date.now(), industries })
+    );
+  } catch {
+    // Si el navegador bloquea localStorage, seguimos funcionando con memoria.
+  }
+}
+
+async function fetchIndustryCatalog(): Promise<IndustryCatalogEntry[]> {
+  const cached = readCachedIndustryCatalog();
+  if (cached?.length) return cached;
+
+  const res = await fetch(`${API_BASE}/api/industries`, {
+    credentials: "include",
+    headers: { Accept: "application/json" },
+  });
+
+  if (!res.ok) {
+    throw new Error(`No se pudo cargar industrias (${res.status})`);
+  }
+
+  const data = await res.json();
+  const industries = normalizeIndustryCatalog(data);
+
+  if (!industries.length) {
+    throw new Error("El catálogo de industrias llegó vacío");
+  }
+
+  saveCachedIndustryCatalog(industries);
+  return industries;
 }
 
 const COUNTRIES = [
@@ -221,15 +282,34 @@ function Step1({
 }) {
   const [catalog, setCatalog] = useState<IndustryCatalogEntry[]>([]);
   const [selectValue, setSelectValue] = useState<string>("");
+  const [loadingCatalog, setLoadingCatalog] = useState(false);
+  const [catalogError, setCatalogError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchIndustryCatalog().then(cat => {
-      setCatalog(cat);
-      if (data.industry) {
-        const found = cat.find(e => e.name === data.industry);
-        setSelectValue(found ? data.industry : OTRA_INDUSTRIA);
-      }
-    });
+    let mounted = true;
+    setLoadingCatalog(true);
+
+    fetchIndustryCatalog()
+      .then(cat => {
+        if (!mounted) return;
+        setCatalog(cat);
+        setCatalogError(null);
+
+        if (data.industry) {
+          const found = cat.find(e => e.name === data.industry);
+          setSelectValue(found ? data.industry : OTRA_INDUSTRIA);
+        }
+      })
+      .catch(() => {
+        if (!mounted) return;
+        setCatalog([]);
+        setCatalogError("No pudimos cargar la lista de industrias. Puedes escribirla manualmente en 'Otra industria'.");
+      })
+      .finally(() => {
+        if (mounted) setLoadingCatalog(false);
+      });
+
+    return () => { mounted = false; };
   }, []);
 
   function handleSelectChange(val: string) {
@@ -291,15 +371,24 @@ function Step1({
               value={selectValue}
               onChange={e => handleSelectChange(e.target.value)}
               className={SELECT_CLS}
+              disabled={loadingCatalog}
             >
-              <option value="">Selecciona una industria...</option>
+              <option value="">
+                {loadingCatalog ? "Cargando industrias..." : "Selecciona una industria..."}
+              </option>
               {catalog.map(e => (
-                <option key={e.name} value={e.name}>
+                <option key={e.slug ?? e.name} value={e.name}>
                   {e.name}
                 </option>
               ))}
               <option value={OTRA_INDUSTRIA}>Otra industria</option>
             </select>
+
+            {catalogError && (
+              <p className="text-[11px] text-destructive/80 leading-tight">
+                {catalogError}
+              </p>
+            )}
 
             {isOtra && (
               <Input
