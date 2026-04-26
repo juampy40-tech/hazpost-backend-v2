@@ -351,6 +351,14 @@ def create_app():
 
 
     # ============================================================
+    # USER BOOTSTRAP — Compatibilidad frontend
+    # ============================================================
+    @app.route('/api/user/bootstrap', methods=['GET'])
+    def user_bootstrap():
+        return jsonify({"hasUsers": True})
+
+    
+    # ============================================================
     # REGISTER USER — Registro desde frontend
     # ============================================================
     @app.route('/api/user/register', methods=['POST'])
