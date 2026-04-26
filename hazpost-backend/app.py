@@ -344,15 +344,15 @@ def create_app():
     # ============================================================
     # INDUSTRIES — Dropdown onboarding
     # ============================================================
-   @app.route('/api/industries', methods=['GET'])
-def get_industries():
-    try:
-        response = jsonify(get_industries_response())
-        response.headers["Cache-Control"] = "public, max-age=3600"
-        return response
-    except Exception as e:
-        logger.exception(f"INDUSTRIES ERROR: {e}")
-        return jsonify({"error": "Error interno"}), 500
+    @app.route('/api/industries', methods=['GET'])
+    def get_industries():
+        try:
+            response = jsonify(get_industries_response())
+            response.headers["Cache-Control"] = "public, max-age=3600"
+            return response
+        except Exception as e:
+            logger.exception(f"INDUSTRIES ERROR: {e}")
+            return jsonify({"error": "Error interno"}), 500
 
 
     # ============================================================
