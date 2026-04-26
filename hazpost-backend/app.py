@@ -272,7 +272,7 @@ def create_app():
 # LOGIN USER — Compatibilidad frontend HazPost
 # ============================================================
 @app.route('/api/user/login', methods=['POST'])
-def login_user():
+    def login_user():
     try:
         data = request.get_json(silent=True) or {}
 
