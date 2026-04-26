@@ -32,20 +32,41 @@ export default function Dashboard() {
   const [socialAccountsLoaded, setSocialAccountsLoaded] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const [healthRes, settingsRes] = await Promise.all([
-          fetch(`${BASE}/api/health/status`, { credentials: "include" }),
-          fetch(`${BASE}/api/settings`, { credentials: "include" }),
-        ]);
-        if (healthRes.ok) setHealthStatus(await healthRes.json());
-        if (settingsRes.ok) {
-          const s = await settingsRes.json() as Record<string, string>;
-          setAiSettings({ autoGen: s["auto_generation"] === "true", freq: s["generation_frequency"] ?? "daily" });
-        }
-      } catch {}
-    })();
-  }, []);
+  (async () => {
+    try {
+      const [healthRes, settingsRes] = await Promise.all([
+        fetch(`${BASE}/api/health/status`, { credentials: "include" }),
+        fetch(`${BASE}/api/settings`, { credentials: "include" }),
+      ]);
+
+      if (healthRes.ok) {
+        const h = await healthRes.json();
+        setHealthStatus(h);
+      }
+
+      if (settingsRes.ok) {
+        const s = await settingsRes.json() as Record<string, any>;
+
+        setAiSettings({
+          // Compatible con backend nuevo y viejo
+          autoGen:
+            s["aiEnabled"] === true ||
+            s["auto_generation"] === "true" ||
+            s["auto_generation"] === true,
+
+          freq:
+            String(
+              s["frequency"] ??
+              s["generation_frequency"] ??
+              "daily"
+            ),
+        });
+      }
+    } catch (e) {
+      console.error("Error loading dashboard data", e);
+    }
+  })();
+}, []);
 
   useEffect(() => {
     const refetch = () => {
