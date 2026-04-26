@@ -1536,16 +1536,21 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
     }
   }, [data, toast]);
 
-  async function doNext() {
-    const nextStep = step + 1;
-    const ok = await saveProgress(nextStep);
-    if (ok) {
-      setStep(nextStep);
-      if (step === 0 && data.website?.trim() && !aiSuggestions) {
-        triggerAnalyze(data.website.trim()).catch(() => {});
-      }
+ async function doNext() {
+  const nextStep = step + 1;
+
+  if (step === 0 && selectValue === "__otra__" && data.industry?.trim()) {
+    await sendIndustrySuggestion(data.industry);
+  }
+
+  const ok = await saveProgress(nextStep);
+  if (ok) {
+    setStep(nextStep);
+    if (step === 0 && data.website?.trim() && !aiSuggestions) {
+      triggerAnalyze(data.website.trim()).catch(() => {});
     }
   }
+}
 
   async function doSkipStep() {
     const ok = await saveProgress(step + 1);
