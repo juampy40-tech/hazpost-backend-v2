@@ -100,14 +100,48 @@ def social_accounts():
 def posts():
     posts_list = _as_list(session.get("posts", []))
 
+    # -------- GET --------
     if request.method == 'GET':
-        return jsonify(posts_list)
+        status_filter = request.args.get("status")
+        business_id = request.args.get("businessId")
+        slim = request.args.get("slim")
 
+        filtered = posts_list
+
+        # Filtrar por status
+        if status_filter:
+            statuses = status_filter.split(",")
+            filtered = [
+                p for p in filtered
+                if p.get("status") in statuses
+            ]
+
+        # Filtrar por businessId
+        if business_id:
+            filtered = [
+                p for p in filtered
+                if str(p.get("businessId")) == str(business_id)
+            ]
+
+        # Slim mode
+        if slim == "1":
+            filtered = [
+                {
+                    "id": p.get("id"),
+                    "status": p.get("status"),
+                }
+                for p in filtered
+            ]
+
+        return jsonify(filtered)
+
+    # -------- DELETE --------
     if request.method == 'DELETE':
         session["posts"] = []
         session.permanent = True
         return jsonify([])
 
+    # -------- CREATE --------
     data = request.get_json(silent=True) or {}
 
     post = {
