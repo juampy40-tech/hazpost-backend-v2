@@ -71,26 +71,12 @@ def social_accounts():
     accounts = _as_list(session.get("social_accounts", []))
 
     if request.method == 'GET':
-        return jsonify({
-            "instagram": None,
-            "facebook": None,
-            "tiktok": None,
-            "linkedin": None,
-            "youtube": None,
-            "accounts": accounts
-        })
+        return jsonify(accounts)
 
     if request.method == 'DELETE':
         session["social_accounts"] = []
         session.permanent = True
-        return jsonify({
-            "instagram": None,
-            "facebook": None,
-            "tiktok": None,
-            "linkedin": None,
-            "youtube": None,
-            "accounts": []
-        })
+        return jsonify([])
 
     data = request.get_json(silent=True) or {}
 
@@ -105,14 +91,7 @@ def social_accounts():
     session["social_accounts"] = accounts
     session.permanent = True
 
-    return jsonify({
-        "instagram": None,
-        "facebook": None,
-        "tiktok": None,
-        "linkedin": None,
-        "youtube": None,
-        "accounts": accounts
-    }), 201
+    return jsonify(accounts), 201
 
 
 # ------------------ POSTS ------------------
