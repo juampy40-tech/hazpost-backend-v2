@@ -293,7 +293,7 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
           value={value}
           onChange={e => onChange(e.target.value)}
           placeholder="#000000"
-          className="font-mono flex-1"
+          className="font-mono flex-1 min-w-0"
           maxLength={7}
         />
       </div>
@@ -780,7 +780,7 @@ function Step1({
               value={data.website ?? ""}
               onChange={e => onChange({ website: e.target.value })}
               placeholder="Ej: https://tumarca.com"
-              className="flex-1"
+              className="flex-1 min-w-0"
             />
           </div>
 
