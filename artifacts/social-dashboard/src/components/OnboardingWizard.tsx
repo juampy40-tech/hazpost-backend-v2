@@ -1482,6 +1482,7 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
   const [data, setData] = useState<BrandProfile>(initialData);
   const [saving, setSaving] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<AiSuggestions | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
   const [activeBizId, setActiveBizId] = useState<number | null>(null);
   const [pendingAction, setPendingAction] = useState<"next" | "skip" | null>(null);
 
