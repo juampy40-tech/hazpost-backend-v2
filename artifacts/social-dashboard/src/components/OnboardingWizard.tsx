@@ -489,21 +489,40 @@ async function uploadFile(file: File): Promise<string> {
   }
 
   const body = (await urlRes.json().catch(() => ({}))) as UploadUrlResponse;
-  const uploadUrl = body.uploadURL || body.uploadUrl || body.upload_url || body.signedUrl || body.signed_url || body.url;
-  const objectPath = body.objectPath || body.object_path || body.path || body.key || body.publicUrl || body.public_url;
 
-  // Seguridad: nunca llamar fetch(undefined), porque el navegador lo convierte en /undefined en Vercel.
+  const uploadUrl =
+    body.uploadURL ||
+    body.uploadUrl ||
+    body.upload_url ||
+    body.signedUrl ||
+    body.signed_url ||
+    body.url;
+
+  const objectPath =
+    body.objectPath ||
+    body.object_path ||
+    body.path ||
+    body.key ||
+    body.publicUrl ||
+    body.public_url;
+
+  // 🚨 Seguridad crítica
   if (!uploadUrl || uploadUrl === "undefined") {
     throw new Error("El backend no devolvió una URL válida para subir el archivo");
   }
 
+  // 🔥 FIX REAL (ESTO ARREGLA TODO)
+  const formData = new FormData();
+  formData.append("file", file);
+
   const uploadRes = await fetch(uploadUrl, {
-    method: "PUT",
-    headers: { "Content-Type": file.type || "application/octet-stream" },
-    body: file,
+    method: "POST",
+    body: formData,
   });
 
-  if (!uploadRes.ok) throw new Error("Error al subir el archivo");
+  if (!uploadRes.ok) {
+    throw new Error("Error al subir el archivo");
+  }
 
   if (!objectPath) {
     throw new Error("El backend subió el archivo, pero no devolvió la ruta guardable");
