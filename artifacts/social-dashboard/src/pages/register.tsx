@@ -24,6 +24,7 @@ import { PricingSection } from "@/components/PricingSection";
 import { OnboardingWizard } from "@/components/OnboardingWizard";
 
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "") || "";
 
 function GoogleIcon() {
   return (
@@ -802,7 +803,7 @@ export default function Register() {
                 </div>
               )}
 
-              {selectedPlan && selectedPlan !== "free" && (
+                          {selectedPlan && selectedPlan !== "free" && (
                 <div
                   style={{
                     background: "rgba(0,194,255,0.08)",
@@ -827,6 +828,16 @@ export default function Register() {
               </a>
             </p>
           )}
+        </div>
+      )}
+
+      {step === 3 && (
+        <div className="w-full mx-auto">
+          <OnboardingWizard
+            onComplete={handleWizardComplete}
+            registrationMode
+            onChooseFree={pendingPlanAfterWizard ? () => navigate("/dashboard") : undefined}
+          />
         </div>
       )}
     </div>
