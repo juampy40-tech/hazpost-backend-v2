@@ -957,6 +957,37 @@ def create_app():
 
 
     # ============================================================
+    # REFERRALS ADMIN — evita error extra_niche
+    # ============================================================
+    @app.route('/api/admin/referrals/settings', methods=['GET', 'PUT'])
+    def admin_referrals_settings():
+        return jsonify({
+            "id": None,
+            "is_enabled": True,
+            "referrer_credits": 30,
+            "referee_credits": 10,
+            "referrer_free_days": 0,
+            "referee_free_days": 0,
+            "min_plan_for_bonus": "starter",
+            "max_activation_days": 60,
+            "max_referrals_per_user": 0,
+            "referrer_unlocks": {
+                "extra_niche": False,
+                "watermark_removal": False,
+                "priority_generation": False,
+                "custom_domain": False
+            },
+            "referee_unlocks": {
+                "extra_niche": False,
+                "watermark_removal": False,
+                "priority_generation": False,
+                "custom_domain": False
+            },
+            "updated_at": None
+        })
+
+    
+    # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
     @app.route('/api/<path:unknown_path>', methods=['GET'])
