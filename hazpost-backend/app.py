@@ -667,8 +667,11 @@ def create_app():
             "aiSlotsCount": 0,
             "suggestions": {
                 "instagram": {},
-                "tiktok": {}
-            }
+                "tiktok": {},
+                "facebook": {}
+            },
+            "items": [],
+            "data": []
         })
 
 
@@ -679,8 +682,61 @@ def create_app():
             "aiSlotsCount": 0,
             "suggestions": {
                 "instagram": {},
-                "tiktok": {}
-            }
+                "tiktok": {},
+                "facebook": {}
+            },
+            "items": [],
+            "data": []
+        })
+
+
+    @app.route('/api/analytics/summary', methods=['GET'])
+    def analytics_summary():
+        return jsonify({
+            "summary": {
+                "total": 0,
+                "published": 0,
+                "scheduled": 0,
+                "failed": 0,
+                "engagement": 0,
+                "reach": 0,
+                "impressions": 0
+            },
+            "items": [],
+            "data": [],
+            "series": []
+        })
+
+
+    @app.route('/api/analytics/content-insights', methods=['GET'])
+    def analytics_content_insights():
+        return jsonify({
+            "insights": [],
+            "items": [],
+            "data": [],
+            "topContent": [],
+            "byPlatform": []
+        })
+
+
+    @app.route('/api/analytics/hashtag-insights', methods=['GET'])
+    def analytics_hashtag_insights():
+        return jsonify({
+            "hashtags": [],
+            "items": [],
+            "data": [],
+            "top": []
+        })
+
+
+    @app.route('/api/analytics/publishing-cadence', methods=['GET'])
+    def analytics_publishing_cadence():
+        return jsonify({
+            "cadence": [],
+            "items": [],
+            "data": [],
+            "days": [],
+            "hours": []
         })
 
 
@@ -725,12 +781,13 @@ def create_app():
 
 
     # ============================================================
-    # ADMIN STUBS — Evita errores en panel admin
+    # ADMIN / AGENCY STUBS — Evita errores en panel admin/agencia
     # ============================================================
     @app.route('/api/users', methods=['GET'])
     def admin_users():
         return jsonify({
             "users": [],
+            "items": [],
             "data": [],
             "total": 0,
             "active": 0,
@@ -751,13 +808,16 @@ def create_app():
                 "users": 0,
                 "businesses": 0,
                 "posts": 0,
-                "creditsUsed": 0
+                "creditsUsed": 0,
+                "revenue": 0
             },
             "metrics": [],
             "charts": [],
             "revenue": [],
             "activity": [],
-            "data": []
+            "items": [],
+            "data": [],
+            "rows": []
         })
 
 
@@ -770,6 +830,8 @@ def create_app():
     def admin_niches():
         return jsonify({
             "niches": [],
+            "items": [],
+            "data": [],
             "pending": [],
             "approved": [],
             "rejected": [],
@@ -782,30 +844,93 @@ def create_app():
         return admin_niches()
 
 
-    # ============================================================
-    # EXTRA FIXES — requerido por frontend
-    # ============================================================
+    @app.route('/api/all', methods=['GET'])
+    def all_admin_data():
+        return jsonify({
+            "users": [],
+            "businesses": [],
+            "posts": [],
+            "niches": [],
+            "extra_niche": [],
+            "metrics": [],
+            "items": [],
+            "data": []
+        })
+
+
+    @app.route('/api/backgrounds-master', methods=['GET'])
+    def backgrounds_master():
+        return jsonify({
+            "backgrounds": [],
+            "items": [],
+            "data": [],
+            "total": 0
+        })
+
+
+    @app.route('/api/conversations', methods=['GET'])
+    def conversations():
+        return jsonify({
+            "conversations": [],
+            "items": [],
+            "data": []
+        })
+
+
     @app.route('/api/referrals', methods=['GET'])
     def referrals():
-        return jsonify([])
+        return jsonify({
+            "referrals": [],
+            "items": [],
+            "data": []
+        })
 
 
     @app.route('/api/conversions', methods=['GET'])
     def conversions():
-        return jsonify([])
+        return jsonify({
+            "conversions": [],
+            "items": [],
+            "data": []
+        })
 
 
     @app.route('/api/affiliate-settings', methods=['GET'])
     def affiliate_settings():
         return jsonify({
             "enabled": False,
-            "commission": 0
+            "commission": 0,
+            "settings": {},
+            "items": [],
+            "data": []
         })
 
 
     @app.route('/api/affiliate-codes', methods=['GET'])
     def affiliate_codes():
-        return jsonify([])
+        return jsonify({
+            "codes": [],
+            "items": [],
+            "data": []
+        })
+
+
+    @app.route('/api/codes', methods=['GET'])
+    def codes():
+        return jsonify({
+            "codes": [],
+            "items": [],
+            "data": []
+        })
+
+
+    @app.route('/api/billing/plans', methods=['GET'])
+    def billing_plans():
+        return jsonify({
+            "plans": [],
+            "items": [],
+            "data": []
+        })
 
 
     # ============================================================
@@ -814,7 +939,12 @@ def create_app():
     @app.route('/api/<path:unknown_path>', methods=['GET'])
     def api_fallback_get(unknown_path):
         logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
-        return jsonify([])
+        return jsonify({
+            "items": [],
+            "data": [],
+            "results": [],
+            "total": 0
+        })
 
 
     @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
@@ -824,6 +954,8 @@ def create_app():
         return jsonify({
             "success": True,
             "message": f"Endpoint /api/{unknown_path} recibido en modo fallback",
+            "items": [],
+            "data": []
         }), 200
 
 
