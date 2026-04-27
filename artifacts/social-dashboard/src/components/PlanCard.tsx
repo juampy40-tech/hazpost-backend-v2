@@ -129,17 +129,17 @@ export function PlanCard({
   return (
     <div
       className={`
-        relative bg-card border-2 ${PLAN_BORDER[plan.key] ?? "border-border"} rounded-2xl p-5 flex flex-col gap-4 transition-all
+        rrelative bg-card border-2 ${PLAN_BORDER[plan.key] ?? "border-border"} rounded-2xl p-5 flex flex-col gap-4 transition-all duration-300 hover:-translate-y-1
         ${
           isBusiness && isLanding
             ? "scale-[1.05] shadow-[0_0_60px_rgba(0,194,255,0.38)] bg-cyan-500/10 z-10"
             : "hover:shadow-[0_0_20px_rgba(0,193,255,0.12)]"
         }
         ${
-          isSelected
-            ? "ring-2 ring-primary/60 shadow-[0_0_30px_rgba(0,194,255,0.22)]"
-            : ""
-        }
+  isSelected
+    ? "ring-2 ring-primary/80 shadow-[0_0_45px_rgba(0,194,255,0.35)] scale-[1.02]"
+    : ""
+}
       `}
     >
       {plan.descriptionJson?.badge && (
