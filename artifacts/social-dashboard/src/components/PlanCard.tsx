@@ -47,10 +47,10 @@ const PLAN_BORDER: Record<string, string> = {
 };
 
 const CTA_LABELS: Record<string, string> = {
-  free: "Probar gratis",
-  starter: "Quiero empezar",
-  business: "Escalar mi negocio 🚀",
-  agency: "Automatizar todo",
+  free: "Empezar gratis ahora",
+  starter: "Crear contenido hoy",
+  business: "Automatizar mi negocio 🚀",
+  agency: "Escalar clientes 🔥",
 };
 
 function formatFeature(text: string) {
