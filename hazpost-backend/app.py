@@ -684,6 +684,33 @@ def create_app():
 
 
     # ============================================================
+    # ANALYTICS / IA SUGERENCIAS — requerido por frontend
+    # ============================================================
+    @app.route('/api/analytics/posting-suggestions', methods=['GET'])
+    def analytics_posting_suggestions():
+        return jsonify({
+            "hasRealData": False,
+            "aiSlotsCount": 0,
+            "suggestions": {
+                "instagram": {},
+                "tiktok": {}
+            }
+        })
+
+
+    @app.route('/api/posting-suggestions', methods=['GET'])
+    def posting_suggestions():
+        return jsonify({
+            "hasRealData": False,
+            "aiSlotsCount": 0,
+            "suggestions": {
+                "instagram": {},
+                "tiktok": {}
+            }
+        })
+
+
+    # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
     @app.route('/api/<path:unknown_path>', methods=['GET'])
