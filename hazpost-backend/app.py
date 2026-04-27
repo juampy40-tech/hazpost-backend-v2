@@ -693,50 +693,51 @@ def create_app():
     @app.route('/api/analytics/summary', methods=['GET'])
     def analytics_summary():
         return jsonify({
-            "summary": {
+            "overview": {
                 "total": 0,
                 "published": 0,
                 "scheduled": 0,
+                "pending": 0,
                 "failed": 0,
-                "engagement": 0,
+                "likes": 0,
+                "comments": 0,
+                "shares": 0,
                 "reach": 0,
-                "impressions": 0
+                "saves": 0
             },
-            "items": [],
-            "data": [],
-            "series": []
+            "byContentType": [],
+            "byDayOfWeek": [],
+            "byHour": [],
+            "byPlatform": [],
+            "topPosts": []
         })
 
 
     @app.route('/api/analytics/content-insights', methods=['GET'])
     def analytics_content_insights():
         return jsonify({
-            "insights": [],
-            "items": [],
-            "data": [],
-            "topContent": [],
-            "byPlatform": []
+            "typeRanking": [],
+            "top3": [],
+            "insights": []
         })
 
 
     @app.route('/api/analytics/hashtag-insights', methods=['GET'])
     def analytics_hashtag_insights():
         return jsonify({
-            "hashtags": [],
-            "items": [],
-            "data": [],
-            "top": []
+            "byPool": [],
+            "topHashtags": [],
+            "hashtags": []
         })
 
 
     @app.route('/api/analytics/publishing-cadence', methods=['GET'])
     def analytics_publishing_cadence():
         return jsonify({
-            "cadence": [],
-            "items": [],
-            "data": [],
-            "days": [],
-            "hours": []
+            "weeks": [],
+            "currentWeekCount": 0,
+            "avgPerWeek": 0,
+            "totalInPeriod": 0
         })
 
 
@@ -783,65 +784,99 @@ def create_app():
     # ============================================================
     # ADMIN / AGENCY STUBS — Evita errores en panel admin/agencia
     # ============================================================
-    @app.route('/api/users', methods=['GET'])
-    def admin_users():
+    @app.route('/api/user/admin/users', methods=['GET'])
+    def user_admin_users():
         return jsonify({
             "users": [],
             "items": [],
             "data": [],
-            "total": 0,
-            "active": 0,
-            "inactive": 0,
-            "admins": 1
+            "total": 0
         })
+
+
+    @app.route('/api/users', methods=['GET'])
+    def admin_users():
+        return user_admin_users()
 
 
     @app.route('/api/admin/users', methods=['GET'])
     def admin_users_alt():
-        return admin_users()
+        return user_admin_users()
 
 
-    @app.route('/api/metrics', methods=['GET'])
-    def admin_metrics():
+    @app.route('/api/brand-profile/admin/all', methods=['GET'])
+    def brand_profile_admin_all():
         return jsonify({
-            "summary": {
-                "users": 0,
-                "businesses": 0,
-                "posts": 0,
-                "creditsUsed": 0,
-                "revenue": 0
-            },
-            "metrics": [],
-            "charts": [],
-            "revenue": [],
-            "activity": [],
-            "items": [],
-            "data": [],
-            "rows": []
+            "profiles": []
         })
 
 
     @app.route('/api/admin/metrics', methods=['GET'])
-    def admin_metrics_alt():
+    def admin_metrics():
+        return jsonify({
+            "mrr": 0,
+            "paidUsers": 0,
+            "freeUsers": 0,
+            "totalActive": 0,
+            "conversionRate": 0,
+            "newUsers7d": 0,
+            "newUsers30d": 0,
+            "credits": {
+                "issued": 0,
+                "consumed": 0,
+                "avgRemaining": 0,
+                "utilizationPct": 0
+            },
+            "posts": {
+                "total": 0,
+                "last7d": 0,
+                "last30d": 0
+            },
+            "images": {
+                "total": 0
+            },
+            "businesses": 0,
+            "planBreakdown": [],
+            "subStatuses": [],
+            "referrals": {
+                "rows": [],
+                "total": 0
+            },
+            "affiliates": {
+                "rows": [],
+                "total": 0
+            },
+            "postsPerDay": [],
+            "usersPerDay": []
+        })
+
+
+    @app.route('/api/metrics', methods=['GET'])
+    def metrics_alias():
         return admin_metrics()
+
+
+    @app.route('/api/admin/metrics/generation-costs', methods=['GET'])
+    def admin_generation_costs():
+        period = request.args.get("period", "today")
+        return jsonify({
+            "period": period,
+            "from": "",
+            "to": "",
+            "seriesDays": 0,
+            "byType": [],
+            "totalCount": 0,
+            "totalCostUsd": 0,
+            "timeSeries": []
+        })
 
 
     @app.route('/api/niches', methods=['GET'])
     def admin_niches():
-        return jsonify({
-            "niches": [],
-            "items": [],
-            "data": [],
-            "pending": [],
-            "approved": [],
-            "rejected": [],
-            "extra_niche": []
-        })
-
-
-    @app.route('/api/admin/niches', methods=['GET'])
-    def admin_niches_alt():
-        return admin_niches()
+        scope = request.args.get("scope")
+        if scope == "all":
+            return jsonify([])
+        return jsonify([])
 
 
     @app.route('/api/all', methods=['GET'])
@@ -851,7 +886,6 @@ def create_app():
             "businesses": [],
             "posts": [],
             "niches": [],
-            "extra_niche": [],
             "metrics": [],
             "items": [],
             "data": []
@@ -859,6 +893,7 @@ def create_app():
 
 
     @app.route('/api/backgrounds-master', methods=['GET'])
+    @app.route('/api/admin/backgrounds-master', methods=['GET'])
     def backgrounds_master():
         return jsonify({
             "backgrounds": [],
@@ -869,6 +904,7 @@ def create_app():
 
 
     @app.route('/api/conversations', methods=['GET'])
+    @app.route('/api/admin/conversations', methods=['GET'])
     def conversations():
         return jsonify({
             "conversations": [],
@@ -878,24 +914,18 @@ def create_app():
 
 
     @app.route('/api/referrals', methods=['GET'])
+    @app.route('/api/admin/affiliates', methods=['GET'])
     def referrals():
-        return jsonify({
-            "referrals": [],
-            "items": [],
-            "data": []
-        })
+        return jsonify([])
 
 
     @app.route('/api/conversions', methods=['GET'])
     def conversions():
-        return jsonify({
-            "conversions": [],
-            "items": [],
-            "data": []
-        })
+        return jsonify({})
 
 
     @app.route('/api/affiliate-settings', methods=['GET'])
+    @app.route('/api/admin/affiliate-settings', methods=['GET'])
     def affiliate_settings():
         return jsonify({
             "enabled": False,
@@ -907,21 +937,14 @@ def create_app():
 
 
     @app.route('/api/affiliate-codes', methods=['GET'])
+    @app.route('/api/admin/affiliate-codes', methods=['GET'])
     def affiliate_codes():
-        return jsonify({
-            "codes": [],
-            "items": [],
-            "data": []
-        })
+        return jsonify([])
 
 
     @app.route('/api/codes', methods=['GET'])
     def codes():
-        return jsonify({
-            "codes": [],
-            "items": [],
-            "data": []
-        })
+        return jsonify([])
 
 
     @app.route('/api/billing/plans', methods=['GET'])
@@ -939,23 +962,15 @@ def create_app():
     @app.route('/api/<path:unknown_path>', methods=['GET'])
     def api_fallback_get(unknown_path):
         logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
-        return jsonify({
-            "items": [],
-            "data": [],
-            "results": [],
-            "total": 0
-        })
+        return jsonify([])
 
 
     @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
     def api_fallback_mutation(unknown_path):
         logger.warning(f"[FALLBACK MUTATION] Endpoint no implementado: /api/{unknown_path}")
-
         return jsonify({
             "success": True,
-            "message": f"Endpoint /api/{unknown_path} recibido en modo fallback",
-            "items": [],
-            "data": []
+            "message": f"Endpoint /api/{unknown_path} recibido en modo fallback"
         }), 200
 
 
