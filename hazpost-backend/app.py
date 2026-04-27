@@ -683,7 +683,46 @@ def create_app():
             }
         })
 
+    # ============================================================
+    # GOOGLE LOGIN TEMPORAL — Admin directo
+    # ============================================================
+    @app.route('/api/auth/google', methods=['GET'])
+    def google_login_temp_admin():
+        user = {
+            "id": 1,
+            "email": "admin@hazpost.com",
+            "displayName": "Admin HazPost",
+            "role": "admin",
+            "plan": "agency",
+            "aiCredits": 250,
+            "onboardingStep": 5,
+            "emailVerified": True,
+            "avatarUrl": None,
+            "timezone": "America/Bogota",
+        }
 
+        subscription = {
+            "id": 1,
+            "userId": user["id"],
+            "plan": "agency",
+            "status": "active",
+            "creditsRemaining": 250,
+            "creditsTotal": 250,
+            "periodEnd": None,
+        }
+
+        session.clear()
+        session["user"] = user
+        session["subscription"] = subscription
+        session.permanent = True
+
+        return """
+        <script>
+          window.location.href = "https://hazpost-frontend.vercel.app/dashboard";
+        </script>
+        """
+
+    
     # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
