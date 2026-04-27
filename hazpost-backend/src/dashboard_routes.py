@@ -288,3 +288,13 @@ def packages():
 def elements():
     business_id = request.args.get("businessId")
     return jsonify([])
+
+
+@dashboard_bp.route('/music/status', methods=['GET'])
+def music_status():
+    return jsonify({
+        "enabled": False,
+        "connected": False,
+        "provider": None,
+        "status": "inactive"
+    })
