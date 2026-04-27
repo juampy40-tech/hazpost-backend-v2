@@ -986,120 +986,116 @@ def create_app():
             "updated_at": None
         })
 
-# ============================================================
-# STORAGE UPLOAD — Logos / imágenes onboarding
-# ============================================================
+    # ============================================================
+    # STORAGE UPLOAD — Logos / imágenes onboarding
+    # Debe ir ANTES del fallback.
+    # ============================================================
+    import uuid
+    from werkzeug.utils import secure_filename
+    from flask import send_from_directory
 
-import uuid
-from werkzeug.utils import secure_filename
-from flask import send_from_directory
+    @app.route('/api/storage/uploads/request-url', methods=['POST'])
+    def storage_request_url():
+        try:
+            data = request.get_json(silent=True) or {}
 
-@app.route('/api/storage/uploads/request-url', methods=['POST'])
-def storage_request_url():
-    try:
-        data = request.get_json(silent=True) or {}
+            original_name = data.get("name") or "upload.bin"
+            content_type = data.get("contentType") or "application/octet-stream"
+            size = data.get("size")
 
-        original_name = data.get("name") or "upload.bin"
-        content_type = data.get("contentType") or "application/octet-stream"
-        size = data.get("size")
+            safe_name = secure_filename(original_name) or "upload.bin"
+            file_id = str(uuid.uuid4())
+            stored_name = f"{file_id}_{safe_name}"
 
-        safe_name = secure_filename(original_name) or "upload.bin"
-        file_id = str(uuid.uuid4())
-        stored_name = f"{file_id}_{safe_name}"
+            upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+            os.makedirs(upload_dir, exist_ok=True)
 
-        upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
-        os.makedirs(upload_dir, exist_ok=True)
+            object_path = f"/storage/objects/uploads/{stored_name}"
+            base_url = request.host_url.rstrip('/').replace('http://', 'https://')
 
-        object_path = f"/storage/objects/uploads/{stored_name}"
+            public_url = f"{base_url}/api{object_path}"
+            upload_url = f"{base_url}/api/storage/uploads/direct?filename={stored_name}"
 
-        # 🔥 FIX HTTPS (CLAVE)
-        base_url = request.host_url.rstrip('/').replace('http://', 'https://')
+            return jsonify({
+                "success": True,
+                "uploadURL": upload_url,
+                "uploadUrl": upload_url,
+                "upload_url": upload_url,
+                "signedUrl": upload_url,
+                "url": upload_url,
+                "objectPath": object_path,
+                "publicUrl": public_url,
+                "name": safe_name,
+                "storedName": stored_name,
+                "contentType": content_type,
+                "size": size,
+            })
 
-        public_url = f"{base_url}/api{object_path}"
-        upload_url = f"{base_url}/api/storage/uploads/direct?filename={stored_name}"
-
-        return jsonify({
-            "success": True,
-            "uploadURL": upload_url,
-            "uploadUrl": upload_url,
-            "upload_url": upload_url,
-            "signedUrl": upload_url,
-            "url": upload_url,
-            "objectPath": object_path,
-            "publicUrl": public_url,
-            "name": safe_name,
-            "storedName": stored_name,
-            "contentType": content_type,
-            "size": size,
-        })
-
-    except Exception as e:
-        logger.exception(f"STORAGE REQUEST URL ERROR: {e}")
-        return jsonify({
-            "success": False,
-            "error": "Error generando URL de subida"
-        }), 500
-
-
-@app.route('/api/storage/uploads/direct', methods=['POST'])
-def storage_upload_direct():
-    try:
-        filename = request.args.get("filename") or f"{uuid.uuid4()}_upload.bin"
-        safe_name = secure_filename(filename) or f"{uuid.uuid4()}_upload.bin"
-
-        upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
-        os.makedirs(upload_dir, exist_ok=True)
-
-        filepath = os.path.join(upload_dir, safe_name)
-
-        if 'file' not in request.files:
+        except Exception as e:
+            logger.exception(f"STORAGE REQUEST URL ERROR: {e}")
             return jsonify({
                 "success": False,
-                "error": "Archivo requerido"
-            }), 400
-
-        uploaded_file = request.files['file']
-        uploaded_file.save(filepath)
-
-        object_path = f"/storage/objects/uploads/{safe_name}"
-
-        # 🔥 FIX HTTPS
-        base_url = request.host_url.rstrip('/').replace('http://', 'https://')
-        public_url = f"{base_url}/api{object_path}"
-
-        return jsonify({
-            "success": True,
-            "url": public_url,
-            "publicUrl": public_url,
-            "objectPath": object_path,
-            "filename": safe_name,
-        })
-
-    except Exception as e:
-        logger.exception(f"STORAGE DIRECT UPLOAD ERROR: {e}")
-        return jsonify({
-            "success": False,
-            "error": "Error subiendo archivo"
-        }), 500
+                "error": "Error generando URL de subida"
+            }), 500
 
 
-@app.route('/api/storage/objects/uploads/<path:filename>', methods=['GET'])
-def storage_get_uploaded_object(filename):
-    try:
-        safe_name = secure_filename(filename)
-        upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+    @app.route('/api/storage/uploads/direct', methods=['POST'])
+    def storage_upload_direct():
+        try:
+            filename = request.args.get("filename") or f"{uuid.uuid4()}_upload.bin"
+            safe_name = secure_filename(filename) or f"{uuid.uuid4()}_upload.bin"
 
-        if not safe_name:
-            return jsonify({"error": "Archivo inválido"}), 400
+            upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+            os.makedirs(upload_dir, exist_ok=True)
 
-        return send_from_directory(upload_dir, safe_name)
+            filepath = os.path.join(upload_dir, safe_name)
 
-    except Exception as e:
-        logger.exception(f"STORAGE GET OBJECT ERROR: {e}")
-        return jsonify({
-            "success": False,
-            "error": "Archivo no encontrado"
-        }), 404
+            if 'file' not in request.files:
+                return jsonify({
+                    "success": False,
+                    "error": "Archivo requerido"
+                }), 400
+
+            uploaded_file = request.files['file']
+            uploaded_file.save(filepath)
+
+            object_path = f"/storage/objects/uploads/{safe_name}"
+            base_url = request.host_url.rstrip('/').replace('http://', 'https://')
+            public_url = f"{base_url}/api{object_path}"
+
+            return jsonify({
+                "success": True,
+                "url": public_url,
+                "publicUrl": public_url,
+                "objectPath": object_path,
+                "filename": safe_name,
+            })
+
+        except Exception as e:
+            logger.exception(f"STORAGE DIRECT UPLOAD ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Error subiendo archivo"
+            }), 500
+
+
+    @app.route('/api/storage/objects/uploads/<path:filename>', methods=['GET'])
+    def storage_get_uploaded_object(filename):
+        try:
+            safe_name = secure_filename(filename)
+            upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+
+            if not safe_name:
+                return jsonify({"error": "Archivo inválido"}), 400
+
+            return send_from_directory(upload_dir, safe_name)
+
+        except Exception as e:
+            logger.exception(f"STORAGE GET OBJECT ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Archivo no encontrado"
+            }), 404
 
 
     # ============================================================
