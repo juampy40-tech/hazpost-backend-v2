@@ -89,12 +89,12 @@ function getModeIntro(mode: PricingSectionProps["mode"]) {
   }
 
   if (mode === "register") {
-    return {
-      eyebrow: "Elige tu plan",
-      title: "Empieza con el plan correcto para tu negocio",
-      description: "Tu selección se guarda para continuar el registro. Puedes cambiar de plan más adelante.",
-    };
-  }
+  return {
+    eyebrow: "Elige tu plan",
+    title: "Empieza gratis y deja que la IA trabaje por ti 🚀",
+    description: "Puedes cambiar de plan en cualquier momento. Sin riesgo.",
+  };
+}
 
   return {
     eyebrow: "Planes simples",
