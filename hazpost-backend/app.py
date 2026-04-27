@@ -596,32 +596,6 @@ def create_app():
     # ============================================================
     # SETTINGS / AUTOMATION STUBS — Evita errores de UI
     # ============================================================
-    @app.route('/api/posting-suggestions', methods=['GET'])
-    def posting_suggestions():
-        return jsonify({
-            "instagram": {
-                "enabled": False,
-                "connected": False,
-                "bestTimes": [],
-                "suggestions": []
-            },
-            "tiktok": {
-                "enabled": False,
-                "connected": False,
-                "bestTimes": [],
-                "suggestions": []
-            },
-            "facebook": {
-                "enabled": False,
-                "connected": False,
-                "bestTimes": [],
-                "suggestions": []
-            },
-            "bestTimes": [],
-            "suggestions": [],
-        })
-
-
     @app.route('/api/devices', methods=['GET'])
     def devices():
         return jsonify([])
