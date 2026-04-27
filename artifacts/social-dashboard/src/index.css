@@ -180,6 +180,8 @@
   body {
     @apply font-sans antialiased bg-background text-foreground selection:bg-primary/30 selection:text-primary-foreground;
   }
+  /* Hide browser-native password reveal buttons (Edge ::-ms-reveal, Chrome autofill icon)
+     so they don't overlap our custom React eye toggle. */
   input[type="password"]::-ms-reveal,
   input[type="password"]::-ms-clear {
     display: none;
@@ -192,19 +194,10 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--app-font-display);
   }
-}
-
-@layer components {
   .glass-card {
-    background: hsl(var(--card));
-    backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--border));
-    box-shadow: 0 0 15px rgba(0, 119, 255, 0.08);
+    @apply bg-card backdrop-blur-md border border-border shadow-[0_0_15px_rgba(0,119,255,0.08)];
   }
-
   .glass-card:hover {
-    box-shadow: 0 0 22px rgba(0, 119, 255, 0.18);
-    border-color: hsl(var(--primary) / 0.35);
-    transition: all 0.3s ease;
+    @apply shadow-[0_0_22px_rgba(0,119,255,0.18)] border-primary/35 transition-all duration-300;
   }
 }
