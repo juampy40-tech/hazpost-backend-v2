@@ -526,19 +526,72 @@ def create_app():
             return jsonify({"error": "Error interno"}), 500
 
 
+    # ============================================================
+    # BUSINESS DETAIL — Editar / leer / borrar negocio por ID
+    # ============================================================
+    @app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
+    def business_detail(business_id):
+        try:
+            businesses_list = session.get("businesses", [])
+            if not isinstance(businesses_list, list):
+                businesses_list = []
+
+            index = next(
+                (i for i, business in enumerate(businesses_list)
+                 if int(business.get("id", 0)) == business_id),
+                None
+            )
+
+            if index is None:
+                return jsonify({"error": "Negocio no encontrado"}), 404
+
+            if request.method == 'GET':
+                return jsonify({"business": businesses_list[index]})
+
+            if request.method == 'DELETE':
+                deleted = businesses_list.pop(index)
+                session["businesses"] = businesses_list
+                session.permanent = True
+                return jsonify({"success": True, "business": deleted})
+
+            data = request.get_json(silent=True) or {}
+
+            updated_business = {
+                **businesses_list[index],
+                **data,
+                "id": business_id,
+            }
+
+            businesses_list[index] = updated_business
+            session["businesses"] = businesses_list
+            session.permanent = True
+
+            return jsonify({
+                "success": True,
+                "business": updated_business,
+            })
+
+        except Exception as e:
+            logger.exception(f"BUSINESS DETAIL ERROR: {e}")
+            return jsonify({"error": "Error interno"}), 500
+
+
     @app.route('/')
     def index():
         return {"status": "ok"}
 
+
     @app.route('/health')
     def health():
         return {"status": "ok"}
+
 
     # Catch-all OPTIONS para que cualquier endpoint nuevo del backend responda preflight.
     @app.route('/api/<path:_path>', methods=['OPTIONS'])
     def api_options(_path):
         response = make_response("", 204)
         return _attach_cors_headers(response)
+
 
     return app
 
