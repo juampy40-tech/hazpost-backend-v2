@@ -359,18 +359,6 @@ function CountrySelect({
     setOpen(false);
   }
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter" && filteredCountries.length > 0) {
-      e.preventDefault();
-      pickCountry(filteredCountries[0]);
-    }
-
-    if (e.key === "Escape") {
-      setOpen(false);
-      setQuery("");
-    }
-  }
-
   return (
     <div ref={wrapperRef} className="relative">
       <button
@@ -398,32 +386,21 @@ function CountrySelect({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.15 }}
-            className="absolute z-[9999] bottom-full mb-2 w-full overflow-hidden rounded-2xl border border-border bg-popover shadow-xl"
+            className="absolute z-50 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-popover shadow-xl"
           >
             <div className="border-b border-border p-2">
               <div className="flex items-center gap-2 rounded-xl border border-input bg-background px-3">
                 <Search className="h-4 w-4 text-muted-foreground" />
-
-                {/* 🔥 AQUÍ ESTÁ EL FIX DEL CUADRO BLANCO */}
                 <input
                   autoFocus
                   value={query}
                   onChange={e => setQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
                   placeholder="Buscar país..."
-
-                  autoComplete="new-password"
-                  autoCorrect="off"
-                  autoCapitalize="none"
-                  spellCheck={false}
-                  name="no-country-autofill"
-
                   className="h-10 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
               </div>
-
               <p className="mt-2 px-1 text-[11px] text-muted-foreground">
-                Escribe y presiona Enter o haz clic para seleccionar.
+                HazPost usa país y ciudad para adaptar idioma, cultura, horarios y contexto del contenido.
               </p>
             </div>
 
@@ -436,10 +413,7 @@ function CountrySelect({
                     <button
                       key={country.code}
                       type="button"
-                      onMouseDown={e => {
-                        e.preventDefault(); // 🔥 evita bug de click
-                        pickCountry(country);
-                      }}
+                      onClick={() => pickCountry(country)}
                       className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition-colors ${
                         selected
                           ? "bg-primary/10 text-primary"
@@ -456,7 +430,7 @@ function CountrySelect({
                 })
               ) : (
                 <div className="px-3 py-6 text-center text-sm text-muted-foreground">
-                  No encontramos ese país.
+                  No encontramos ese país. Puedes elegir “Otro”.
                 </div>
               )}
             </div>
@@ -1392,57 +1366,40 @@ function Step4({
   );
 }
 
-// ── Step 5: Redes sociales ─────────────────────────────────────────────────────
-
-function GuideStep({ num, color, title, desc, link, linkText, badge }: { num: string; color: string; title: string; desc: string; link?: string | null; linkText?: string | null; badge?: string }) {
-  return (
-    <li className="flex gap-3">
-      <div className="flex flex-col items-center shrink-0">
-        <span className={`w-7 h-7 rounded-full font-bold text-sm flex items-center justify-center ${color}`}>{num}</span>
-        <div className="w-0.5 bg-border/40 flex-1 mt-1 min-h-[8px]" />
-      </div>
-      <div className="pb-4">
-        <div className="flex items-center gap-2 flex-wrap">
-          <p className="font-semibold text-sm text-foreground">{title}</p>
-          {badge && <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary/20 text-primary font-mono">{badge}</span>}
-        </div>
-        <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
-        {link && (
-          <a href={link} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-1 text-xs underline mt-1.5 font-medium ${color.replace("bg-", "text-").split(" ")[0]}`}>
-            {linkText} <ExternalLink className="w-3 h-3" />
-          </a>
-        )}
-      </div>
-    </li>
-  );
-}
-
-// ── Step 5: Redes sociales ─────────────────────────────────────────────────────
+// ── Step 5: Activación comercial ───────────────────────────────────────────────
 
 const GEN_FREQ_OPTIONS = [
-  { value: "daily", label: "Diario", desc: "La IA genera contenido cada día", icon: "🔥", recommended: true },
-  { value: "3x", label: "3× semana", desc: "Lunes, miércoles y viernes", icon: "⚡", recommended: false },
-  { value: "weekly", label: "Semanal", desc: "Un lote cada semana", icon: "📅", recommended: false },
-  { value: "none", label: "Manual", desc: "Yo voy al generador cuando quiero", icon: "✋", recommended: false },
+  { value: "daily", label: "Diario", desc: "HazPost prepara contenido cada día", icon: "🔥", recommended: true },
+  { value: "3x", label: "3× semana", desc: "Buen ritmo para mantener presencia", icon: "⚡", recommended: false },
+  { value: "weekly", label: "Semanal", desc: "Un lote de contenido cada semana", icon: "📅", recommended: false },
+  { value: "none", label: "Manual", desc: "Yo genero cuando quiera", icon: "✋", recommended: false },
 ];
 
 function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Partial<BrandProfile>) => void }) {
   const freq = data.aiGenFrequency ?? "daily";
+  const isManual = freq === "none";
 
   return (
     <div className="space-y-5">
+      <div>
+        <h2 className="text-2xl font-bold text-foreground mb-1">Tu marca ya está lista</h2>
+        <p className="text-muted-foreground">
+          Elige cómo quieres que HazPost te ayude a crear contenido. Puedes cambiarlo después desde el panel.
+        </p>
+      </div>
+
       <div className="rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/10 via-black/40 to-secondary/5 p-5 space-y-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
             <Zap className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <p className="font-bold text-foreground">Generación automática de IA</p>
+            <p className="font-bold text-foreground">HazPost crea contenido por ti mientras tú vendes</p>
             <p className="text-xs text-muted-foreground mt-0.5">
-              HazPost creará ideas, textos e imágenes usando la información de tu negocio.
+              Usaremos tu negocio, colores, logo, tipografía, audiencia y estilo para preparar posts listos para aprobar.
             </p>
           </div>
-          {freq === "none" ? (
+          {isManual ? (
             <div className="ml-auto bg-muted/40 border border-border rounded-full px-3 py-1">
               <span className="text-xs font-bold text-muted-foreground">Manual</span>
             </div>
@@ -1478,38 +1435,12 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
           ))}
         </div>
 
-        <p className="text-[11px] text-muted-foreground/70">
-          Puedes cambiar esto después desde Configuración.
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-border bg-black/20 p-5 space-y-4">
-        <div>
-          <h2 className="text-xl font-bold text-foreground mb-1">Tus redes sociales</h2>
-          <p className="text-sm text-muted-foreground">
-            Para no complicarte ahora, puedes conectar Instagram, Facebook y TikTok después desde el panel.
+        <div className="rounded-xl border border-primary/20 bg-primary/5 p-3">
+          <p className="text-xs font-semibold text-primary">Siguiente paso</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Al entrar al panel podrás generar tu primer post y conectar Instagram, Facebook o TikTok cuando estés listo.
           </p>
         </div>
-
-        <div className="grid gap-3">
-          <div className="rounded-xl border border-border bg-background/60 p-4">
-            <p className="font-semibold text-foreground">Ahora terminamos tu perfil</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              HazPost ya tiene la información importante para crear contenido con tu marca: negocio, colores, logo, tipografía, audiencia y estilo.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-primary/30 bg-primary/5 p-4">
-            <p className="font-semibold text-primary">Después conectas tus redes en 1 lugar</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              En el dashboard verás un bloque claro para conectar Instagram/Facebook y TikTok cuando estés listo.
-            </p>
-          </div>
-        </div>
-
-        <p className="text-[11px] text-muted-foreground/70">
-          Esto evita que el registro sea difícil y ayuda a que más usuarios terminen la configuración.
-        </p>
       </div>
     </div>
   );
@@ -1755,9 +1686,9 @@ async function doNext() {
     } catch { /* non-blocking */ }
 
     if (isManual) {
-      toast({ title: "¡Marca lista! 🎉", description: "Ve al generador masivo cuando quieras para crear tu contenido." });
+      toast({ title: "¡Marca lista! 🎉", description: "Entra al panel para generar tu primer contenido." });
     } else {
-      toast({ title: "¡IA activada! 🚀", description: "Tu marca está lista. La IA empezará a generar contenido automáticamente." });
+      toast({ title: "¡Todo listo! 🚀", description: "Tu marca está lista para generar contenido con IA." });
     }
     onComplete();
   }
@@ -1905,7 +1836,7 @@ async function doNext() {
                 disabled={saving}
                 className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
               >
-                Finalizar sin conectar redes
+                Entrar al panel
               </button>
             )}
           </div>
@@ -1914,7 +1845,7 @@ async function doNext() {
             {isLastStep ? (
               <Button onClick={handleComplete} disabled={saving}>
                 {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Check className="w-4 h-4 mr-2" />}
-                {editMode ? "Guardar cambios" : "Finalizar configuración"}
+                {editMode ? "Guardar cambios" : "Entrar a mi panel 🚀"}
               </Button>
             ) : (
               <Button onClick={handleNext} disabled={saving}>
