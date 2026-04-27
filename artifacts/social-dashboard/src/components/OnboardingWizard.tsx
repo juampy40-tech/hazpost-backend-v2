@@ -443,26 +443,72 @@ function CountrySelect({
 
 // ── Upload helper ──────────────────────────────────────────────────────────────
 
-async function uploadFile(file: File): Promise<string> {
-const urlRes = await fetch(`${API_BASE}/api/storage/uploads/request-url`, {
-  method: "POST",
-  credentials: "include",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    name: file.name,
-    size: file.size,
-    contentType: file.type
-  }),
-});
-  if (!urlRes.ok) throw new Error("No se pudo obtener la URL de carga");
-  const { uploadURL, objectPath } = await urlRes.json();
+type UploadUrlResponse = {
+  uploadURL?: string;
+  uploadUrl?: string;
+  upload_url?: string;
+  signedUrl?: string;
+  signed_url?: string;
+  url?: string;
+  objectPath?: string;
+  object_path?: string;
+  path?: string;
+  key?: string;
+  publicUrl?: string;
+  public_url?: string;
+};
 
-  const uploadRes = await fetch(uploadURL, {
+function resolveStorageUrl(pathOrUrl?: string): string {
+  if (!pathOrUrl) return "";
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+  const cleanPath = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
+  if (cleanPath.startsWith("/api/storage")) return `${API_BASE}${cleanPath}`;
+  return `${API_BASE}/api/storage${cleanPath}`;
+}
+
+async function uploadFile(file: File): Promise<string> {
+  const urlRes = await fetch(`${API_BASE}/api/storage/uploads/request-url`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      name: file.name,
+      filename: file.name,
+      size: file.size,
+      contentType: file.type,
+      content_type: file.type,
+    }),
+  });
+
+  if (!urlRes.ok) {
+    const body = await urlRes.json().catch(() => ({}));
+    throw new Error((body as { error?: string }).error || "No se pudo obtener la URL de carga");
+  }
+
+  const body = (await urlRes.json().catch(() => ({}))) as UploadUrlResponse;
+  const uploadUrl = body.uploadURL || body.uploadUrl || body.upload_url || body.signedUrl || body.signed_url || body.url;
+  const objectPath = body.objectPath || body.object_path || body.path || body.key || body.publicUrl || body.public_url;
+
+  // Seguridad: nunca llamar fetch(undefined), porque el navegador lo convierte en /undefined en Vercel.
+  if (!uploadUrl || uploadUrl === "undefined") {
+    throw new Error("El backend no devolvió una URL válida para subir el archivo");
+  }
+
+  const uploadRes = await fetch(uploadUrl, {
     method: "PUT",
-    headers: { "Content-Type": file.type },
+    headers: { "Content-Type": file.type || "application/octet-stream" },
     body: file,
   });
+
   if (!uploadRes.ok) throw new Error("Error al subir el archivo");
+
+  if (!objectPath) {
+    throw new Error("El backend subió el archivo, pero no devolvió la ruta guardable");
+  }
+
   return objectPath as string;
 }
 
@@ -534,7 +580,7 @@ function Step1({
 
       <div className="grid gap-4">
         <div className="grid gap-2">
-          <Label>Nombre de la empresa *</Label>
+          <Label>Nombre de la empresa <span className="text-muted-foreground font-normal">(recomendado)</span></Label>
           <Input
             value={data.companyName ?? ""}
             onChange={e => onChange({ companyName: e.target.value })}
@@ -669,7 +715,7 @@ function Step1({
 
           <div className="grid gap-2">
             <div className="flex items-center justify-between gap-2">
-              <Label>País *</Label>
+              <Label>País <span className="text-muted-foreground font-normal">(recomendado)</span></Label>
               <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
                 Global
               </span>
@@ -682,7 +728,7 @@ function Step1({
         </div>
 
         <div className="grid gap-2">
-          <Label>Ciudad *</Label>
+          <Label>Ciudad <span className="text-muted-foreground font-normal">(recomendado)</span></Label>
           <Input
             value={data.city ?? ""}
             onChange={e => onChange({ city: e.target.value })}
@@ -830,7 +876,7 @@ function Step2({
         {logos.length > 0 && (
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
             {logos.map((url, idx) => {
-              const src = `${API_BASE}/api/storage${url}`;
+              const src = resolveStorageUrl(url);
               const isProcessing = removingBgIdx === idx;
               return (
                 <div key={url + idx} className="group relative">
@@ -980,7 +1026,7 @@ function Step2({
       {/* Description */}
       <div className="grid gap-2">
         <div className="flex items-center justify-between">
-          <Label>Descripción del negocio *</Label>
+          <Label>Descripción del negocio <span className="text-muted-foreground font-normal">(muy recomendado)</span></Label>
           {aiSuggestions?.description && (
             <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5">
               <Sparkles className="w-3 h-3" />
@@ -1250,7 +1296,7 @@ function Step4({
           {currentImages.map((path, idx) => (
             <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-border bg-black/20">
               <img
-                src={`${API_BASE}/api/storage${path}`}
+                src={`/api/storage${path}`}
                 alt={`Referencia ${idx + 1}`}
                 className="w-full h-full object-cover"
               />
@@ -1576,7 +1622,7 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(`${API_BASE}/api/auth/meta/redirect`, "_blank", "noopener,noreferrer")}
+            onClick={() => window.open(`/api/auth/meta/redirect`, "_blank", "noopener,noreferrer")}
             className="border-pink-500/40 text-pink-400 hover:bg-pink-500/10"
           >
             <Instagram className="w-4 h-4 mr-2" />
@@ -1585,7 +1631,7 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(`${API_BASE}/api/auth/tiktok/redirect`, "_blank", "noopener,noreferrer")}
+            onClick={() => window.open(`/api/auth/tiktok/redirect`, "_blank", "noopener,noreferrer")}
             className="border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10"
           >
             <PlaySquare className="w-4 h-4 mr-2" />
@@ -1645,7 +1691,7 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
   }
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/businesses`, { credentials: "include" })
+    fetch(`/api/businesses`, { credentials: "include" })
       .then(r => r.json())
       .then((d: { businesses?: { id: number; isDefault?: boolean }[] }) => {
         const list = d.businesses ?? [];
@@ -1692,8 +1738,8 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
   }
 
   function getAnalyzeEndpoint(): string {
-    if (activeBizId) return `${API_BASE}/api/businesses/${activeBizId}/analyze-website`;
-    return `${API_BASE}/api/analyze-website`;
+    if (activeBizId) return `/api/businesses/${activeBizId}/analyze-website`;
+    return `/api/analyze-website`;
   }
 
   function handleAiAnalysis(suggestions: AiSuggestions) {
@@ -1825,7 +1871,7 @@ async function doNext() {
     const freqMap: Record<string, string> = { daily: "daily", "3x": "3x_week", weekly: "weekly" };
     const genFreq = isManual ? "none" : (freqMap[data.aiGenFrequency ?? "daily"] ?? "daily");
     try {
-     await fetch(`${API_BASE}/api/settings`, {
+     await fetch(`/api/settings`, {
   method: "PUT",
   credentials: "include",
   headers: { "Content-Type": "application/json" },
