@@ -362,7 +362,7 @@ function CountrySelect({
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter" && filteredCountries.length > 0) {
       e.preventDefault();
-      pickCountry(filteredCountries[0]); // 🔥 selecciona automático
+      pickCountry(filteredCountries[0]);
     }
 
     if (e.key === "Escape") {
@@ -403,20 +403,25 @@ function CountrySelect({
             <div className="border-b border-border p-2">
               <div className="flex items-center gap-2 rounded-xl border border-input bg-background px-3">
                 <Search className="h-4 w-4 text-muted-foreground" />
+
+                {/* 🔥 AQUÍ ESTÁ EL FIX DEL CUADRO BLANCO */}
                 <input
                   autoFocus
                   value={query}
                   onChange={e => setQuery(e.target.value)}
-                  onKeyDown={handleKeyDown} // 🔥 clave
+                  onKeyDown={handleKeyDown}
                   placeholder="Buscar país..."
-                  autoComplete="off" // 🔥 quita Chrome
+
+                  autoComplete="new-password"
                   autoCorrect="off"
                   autoCapitalize="none"
                   spellCheck={false}
-                  name="hazpost-country"
+                  name="no-country-autofill"
+
                   className="h-10 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
               </div>
+
               <p className="mt-2 px-1 text-[11px] text-muted-foreground">
                 Escribe y presiona Enter o haz clic para seleccionar.
               </p>
