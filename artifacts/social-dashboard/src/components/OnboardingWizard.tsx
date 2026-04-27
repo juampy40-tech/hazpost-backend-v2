@@ -1557,24 +1557,36 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
     return `/api/analyze-website`;
   }
 
-  function handleAiAnalysis(suggestions: AiSuggestions) {
-    setAiSuggestions(suggestions);
-    // Only fill empty fields — never overwrite existing user-entered or pre-loaded values
-    setData(prev => {
-      const patch: Partial<BrandProfile> = {};
-      if (suggestions.description && !prev.businessDescription?.trim()) patch.businessDescription = suggestions.description;
-      if (suggestions.audience && !prev.audienceDescription?.trim()) patch.audienceDescription = suggestions.audience;
-      if (suggestions.tone && !prev.brandTone?.trim()) patch.brandTone = suggestions.tone;
-      if (suggestions.primaryColor && !prev.primaryColor?.trim()) patch.primaryColor = suggestions.primaryColor;
-      return Object.keys(patch).length > 0 ? { ...prev, ...patch } : prev;
-    });
-  }
+ function handleAiAnalysis(suggestions: AiSuggestions) {
+  setAiSuggestions(suggestions);
 
-  function dismissSuggestion(field: "description" | "audience" | "tone" | "primaryColor") {
-    setAiSuggestions(prev => prev ? { ...prev, [field]: null } : null);
-  }
+  // Only fill empty fields — never overwrite existing user-entered or pre-loaded values
+  setData(prev => {
+    const patch: Partial<BrandProfile> = {};
 
-  const [analyzing, setAnalyzing] = useState(false);
+    if (suggestions.description && !prev.businessDescription?.trim()) {
+      patch.businessDescription = suggestions.description;
+    }
+
+    if (suggestions.audience && !prev.audienceDescription?.trim()) {
+      patch.audienceDescription = suggestions.audience;
+    }
+
+    if (suggestions.tone && !prev.brandTone?.trim()) {
+      patch.brandTone = suggestions.tone;
+    }
+
+    if (suggestions.primaryColor && !prev.primaryColor?.trim()) {
+      patch.primaryColor = suggestions.primaryColor;
+    }
+
+    return Object.keys(patch).length > 0 ? { ...prev, ...patch } : prev;
+  });
+}
+
+function dismissSuggestion(field: "description" | "audience" | "tone" | "primaryColor") {
+  setAiSuggestions(prev => prev ? { ...prev, [field]: null } : null);
+}
 
   async function triggerAnalyze(url: string): Promise<void> {
     setAnalyzing(true);
