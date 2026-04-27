@@ -398,7 +398,7 @@ function CountrySelect({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.15 }}
-            className="absolute z-[9999] mt-2 w-full overflow-hidden rounded-2xl border border-border bg-popover shadow-xl"
+            className="absolute z-[9999] bottom-full mb-2 w-full overflow-hidden rounded-2xl border border-border bg-popover shadow-xl"
           >
             <div className="border-b border-border p-2">
               <div className="flex items-center gap-2 rounded-xl border border-input bg-background px-3">
