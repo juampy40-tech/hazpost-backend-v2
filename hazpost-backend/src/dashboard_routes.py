@@ -31,7 +31,6 @@ def settings():
         if not isinstance(current, dict):
             current = {}
 
-        # defaults PRO
         current.setdefault("aiEnabled", False)
         current.setdefault("frequency", None)
 
@@ -164,6 +163,7 @@ def schedule():
     return jsonify(schedule_list), 201
 
 
+# ✅ RUTA ORIGINAL (NO SE TOCA)
 @dashboard_bp.route('/unread', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def unread():
     unread_list = _as_list(session.get("unread", []))
@@ -189,6 +189,13 @@ def unread():
     session.permanent = True
 
     return jsonify(unread_list), 201
+
+
+# 🔥 FIX PRO: COMPATIBILIDAD CON FRONTEND
+@dashboard_bp.route('/support/unread', methods=['GET'])
+def support_unread():
+    unread_list = _as_list(session.get("unread", []))
+    return jsonify(unread_list)
 
 
 @dashboard_bp.route('/alerts', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
