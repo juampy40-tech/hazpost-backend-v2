@@ -17,6 +17,25 @@ interface HealthStatus {
   timestamp: string;
 }
 
+interface BrandProfileSummary {
+  companyName?: string;
+  industry?: string;
+  subIndustry?: string;
+  country?: string;
+  city?: string;
+  logoUrl?: string;
+  logoUrls?: string;
+  brandFont?: string;
+  brandFontUrl?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+  businessDescription?: string;
+  audienceDescription?: string;
+  brandTone?: string;
+  aiGenFrequency?: string;
+  onboardingCompleted?: boolean | string;
+}
+
 export default function Dashboard() {
   const { data: posts, isLoading } = useBusinessPosts({ slim: '1' });
   const activeBusiness = useActiveBusiness();
@@ -31,6 +50,8 @@ export default function Dashboard() {
   );
   const [socialAccounts, setSocialAccounts] = useState<Array<{ id: number; platform: string; username: string | null; businessId: number | null; connected?: string }>>([]);
   const [socialAccountsLoaded, setSocialAccountsLoaded] = useState(false);
+  const [brandProfile, setBrandProfile] = useState<BrandProfileSummary | null>(null);
+  const [brandProfileLoaded, setBrandProfileLoaded] = useState(false);
 
 useEffect(() => {
   (async () => {
@@ -78,6 +99,15 @@ useEffect(() => {
     return () => document.removeEventListener("visibilitychange", onVisible);
   }, []);
 
+  useEffect(() => {
+    apiFetch("/api/brand-profile")
+      .then((d: { brandProfile?: BrandProfileSummary }) => {
+        setBrandProfile(d.brandProfile ?? null);
+        setBrandProfileLoaded(true);
+      })
+      .catch(() => setBrandProfileLoaded(true));
+  }, []);
+
   async function handleActivateAI() {
     setAiActivating(true);
     try {
@@ -102,6 +132,19 @@ useEffect(() => {
     };
   }, [posts]);
 
+  const hasConnectedSocial = socialAccounts.some(account =>
+    account.connected === "true" &&
+    (activeBusiness.id == null || account.businessId == null || account.businessId === activeBusiness.id)
+  );
+
+  const brandName = brandProfile?.companyName?.trim() || "tu negocio";
+  const hasBrandProfile = !!(
+    brandProfile?.companyName ||
+    brandProfile?.industry ||
+    brandProfile?.logoUrl ||
+    brandProfile?.businessDescription
+  );
+
   return (
     <div className="space-y-8 pb-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -120,6 +163,68 @@ useEffect(() => {
           </Link>
         </div>
       </div>
+
+      {/* ── Activación PRO post-onboarding ── */}
+      {brandProfileLoaded && hasBrandProfile && (
+        <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/15 via-black/40 to-secondary/10 p-6 shadow-[0_0_25px_rgba(0,201,83,0.08)]">
+          <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute -left-16 -bottom-16 h-40 w-40 rounded-full bg-secondary/10 blur-3xl" />
+
+          <div className="relative grid gap-5 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                <Sparkles className="h-3.5 w-3.5" />
+                Marca lista
+              </div>
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
+                {brandName} ya puede empezar a crear contenido con IA
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+                HazPost usará tu industria, colores, logo, tipografía, audiencia y estilo para preparar publicaciones listas para revisar.
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link
+                  href="/generate"
+                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-black transition-all hover:bg-primary/90 shadow-[0_0_16px_rgba(0,201,83,0.25)]"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  Generar mi primer post
+                </Link>
+                <Link
+                  href="/approval"
+                  className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  Revisar cola
+                </Link>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-border/50 bg-black/30 p-4">
+              <p className="text-sm font-bold text-foreground">Próximo paso recomendado</p>
+              {hasConnectedSocial ? (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Tus redes están conectadas. Genera contenido y apruébalo para programarlo.
+                </p>
+              ) : (
+                <>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Conecta Instagram, Facebook o TikTok cuando quieras publicar automáticamente.
+                  </p>
+                  <Link
+                    href="/settings"
+                    className="mt-3 inline-flex items-center gap-2 rounded-lg border border-secondary/40 bg-secondary/10 px-3 py-2 text-xs font-semibold text-secondary transition-all hover:bg-secondary/20"
+                  >
+                    <Zap className="h-3.5 w-3.5" />
+                    Conectar redes
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Guía rápida del flujo ── */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -220,10 +325,10 @@ useEffect(() => {
             <AlertTriangle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
             <div className="flex-1 min-w-0">
               <p className="text-sm text-yellow-300 font-medium leading-snug">
-                Este negocio no tiene cuentas de redes sociales conectadas. Los posts generados no se publicarán automáticamente.
+                Conecta tus redes para publicar automáticamente.
               </p>
               <p className="text-xs text-yellow-400/70 mt-1">
-                Ve a <Link href="/settings" className="underline underline-offset-2 hover:text-yellow-300 transition-colors">Configuración → Cuentas Sociales</Link> para conectar Instagram o TikTok.
+                Puedes generar y aprobar contenido desde ya. Cuando quieras automatizar la publicación, ve a <Link href="/settings" className="underline underline-offset-2 hover:text-yellow-300 transition-colors">Configuración → Cuentas Sociales</Link>.
               </p>
             </div>
           </div>
@@ -243,8 +348,8 @@ useEffect(() => {
           <div className="flex items-start gap-3 mb-4">
             <Zap className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-bold text-cyan-300">Desbloquea el 100% de HazPost — conecta tus APIs</p>
-              <p className="text-xs text-muted-foreground mt-0.5">Sin conexión solo puedes generar contenido. Con las APIs activas automatizas todo.</p>
+              <p className="text-sm font-bold text-cyan-300">Conecta tus redes y publica en automático</p>
+              <p className="text-xs text-muted-foreground mt-0.5">No necesitas hacerlo para empezar. Pero al conectar tus cuentas, HazPost podrá publicar y medir resultados por ti.</p>
             </div>
           </div>
           <div className="overflow-x-auto">
@@ -274,7 +379,7 @@ useEffect(() => {
           </div>
           <div className="mt-4">
             <Link href="/settings" className="inline-flex items-center gap-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/40 px-4 py-2 rounded-lg text-xs font-semibold transition-all">
-              <Zap className="w-3.5 h-3.5" /> Conectar APIs ahora
+              <Zap className="w-3.5 h-3.5" /> Conectar redes ahora
             </Link>
           </div>
         </div>
@@ -335,9 +440,9 @@ useEffect(() => {
             ) : (
               <div className="flex flex-col items-center gap-4">
                 <Sparkles className="w-12 h-12 text-primary/30" />
-                <p className="max-w-xs leading-relaxed">La red está en silencio. Genera nuevo contenido solar y electriza a tu audiencia.</p>
+                <p className="max-w-xs leading-relaxed">Tu panel está listo. Genera tu primer contenido y empieza a llenar la cola de aprobación.</p>
                 <Link href="/generate" className="mt-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium uppercase tracking-widest border-b border-primary/30 pb-1">
-                  Iniciar Generador
+                  Generar mi primer post
                 </Link>
               </div>
             )}
