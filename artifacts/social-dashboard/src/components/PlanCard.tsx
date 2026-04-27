@@ -186,14 +186,19 @@ export function PlanCard({
       </ul>
 
       <Button
-        onClick={() => onSelect(plan.key)}
-        disabled={loading || isCurrent}
-        className={
-          isBusiness
-            ? "bg-cyan-400 text-black font-bold shadow-[0_0_20px_rgba(0,194,255,0.35)] hover:bg-cyan-300"
-            : ""
-        }
-      >
+  onClick={() => onSelect(plan.key)}
+  disabled={loading || isCurrent}
+  className={`
+    transition-all duration-200
+    hover:scale-[1.03]
+    hover:shadow-[0_0_20px_rgba(0,194,255,0.25)]
+    ${
+      isBusiness
+        ? "bg-cyan-400 text-black font-bold shadow-[0_0_20px_rgba(0,194,255,0.35)] hover:bg-cyan-300"
+        : "hover:bg-primary/90"
+    }
+  `}
+>
         {loading ? "Procesando…" : getButtonLabel(plan.key, isCurrent, isDowngrade)}
       </Button>
 
