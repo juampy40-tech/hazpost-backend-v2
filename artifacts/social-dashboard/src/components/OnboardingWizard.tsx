@@ -359,6 +359,18 @@ function CountrySelect({
     setOpen(false);
   }
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter" && filteredCountries.length > 0) {
+      e.preventDefault();
+      pickCountry(filteredCountries[0]); // 🔥 selecciona automático
+    }
+
+    if (e.key === "Escape") {
+      setOpen(false);
+      setQuery("");
+    }
+  }
+
   return (
     <div ref={wrapperRef} className="relative">
       <button
@@ -386,7 +398,7 @@ function CountrySelect({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.15 }}
-            className="absolute z-50 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-popover shadow-xl"
+            className="absolute z-[9999] mt-2 w-full overflow-hidden rounded-2xl border border-border bg-popover shadow-xl"
           >
             <div className="border-b border-border p-2">
               <div className="flex items-center gap-2 rounded-xl border border-input bg-background px-3">
@@ -395,12 +407,18 @@ function CountrySelect({
                   autoFocus
                   value={query}
                   onChange={e => setQuery(e.target.value)}
+                  onKeyDown={handleKeyDown} // 🔥 clave
                   placeholder="Buscar país..."
+                  autoComplete="off" // 🔥 quita Chrome
+                  autoCorrect="off"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  name="hazpost-country"
                   className="h-10 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
               </div>
               <p className="mt-2 px-1 text-[11px] text-muted-foreground">
-                HazPost usa país y ciudad para adaptar idioma, cultura, horarios y contexto del contenido.
+                Escribe y presiona Enter o haz clic para seleccionar.
               </p>
             </div>
 
@@ -413,7 +431,10 @@ function CountrySelect({
                     <button
                       key={country.code}
                       type="button"
-                      onClick={() => pickCountry(country)}
+                      onMouseDown={e => {
+                        e.preventDefault(); // 🔥 evita bug de click
+                        pickCountry(country);
+                      }}
                       className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition-colors ${
                         selected
                           ? "bg-primary/10 text-primary"
@@ -430,7 +451,7 @@ function CountrySelect({
                 })
               ) : (
                 <div className="px-3 py-6 text-center text-sm text-muted-foreground">
-                  No encontramos ese país. Puedes elegir “Otro”.
+                  No encontramos ese país.
                 </div>
               )}
             </div>
