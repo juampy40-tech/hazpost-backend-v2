@@ -179,22 +179,39 @@ export function PricingSection({
   });
 
   return (
-    <div className="w-full">
-      {mode !== "landing" && (
-        <div className="mb-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-primary mb-2">{intro.eyebrow}</p>
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground mb-2">{intro.title}</h2>
-          <p className="text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed">{intro.description}</p>
-        </div>
-      )}
+  <div className="w-full">
+    {mode !== "landing" && (
+      <div className="mb-6 text-center">
+        <p className="text-xs font-bold uppercase tracking-[0.22em] text-primary mb-2">
+          {intro.eyebrow}
+        </p>
 
-      {anyHasAnnual && (
-        <div className="flex flex-col items-center gap-3 mb-8">
-          <div className="inline-flex items-center gap-3 rounded-full border border-border bg-card/70 px-4 py-2 shadow-sm">
-            <span
-              className={`text-sm font-semibold cursor-pointer transition-colors ${!annual ? "text-foreground" : "text-muted-foreground"}`}
-              onClick={() => setAnnual(false)}
-            >
+        <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground mb-2">
+          {intro.title}
+        </h2>
+
+        {/* 🔥 NUEVO: DECISIÓN GUIADA */}
+        {mode === "register" && (
+          <p className="text-xs text-primary font-semibold mt-1">
+            Recomendado: Negocio ⭐ (el más elegido)
+          </p>
+        )}
+
+        <p className="text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          {intro.description}
+        </p>
+      </div>
+    )}
+
+    {anyHasAnnual && (
+      <div className="flex flex-col items-center gap-3 mb-8">
+        <div className="inline-flex items-center gap-3 rounded-full border border-border bg-card/70 px-4 py-2 shadow-sm">
+          <span
+            className={`text-sm font-semibold cursor-pointer transition-colors ${
+              !annual ? "text-foreground" : "text-muted-foreground"
+            }`}
+            onClick={() => setAnnual(false)}
+          >
               Mensual
             </span>
             <button
