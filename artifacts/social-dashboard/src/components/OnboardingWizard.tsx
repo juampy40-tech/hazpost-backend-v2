@@ -460,9 +460,24 @@ type UploadUrlResponse = {
 
 function resolveStorageUrl(pathOrUrl?: string): string {
   if (!pathOrUrl) return "";
-  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+
+  // Si ya es URL completa → usarla (forzando https)
+  if (/^https?:\/\//i.test(pathOrUrl)) {
+    return pathOrUrl.replace("http://", "https://");
+  }
+
   const cleanPath = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
-  if (cleanPath.startsWith("/api/storage")) return `${API_BASE}${cleanPath}`;
+
+  // Caso: ya viene con /api/storage
+  if (cleanPath.startsWith("/api/storage")) {
+    return `${API_BASE}${cleanPath}`;
+  }
+
+  // 🔥 Caso real de tu backend: /storage/objects/...
+  if (cleanPath.startsWith("/storage")) {
+    return `${API_BASE}/api${cleanPath}`;
+  }
+
   return `${API_BASE}/api/storage${cleanPath}`;
 }
 
@@ -510,12 +525,13 @@ async function uploadFile(file: File): Promise<string> {
     throw new Error("El backend no devolvió una URL válida para subir el archivo");
   }
 
+  // 🔥 CLAVE: usar FormData (porque Flask espera request.files)
+  const formData = new FormData();
+  formData.append("file", file);
+
   const uploadRes = await fetch(uploadUrl, {
-    method: "PUT",
-    headers: {
-      "Content-Type": file.type || "application/octet-stream",
-    },
-    body: file,
+    method: "POST",
+    body: formData,
   });
 
   if (!uploadRes.ok) {
