@@ -310,6 +310,17 @@ def alerts():
 
 @dashboard_bp.route('/niches', methods=['GET'])
 def niches():
+    scope = request.args.get("scope")
+
+    if scope == "all":
+        return jsonify({
+            "niches": [],
+            "pending": [],
+            "approved": [],
+            "rejected": [],
+            "extra_niche": []
+        })
+
     return jsonify([])
 
 
@@ -321,7 +332,12 @@ def packages():
 @dashboard_bp.route('/elements', methods=['GET'])
 def elements():
     business_id = request.args.get("businessId")
-    return jsonify([])
+
+    return jsonify({
+        "elements": [],
+        "items": [],
+        "data": []
+    })
 
 
 @dashboard_bp.route('/music/status', methods=['GET'])
@@ -336,7 +352,9 @@ def music_status():
 
 @dashboard_bp.route('/billing/packages', methods=['GET'])
 def billing_packages():
-    return jsonify([])
+    return jsonify({
+        "packages": []
+    })
 
 
 @dashboard_bp.route('/subscriptions/me', methods=['GET'])
