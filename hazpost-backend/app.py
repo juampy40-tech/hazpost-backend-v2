@@ -593,6 +593,30 @@ def create_app():
         return _attach_cors_headers(response)
 
 
+    # ============================================================
+    # 🔥 FALLBACK API — evita 405 en endpoints no implementados
+    # ============================================================
+    @app.route('/api/<path:unknown_path>', methods=['GET'])
+    def api_fallback_get(unknown_path):
+        logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
+
+        return jsonify({
+            "success": True,
+            "data": None,
+            "message": f"Endpoint /api/{unknown_path} no implementado aún",
+        })
+
+
+    @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
+    def api_fallback_mutation(unknown_path):
+        logger.warning(f"[FALLBACK MUTATION] Endpoint no implementado: /api/{unknown_path}")
+
+        return jsonify({
+            "success": False,
+            "message": f"Endpoint /api/{unknown_path} no implementado aún",
+        }), 200
+
+
     return app
 
 
