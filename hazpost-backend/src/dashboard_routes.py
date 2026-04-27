@@ -303,3 +303,16 @@ def music_status():
 @dashboard_bp.route('/billing/packages', methods=['GET'])
 def billing_packages():
     return jsonify([])
+
+
+@dashboard_bp.route('/subscriptions/me', methods=['GET'])
+def subscriptions_me():
+    subscription = session.get("subscription") or {
+        "plan": "free",
+        "status": "active",
+        "creditsRemaining": 40,
+        "creditsTotal": 40,
+        "periodEnd": None,
+    }
+
+    return jsonify(subscription)
