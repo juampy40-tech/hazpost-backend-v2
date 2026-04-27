@@ -1038,7 +1038,7 @@ def create_app():
             }), 500
 
 
-    @app.route('/api/storage/uploads/direct', methods=['PUT', 'POST'])
+    @app.route('/api/storage/uploads/direct', methods=['POST'])
     def storage_upload_direct():
         try:
             filename = request.args.get("filename") or f"{uuid.uuid4()}_upload.bin"
@@ -1049,19 +1049,14 @@ def create_app():
 
             filepath = os.path.join(upload_dir, safe_name)
 
-            if request.files:
-                uploaded_file = next(iter(request.files.values()))
-                uploaded_file.save(filepath)
-            else:
-                raw_body = request.get_data()
-                if not raw_body:
-                    return jsonify({
-                        "success": False,
-                        "error": "Archivo vacío"
-                    }), 400
+            if 'file' not in request.files:
+                return jsonify({
+                    "success": False,
+                    "error": "Archivo requerido"
+                }), 400
 
-                with open(filepath, "wb") as f:
-                    f.write(raw_body)
+            uploaded_file = request.files['file']
+            uploaded_file.save(filepath)
 
             object_path = f"/storage/objects/uploads/{safe_name}"
             public_url = f"{request.host_url.rstrip('/')}/api{object_path}"
@@ -1129,4 +1124,3 @@ app = create_app()
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-    
