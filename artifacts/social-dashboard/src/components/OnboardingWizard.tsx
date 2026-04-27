@@ -393,12 +393,17 @@ function CountrySelect({
                 <Search className="h-4 w-4 text-muted-foreground" />
                 <input
   autoFocus
-  type="search"
-  autoComplete="off"
+  type="text"
+  role="combobox"
+  inputMode="search"
+  autoComplete="new-password"
   autoCorrect="off"
   autoCapitalize="none"
   spellCheck={false}
-  name="hazpost-country-search"
+  name="hazpost-country-search-field"
+  id="hazpost-country-search-field"
+  data-lpignore="true"
+  data-form-type="other"
   value={query}
   onChange={e => setQuery(e.target.value)}
   placeholder="Buscar país..."
