@@ -1,6 +1,8 @@
 // src/lib/api.ts
 
-const API_BASE = "";
+const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  "https://hazpost-backend-v2-production.up.railway.app";
 
 export async function apiFetch(
   path: string,
