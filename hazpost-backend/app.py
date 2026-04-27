@@ -683,151 +683,151 @@ def create_app():
             }
         })
 
-# ============================================================
-# GOOGLE LOGIN TEMPORAL — Admin directo
-# ============================================================
-@app.route('/api/auth/google', methods=['GET'])
-def google_login_temp_admin():
-    user = {
-        "id": 1,
-        "email": "admin@hazpost.com",
-        "displayName": "Admin HazPost",
-        "role": "admin",
-        "plan": "agency",
-        "aiCredits": 250,
-        "onboardingStep": 5,
-        "emailVerified": True,
-        "avatarUrl": None,
-        "timezone": "America/Bogota",
-    }
 
-    subscription = {
-        "id": 1,
-        "userId": user["id"],
-        "plan": "agency",
-        "status": "active",
-        "creditsRemaining": 250,
-        "creditsTotal": 250,
-        "periodEnd": None,
-    }
+    # ============================================================
+    # GOOGLE LOGIN TEMPORAL — Admin directo
+    # ============================================================
+    @app.route('/api/auth/google', methods=['GET'])
+    def google_login_temp_admin():
+        user = {
+            "id": 1,
+            "email": "admin@hazpost.com",
+            "displayName": "Admin HazPost",
+            "role": "admin",
+            "plan": "agency",
+            "aiCredits": 250,
+            "onboardingStep": 5,
+            "emailVerified": True,
+            "avatarUrl": None,
+            "timezone": "America/Bogota",
+        }
 
-    session.clear()
-    session["user"] = user
-    session["subscription"] = subscription
-    session.permanent = True
+        subscription = {
+            "id": 1,
+            "userId": user["id"],
+            "plan": "agency",
+            "status": "active",
+            "creditsRemaining": 250,
+            "creditsTotal": 250,
+            "periodEnd": None,
+        }
 
-    return """
-    <script>
-      window.location.href = "https://hazpost-frontend.vercel.app/dashboard";
-    </script>
-    """
+        session.clear()
+        session["user"] = user
+        session["subscription"] = subscription
+        session.permanent = True
 
-
-# ============================================================
-# ADMIN STUBS — Evita errores en panel admin
-# ============================================================
-@app.route('/api/users', methods=['GET'])
-def admin_users():
-    return jsonify({
-        "users": [],
-        "data": [],
-        "total": 0,
-        "active": 0,
-        "inactive": 0,
-        "admins": 1
-    })
+        return """
+        <script>
+          window.location.href = "https://hazpost-frontend.vercel.app/dashboard";
+        </script>
+        """
 
 
-@app.route('/api/admin/users', methods=['GET'])
-def admin_users_alt():
-    return admin_users()
+    # ============================================================
+    # ADMIN STUBS — Evita errores en panel admin
+    # ============================================================
+    @app.route('/api/users', methods=['GET'])
+    def admin_users():
+        return jsonify({
+            "users": [],
+            "data": [],
+            "total": 0,
+            "active": 0,
+            "inactive": 0,
+            "admins": 1
+        })
 
 
-@app.route('/api/metrics', methods=['GET'])
-def admin_metrics():
-    return jsonify({
-        "summary": {
-            "users": 0,
-            "businesses": 0,
-            "posts": 0,
-            "creditsUsed": 0
-        },
-        "metrics": [],
-        "charts": [],
-        "revenue": [],
-        "activity": [],
-        "data": []
-    })
+    @app.route('/api/admin/users', methods=['GET'])
+    def admin_users_alt():
+        return admin_users()
 
 
-@app.route('/api/admin/metrics', methods=['GET'])
-def admin_metrics_alt():
-    return admin_metrics()
+    @app.route('/api/metrics', methods=['GET'])
+    def admin_metrics():
+        return jsonify({
+            "summary": {
+                "users": 0,
+                "businesses": 0,
+                "posts": 0,
+                "creditsUsed": 0
+            },
+            "metrics": [],
+            "charts": [],
+            "revenue": [],
+            "activity": [],
+            "data": []
+        })
 
 
-@app.route('/api/niches', methods=['GET'])
-def admin_niches():
-    return jsonify({
-        "niches": [],
-        "pending": [],
-        "approved": [],
-        "rejected": [],
-        "extra_niche": []
-    })
+    @app.route('/api/admin/metrics', methods=['GET'])
+    def admin_metrics_alt():
+        return admin_metrics()
 
 
-@app.route('/api/admin/niches', methods=['GET'])
-def admin_niches_alt():
-    return admin_niches()
+    @app.route('/api/niches', methods=['GET'])
+    def admin_niches():
+        return jsonify({
+            "niches": [],
+            "pending": [],
+            "approved": [],
+            "rejected": [],
+            "extra_niche": []
+        })
 
 
-# ============================================================
-# 🔥 EXTRA FIXES (CRÍTICO PARA FRONTEND)
-# ============================================================
-
-@app.route('/api/referrals', methods=['GET'])
-def referrals():
-    return jsonify([])
+    @app.route('/api/admin/niches', methods=['GET'])
+    def admin_niches_alt():
+        return admin_niches()
 
 
-@app.route('/api/conversions', methods=['GET'])
-def conversions():
-    return jsonify([])
+    # ============================================================
+    # EXTRA FIXES — requerido por frontend
+    # ============================================================
+    @app.route('/api/referrals', methods=['GET'])
+    def referrals():
+        return jsonify([])
 
 
-@app.route('/api/affiliate-settings', methods=['GET'])
-def affiliate_settings():
-    return jsonify({
-        "enabled": False,
-        "commission": 0
-    })
+    @app.route('/api/conversions', methods=['GET'])
+    def conversions():
+        return jsonify([])
 
 
-@app.route('/api/affiliate-codes', methods=['GET'])
-def affiliate_codes():
-    return jsonify([])
+    @app.route('/api/affiliate-settings', methods=['GET'])
+    def affiliate_settings():
+        return jsonify({
+            "enabled": False,
+            "commission": 0
+        })
 
 
-# ============================================================
-# FALLBACK API — evita 405 en endpoints no implementados
-# ============================================================
-@app.route('/api/<path:unknown_path>', methods=['GET'])
-def api_fallback_get(unknown_path):
-    logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
-    return jsonify([])
+    @app.route('/api/affiliate-codes', methods=['GET'])
+    def affiliate_codes():
+        return jsonify([])
 
 
-@app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
-def api_fallback_mutation(unknown_path):
-    logger.warning(f"[FALLBACK MUTATION] Endpoint no implementado: /api/{unknown_path}")
+    # ============================================================
+    # FALLBACK API — evita 405 en endpoints no implementados
+    # ============================================================
+    @app.route('/api/<path:unknown_path>', methods=['GET'])
+    def api_fallback_get(unknown_path):
+        logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
+        return jsonify([])
 
-    return jsonify({
-        "success": True,
-        "message": f"Endpoint /api/{unknown_path} recibido en modo fallback",
-    }), 200
+
+    @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
+    def api_fallback_mutation(unknown_path):
+        logger.warning(f"[FALLBACK MUTATION] Endpoint no implementado: /api/{unknown_path}")
+
+        return jsonify({
+            "success": True,
+            "message": f"Endpoint /api/{unknown_path} recibido en modo fallback",
+        }), 200
 
 
-return app
+    return app
 
 
 # 🔥 ESTA LÍNEA ES CLAVE PARA GUNICORN
