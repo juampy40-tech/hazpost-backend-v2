@@ -831,7 +831,7 @@ export default function Register() {
         </div>
       )}
 
-      {step === 3 && (
+          {step === 3 && (
         <div className="w-full mx-auto">
           <OnboardingWizard
             onComplete={handleWizardComplete}
@@ -841,5 +841,5 @@ export default function Register() {
         </div>
       )}
     </div>
-  );
-}
+  </div>
+);
