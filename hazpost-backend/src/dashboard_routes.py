@@ -82,8 +82,8 @@ def social_accounts():
 
     account = {
         "id": len(accounts) + 1,
-        "platform": data.get("platform"),
-        "connected": True,
+        "platform": data.get("platform") or data.get("provider") or data.get("network"),
+        "connected": data.get("connected", True),
         **data
     }
 
@@ -189,6 +189,11 @@ def unread():
     if request.method == 'GET':
         return jsonify(unread_list)
 
+    if request.method == 'DELETE':
+        session["unread"] = []
+        session.permanent = True
+        return jsonify([])
+
     data = request.get_json(silent=True) or {}
 
     item = {
@@ -206,7 +211,8 @@ def unread():
 
 @dashboard_bp.route('/support/unread', methods=['GET'])
 def support_unread():
-    return unread()
+    unread_list = _as_list(session.get("unread", []))
+    return jsonify(unread_list)
 
 
 # ------------------ NUEVOS ENDPOINTS (FIX 405) ------------------
@@ -246,11 +252,16 @@ def alerts():
     if request.method == 'GET':
         return jsonify(alerts_list)
 
+    if request.method == 'DELETE':
+        session["alerts"] = []
+        session.permanent = True
+        return jsonify([])
+
     data = request.get_json(silent=True) or {}
 
     alert = {
         "id": len(alerts_list) + 1,
-        "status": "active",
+        "status": data.get("status", "active"),
         **data
     }
 
@@ -258,10 +269,7 @@ def alerts():
     session["alerts"] = alerts_list
     session.permanent = True
 
-       return jsonify(alerts_list), 201
-
-
-# 🔥 AQUÍ PEGAS (fuera de la función, sin indentación)
+    return jsonify(alerts_list), 201
 
 
 # ------------------ GENERADOR MASIVO (FIX 405) ------------------
