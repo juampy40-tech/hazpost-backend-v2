@@ -258,4 +258,25 @@ def alerts():
     session["alerts"] = alerts_list
     session.permanent = True
 
-    return jsonify(alerts_list), 201
+       return jsonify(alerts_list), 201
+
+
+# 🔥 AQUÍ PEGAS (fuera de la función, sin indentación)
+
+
+# ------------------ GENERADOR MASIVO (FIX 405) ------------------
+
+@dashboard_bp.route('/niches', methods=['GET'])
+def niches():
+    return jsonify([])
+
+
+@dashboard_bp.route('/packages', methods=['GET'])
+def packages():
+    return jsonify([])
+
+
+@dashboard_bp.route('/elements', methods=['GET'])
+def elements():
+    business_id = request.args.get("businessId")
+    return jsonify([])
