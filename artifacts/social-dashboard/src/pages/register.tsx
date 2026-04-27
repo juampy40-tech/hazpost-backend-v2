@@ -331,27 +331,20 @@ export default function Register() {
   const stepLabels = ["Tu cuenta", "Elige tu plan", "Tu negocio"];
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4 dark">
-      <SeoMeta
-        title="Crear cuenta gratis — HazPost | Publica con IA"
-        description="Regístrate en HazPost y empieza a crear contenido para redes sociales con IA. Sin tarjeta de crédito. Configura tu negocio en minutos."
-        canonical="https://hazpost.app/register"
-        ogTitle="Crea tu cuenta gratis en HazPost"
-        ogDescription="Gestiona tus redes sociales con IA. Crea contenido, programa publicaciones y ahorra tiempo cada semana."
-        ogUrl="https://hazpost.app/register"
-        ogImage="https://hazpost.app/opengraph.jpg"
-      />
+  <div className="min-h-screen bg-background flex items-center justify-center p-4 dark">
+    <SeoMeta
+      title="Crear cuenta gratis — HazPost | Publica con IA"
+      description="Regístrate en HazPost y empieza a crear contenido para redes sociales con IA. Sin tarjeta de crédito. Configura tu negocio en minutos."
+      canonical="https://hazpost.app/register"
+      ogTitle="Crea tu cuenta gratis en HazPost"
+      ogDescription="Gestiona tus redes sociales con IA. Crea contenido, programa publicaciones y ahorra tiempo cada semana."
+      ogUrl="https://hazpost.app/register"
+      ogImage="https://hazpost.app/opengraph.jpg"
+    />
 
-      {step === 3 && (
-        <OnboardingWizard
-          onComplete={handleWizardComplete}
-          registrationMode
-          onChooseFree={pendingPlanAfterWizard ? () => navigate("/dashboard") : undefined}
-        />
-      )}
-
+    <div className="w-full max-w-5xl mx-auto">
       {step !== 3 && (
-        <div className={`w-full ${step === 2 ? "max-w-5xl" : "max-w-sm"}`}>
+        <div className="w-full max-w-sm mx-auto">
           <div className="flex flex-col items-center mb-8 gap-3">
             <div className="flex items-center gap-1">
               <span
@@ -436,7 +429,6 @@ export default function Register() {
               );
             })}
           </div>
-
           {step === 1 && (
             <AuthCard>
               <div className="text-center">
