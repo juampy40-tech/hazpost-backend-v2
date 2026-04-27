@@ -1417,174 +1417,7 @@ function GuideStep({ num, color, title, desc, link, linkText, badge }: { num: st
   );
 }
 
-// ── Visual diagrams for Step 5 ─────────────────────────────────────────────────
-function MetaDeveloperMockup() {
-  return (
-    <div className="rounded-lg overflow-hidden border border-pink-500/20 text-[10px] font-mono select-none my-2">
-      <div className="bg-[#1877f2]/20 px-3 py-1.5 flex items-center gap-2 border-b border-pink-500/20">
-        <div className="w-2 h-2 rounded-full bg-red-500/60" />
-        <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
-        <div className="w-2 h-2 rounded-full bg-green-500/60" />
-        <span className="ml-2 text-blue-300">developers.facebook.com/apps</span>
-      </div>
-      <div className="bg-[#18191a] p-3 space-y-2">
-        <div className="flex items-center gap-2 text-white/80">
-          <div className="w-5 h-5 rounded bg-[#1877f2] flex items-center justify-center text-white font-bold text-[8px]">f</div>
-          <span className="text-white/60">Meta for Developers</span>
-          <span className="ml-auto text-pink-400 bg-pink-500/10 px-2 py-0.5 rounded border border-pink-500/30">+ Crear app</span>
-        </div>
-        <div className="border border-white/10 rounded p-2 space-y-1.5">
-          <p className="text-white/50">Paso 2 — Tipo de app:</p>
-          <div className="grid grid-cols-3 gap-1">
-            {["Consumer", "Business ✓", "Gaming"].map(t => (
-              <div key={t} className={`text-center py-1 rounded border text-[9px] ${t.includes("✓") ? "border-[#1877f2] text-[#4a9eff] bg-[#1877f2]/10" : "border-white/10 text-white/40"}`}>{t.replace(" ✓","")}{t.includes("✓") && <span className="text-green-400 ml-0.5">✓</span>}</div>
-            ))}
-          </div>
-        </div>
-        <div className="border border-white/10 rounded p-2">
-          <p className="text-white/50 mb-1">Configuración → Básica</p>
-          <div className="flex gap-2">
-            <div className="flex-1 bg-white/5 rounded px-2 py-1">
-              <p className="text-white/30 text-[8px]">App ID</p>
-              <p className="text-green-400">1234567890</p>
-            </div>
-            <div className="flex-1 bg-white/5 rounded px-2 py-1">
-              <p className="text-white/30 text-[8px]">App Secret</p>
-              <p className="text-pink-400">abc••••••xyz <span className="text-white/30">👁</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function TikTokDeveloperMockup() {
-  return (
-    <div className="rounded-lg overflow-hidden border border-cyan-500/20 text-[10px] font-mono select-none my-2">
-      <div className="bg-black/50 px-3 py-1.5 flex items-center gap-2 border-b border-cyan-500/20">
-        <div className="w-2 h-2 rounded-full bg-red-500/60" />
-        <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
-        <div className="w-2 h-2 rounded-full bg-green-500/60" />
-        <span className="ml-2 text-cyan-300">developers.tiktok.com</span>
-      </div>
-      <div className="bg-[#121212] p-3 space-y-2">
-        <div className="flex items-center gap-2">
-          <div className="w-5 h-5 rounded bg-black border border-white/20 flex items-center justify-center text-white text-[8px] font-bold">TT</div>
-          <span className="text-white/60">TikTok for Developers</span>
-          <span className="ml-auto text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/30">Manage Apps</span>
-        </div>
-        <div className="border border-white/10 rounded p-2 space-y-1.5">
-          <div className="flex justify-between items-center">
-            <p className="text-white/70">Mi App</p>
-            <span className="text-green-400 text-[9px] border border-green-500/30 px-1.5 rounded">Live</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {[["Client Key","TT_abc12345"],["Client Secret","Show ••••"]].map(([k,v]) => (
-              <div key={k} className="bg-white/5 rounded px-2 py-1">
-                <p className="text-white/30 text-[8px]">{k}</p>
-                <p className="text-cyan-400">{v}</p>
-              </div>
-            ))}
-          </div>
-          <div className="border-t border-white/10 pt-1.5">
-            <p className="text-white/40 mb-1">Products activos:</p>
-            <div className="flex gap-1 flex-wrap">
-              {["Content Posting API ✓","Login Kit ✓"].map(p => (
-                <span key={p} className="bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded text-[9px]">{p}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MetaPermissionsMockup() {
-  return (
-    <div className="rounded-lg overflow-hidden border border-blue-500/20 text-[10px] font-mono select-none my-2">
-      <div className="bg-[#1877f2]/20 px-3 py-1.5 flex items-center gap-2 border-b border-blue-500/20">
-        <div className="w-2 h-2 rounded-full bg-red-500/60" />
-        <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
-        <div className="w-2 h-2 rounded-full bg-green-500/60" />
-        <span className="ml-2 text-blue-300">developers.facebook.com → Permisos</span>
-      </div>
-      <div className="bg-[#18191a] p-3 space-y-2">
-        <p className="text-white/50">Permisos y funciones → Solicitar acceso</p>
-        <div className="space-y-1">
-          {[
-            { name: "pages_manage_posts", status: "Aprobado", color: "text-green-400 border-green-500/30 bg-green-500/10" },
-            { name: "pages_read_engagement", status: "Aprobado", color: "text-green-400 border-green-500/30 bg-green-500/10" },
-            { name: "instagram_basic", status: "Aprobado", color: "text-green-400 border-green-500/30 bg-green-500/10" },
-            { name: "instagram_content_publish", status: "Solicitar →", color: "text-amber-400 border-amber-500/30 bg-amber-500/10" },
-          ].map(p => (
-            <div key={p.name} className="flex items-center justify-between bg-white/5 rounded px-2 py-1">
-              <span className="text-white/70">{p.name}</span>
-              <span className={`px-1.5 py-0.5 rounded border text-[9px] ${p.color}`}>{p.status}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-const API_GUIDES: Record<string, React.ReactNode> = {
-  instagram: (
-    <div className="space-y-3">
-      <div className="p-3 rounded-lg bg-pink-500/10 border border-pink-500/20 text-xs text-pink-300 flex items-start gap-2">
-        <Instagram className="w-4 h-4 shrink-0 mt-0.5" />
-        <span>Necesitas una cuenta de <strong>Instagram Business o Creator</strong> y una app de Meta Developer. El proceso toma ~10 minutos.</span>
-      </div>
-      <MetaDeveloperMockup />
-      <ol className="space-y-0 list-none pl-0">
-        <GuideStep num="1" color="bg-pink-500/20 text-pink-400" title="Crear una app en Meta for Developers" desc="Inicia sesión y crea una nueva aplicación. En '¿Para qué sirve tu app?', selecciona 'Otras' → luego elige tipo 'Business'." link="https://developers.facebook.com/apps/create/" linkText="Ir a crear app →" />
-        <GuideStep num="2" color="bg-pink-500/20 text-pink-400" title="Agregar producto: Instagram" desc="En el panel de tu app, haz clic en '+ Agregar producto'. Busca 'Instagram' y haz clic en 'Configurar'. Activa el modo 'Live' (no Sandbox) cuando estés listo." />
-        <GuideStep num="3" color="bg-pink-500/20 text-pink-400" title="Copiar App ID y App Secret" desc="Ve a 'Configuración' → 'Básica'. Copia el App ID y haz clic en 'Mostrar' junto al App Secret para copiarlo también." badge="App ID · App Secret" />
-        <GuideStep num="4" color="bg-pink-500/20 text-pink-400" title="Pegar credenciales en el sistema" desc="Abre Configuración del sistema en esta app → sección 'Credenciales de Aplicación' → pega el App ID y App Secret de Meta, luego guarda." />
-        <GuideStep num="5" color="bg-pink-500/20 text-pink-400" title="Autorizar la cuenta" desc="Vuelve a Configuración → haz clic en 'Autorizar con Meta'. Acepta los permisos solicitados. La cuenta quedará conectada." />
-      </ol>
-    </div>
-  ),
-  tiktok: (
-    <div className="space-y-3">
-      <div className="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-300 flex items-start gap-2">
-        <PlaySquare className="w-4 h-4 shrink-0 mt-0.5" />
-        <span>Necesitas una cuenta de <strong>TikTok Business</strong> y registrarte como developer. El proceso toma ~15 minutos incluyendo revisión.</span>
-      </div>
-      <TikTokDeveloperMockup />
-      <ol className="space-y-0 list-none pl-0">
-        <GuideStep num="1" color="bg-cyan-500/20 text-cyan-400" title="Registrarse en TikTok for Developers" desc="Accede al portal de desarrolladores de TikTok con tu cuenta de TikTok Business." link="https://developers.tiktok.com/" linkText="Ir a TikTok Developers →" />
-        <GuideStep num="2" color="bg-cyan-500/20 text-cyan-400" title="Crear una nueva app" desc="Ve a 'Manage apps' → 'Create app'. Completa el nombre, descripción y categoría. Selecciona 'Web' como plataforma." />
-        <GuideStep num="3" color="bg-cyan-500/20 text-cyan-400" title="Activar productos: Content Posting API" desc="En el panel de tu app, ve a 'Products'. Agrega 'Content Posting API'. También agrega 'Login Kit' para la autenticación OAuth." badge="Content Posting API" />
-        <GuideStep num="4" color="bg-cyan-500/20 text-cyan-400" title="Obtener Client Key y Client Secret" desc="En la sección 'App detail' de tu app, copia el Client Key. Para el Client Secret haz clic en 'Generate' o 'Show'." badge="Client Key · Client Secret" />
-        <GuideStep num="5" color="bg-cyan-500/20 text-cyan-400" title="Pegar y autorizar" desc="Ve a Configuración del sistema → pega el Client Key y Client Secret de TikTok, guarda y haz clic en 'Autorizar con TikTok'." />
-      </ol>
-    </div>
-  ),
-  facebook: (
-    <div className="space-y-3">
-      <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 flex items-start gap-2">
-        <Facebook className="w-4 h-4 shrink-0 mt-0.5" />
-        <span>Facebook usa la <strong>misma app de Meta</strong> que configuraste para Instagram. Solo necesitas activar permisos adicionales.</span>
-      </div>
-      <MetaPermissionsMockup />
-      <ol className="space-y-0 list-none pl-0">
-        <GuideStep num="1" color="bg-blue-500/20 text-blue-400" title="Abre tu app de Meta existente" desc="Ve a Meta for Developers → selecciona la app que ya tienes configurada para Instagram." link="https://developers.facebook.com/apps/" linkText="Ir a Mis Apps →" />
-        <GuideStep num="2" color="bg-blue-500/20 text-blue-400" title="Agregar permisos de Páginas" desc="Ve a 'Permisos y funciones'. Solicita los permisos: pages_manage_posts y pages_read_engagement. Puede requerir revisión de Meta." badge="pages_manage_posts" />
-        <GuideStep num="3" color="bg-blue-500/20 text-blue-400" title="Vincular Página de Facebook" desc="Asegúrate de que tu Página de Facebook esté asociada a tu cuenta personal en Meta Business Suite." link="https://business.facebook.com/" linkText="Abrir Meta Business Suite →" />
-        <GuideStep num="4" color="bg-blue-500/20 text-blue-400" title="Re-autorizar con Meta" desc="Si ya autorizaste para Instagram, es posible que necesites re-autorizar para incluir los nuevos permisos de página. Usa el botón 'Autorizar con Meta' en Configuración." />
-      </ol>
-    </div>
-  ),
-};
-
-const SOCIAL_TABS = [
-  { id: "instagram", label: "Instagram", icon: Instagram, color: "text-pink-400", activeClass: "border-pink-500 text-pink-400" },
-  { id: "tiktok", label: "TikTok", icon: PlaySquare, color: "text-cyan-400", activeClass: "border-cyan-500 text-cyan-400" },
-  { id: "facebook", label: "Facebook", icon: Facebook, color: "text-blue-400", activeClass: "border-blue-500 text-blue-400" },
-];
+// ── Step 5: Redes sociales ─────────────────────────────────────────────────────
 
 const GEN_FREQ_OPTIONS = [
   { value: "daily", label: "Diario", desc: "La IA genera contenido cada día", icon: "🔥", recommended: true },
@@ -1594,12 +1427,10 @@ const GEN_FREQ_OPTIONS = [
 ];
 
 function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Partial<BrandProfile>) => void }) {
-  const [activeTab, setActiveTab] = useState("instagram");
   const freq = data.aiGenFrequency ?? "daily";
 
   return (
     <div className="space-y-5">
-      {/* ── IA activation card ── */}
       <div className="rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/10 via-black/40 to-secondary/5 p-5 space-y-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
@@ -1607,10 +1438,12 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
           </div>
           <div>
             <p className="font-bold text-foreground">Generación automática de IA</p>
-            <p className="text-xs text-muted-foreground mt-0.5">La IA creará imágenes y textos listos para aprobar — sin que tengas que hacer nada.</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              HazPost creará ideas, textos e imágenes usando la información de tu negocio.
+            </p>
           </div>
           {freq === "none" ? (
-            <div className="ml-auto flex items-center gap-1.5 bg-muted/40 border border-border rounded-full px-3 py-1">
+            <div className="ml-auto bg-muted/40 border border-border rounded-full px-3 py-1">
               <span className="text-xs font-bold text-muted-foreground">Manual</span>
             </div>
           ) : (
@@ -1620,10 +1453,12 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
             </div>
           )}
         </div>
+
         <div className="grid grid-cols-2 gap-2">
           {GEN_FREQ_OPTIONS.map(opt => (
             <button
               key={opt.value}
+              type="button"
               onClick={() => onChange({ aiGenFrequency: opt.value })}
               className={`relative p-3 rounded-xl border text-left transition-all ${
                 freq === opt.value
@@ -1632,7 +1467,9 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
               }`}
             >
               {opt.recommended && (
-                <span className="absolute -top-2 right-2 text-[9px] px-1.5 py-0.5 bg-primary text-black font-bold rounded-full">Recomendado</span>
+                <span className="absolute -top-2 right-2 text-[9px] px-1.5 py-0.5 bg-primary text-black font-bold rounded-full">
+                  Recomendado
+                </span>
               )}
               <div className="text-lg mb-1">{opt.icon}</div>
               <p className="text-xs font-bold text-foreground">{opt.label}</p>
@@ -1640,65 +1477,39 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
             </button>
           ))}
         </div>
-        <p className="text-[11px] text-muted-foreground/70">Puedes cambiar esto en cualquier momento desde Configuración → Automatización.</p>
+
+        <p className="text-[11px] text-muted-foreground/70">
+          Puedes cambiar esto después desde Configuración.
+        </p>
       </div>
 
-      <div>
-        <h2 className="text-xl font-bold text-foreground mb-1">Conecta tus redes sociales</h2>
-        <p className="text-sm text-muted-foreground">Opcional — puedes hacerlo ahora o después desde Configuración.</p>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex gap-1 border-b border-border">
-        {SOCIAL_TABS.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-all -mb-px
-              ${activeTab === tab.id ? tab.activeClass : "border-transparent text-muted-foreground hover:text-foreground"}`}
-          >
-            <tab.icon className="w-4 h-4" />
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Guide content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.2 }}
-        >
-          {API_GUIDES[activeTab]}
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Direct action buttons */}
-      <div className="pt-2 border-t border-border/50">
-        <p className="text-xs text-muted-foreground mb-3">Cuando tengas las credenciales guardadas, puedes conectar desde aquí o ir a Configuración más adelante.</p>
-        <div className="flex flex-wrap gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => window.open(`/api/auth/meta/redirect`, "_blank", "noopener,noreferrer")}
-            className="border-pink-500/40 text-pink-400 hover:bg-pink-500/10"
-          >
-            <Instagram className="w-4 h-4 mr-2" />
-            Conectar Instagram / Facebook
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => window.open(`/api/auth/tiktok/redirect`, "_blank", "noopener,noreferrer")}
-            className="border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10"
-          >
-            <PlaySquare className="w-4 h-4 mr-2" />
-            Conectar TikTok
-          </Button>
+      <div className="rounded-2xl border border-border bg-black/20 p-5 space-y-4">
+        <div>
+          <h2 className="text-xl font-bold text-foreground mb-1">Tus redes sociales</h2>
+          <p className="text-sm text-muted-foreground">
+            Para no complicarte ahora, puedes conectar Instagram, Facebook y TikTok después desde el panel.
+          </p>
         </div>
+
+        <div className="grid gap-3">
+          <div className="rounded-xl border border-border bg-background/60 p-4">
+            <p className="font-semibold text-foreground">Ahora terminamos tu perfil</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              HazPost ya tiene la información importante para crear contenido con tu marca: negocio, colores, logo, tipografía, audiencia y estilo.
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-primary/30 bg-primary/5 p-4">
+            <p className="font-semibold text-primary">Después conectas tus redes en 1 lugar</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              En el dashboard verás un bloque claro para conectar Instagram/Facebook y TikTok cuando estés listo.
+            </p>
+          </div>
+        </div>
+
+        <p className="text-[11px] text-muted-foreground/70">
+          Esto evita que el registro sea difícil y ayuda a que más usuarios terminen la configuración.
+        </p>
       </div>
     </div>
   );
