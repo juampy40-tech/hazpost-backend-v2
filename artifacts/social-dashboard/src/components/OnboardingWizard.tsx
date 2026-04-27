@@ -444,7 +444,7 @@ function CountrySelect({
 // ── Upload helper ──────────────────────────────────────────────────────────────
 
 async function uploadFile(file: File): Promise<string> {
-const urlRes = await fetch(`/api/storage/uploads/request-url`, {
+const urlRes = await fetch(`${API_BASE}/api/storage/uploads/request-url`, {
   method: "POST",
   credentials: "include",
   headers: { "Content-Type": "application/json" },
@@ -776,7 +776,7 @@ function Step2({
   async function handleRemoveBg(idx: number) {
     setRemovingBgIdx(idx);
     try {
-      const res = await fetch(`/api/brand-profile/remove-logo-bg`, {
+      const res = await fetch(`${API_BASE}/api/brand-profile/remove-logo-bg`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -830,7 +830,7 @@ function Step2({
         {logos.length > 0 && (
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
             {logos.map((url, idx) => {
-              const src = `/api/storage${url}`;
+              const src = `${API_BASE}/api/storage${url}`;
               const isProcessing = removingBgIdx === idx;
               return (
                 <div key={url + idx} className="group relative">
@@ -1250,7 +1250,7 @@ function Step4({
           {currentImages.map((path, idx) => (
             <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-border bg-black/20">
               <img
-                src={`/api/storage${path}`}
+                src={`${API_BASE}/api/storage${path}`}
                 alt={`Referencia ${idx + 1}`}
                 className="w-full h-full object-cover"
               />
@@ -1576,7 +1576,7 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(`/api/auth/meta/redirect`, "_blank", "noopener,noreferrer")}
+            onClick={() => window.open(`${API_BASE}/api/auth/meta/redirect`, "_blank", "noopener,noreferrer")}
             className="border-pink-500/40 text-pink-400 hover:bg-pink-500/10"
           >
             <Instagram className="w-4 h-4 mr-2" />
@@ -1585,7 +1585,7 @@ function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Parti
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(`/api/auth/tiktok/redirect`, "_blank", "noopener,noreferrer")}
+            onClick={() => window.open(`${API_BASE}/api/auth/tiktok/redirect`, "_blank", "noopener,noreferrer")}
             className="border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10"
           >
             <PlaySquare className="w-4 h-4 mr-2" />
@@ -1645,7 +1645,7 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
   }
 
   useEffect(() => {
-    fetch(`/api/businesses`, { credentials: "include" })
+    fetch(`${API_BASE}/api/businesses`, { credentials: "include" })
       .then(r => r.json())
       .then((d: { businesses?: { id: number; isDefault?: boolean }[] }) => {
         const list = d.businesses ?? [];
@@ -1692,8 +1692,8 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
   }
 
   function getAnalyzeEndpoint(): string {
-    if (activeBizId) return `/api/businesses/${activeBizId}/analyze-website`;
-    return `/api/analyze-website`;
+    if (activeBizId) return `${API_BASE}/api/businesses/${activeBizId}/analyze-website`;
+    return `${API_BASE}/api/analyze-website`;
   }
 
   function handleAiAnalysis(suggestions: AiSuggestions) {
@@ -1742,7 +1742,7 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
       const payload: Record<string, unknown> = { ...data, onboardingStep: nextStep };
       // Only set onboardingCompleted if explicitly requested (avoids resetting a completed profile during step navigation)
       if (markComplete !== undefined) payload.onboardingCompleted = markComplete;
-      const res = await fetch(`/api/brand-profile`, {
+      const res = await fetch(`${API_BASE}/api/brand-profile`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -1825,7 +1825,7 @@ async function doNext() {
     const freqMap: Record<string, string> = { daily: "daily", "3x": "3x_week", weekly: "weekly" };
     const genFreq = isManual ? "none" : (freqMap[data.aiGenFrequency ?? "daily"] ?? "daily");
     try {
-     await fetch(`/api/settings`, {
+     await fetch(`${API_BASE}/api/settings`, {
   method: "PUT",
   credentials: "include",
   headers: { "Content-Type": "application/json" },
