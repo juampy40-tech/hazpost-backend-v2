@@ -1247,10 +1247,9 @@ function Step4({
         <p className="text-muted-foreground">Define a quién le hablas y cómo. Esto personaliza el estilo de cada post generado.</p>
       </div>
 
-      {/* Audience description */}
       <div className="grid gap-2">
         <div className="flex items-center justify-between">
-          <Label>¿A quién le hablas? *</Label>
+          <Label>¿A quién le hablas? <span className="text-muted-foreground font-normal">(muy recomendado)</span></Label>
           {aiSuggestions?.audience && (
             <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5">
               <Sparkles className="w-3 h-3" />
@@ -1269,16 +1268,18 @@ function Step4({
         <Textarea
           value={data.audienceDescription ?? ""}
           onChange={e => onChange({ audienceDescription: e.target.value })}
-          placeholder="Ej: Emprendedores de 25-45 años que buscan crecer su negocio en redes sociales, con presencia en Instagram y TikTok..."
+          placeholder="Ej: Jóvenes de 25-35 años en Colombia que compran relojes elegantes, buscan estilo y valoran marcas confiables..."
           className={`resize-none h-24 ${aiSuggestions?.audience ? "border-primary/40 bg-primary/5" : ""}`}
           maxLength={600}
         />
+        <p className="text-[11px] text-muted-foreground/70">
+          Entre más claro sea tu público, mejor podrá la IA escribir textos, elegir ángulos de venta y crear imágenes.
+        </p>
       </div>
 
-      {/* Tone selector */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label>Tono de comunicación *</Label>
+          <Label>Tono de comunicación <span className="text-muted-foreground font-normal">(recomendado)</span></Label>
           {aiSuggestions?.tone && (
             <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5">
               <Sparkles className="w-3 h-3" />
@@ -1317,19 +1318,20 @@ function Step4({
         </div>
       </div>
 
-      {/* Reference images */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <Label>Imágenes de referencia de estilo (hasta 5)</Label>
+          <Label>Imágenes de referencia de estilo <span className="text-muted-foreground font-normal">(opcional)</span></Label>
           <span className="text-xs text-muted-foreground">{currentImages.length}/5</span>
         </div>
-        <p className="text-xs text-muted-foreground">Sube posts que te gusten o que ya hayas publicado. La IA los usará como referencia visual.</p>
+        <p className="text-xs text-muted-foreground">
+          Sube publicaciones, diseños o fotos que te gusten. La IA las usará para entender cómo quieres que se vean tus posts.
+        </p>
 
         <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
           {currentImages.map((path, idx) => (
             <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-border bg-black/20">
               <img
-                src={`/api/storage${path}`}
+                src={resolveStorageUrl(path)}
                 alt={`Referencia ${idx + 1}`}
                 className="w-full h-full object-cover"
               />
