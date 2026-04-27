@@ -298,3 +298,8 @@ def music_status():
         "provider": None,
         "status": "inactive"
     })
+
+
+@dashboard_bp.route('/billing/packages', methods=['GET'])
+def billing_packages():
+    return jsonify([])
