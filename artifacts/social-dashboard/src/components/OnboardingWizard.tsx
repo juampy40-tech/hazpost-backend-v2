@@ -1633,6 +1633,11 @@ async function doNext() {
 
     if (!isKnownIndustry) {
       await sendIndustrySuggestion(data.industry);
+
+      toast({
+        title: "Gracias 🙌",
+        description: "Estamos revisando tu industria para mejorar HazPost.",
+      });
     }
   }
 
@@ -1644,7 +1649,6 @@ async function doNext() {
     }
   }
 }
-
   async function doSkipStep() {
     const ok = await saveProgress(step + 1);
     if (ok) setStep(prev => prev + 1);
