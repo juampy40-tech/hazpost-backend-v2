@@ -143,7 +143,7 @@ export function PlanCard({
       `}
     >
       {plan.descriptionJson?.badge && (
-        <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-400 text-black text-xs px-4 py-1 animate-pulse shadow-[0_0_15px_rgba(0,194,255,0.5)]">
+        <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-400 text-black text-xs px-4 py-1 animate-[pulse_2.5s_ease-in-out_infinite] shadow-[0_0_15px_rgba(0,194,255,0.5)]">
           {plan.descriptionJson.badge}
         </Badge>
       )}
