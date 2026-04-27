@@ -506,18 +506,16 @@ async function uploadFile(file: File): Promise<string> {
     body.publicUrl ||
     body.public_url;
 
-  // 🚨 Seguridad crítica
   if (!uploadUrl || uploadUrl === "undefined") {
     throw new Error("El backend no devolvió una URL válida para subir el archivo");
   }
 
-  // 🔥 FIX REAL (ESTO ARREGLA TODO)
-  const formData = new FormData();
-  formData.append("file", file);
-
   const uploadRes = await fetch(uploadUrl, {
-    method: "POST",
-    body: formData,
+    method: "PUT",
+    headers: {
+      "Content-Type": file.type || "application/octet-stream",
+    },
+    body: file,
   });
 
   if (!uploadRes.ok) {
