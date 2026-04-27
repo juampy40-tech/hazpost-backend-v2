@@ -392,12 +392,18 @@ function CountrySelect({
               <div className="flex items-center gap-2 rounded-xl border border-input bg-background px-3">
                 <Search className="h-4 w-4 text-muted-foreground" />
                 <input
-                  autoFocus
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                  placeholder="Buscar país..."
-                  className="h-10 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-                />
+  autoFocus
+  type="search"
+  autoComplete="off"
+  autoCorrect="off"
+  autoCapitalize="none"
+  spellCheck={false}
+  name="hazpost-country-search"
+  value={query}
+  onChange={e => setQuery(e.target.value)}
+  placeholder="Buscar país..."
+  className="h-10 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+/>
               </div>
               <p className="mt-2 px-1 text-[11px] text-muted-foreground">
                 HazPost usa país y ciudad para adaptar idioma, cultura, horarios y contexto del contenido.
