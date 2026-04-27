@@ -157,7 +157,7 @@ export default function Register() {
     return {};
   }
 
-  const [selectedPlan, setSelectedPlan] = useState("free");
+  const [selectedPlan, setSelectedPlan] = useState("business");
   const [pendingPlanAfterWizard, setPendingPlanAfterWizard] = useState<string | undefined>();
 
   const [loading, setLoading] = useState(false);
