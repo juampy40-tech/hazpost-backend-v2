@@ -343,9 +343,9 @@ export default function Register() {
       ogImage="https://hazpost.app/opengraph.jpg"
     />
 
-    <div className="w-full max-w-5xl mx-auto">
-      {step !== 3 && (
-        <div className="w-full max-w-sm mx-auto">
+    <div className="w-full max-w-6xl mx-auto">
+  {step !== 3 && (
+    <div className={`w-full mx-auto ${step === 2 ? "max-w-6xl" : "max-w-sm"}`}>
           <div className="flex flex-col items-center mb-8 gap-3">
             <div className="flex items-center gap-1">
               <span
