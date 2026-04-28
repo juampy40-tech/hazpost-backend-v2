@@ -1661,9 +1661,16 @@ async function doNext() {
   }
 
   const ok = await saveProgress(nextStep);
+
   if (ok) {
     setStep(nextStep);
-    if (step === 0 && data.website?.trim() && !aiSuggestions) {
+
+    if (step === 0 && data.website?.trim()) {
+      toast({
+        title: "IA trabajando 🤖",
+        description: "Estamos analizando tu sitio web para ayudarte a completar tu marca.",
+      });
+
       triggerAnalyze(data.website.trim()).catch(() => {});
     }
   }
