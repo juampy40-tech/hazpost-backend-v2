@@ -1017,35 +1017,60 @@ function Step2({
         </p>
       </div>
 
-      {/* AI primaryColor suggestion */}
-      {aiSuggestions?.primaryColor && (
-        <div className="flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 px-3 py-2">
-          <div className="w-6 h-6 rounded-full border border-border shrink-0" style={{ background: aiSuggestions.primaryColor }} />
-          <div className="flex-1 min-w-0">
-            <p className="text-xs text-foreground font-medium flex items-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-primary" />
-              Color detectado por IA: <span className="font-mono text-primary">{aiSuggestions.primaryColor}</span>
-            </p>
-          </div>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="shrink-0 h-7 text-xs border-primary/40 text-primary hover:bg-primary/10"
-            onClick={() => { onChange({ primaryColor: aiSuggestions.primaryColor! }); onDismissSuggestion?.("primaryColor"); }}
-          >
-            Usar
-          </Button>
-          <button
-            type="button"
-            onClick={() => onDismissSuggestion?.("primaryColor")}
-            className="shrink-0 text-muted-foreground hover:text-foreground"
-            title="Descartar sugerencia"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      )}
+   {/* AI Suggestions Header */}
+{aiSuggestions?.primaryColor && (
+  <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 mb-2">
+    <p className="text-sm font-semibold text-primary flex items-center gap-2">
+      <Sparkles className="w-4 h-4" />
+      HazPost completó parte de tu perfil por ti
+    </p>
+    <p className="mt-1 text-xs text-muted-foreground">
+      Puedes usar esta sugerencia, editarla manualmente o descartarla.
+    </p>
+  </div>
+)}
+
+{/* AI primaryColor suggestion */}
+{aiSuggestions?.primaryColor && (
+  <div className="flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 px-3 py-2">
+    <div
+      className="w-6 h-6 rounded-full border border-border shrink-0"
+      style={{ background: aiSuggestions.primaryColor }}
+    />
+
+    <div className="flex-1 min-w-0">
+      <p className="text-xs text-foreground font-medium flex items-center gap-1.5">
+        <Sparkles className="w-3 h-3 text-primary" />
+        Color detectado por IA:{" "}
+        <span className="font-mono text-primary">
+          {aiSuggestions.primaryColor}
+        </span>
+      </p>
+    </div>
+
+    <Button
+      type="button"
+      variant="outline"
+      size="sm"
+      className="shrink-0 h-7 text-xs border-primary/40 text-primary hover:bg-primary/10"
+      onClick={() => {
+        onChange({ primaryColor: aiSuggestions.primaryColor! });
+        onDismissSuggestion?.("primaryColor");
+      }}
+    >
+      Usar
+    </Button>
+
+    <button
+      type="button"
+      onClick={() => onDismissSuggestion?.("primaryColor")}
+      className="shrink-0 text-xs text-muted-foreground hover:text-foreground"
+      title="Descartar sugerencia"
+    >
+      Descartar
+    </button>
+  </div>
+)}
 
       {/* Color pickers */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
