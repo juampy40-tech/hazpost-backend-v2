@@ -501,7 +501,7 @@ useEffect(() => {
             ) : (
               <div className="flex flex-col items-center gap-4">
                 <Sparkles className="w-12 h-12 text-primary/30" />
-               <p className="max-w-xs leading-relaxed"> Empieza generando tu primer post con IA arriba 🚀</p>
+               <p className="max-w-xs leading-relaxed">Empieza generando tu primer post con IA arriba 🚀</p>
                 <Link href="/generate" className="mt-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium uppercase tracking-widest border-b border-primary/30 pb-1">
                   Generar mi primer post
                 </Link>
