@@ -1049,17 +1049,34 @@ function Step2({
     </div>
 
     <Button
-      type="button"
-      variant="outline"
-      size="sm"
-      className="shrink-0 h-7 text-xs border-primary/40 text-primary hover:bg-primary/10"
-      onClick={() => {
-        onChange({ primaryColor: aiSuggestions.primaryColor! });
-        onDismissSuggestion?.("primaryColor");
-      }}
-    >
-      Usar
-    </Button>
+  type="button"
+  variant="outline"
+  size="sm"
+  className="shrink-0 h-7 text-xs border-primary/40 text-primary hover:bg-primary/10"
+  onClick={async () => {
+    const value = aiSuggestions.primaryColor!;
+
+    // 1. UI inmediata
+    onChange({ primaryColor: value });
+
+    // 2. Quitar sugerencia
+    onDismissSuggestion?.("primaryColor");
+
+    // 3. Guardar en backend sin bloquear UI
+    try {
+      await fetch(`${API_BASE}/api/brand-profile`, {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ primaryColor: value }),
+      });
+    } catch {
+      // silencioso
+    }
+  }}
+>
+  Usar
+</Button>
 
     <button
       type="button"
