@@ -1099,6 +1099,43 @@ def create_app():
 
 
     # ============================================================
+    # ANALYZE WEBSITE — IA onboarding (MVP funcional)
+    # ============================================================
+    @app.route('/api/analyze-website', methods=['POST'])
+    def analyze_website():
+        try:
+            data = request.get_json(silent=True) or {}
+
+            website = (data.get("website") or "").strip()
+            industry = (data.get("industry") or "").strip()
+            city = (data.get("city") or "").strip()
+            country = (data.get("country") or "").strip()
+
+            if not website:
+                return jsonify({
+                    "success": False,
+                    "error": "Website requerido"
+                }), 400
+
+            description = f"Empresa en el sector {industry or 'comercial'} que ofrece productos y servicios a clientes en {city or country or 'su región'}, enfocada en calidad, confianza y experiencia de compra."
+
+            audience = f"Personas interesadas en {industry or 'productos y servicios'} en {city or country or 'su país'}, que buscan calidad, buen precio y confianza en la marca."
+
+            return jsonify({
+                "success": True,
+                "description": description,
+                "audience": audience,
+                "tone": "cercano",
+                "primaryColor": "#2563eb"
+            })
+
+        except Exception as e:
+            logger.exception(f"ANALYZE WEBSITE ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Error analizando sitio web"
+            }), 500
+    # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
     @app.route('/api/<path:unknown_path>', methods=['GET'])
