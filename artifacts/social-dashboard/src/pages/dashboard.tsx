@@ -347,19 +347,33 @@ useEffect(() => {
           HazPost usará tu industria, colores, logo, tipografía, audiencia y estilo para preparar publicaciones listas para revisar.
         </p>
 
-        <div className="mt-5 rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-3">
-          <h3 className="font-semibold text-primary text-lg">
-            🚀 Tu primer post listo en 1 clic
+        <div className="mt-5 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-transparent p-6 space-y-4">
+          <div className="flex items-center gap-2 text-primary font-semibold text-sm">
+            <span>🚀</span>
+            <span>Empieza aquí</span>
+          </div>
+
+          <h3 className="text-xl font-semibold leading-snug">
+            Crea contenido listo para publicar en segundos
           </h3>
 
-          <p className="text-xs text-muted-foreground">
-            La IA crea el texto, hashtags y la idea visual automáticamente.
+          <p className="text-sm text-muted-foreground max-w-md">
+            HazPost crea automáticamente el texto, hashtags y la idea visual de tu post.
+            Tú solo revisas y publicas.
           </p>
 
           {!firstPost && (
             <Button onClick={generateFirstPost} disabled={loadingFirstPost}>
-              {loadingFirstPost ? "Generando..." : "Generar primer post"}
+              {loadingFirstPost
+                ? "Creando tu post..."
+                : "Crear mi primer post con IA 🚀"}
             </Button>
+          )}
+
+          {!firstPost && (
+            <p className="text-xs text-muted-foreground">
+              ⚡ Incluye texto, hashtags y dirección visual automáticamente
+            </p>
           )}
 
           {firstPost && (
