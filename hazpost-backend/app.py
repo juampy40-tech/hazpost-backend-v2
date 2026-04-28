@@ -1106,7 +1106,7 @@ def create_app():
         try:
             data = request.get_json(silent=True) or {}
 
-            website = (data.get("website") or "").strip()
+            website = (data.get("website") or data.get("url") or "").strip()
             industry = (data.get("industry") or "").strip()
             city = (data.get("city") or "").strip()
             country = (data.get("country") or "").strip()
