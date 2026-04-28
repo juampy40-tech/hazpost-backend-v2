@@ -1588,26 +1588,32 @@ function dismissSuggestion(field: "description" | "audience" | "tone" | "primary
   setAiSuggestions(prev => prev ? { ...prev, [field]: null } : null);
 }
 
-  async function triggerAnalyze(url: string): Promise<void> {
-    setAnalyzing(true);
-    try {
-      const res = await fetch(getAnalyzeEndpoint(), {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
-      });
-      if (!res.ok) return;
-      const suggestions = await res.json() as AiSuggestions;
-      if (suggestions.description || suggestions.audience || suggestions.tone || suggestions.primaryColor) {
-        handleAiAnalysis(suggestions);
-      }
-    } catch {
-      /* fail silently */
-    } finally {
-      setAnalyzing(false);
+async function triggerAnalyze(url: string): Promise<void> {
+  setAnalyzing(true);
+
+  try {
+    const res = await fetch(getAnalyzeEndpoint(), {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+
+    if (!res.ok) return;
+
+    const suggestions = await res.json() as AiSuggestions;
+
+    if (suggestions.description || suggestions.audience || suggestions.tone || suggestions.primaryColor) {
+      handleAiAnalysis(suggestions);
     }
+  } catch {
+    /* fail silently */
+  } finally {
+    setTimeout(() => {
+      setAnalyzing(false);
+    }, 1000);
   }
+}
 
   const saveProgress = useCallback(async (nextStep: number, markComplete?: boolean): Promise<boolean> => {
     setSaving(true);
