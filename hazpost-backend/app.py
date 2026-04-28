@@ -1148,6 +1148,69 @@ def create_app():
                 "success": False,
                 "error": "Error analizando sitio web"
             }), 500
+
+    # ============================================================
+    # GENERATE FIRST POST — WOW moment dashboard
+    # ============================================================
+    @app.route('/api/generate-first-post', methods=['POST'])
+    def generate_first_post():
+        try:
+            profile = session.get("brandProfile", {}) or {}
+
+            company_name = (profile.get("companyName") or "Tu negocio").strip()
+            industry = (profile.get("industry") or "").strip()
+            sub_industry = (profile.get("subIndustry") or "").strip()
+            city = (profile.get("city") or "").strip()
+            country = (profile.get("country") or "").strip()
+            slogan = (profile.get("slogan") or "").strip()
+            tone = (profile.get("brandTone") or "cercano").strip()
+
+            business_type = sub_industry or industry or "productos y servicios"
+            location = city or country or "tu zona"
+
+            caption = (
+                f"✨ En {company_name} creemos que cada detalle importa.\n\n"
+                f"Si buscas {business_type} en {location}, estamos aquí para ayudarte con una experiencia clara, confiable y pensada para ti."
+            )
+
+            if slogan:
+                caption += f"\n\n{ slogan }"
+
+            caption += "\n\n¿Qué te gustaría encontrar hoy? 👇"
+
+            hashtags = [
+                "#HazPost",
+                "#NegocioLocal",
+                "#Emprendedores",
+                "#MarketingDigital",
+            ]
+
+            if industry:
+                hashtags.append("#" + industry.replace(" ", "").replace("&", "Y"))
+
+            if city:
+                hashtags.append("#" + city.replace(" ", ""))
+
+            visual_idea = (
+                f"Imagen tipo post cuadrado mostrando el logo o nombre de {company_name}, "
+                f"con una composición limpia, fondo alineado a la marca y un mensaje central sobre {business_type}."
+            )
+
+            return jsonify({
+                "success": True,
+                "caption": caption,
+                "hashtags": " ".join(hashtags),
+                "visualIdea": visual_idea,
+                "tone": tone,
+                "status": "draft"
+            })
+
+        except Exception as e:
+            logger.exception(f"GENERATE FIRST POST ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Error generando primer post"
+            }), 500
             
     # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
