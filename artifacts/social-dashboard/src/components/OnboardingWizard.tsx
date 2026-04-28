@@ -1611,7 +1611,7 @@ async function triggerAnalyze(url: string): Promise<void> {
   } finally {
     setTimeout(() => {
       setAnalyzing(false);
-    }, 1000);
+    }, 3000);
   }
 }
 
