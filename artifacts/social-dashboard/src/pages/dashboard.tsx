@@ -94,12 +94,12 @@ function FirstPostPreview({ firstPost, brandProfile, brandName }: FirstPostPrevi
   const location = [brandProfile?.city, brandProfile?.country].filter(Boolean).join(", ");
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f12] shadow-[0_18px_40px_rgba(0,0,0,0.28)]">
+    <div className="overflow-hidden rounded-3xl border border-primary/20 bg-[#080d10] shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
       <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex min-w-0 items-center gap-3">
           <div
-            className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/10 text-sm font-bold text-white"
-            style={{ boxShadow: `0 0 18px ${primaryColor}33` }}
+            className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/10 text-sm font-bold text-white"
+            style={{ boxShadow: `0 0 22px ${primaryColor}44` }}
           >
             {logoUrl ? (
               <img src={logoUrl} alt={brandName} className="h-full w-full object-cover" />
@@ -107,68 +107,103 @@ function FirstPostPreview({ firstPost, brandProfile, brandName }: FirstPostPrevi
               brandName.slice(0, 1).toUpperCase()
             )}
           </div>
+
           <div className="min-w-0">
             <p className="truncate text-sm font-bold text-foreground">{brandName}</p>
             <p className="truncate text-[11px] text-muted-foreground">
-              {location || "Post generado por HazPost AI"}
+              {location || "Post listo para revisar"}
             </p>
           </div>
         </div>
-        <div className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
-          Preview
+
+        <div className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
+          Listo
         </div>
       </div>
 
       <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-white/10 via-black to-primary/10">
-        <div className="absolute inset-0 opacity-70" style={{ background: `radial-gradient(circle at 25% 20%, ${primaryColor}55, transparent 32%)` }} />
-        <div className="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-secondary/20 blur-3xl" />
-        <div className="absolute -left-14 bottom-4 h-44 w-44 rounded-full bg-primary/20 blur-3xl" />
+        <div
+          className="absolute inset-0 opacity-80"
+          style={{
+            background: `radial-gradient(circle at 25% 20%, ${primaryColor}66, transparent 34%)`,
+          }}
+        />
+
+        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-secondary/25 blur-3xl" />
+        <div className="absolute -left-16 bottom-2 h-52 w-52 rounded-full bg-primary/25 blur-3xl" />
 
         <div className="absolute inset-0 flex flex-col justify-between p-5">
-          <div className="flex justify-between items-start gap-4">
-            <div className="rounded-2xl border border-white/15 bg-black/35 px-3 py-2 backdrop-blur">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">HazPost AI</p>
-              <p className="mt-1 max-w-[210px] text-xs text-white/75">Dirección visual lista para diseño o imagen IA.</p>
+          <div className="flex items-start justify-between gap-4">
+            <div className="rounded-2xl border border-white/15 bg-black/45 px-3 py-2 backdrop-blur">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary">
+                HazPost AI
+              </p>
+              <p className="mt-1 max-w-[220px] text-xs text-white/75">
+                Texto, hashtags e idea visual creados automáticamente.
+              </p>
             </div>
-            <Sparkles className="h-6 w-6 text-primary drop-shadow-[0_0_12px_rgba(0,201,83,0.7)]" />
+
+            <Sparkles className="h-7 w-7 text-primary drop-shadow-[0_0_14px_rgba(0,201,83,0.8)]" />
           </div>
 
-          <div className="rounded-2xl border border-white/15 bg-black/55 p-4 backdrop-blur-md">
-            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">Idea visual</p>
-            <p className="text-lg font-display font-bold leading-tight text-white">
+          <div className="rounded-3xl border border-white/15 bg-black/65 p-5 backdrop-blur-md">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/50">
+              Dirección visual
+            </p>
+
+            <p className="text-xl font-display font-bold leading-tight text-white">
               {visualIdea || "Visual principal alineado con tu marca, audiencia y objetivo del post."}
+            </p>
+
+            <p className="mt-3 text-xs leading-relaxed text-white/60">
+              Este concepto será la base para crear una imagen o carrusel listo para publicar.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="space-y-3 px-4 py-4">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+      <div className="space-y-4 px-4 py-4">
+        <div className="flex items-center gap-3 text-sm text-muted-foreground">
           <span>♡</span>
           <span>💬</span>
           <span>↗</span>
           <span className="ml-auto">🔖</span>
         </div>
 
-        <div className="text-sm leading-relaxed text-foreground">
-          <span className="font-bold">{brandName}</span>{" "}
-          <span className="whitespace-pre-line text-muted-foreground">{caption || "Caption generado por IA listo para revisar."}</span>
+        <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-primary">
+            Caption listo
+          </p>
+
+          <div className="text-sm leading-relaxed text-foreground">
+            <span className="font-bold">{brandName}</span>{" "}
+            <span className="whitespace-pre-line text-muted-foreground">
+              {caption || "Caption generado por IA listo para revisar."}
+            </span>
+          </div>
         </div>
 
         {hashtags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-2">
             {hashtags.slice(0, 12).map(tag => (
-              <span key={tag} className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+              <span
+                key={tag}
+                className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
+              >
                 {tag}
               </span>
             ))}
           </div>
         )}
 
-        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Dirección creativa</p>
-          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-            {visualIdea || "Este bloque será la base para el próximo paso: visualPlan + generación de imagen."}
+        <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-primary">
+            Qué hizo HazPost por ti
+          </p>
+
+          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            Preparó una primera propuesta de contenido con mensaje, hashtags y dirección visual.
+            Tú solo revisas, ajustas si quieres y apruebas.
           </p>
         </div>
       </div>
