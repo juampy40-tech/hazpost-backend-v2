@@ -1150,11 +1150,14 @@ def create_app():
             }), 500
 
     # ============================================================
-    # GENERATE FIRST POST — WOW moment dashboard
+    # GENERATE FIRST POST — WOW moment dashboard + IA real
     # ============================================================
     @app.route('/api/generate-first-post', methods=['POST'])
     def generate_first_post():
         try:
+            import json
+            from openai import OpenAI
+
             profile = session.get("brandProfile", {}) or {}
 
             company_name = (profile.get("companyName") or "Tu negocio").strip()
@@ -1164,43 +1167,73 @@ def create_app():
             country = (profile.get("country") or "").strip()
             slogan = (profile.get("slogan") or "").strip()
             tone = (profile.get("brandTone") or "cercano").strip()
+            audience = (profile.get("audience") or "").strip()
+            description = (profile.get("businessDescription") or "").strip()
 
             business_type = sub_industry or industry or "productos y servicios"
             location = city or country or "tu zona"
 
-            caption = (
-                f"✨ En {company_name} creemos que cada detalle importa.\n\n"
-                f"Si buscas {business_type} en {location}, estamos aquí para ayudarte con una experiencia clara, confiable y pensada para ti."
+            api_key = os.getenv("OPENAI_API_KEY")
+
+            # -----------------------------
+            # 🛟 FALLBACK (NO ROMPE NADA)
+            # -----------------------------
+            def fallback():
+                return {
+                    "caption": f"{company_name} te ayuda con {business_type} en {location}.",
+                    "hashtags": "#HazPost #MarketingDigital #NegocioLocal",
+                    "visualIdea": f"Escena comercial de {business_type}",
+                    "visualPlan": {
+                        "format": "single_image",
+                        "prompt": f"Realistic image of {business_type} business",
+                        "slides": []
+                    }
+                }
+
+            if not api_key:
+                result = fallback()
+                return jsonify({
+                    "success": True,
+                    **result,
+                    "tone": tone,
+                    "status": "draft"
+                })
+
+            client = OpenAI(api_key=api_key)
+
+            prompt = f"""
+Crea un post de marketing para:
+
+Negocio: {company_name}
+Tipo: {business_type}
+Ubicación: {location}
+
+Devuelve JSON con:
+caption, hashtags, visualIdea, visualPlan.prompt
+"""
+
+            response = client.responses.create(
+                model="gpt-4o-mini",
+                input=prompt
             )
 
-            if slogan:
-                caption += f"\n\n{ slogan }"
+            text = response.output_text.strip()
 
-            caption += "\n\n¿Qué te gustaría encontrar hoy? 👇"
+            try:
+                data = json.loads(text)
+            except Exception:
+                data = fallback()
 
-            hashtags = [
-                "#HazPost",
-                "#NegocioLocal",
-                "#Emprendedores",
-                "#MarketingDigital",
-            ]
-
-            if industry:
-                hashtags.append("#" + industry.replace(" ", "").replace("&", "Y"))
-
-            if city:
-                hashtags.append("#" + city.replace(" ", ""))
-
-            visual_idea = (
-                f"Imagen tipo post cuadrado mostrando el logo o nombre de {company_name}, "
-                f"con una composición limpia, fondo alineado a la marca y un mensaje central sobre {business_type}."
-            )
+            hashtags = data.get("hashtags", [])
+            if isinstance(hashtags, list):
+                hashtags = " ".join(hashtags)
 
             return jsonify({
                 "success": True,
-                "caption": caption,
-                "hashtags": " ".join(hashtags),
-                "visualIdea": visual_idea,
+                "caption": data.get("caption"),
+                "hashtags": hashtags,
+                "visualIdea": data.get("visualIdea"),
+                "visualPlan": data.get("visualPlan"),
                 "tone": tone,
                 "status": "draft"
             })
