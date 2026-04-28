@@ -357,25 +357,23 @@ useEffect(() => {
             Crea contenido listo para publicar en segundos
           </h3>
 
-          <p className="text-sm text-muted-foreground max-w-md">
-            HazPost crea automáticamente el texto, hashtags y la idea visual de tu post.
-            Tú solo revisas y publicas.
-          </p>
+        <p className="text-sm text-muted-foreground max-w-md">
+  En segundos tendrás un post con texto, hashtags e idea visual listo para revisar.
+</p>
 
-          {!firstPost && (
-            <Button onClick={generateFirstPost} disabled={loadingFirstPost}>
-              {loadingFirstPost
-                ? "Creando tu post..."
-                : "Crear mi primer post con IA 🚀"}
-            </Button>
-          )}
+{!firstPost && (
+  <Button onClick={generateFirstPost} disabled={loadingFirstPost}>
+    {loadingFirstPost
+      ? "HazPost está creando tu primer post..."
+      : "Quiero ver mi primer post listo 🚀"}
+  </Button>
+)}
 
-          {!firstPost && (
-            <p className="text-xs text-muted-foreground">
-              ⚡ Incluye texto, hashtags y dirección visual automáticamente
-            </p>
-          )}
-
+{!firstPost && (
+  <p className="text-xs text-muted-foreground">
+    ⚡ Incluye texto, hashtags y dirección visual automáticamente
+  </p>
+)}
           {firstPost && (
             <div className="space-y-4">
               <FirstPostPreview
