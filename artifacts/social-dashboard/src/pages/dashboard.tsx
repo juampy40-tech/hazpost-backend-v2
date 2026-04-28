@@ -362,11 +362,15 @@ useEffect(() => {
 </p>
 
 {!firstPost && (
-  <Button onClick={generateFirstPost} disabled={loadingFirstPost}>
-    {loadingFirstPost
-      ? "HazPost está creando tu primer post..."
-      : "Quiero ver mi primer post listo 🚀"}
-  </Button>
+  <Button
+  onClick={generateFirstPost}
+  disabled={loadingFirstPost}
+  className="mt-2 inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] transition-all duration-200"
+>
+  {loadingFirstPost
+    ? "HazPost está creando tu primer post..."
+    : "Quiero ver mi primer post listo 🚀"}
+</Button>
 )}
 
 {!firstPost && (
