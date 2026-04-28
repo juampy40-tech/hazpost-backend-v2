@@ -1306,6 +1306,18 @@ function Step4({
         <p className="text-muted-foreground">Define a quién le hablas y cómo. Esto personaliza el estilo de cada post generado.</p>
       </div>
 
+      {(aiSuggestions?.audience || aiSuggestions?.tone) && (
+        <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3">
+          <p className="text-sm font-semibold text-primary flex items-center gap-2">
+            <Sparkles className="w-4 h-4" />
+            HazPost completó parte de tu perfil por ti
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Puedes usar estas sugerencias, editarlas manualmente o descartarlas.
+          </p>
+        </div>
+      )}
+
       <div className="grid gap-2">
         <div className="flex items-center justify-between">
           <Label>¿A quién le hablas? <span className="text-muted-foreground font-normal">(muy recomendado)</span></Label>
