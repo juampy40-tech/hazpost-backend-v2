@@ -1107,7 +1107,10 @@ def create_app():
             data = request.get_json(silent=True) or {}
 
             website = (data.get("website") or data.get("url") or "").strip()
+            company_name = (data.get("companyName") or "").strip()
+            slogan = (data.get("slogan") or "").strip()
             industry = (data.get("industry") or "").strip()
+            sub_industry = (data.get("subIndustry") or "").strip()
             city = (data.get("city") or "").strip()
             country = (data.get("country") or "").strip()
 
@@ -1117,9 +1120,19 @@ def create_app():
                     "error": "Website requerido"
                 }), 400
 
-            description = f"Empresa en el sector {industry or 'comercial'} que ofrece productos y servicios a clientes en {city or country or 'su región'}, enfocada en calidad, confianza y experiencia de compra."
+            business_name = company_name or "Tu negocio"
+            business_type = sub_industry or industry or "productos y servicios"
+            location = city or country or "tu región"
 
-            audience = f"Personas interesadas en {industry or 'productos y servicios'} en {city or country or 'su país'}, que buscan calidad, buen precio y confianza en la marca."
+            description = (
+                f"{business_name} es un negocio de {business_type} en {location}, "
+                f"enfocado en {slogan.lower() if slogan else 'ofrecer productos y servicios de calidad, generando confianza y una excelente experiencia al cliente'}."
+            )
+
+            audience = (
+                f"Personas interesadas en {business_type} en {location}, "
+                f"que buscan confianza, buen servicio y una marca que les ayude a tomar decisiones de compra fácilmente."
+            )
 
             return jsonify({
                 "success": True,
@@ -1135,6 +1148,7 @@ def create_app():
                 "success": False,
                 "error": "Error analizando sitio web"
             }), 500
+            
     # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
