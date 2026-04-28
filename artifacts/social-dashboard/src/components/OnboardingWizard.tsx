@@ -1119,7 +1119,9 @@ function Step2({
       {(data.businessDescription ?? "").length}/2000
     </p>
   </div>
-</div>
+  </div>
+);
+}
 
 // ── Step 3: Tipografía ─────────────────────────────────────────────────────────
 
