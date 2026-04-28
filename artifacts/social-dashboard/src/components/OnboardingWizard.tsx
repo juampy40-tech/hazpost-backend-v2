@@ -1117,9 +1117,10 @@ function Step2({
   <div className="flex items-center justify-between">
     <p className="text-xs text-muted-foreground text-right">
       {(data.businessDescription ?? "").length}/2000
-    </p>
+   </p>
   </div>
-  </div>
+</div>
+</div>
 );
 }
 
