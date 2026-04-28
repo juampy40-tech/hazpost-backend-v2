@@ -52,6 +52,28 @@ export default function Dashboard() {
   const [socialAccountsLoaded, setSocialAccountsLoaded] = useState(false);
   const [brandProfile, setBrandProfile] = useState<BrandProfileSummary | null>(null);
   const [brandProfileLoaded, setBrandProfileLoaded] = useState(false);
+  const [firstPost, setFirstPost] = useState<any>(null);
+  const [loadingFirstPost, setLoadingFirstPost] = useState(false);
+
+async function generateFirstPost() {
+  setLoadingFirstPost(true);
+
+  try {
+    const res = await fetch(`${BASE}/api/generate-first-post`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!res.ok) return;
+
+    const data = await res.json();
+    setFirstPost(data);
+  } catch {
+    // No rompemos el dashboard si falla
+  } finally {
+    setLoadingFirstPost(false);
+  }
+}
 
 useEffect(() => {
   (async () => {
