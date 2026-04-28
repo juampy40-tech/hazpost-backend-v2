@@ -1112,14 +1112,58 @@ function Step2({
      {/* Description */}
 
 {aiSuggestions?.description && (
-  <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 mb-3">
-    <p className="text-sm font-semibold text-primary flex items-center gap-2">
-      <Sparkles className="w-4 h-4" />
-      HazPost encontró una descripción para tu negocio
-    </p>
-    <p className="mt-1 text-xs text-muted-foreground">
-      La usamos automáticamente si el campo estaba vacío. Puedes editarla o descartarla.
-    </p>
+  <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 mb-3 space-y-3">
+    <div>
+      <p className="text-sm font-semibold text-primary flex items-center gap-2">
+        <Sparkles className="w-4 h-4" />
+        HazPost encontró una descripción para tu negocio
+      </p>
+      <p className="mt-1 text-xs text-muted-foreground">
+        Puedes usarla, editarla manualmente o descartarla.
+      </p>
+    </div>
+
+    <div className="rounded-lg border border-primary/20 bg-background/60 px-3 py-2">
+      <p className="text-sm text-foreground leading-relaxed">
+        {aiSuggestions.description}
+      </p>
+    </div>
+
+    <div className="flex items-center gap-2 justify-end">
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="h-8 text-xs border-primary/40 text-primary hover:bg-primary/10"
+        onClick={() => {
+          onChange({ businessDescription: aiSuggestions.description! });
+          onDismissSuggestion?.("description");
+        }}
+      >
+        Usar
+      </Button>
+
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        className="h-8 text-xs text-muted-foreground hover:text-foreground"
+        onClick={() => {
+          const el = document.getElementById("businessDescription");
+          el?.focus();
+        }}
+      >
+        Editar
+      </Button>
+
+      <button
+        type="button"
+        onClick={() => onDismissSuggestion?.("description")}
+        className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground"
+      >
+        Descartar
+      </button>
+    </div>
   </div>
 )}
 
@@ -1134,19 +1178,12 @@ function Step2({
       <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5">
         <Sparkles className="w-3 h-3" />
         Sugerido por IA
-        <button
-          type="button"
-          onClick={() => onDismissSuggestion?.("description")}
-          className="ml-0.5 opacity-70 hover:opacity-100"
-          title="Descartar sugerencia"
-        >
-          <X className="w-2.5 h-2.5" />
-        </button>
       </span>
     )}
   </div>
 
   <Textarea
+    id="businessDescription"
     value={data.businessDescription ?? ""}
     onChange={e => onChange({ businessDescription: e.target.value })}
     placeholder="Describe tu empresa en 2-3 líneas: qué hace, a quién sirve y qué te hace diferente..."
@@ -1159,13 +1196,14 @@ function Step2({
   <div className="flex items-center justify-between">
     <p className="text-xs text-muted-foreground text-right">
       {(data.businessDescription ?? "").length}/2000
-   </p>
+    </p>
   </div>
 </div>
-</div>
-);
-}
 
+ </div>     
+      );
+}
+      
 // ── Step 3: Tipografía ─────────────────────────────────────────────────────────
 
 function Step3({ data, onChange }: { data: BrandProfile; onChange: (d: Partial<BrandProfile>) => void }) {
