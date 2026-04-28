@@ -1673,14 +1673,28 @@ async function triggerAnalyze(url: string): Promise<void> {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url }),
+      body: JSON.stringify({
+        url,
+        website: url,
+        companyName: data.companyName,
+        slogan: data.slogan,
+        industry: data.industry,
+        subIndustry: data.subIndustry,
+        country: data.country,
+        city: data.city,
+      }),
     });
 
     if (!res.ok) return;
 
     const suggestions = await res.json() as AiSuggestions;
 
-    if (suggestions.description || suggestions.audience || suggestions.tone || suggestions.primaryColor) {
+    if (
+      suggestions.description ||
+      suggestions.audience ||
+      suggestions.tone ||
+      suggestions.primaryColor
+    ) {
       handleAiAnalysis(suggestions);
     }
   } catch {
