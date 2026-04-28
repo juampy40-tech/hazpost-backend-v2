@@ -212,16 +212,64 @@ useEffect(() => {
                 >
                   <Sparkles className="h-4 w-4" />
                   Generar mi primer post
-                </Link>
-                <Link
-                  href="/approval"
-                  className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
-                >
-                  <CheckCircle2 className="h-4 w-4" />
-                  Revisar cola
-                </Link>
-              </div>
-            </div>
+          <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-3">
+  <h3 className="font-semibold text-primary">
+    🚀 Genera tu primer post con IA
+  </h3>
+
+  {!firstPost && (
+    <Button onClick={generateFirstPost} disabled={loadingFirstPost}>
+      {loadingFirstPost ? "Generando..." : "Generar primer post"}
+    </Button>
+  )}
+
+  {firstPost && (
+    <div className="space-y-3">
+      <div>
+        <p className="text-sm font-semibold text-foreground">Caption</p>
+        <p className="text-sm whitespace-pre-line text-muted-foreground">
+          {firstPost.caption}
+        </p>
+      </div>
+
+      <div>
+        <p className="text-sm font-semibold text-foreground">Hashtags</p>
+        <p className="text-sm text-muted-foreground">{firstPost.hashtags}</p>
+      </div>
+
+      <div>
+        <p className="text-sm font-semibold text-foreground">Idea visual</p>
+        <p className="text-sm text-muted-foreground">{firstPost.visualIdea}</p>
+      </div>
+
+      <div className="flex gap-2 pt-2">
+        <Link
+          href="/generate"
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
+        >
+          Editar
+        </Link>
+
+        <Link
+          href="/approval"
+          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90"
+        >
+          Revisar y aprobar
+        </Link>
+      </div>
+    </div>
+  )}
+
+  {!firstPost && (
+    <Link
+      href="/approval"
+      className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
+    >
+      <CheckCircle2 className="h-4 w-4" />
+      Revisar cola
+    </Link>
+  )}
+</div>
 
             <div className="rounded-xl border border-border/50 bg-black/30 p-4">
               <p className="text-sm font-bold text-foreground">Próximo paso recomendado</p>
