@@ -1067,39 +1067,59 @@ function Step2({
         <div className="h-4" style={{ background: data.secondaryColor ?? "#ffffff" }} />
       </div>
 
-      {/* Description */}
-      <div className="grid gap-2">
-        <div className="flex items-center justify-between">
-          <Label>Descripción del negocio <span className="text-muted-foreground font-normal">(muy recomendado)</span></Label>
-          {aiSuggestions?.description && (
-            <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5">
-              <Sparkles className="w-3 h-3" />
-              Sugerido por IA
-              <button
-                type="button"
-                onClick={() => onDismissSuggestion?.("description")}
-                className="ml-0.5 opacity-70 hover:opacity-100"
-                title="Descartar sugerencia"
-              >
-                <X className="w-2.5 h-2.5" />
-              </button>
-            </span>
-          )}
-        </div>
-        <Textarea
-          value={data.businessDescription ?? ""}
-          onChange={e => onChange({ businessDescription: e.target.value })}
-          placeholder="Describe tu empresa en 2-3 líneas: qué hace, a quién sirve y qué te hace diferente..."
-          className={`resize-none h-32 ${aiSuggestions?.description ? "border-primary/40 bg-primary/5" : ""}`}
-          maxLength={2000}
-        />
-        <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground text-right">{(data.businessDescription ?? "").length}/2000</p>
-        </div>
-      </div>
-    </div>
-  );
-}
+     {/* Description */}
+
+{aiSuggestions?.description && (
+  <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 mb-3">
+    <p className="text-sm font-semibold text-primary flex items-center gap-2">
+      <Sparkles className="w-4 h-4" />
+      HazPost encontró una descripción para tu negocio
+    </p>
+    <p className="mt-1 text-xs text-muted-foreground">
+      La usamos automáticamente si el campo estaba vacío. Puedes editarla o descartarla.
+    </p>
+  </div>
+)}
+
+<div className="grid gap-2">
+  <div className="flex items-center justify-between">
+    <Label>
+      Descripción del negocio{" "}
+      <span className="text-muted-foreground font-normal">(muy recomendado)</span>
+    </Label>
+
+    {aiSuggestions?.description && (
+      <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5">
+        <Sparkles className="w-3 h-3" />
+        Sugerido por IA
+        <button
+          type="button"
+          onClick={() => onDismissSuggestion?.("description")}
+          className="ml-0.5 opacity-70 hover:opacity-100"
+          title="Descartar sugerencia"
+        >
+          <X className="w-2.5 h-2.5" />
+        </button>
+      </span>
+    )}
+  </div>
+
+  <Textarea
+    value={data.businessDescription ?? ""}
+    onChange={e => onChange({ businessDescription: e.target.value })}
+    placeholder="Describe tu empresa en 2-3 líneas: qué hace, a quién sirve y qué te hace diferente..."
+    className={`resize-none h-32 ${
+      aiSuggestions?.description ? "border-primary/40 bg-primary/5" : ""
+    }`}
+    maxLength={2000}
+  />
+
+  <div className="flex items-center justify-between">
+    <p className="text-xs text-muted-foreground text-right">
+      {(data.businessDescription ?? "").length}/2000
+    </p>
+  </div>
+</div>
 
 // ── Step 3: Tipografía ─────────────────────────────────────────────────────────
 
