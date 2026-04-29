@@ -174,6 +174,7 @@ export default function Profile() {
   const [bizLogoPreview, setBizLogoPreview] = useState("");
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [savingBiz, setSavingBiz] = useState(false);
+  const [loadingBiz, setLoadingBiz] = useState(true);
   const [industries, setIndustries] = useState<string[]>(INDUSTRIES_FALLBACK);
   const [rawSavedIndustry, setRawSavedIndustry] = useState<string>("");
   const [customIndustryStatus, setCustomIndustryStatus] = useState<"idle" | "validating" | "ok" | "error">("idle");
@@ -224,42 +225,124 @@ export default function Profile() {
     }
   }, [user]);
 
-  // Load active business — uses globalBizId from context to identify the right one
+  // Load active business — uses globalBizId from context to identify the right one.
+  // FIX CTO: si /api/businesses viene vacío, NO dejamos el perfil cargando infinito.
+  // Cargamos /api/brand-profile como respaldo y mostramos el formulario listo para crear negocio.
   useEffect(() => {
-    fetch(`${BASE}/api/businesses`, { credentials: "include" })
-      .then(r => r.json())
-      .then(d => {
-        const list: BusinessData[] = d.businesses ?? [];
-        const active = (globalBizId ? list.find(b => b.id === globalBizId) : null) ?? list.find(b => b.isDefault) ?? list[0];
-        if (active) {
-          setBizId(active.id);
-          setBizName(active.name ?? "");
-          setRawSavedIndustry(active.industry ?? "");
-          // Load subIndustries array (multi-select); fallback to legacy singular
-          const loadedSubInds = (() => {
-            try { return JSON.parse(active.subIndustries ?? "[]") as string[]; } catch { return []; }
-          })();
-          setBizSubIndustries(loadedSubInds.length > 0 ? loadedSubInds : (active.subIndustry ? [active.subIndustry] : []));
-          setBizSlogan(active.slogan ?? "");
-          setBizDescription(active.description ?? "");
-          setBizCity(active.defaultLocation ?? "");
-          setBizPrimary(active.primaryColor ?? "#00C2FF");
-          setBizSecondary(active.secondaryColor ?? "#0077FF");
-          const loadedWebsite = active.website ?? "";
-          setBizWebsite(loadedWebsite);
-          originalBizWebsiteRef.current = loadedWebsite;
-          setBizAudience(active.audienceDescription ?? "");
-          setBizTone(active.brandTone ?? "");
-          if (active.logoUrl) {
-            const resolved = active.logoUrl.startsWith("/objects/")
-              ? `${BASE}/api/storage/objects/${active.logoUrl.slice("/objects/".length)}`
-              : active.logoUrl;
-            setBizLogoUrl(active.logoUrl);
-            setBizLogoPreview(resolved);
-          }
+    let cancelled = false;
+
+    const applyBusinessToForm = (active: Partial<BusinessData>) => {
+      setBizId(typeof active.id === "number" ? active.id : null);
+      setBizName(active.name ?? "");
+      setRawSavedIndustry(active.industry ?? "");
+
+      const loadedSubInds = (() => {
+        try {
+          if (Array.isArray(active.subIndustries)) return active.subIndustries as unknown as string[];
+          return JSON.parse(active.subIndustries ?? "[]") as string[];
+        } catch {
+          return [];
         }
-      })
-      .catch(() => {});
+      })();
+
+      setBizSubIndustries(loadedSubInds.length > 0 ? loadedSubInds : (active.subIndustry ? [active.subIndustry] : []));
+      setBizSlogan(active.slogan ?? "");
+      setBizDescription(active.description ?? "");
+      setBizCity(active.defaultLocation ?? "");
+      setBizPrimary(active.primaryColor ?? "#00C2FF");
+      setBizSecondary(active.secondaryColor ?? "#0077FF");
+
+      const loadedWebsite = active.website ?? "";
+      setBizWebsite(loadedWebsite);
+      originalBizWebsiteRef.current = loadedWebsite;
+
+      setBizAudience(active.audienceDescription ?? "");
+      setBizTone(active.brandTone ?? "");
+
+      if (active.logoUrl) {
+        const resolved = active.logoUrl.startsWith("/objects/")
+          ? `${BASE}/api/storage/objects/${active.logoUrl.slice("/objects/".length)}`
+          : active.logoUrl;
+        setBizLogoUrl(active.logoUrl);
+        setBizLogoPreview(resolved);
+      } else {
+        setBizLogoUrl("");
+        setBizLogoPreview("");
+      }
+    };
+
+    const applyBrandProfileFallback = (profile: Record<string, unknown>) => {
+      setBizId(null);
+      setBizName(String(profile.companyName || profile.businessName || profile.name || ""));
+      setRawSavedIndustry(String(profile.industry || ""));
+
+      const rawSubs = profile.subIndustries;
+      if (Array.isArray(rawSubs)) {
+        setBizSubIndustries(rawSubs.map(String));
+      } else if (typeof rawSubs === "string") {
+        try {
+          const parsed = JSON.parse(rawSubs);
+          setBizSubIndustries(Array.isArray(parsed) ? parsed.map(String) : []);
+        } catch {
+          setBizSubIndustries(rawSubs ? [rawSubs] : []);
+        }
+      } else if (profile.subIndustry) {
+        setBizSubIndustries([String(profile.subIndustry)]);
+      } else {
+        setBizSubIndustries([]);
+      }
+
+      setBizSlogan(String(profile.slogan || ""));
+      setBizDescription(String(profile.businessDescription || profile.description || ""));
+      setBizCity(String(profile.city || profile.defaultLocation || ""));
+      setBizPrimary(String(profile.primaryColor || "#00C2FF"));
+      setBizSecondary(String(profile.secondaryColor || "#0077FF"));
+      setBizWebsite(String(profile.website || ""));
+      originalBizWebsiteRef.current = String(profile.website || "");
+      setBizAudience(String(profile.audienceDescription || profile.audience || ""));
+      setBizTone(String(profile.brandTone || profile.tone || ""));
+      setBizLogoUrl(String(profile.logoUrl || ""));
+      setBizLogoPreview(String(profile.logoUrl || ""));
+    };
+
+    async function loadProfile() {
+      setLoadingBiz(true);
+      try {
+        const businessesRes = await fetch(`${BASE}/api/businesses`, { credentials: "include" });
+        const businessesData = businessesRes.ok ? await businessesRes.json() : {};
+        const list: BusinessData[] = Array.isArray(businessesData.businesses) ? businessesData.businesses : [];
+        const active = (globalBizId ? list.find(b => b.id === globalBizId) : null) ?? list.find(b => b.isDefault) ?? list[0];
+
+        if (cancelled) return;
+
+        if (active) {
+          applyBusinessToForm(active);
+          return;
+        }
+
+        const profileRes = await fetch(`${BASE}/api/brand-profile`, { credentials: "include" });
+        const profileData = profileRes.ok ? await profileRes.json() : {};
+        const profile = profileData.brandProfile && typeof profileData.brandProfile === "object"
+          ? profileData.brandProfile
+          : {};
+
+        if (cancelled) return;
+        applyBrandProfileFallback(profile);
+      } catch (error) {
+        if (!cancelled) {
+          setBizId(null);
+          setBizName("");
+        }
+      } finally {
+        if (!cancelled) setLoadingBiz(false);
+      }
+    }
+
+    loadProfile();
+
+    return () => {
+      cancelled = true;
+    };
   }, [globalBizId]);
 
   async function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -457,23 +540,29 @@ export default function Profile() {
 
   async function handleSaveBrand(e: React.FormEvent) {
     e.preventDefault();
-    if (!bizId) return;
     setSavingBiz(true);
     const resolvedIndustry = bizIndustry === "Otro" ? (bizIndustryCustom.trim() || "Otro") : (bizIndustry || null);
     const isNewWebsite = !originalBizWebsiteRef.current && !!bizWebsite.trim();
     try {
       const bizBody: Record<string, unknown> = {
         name: bizName,
+        companyName: bizName,
         industry: resolvedIndustry,
+        subIndustry: bizSubIndustries[0] || null,
         subIndustries: bizSubIndustries,
         slogan: bizSlogan.trim() || null,
         description: bizDescription || null,
+        businessDescription: bizDescription || null,
         defaultLocation: bizCity || null,
+        city: bizCity || null,
         primaryColor: bizPrimary,
         secondaryColor: bizSecondary,
         website: bizWebsite.trim() || null,
         audienceDescription: bizAudience || null,
+        audience: bizAudience || null,
         brandTone: bizTone || null,
+        tone: bizTone || null,
+        isDefault: true,
       };
       if (bizLogoUrl) bizBody.logoUrl = bizLogoUrl;
 
@@ -482,10 +571,22 @@ export default function Profile() {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          companyName: bizName || null,
+          industry: resolvedIndustry,
+          subIndustry: bizSubIndustries[0] || null,
+          subIndustries: bizSubIndustries,
+          slogan: bizSlogan.trim() || null,
+          city: bizCity || null,
           website: bizWebsite.trim() || null,
           businessDescription: bizDescription || null,
+          description: bizDescription || null,
           audienceDescription: bizAudience || null,
+          audience: bizAudience || null,
           brandTone: bizTone || null,
+          tone: bizTone || null,
+          primaryColor: bizPrimary,
+          secondaryColor: bizSecondary,
+          logoUrl: bizLogoUrl || null,
         }),
       });
       if (!profileRes.ok) {
@@ -493,8 +594,11 @@ export default function Profile() {
         throw new Error(profileData.error ?? "Error al guardar perfil de marca");
       }
 
-      const bizRes = await fetch(`${BASE}/api/businesses/${bizId}`, {
-        method: "PUT",
+      const endpoint = bizId ? `${BASE}/api/businesses/${bizId}` : `${BASE}/api/businesses`;
+      const method = bizId ? "PUT" : "POST";
+
+      const bizRes = await fetch(endpoint, {
+        method,
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bizBody),
@@ -502,8 +606,12 @@ export default function Profile() {
       const bizData = await bizRes.json();
       if (!bizRes.ok) throw new Error(bizData.error ?? "Error al guardar negocio");
 
+      if (!bizId && bizData.business?.id) {
+        setBizId(bizData.business.id);
+      }
+
       originalBizWebsiteRef.current = bizWebsite.trim();
-      toast({ title: "Perfil de marca actualizado" });
+      toast({ title: bizId ? "Perfil de marca actualizado" : "Perfil de marca creado" });
 
       if (isNewWebsite) {
         handleAnalyzeWebsite();
@@ -653,11 +761,16 @@ export default function Profile() {
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-2 text-base">
             <Building2 className="w-4 h-4 text-primary" />
-            Perfil de marca — {bizName || "Cargando..."}
+            Perfil de marca — {loadingBiz ? "Cargando..." : (bizName || "Nuevo negocio")}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {bizId != null ? (
+          {loadingBiz ? (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground py-6">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Cargando perfil de marca...
+            </div>
+          ) : (
             <form onSubmit={handleSaveBrand} className="space-y-4">
               {/* Logo */}
               <div className="space-y-2">
@@ -1168,14 +1281,9 @@ export default function Profile() {
 
               <Button type="submit" disabled={savingBiz || analyzingWebsite} className="gap-2 h-9">
                 {(savingBiz || analyzingWebsite) ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                {analyzingWebsite ? "Analizando sitio web…" : "Guardar perfil de marca"}
+                {analyzingWebsite ? "Analizando sitio web…" : (bizId ? "Guardar perfil de marca" : "Crear perfil de marca")}
               </Button>
             </form>
-          ) : (
-            <div className="flex items-center gap-2 text-muted-foreground py-4">
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span className="text-sm">Cargando datos del negocio...</span>
-            </div>
           )}
         </CardContent>
       </Card>
