@@ -1365,8 +1365,9 @@ def create_app():
             import json
             from openai import OpenAI
 
-            # 🔥 FIX REAL: leer perfil desde sesión O desde request (frontend)
-            profile = session.get("brandProfile")
+            # 🔥 FIX REAL: leer perfil desde TEMP STORE, session o request
+            store = _get_user_store()
+            profile = store.get("brandProfile") or session.get("brandProfile")
 
             if not profile:
                 try:
