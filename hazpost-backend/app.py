@@ -1191,12 +1191,24 @@ def create_app():
             # -----------------------------
             def fallback():
                 return {
-                    "caption": f"{company_name} te ayuda con {business_type} en {location}.",
-                    "hashtags": "#HazPost #MarketingDigital #NegocioLocal",
-                    "visualIdea": f"Escena comercial de {business_type}",
+                    "caption": (
+                        f"¿Buscas {business_type} que realmente se ajuste a tu estilo? ✨\n\n"
+                        f"En {company_name}, te ayudamos a encontrar opciones pensadas para ti en {location}. "
+                        f"Descubre propuestas con calidad, confianza y ese toque especial que hace la diferencia.\n\n"
+                        f"Escríbenos hoy y encuentra tu favorito."
+                    ),
+                    "hashtags": f"#{company_name.replace(' ', '')} #{business_type.replace(' ', '').replace(',', '')} #NegocioLocal #HazPost",
+                    "visualIdea": (
+                        f"Una imagen comercial y atractiva de {business_type}, mostrando una experiencia cercana, "
+                        f"con estilo profesional y ambiente de confianza."
+                    ),
                     "visualPlan": {
                         "format": "single_image",
-                        "prompt": f"Realistic image of {business_type} business",
+                        "prompt": (
+                            f"Professional realistic social media image for {company_name}, a {business_type} business "
+                            f"in {location}. Warm lighting, premium commercial style, happy customer experience, "
+                            f"clean composition, high quality, no text overlay."
+                        ),
                         "slides": []
                     }
                 }
