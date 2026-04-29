@@ -476,14 +476,47 @@ def create_app():
 
             data = request.get_json(silent=True) or {}
 
+            current = session.get("brandProfile", {})
+            if not isinstance(current, dict):
+                current = {}
+
+            # Guardar SOLO campos livianos y esenciales.
+            # Evita romper la cookie/session con arrays grandes, imágenes o blobs.
+            allowed_keys = [
+                "id",
+                "companyName",
+                "name",
+                "industry",
+                "subIndustry",
+                "city",
+                "country",
+                "slogan",
+                "businessDescription",
+                "description",
+                "audience",
+                "brandTone",
+                "tone",
+                "logoUrl",
+                "primaryColor",
+                "secondaryColor",
+                "website",
+            ]
+
+            cleaned = {
+                key: data.get(key)
+                for key in allowed_keys
+                if key in data and data.get(key) is not None
+            }
+
             profile = {
-                "id": 1,
-                **session.get("brandProfile", {}),
-                **data,
+                **current,
+                **cleaned,
+                "id": current.get("id") or cleaned.get("id") or 1,
             }
 
             session["brandProfile"] = profile
             session.permanent = True
+            session.modified = True
 
             return jsonify({
                 "success": True,
