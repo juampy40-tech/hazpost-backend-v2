@@ -1213,22 +1213,30 @@ def create_app():
             client = OpenAI(api_key=api_key)
 
             # -----------------------------
-            # 🧠 PROMPT MEJORADO (AHORA SÍ USA EL NEGOCIO)
+            # 🧠 PROMPT MEJORADO (VENDE, NO SOLO DESCRIBE)
             # -----------------------------
             prompt = f"""
-Eres un experto en marketing digital.
+Eres un experto en marketing digital y copywriting.
 
-Crea un post específico y REALISTA basado en el negocio.
+Tu objetivo es VENDER, no solo describir.
 
-NO uses frases genéricas como "productos y servicios".
-USA SIEMPRE el tipo de negocio real.
+Crea un post para redes sociales que:
+- Tenga un gancho fuerte en la primera línea
+- Genere deseo
+- Sea emocional y cercano
+- Incluya un llamado a la acción claro
 
-Devuelve SOLO JSON válido, sin texto adicional.
+Reglas:
+- NO uses frases genéricas
+- USA el tipo de negocio real
+- Máximo 120 palabras
+- Usa emojis estratégicamente
 
-Formato:
+Devuelve SOLO JSON válido:
+
 {{
   "caption": "...",
-  "hashtags": ["#tag1", "#tag2"],
+  "hashtags": ["#tag1", "#tag2", "#tag3"],
   "visualIdea": "...",
   "visualPlan": {{
     "format": "single_image",
@@ -1245,12 +1253,17 @@ Ubicación: {location}
 Tono: {tone}
 Audiencia: {audience}
 Descripción: {description}
+Slogan: {slogan}
+
+Extra:
+- Usa beneficios (estilo, elegancia, confianza)
+- Puedes incluir urgencia (ej: este fin de semana)
 """
 
             response = client.responses.create(
                 model="gpt-4o-mini",
                 input=prompt,
-                temperature=0.7
+                temperature=0.8
             )
 
             text = response.output_text.strip()
