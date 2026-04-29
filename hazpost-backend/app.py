@@ -509,7 +509,7 @@ def create_app():
 
             business = {
                 "id": len(businesses_list) + 1,
-                      **data,
+                **data,
             }
 
             businesses_list.append(business)
