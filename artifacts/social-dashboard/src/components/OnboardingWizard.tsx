@@ -1835,9 +1835,38 @@ async function doNext() {
     if (ok) setStep(prevStep);
   }
 
-  async function handleComplete() {
+ async function handleComplete() {
   const ok = await saveProgress(5, true); // markComplete=true
   if (!ok) return;
+
+  const businessPayload = {
+    companyName: data.companyName || "",
+    name: data.companyName || "",
+    industry: data.industry || "",
+    subIndustry: data.subIndustry || "",
+    city: data.city || "",
+    country: data.country || "",
+    slogan: data.slogan || "",
+    businessDescription: data.businessDescription || "",
+    description: data.businessDescription || "",
+    audience: data.audience || "",
+    brandTone: data.brandTone || data.tone || "cercano",
+    tone: data.brandTone || data.tone || "cercano",
+    website: data.website || "",
+    logoUrl: data.logoUrl || "",
+    primaryColor: data.primaryColor || "",
+  };
+
+  try {
+    await fetch(`${API_BASE}/api/businesses`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(businessPayload),
+    });
+  } catch (err) {
+    console.error("Error creando business desde onboarding:", err);
+  }
 
   // Save AI generation settings
   const isManual = (data.aiGenFrequency ?? "daily") === "none";
@@ -1851,18 +1880,18 @@ async function doNext() {
     : (freqMap[data.aiGenFrequency ?? "daily"] ?? "daily");
 
   try {
-  await fetch(`${API_BASE}/api/settings`, {
-    method: "PUT",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      aiEnabled: !isManual,
-      frequency: genFreq,
-    }),
-  });
-} catch {
-  /* non-blocking */
-}
+    await fetch(`${API_BASE}/api/settings`, {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        aiEnabled: !isManual,
+        frequency: genFreq,
+      }),
+    });
+  } catch {
+    /* non-blocking */
+  }
 
   if (isManual) {
     toast({
@@ -1958,7 +1987,6 @@ async function doNext() {
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto px-6">
-          {/* Analyzing banner — shown on Marca and Audiencia steps while website analysis is in flight */}
           <AnimatePresence>
             {analyzing && (step === 1 || step === 3) && (
               <motion.div
@@ -2005,60 +2033,61 @@ async function doNext() {
             </div>
           )}
           <div className="flex items-center justify-between gap-3 flex-wrap">
-          <div className="flex items-center gap-2">
-            {step > 0 && (
-              <Button variant="ghost" onClick={handleBack} disabled={saving}>
-                <ChevronLeft className="w-4 h-4 mr-1" />
-                Anterior
-              </Button>
-            )}
-            {!editMode && !isLastStep && (
-              <button
-                onClick={handleSkip}
-                disabled={saving}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
-              >
-                Saltar este paso
-              </button>
-            )}
-            {!editMode && isLastStep && (
-              <button
-                onClick={handleComplete}
-                disabled={saving}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
-              >
-                Entrar al panel
-              </button>
-            )}
-         </div>
-<div className="flex items-center gap-3">
-  <span className="text-xs text-muted-foreground">
-    {step + 1} / {TOTAL_STEPS}
-  </span>
+            <div className="flex items-center gap-2">
+              {step > 0 && (
+                <Button variant="ghost" onClick={handleBack} disabled={saving}>
+                  <ChevronLeft className="w-4 h-4 mr-1" />
+                  Anterior
+                </Button>
+              )}
+              {!editMode && !isLastStep && (
+                <button
+                  onClick={handleSkip}
+                  disabled={saving}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
+                >
+                  Saltar este paso
+                </button>
+              )}
+              {!editMode && isLastStep && (
+                <button
+                  onClick={handleComplete}
+                  disabled={saving}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
+                >
+                  Entrar al panel
+                </button>
+              )}
+            </div>
 
-  {isLastStep ? (
-    <Button onClick={handleComplete} disabled={saving}>
-      {saving ? (
-        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-      ) : (
-        <Check className="w-4 h-4 mr-2" />
-      )}
-      {editMode ? "Guardar cambios" : "Entrar a mi panel 🚀"}
-    </Button>
-  ) : (
-    <Button onClick={handleNext} disabled={saving}>
-      {saving ? (
-        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-      ) : null}
-      Siguiente
-      <ChevronRight className="w-4 h-4 ml-1" />
-    </Button>
-  )}
-</div>
-</div>
-</div>
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-muted-foreground">
+                {step + 1} / {TOTAL_STEPS}
+              </span>
 
-</div>
-</div>
-);
+              {isLastStep ? (
+                <Button onClick={handleComplete} disabled={saving}>
+                  {saving ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Check className="w-4 h-4 mr-2" />
+                  )}
+                  {editMode ? "Guardar cambios" : "Entrar a mi panel 🚀"}
+                </Button>
+              ) : (
+                <Button onClick={handleNext} disabled={saving}>
+                  {saving ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : null}
+                  Siguiente
+                  <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
 }
