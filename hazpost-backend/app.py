@@ -530,107 +530,116 @@ def brand_profile():
         logger.exception(f"BRAND PROFILE ERROR: {e}")
         return jsonify({"error": "Error interno"}), 500
 
-    
+
+# ============================================================
+# BUSINESSES — Guardado inicial del negocio
+# ============================================================
+@app.route('/api/businesses', methods=['GET', 'POST'])
+def businesses():
+    try:
+        if request.method == 'GET':
+            return jsonify({"businesses": session.get("businesses", [])})
+
+        data = request.get_json(silent=True) or {}
+        businesses_list = session.get("businesses", [])
+
+        business = {
+            "id": len(businesses_list) + 1,
+            **data,
+        }
+
+        businesses_list.append(business)
+        session["businesses"] = businesses_list
+
+        # ============================================================
+        # BRAND PROFILE SYNC
+        # ============================================================
+        current_brand_profile = session.get("brandProfile", {})
+        if not isinstance(current_brand_profile, dict):
+            current_brand_profile = {}
+
+        synced_brand_profile = {
+            **current_brand_profile,
+            "id": business.get("id"),
+            "companyName": business.get("companyName") or business.get("name") or current_brand_profile.get("companyName"),
+            "industry": business.get("industry") or current_brand_profile.get("industry"),
+            "subIndustry": business.get("subIndustry") or current_brand_profile.get("subIndustry"),
+            "city": business.get("city") or current_brand_profile.get("city"),
+            "country": business.get("country") or current_brand_profile.get("country"),
+            "slogan": business.get("slogan") or current_brand_profile.get("slogan"),
+            "businessDescription": (
+                business.get("businessDescription")
+                or business.get("description")
+                or current_brand_profile.get("businessDescription")
+            ),
+            "audience": business.get("audience") or current_brand_profile.get("audience"),
+            "brandTone": business.get("brandTone") or business.get("tone") or current_brand_profile.get("brandTone"),
+            "logoUrl": business.get("logoUrl") or current_brand_profile.get("logoUrl"),
+            "primaryColor": business.get("primaryColor") or current_brand_profile.get("primaryColor"),
+            "website": business.get("website") or current_brand_profile.get("website"),
+        }
+
+        session["brandProfile"] = synced_brand_profile
+        session.permanent = True
+
+        return jsonify({
+            "success": True,
+            "business": business,
+            "brandProfile": synced_brand_profile,
+        }), 201
+
+    except Exception as e:
+        logger.exception(f"BUSINESSES ERROR: {e}")
+        return jsonify({"error": "Error interno"}), 500
+
+
     # ============================================================
-    # BUSINESSES — Guardado inicial del negocio
-    # ============================================================
-    @app.route('/api/businesses', methods=['GET', 'POST'])
-    def businesses():
-        try:
-            if request.method == 'GET':
-                return jsonify({"businesses": session.get("businesses", [])})
+# BUSINESS DETAIL — Editar / leer / borrar negocio por ID
+# ============================================================
+@app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
+def business_detail(business_id):
+    try:
+        businesses_list = session.get("businesses", [])
+        if not isinstance(businesses_list, list):
+            businesses_list = []
 
-            data = request.get_json(silent=True) or {}
-            businesses_list = session.get("businesses", [])
+        index = next(
+            (i for i, business in enumerate(businesses_list)
+             if int(business.get("id", 0)) == business_id),
+            None
+        )
 
-            business = {
-                "id": len(businesses_list) + 1,
-                **data,
-            }
+        if index is None:
+            return jsonify({"error": "Negocio no encontrado"}), 404
 
-            businesses_list.append(business)
+        if request.method == 'GET':
+            return jsonify({"business": businesses_list[index]})
+
+        if request.method == 'DELETE':
+            deleted = businesses_list.pop(index)
             session["businesses"] = businesses_list
-
-            # ============================================================
-            # BRAND PROFILE SYNC — Fuente única para IA + Perfil de marca
-            # ============================================================
-            current_brand_profile = session.get("brandProfile", {})
-            if not isinstance(current_brand_profile, dict):
-                current_brand_profile = {}
-
-            synced_brand_profile = {
-                **current_brand_profile,
-                "id": business.get("id"),
-                "companyName": business.get("companyName") or business.get("name") or current_brand_profile.get("companyName"),
-                "industry": business.get("industry") or current_brand_profile.get("industry"),
-                "subIndustry": business.get("subIndustry") or current_brand_profile.get("subIndustry"),
-                "city": business.get("city") or current_brand_profile.get("city"),
-                "country": business.get("country") or current_brand_profile.get("country"),
-                "slogan": business.get("slogan") or current_brand_profile.get("slogan"),
-                "businessDescription": (
-                    business.get("businessDescription")
-                    or business.get("description")
-                    or current_brand_profile.get("businessDescription")
-                ),
-                "audience": business.get("audience") or current_brand_profile.get("audience"),
-                "brandTone": business.get("brandTone") or business.get("tone") or current_brand_profile.get("brandTone"),
-                "logoUrl": business.get("logoUrl") or current_brand_profile.get("logoUrl"),
-                "primaryColor": business.get("primaryColor") or current_brand_profile.get("primaryColor"),
-                "website": business.get("website") or current_brand_profile.get("website"),
-            }
-
-            session["brandProfile"] = synced_brand_profile
             session.permanent = True
+            return jsonify({"success": True, "business": deleted})
 
-            return jsonify({
-                "success": True,
-                "business": business,
-                "brandProfile": synced_brand_profile,
-            }), 201
+        data = request.get_json(silent=True) or {}
 
-        except Exception as e:
-            logger.exception(f"BUSINESSES ERROR: {e}")
-            return jsonify({"error": "Error interno"}), 500
+        updated_business = {
+            **businesses_list[index],
+            **data,
+        }
 
+        businesses_list[index] = updated_business
+        session["businesses"] = businesses_list
+        session.permanent = True
 
-    # ============================================================
-    # BUSINESS DETAIL — Editar / leer / borrar negocio por ID
-    # ============================================================
-    @app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
-    def business_detail(business_id):
-        try:
-            businesses_list = session.get("businesses", [])
-            if not isinstance(businesses_list, list):
-                businesses_list = []
+        return jsonify({
+            "success": True,
+            "business": updated_business,
+        })
 
-            index = next(
-                (i for i, business in enumerate(businesses_list)
-                 if int(business.get("id", 0)) == business_id),
-                None
-            )
-
-            if index is None:
-                return jsonify({"error": "Negocio no encontrado"}), 404
-
-            if request.method == 'GET':
-                return jsonify({"business": businesses_list[index]})
-
-            if request.method == 'DELETE':
-                deleted = businesses_list.pop(index)
-                session["businesses"] = businesses_list
-                session.permanent = True
-                return jsonify({"success": True, "business": deleted})
-
-            data = request.get_json(silent=True) or {}
-
-            updated_business = {
-                **businesses_list[index],
-                **data,
-                "id": business_id,
-            }
-
-            businesses_list[index] = updated_business
-            session["businesses"] = businesses_list
+    except Exception as e:
+        logger.exception(f"BUSINESS DETAIL ERROR: {e}")
+        return jsonify({"error": "Error interno"}), 500
 
             # ============================================================
             # BRAND PROFILE SYNC — IA usa cambios del Perfil de marca
