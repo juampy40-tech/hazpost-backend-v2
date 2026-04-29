@@ -465,67 +465,70 @@ def create_app():
             return jsonify({"error": "Error interno"}), 500
             
 
-    # ============================================================
-    # BRAND PROFILE — Guardado progreso onboarding
-    # ============================================================
-    @app.route('/api/brand-profile', methods=['GET', 'PUT', 'POST'])
-    def brand_profile():
-        try:
-            if request.method == 'GET':
-                return jsonify({"brandProfile": session.get("brandProfile", {})})
+# ============================================================
+# BRAND PROFILE — Guardado progreso onboarding
+# ============================================================
+@app.route('/api/brand-profile', methods=['GET', 'PUT', 'POST'])
+def brand_profile():
+    try:
+        if request.method == 'GET':
+            logger.info(f"LEYENDO BRAND PROFILE: {session.get('brandProfile')}")
+            return jsonify({"brandProfile": session.get("brandProfile", {})})
 
-            data = request.get_json(silent=True) or {}
+        data = request.get_json(silent=True) or {}
 
-            current = session.get("brandProfile", {})
-            if not isinstance(current, dict):
-                current = {}
+        logger.info(f"DATA RECIBIDA: {data}")
 
-            # Guardar SOLO campos livianos y esenciales.
-            # Evita romper la cookie/session con arrays grandes, imágenes o blobs.
-            allowed_keys = [
-                "id",
-                "companyName",
-                "name",
-                "industry",
-                "subIndustry",
-                "city",
-                "country",
-                "slogan",
-                "businessDescription",
-                "description",
-                "audience",
-                "brandTone",
-                "tone",
-                "logoUrl",
-                "primaryColor",
-                "secondaryColor",
-                "website",
-            ]
+        current = session.get("brandProfile", {})
+        if not isinstance(current, dict):
+            current = {}
 
-            cleaned = {
-                key: data.get(key)
-                for key in allowed_keys
-                if key in data and data.get(key) is not None
-            }
+        allowed_keys = [
+            "id",
+            "companyName",
+            "name",
+            "industry",
+            "subIndustry",
+            "city",
+            "country",
+            "slogan",
+            "businessDescription",
+            "description",
+            "audience",
+            "brandTone",
+            "tone",
+            "logoUrl",
+            "primaryColor",
+            "secondaryColor",
+            "website",
+        ]
 
-            profile = {
-                **current,
-                **cleaned,
-                "id": current.get("id") or cleaned.get("id") or 1,
-            }
+        cleaned = {
+            key: data.get(key)
+            for key in allowed_keys
+            if key in data and data.get(key) is not None
+        }
 
-            session["brandProfile"] = profile
-            session.permanent = True
-            session.modified = True
+        profile = {
+            **current,
+            **cleaned,
+            "id": current.get("id") or cleaned.get("id") or 1,
+        }
 
-            return jsonify({
-                "success": True,
-                "brandProfile": profile,
-            })
+        logger.info(f"GUARDANDO BRAND PROFILE: {profile}")
 
-        except Exception as e:
-            logger.exception(f"BRAND PROFILE ERROR: {e}")
-            return jsonify({"error": "Error interno"}), 500
+        session["brandProfile"] = profile
+        session.permanent = True
+        session.modified = True
+
+        return jsonify({
+            "success": True,
+            "brandProfile": profile,
+        })
+
+    except Exception as e:
+        logger.exception(f"BRAND PROFILE ERROR: {e}")
+        return jsonify({"error": "Error interno"}), 500
 
     
     # ============================================================
