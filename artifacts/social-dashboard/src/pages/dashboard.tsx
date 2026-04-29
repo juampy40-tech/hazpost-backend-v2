@@ -237,6 +237,12 @@ async function generateFirstPost() {
     const res = await fetch(`${BASE}/api/generate-first-post`, {
       method: "POST",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        brandProfile: brandProfile, // 👈 FIX REAL
+      }),
     });
 
     if (!res.ok) return;
