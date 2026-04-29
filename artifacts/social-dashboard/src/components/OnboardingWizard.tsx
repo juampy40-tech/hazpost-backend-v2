@@ -1879,9 +1879,9 @@ async function doNext() {
     body: JSON.stringify(businessPayload),
   });
 
-  if (!businessRes.ok) {
-    console.error("❌ Error creando business:", await businessRes.text());
-  }
+  if (businessRes.ok && profileRes.ok) {
+  console.log("✅ Onboarding guardado correctamente");
+}
 
   if (!profileRes.ok) {
     console.error("❌ Error guardando brandProfile:", await profileRes.text());
