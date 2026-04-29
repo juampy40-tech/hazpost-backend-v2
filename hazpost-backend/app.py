@@ -378,8 +378,8 @@ def create_app():
         try:
             data = request.get_json(silent=True) or {}
 
-            email = data.get("email")
-            password = data.get("password")
+            email = (data.get("email") or "").strip().lower()
+            password = data.get("password") or ""
             display_name = data.get("displayName") or data.get("name") or ""
             affiliate_code = data.get("affiliateCode")
             referral_code = data.get("referralCode")
@@ -388,15 +388,15 @@ def create_app():
             primary_color = data.get("primaryColor")
 
             if not email or not password:
-                return jsonify({"error": "Email y contraseña requeridos"}), 400
+                return jsonify({
+                    "success": False,
+                    "error": "Email y contraseña requeridos"
+                }), 400
 
-            # NOTA:
-            # Este endpoint mantiene el flujo vivo mientras se conecta el módulo real
-            # de usuarios/base de datos. No elimina ninguna lógica existente del backend.
             user = {
                 "id": 1,
                 "email": email,
-                "displayName": display_name,
+                "displayName": display_name or email.split("@")[0],
                 "role": "user",
                 "plan": selected_plan or "free",
                 "aiCredits": 40,
@@ -416,11 +416,13 @@ def create_app():
                 "periodEnd": None,
             }
 
+            session.clear()
             session["user"] = user
             session["subscription"] = subscription
             session.permanent = True
+            session.modified = True
 
-            response = jsonify({
+            return jsonify({
                 "success": True,
                 "user": user,
                 "subscription": subscription,
@@ -429,13 +431,14 @@ def create_app():
                 "referralCode": referral_code,
                 "logoUrl": logo_url,
                 "primaryColor": primary_color,
-            })
-
-            return response, 201
+            }), 201
 
         except Exception as e:
             logger.exception(f"REGISTER ERROR: {e}")
-            return jsonify({"error": "Error interno"}), 500
+            return jsonify({
+                "success": False,
+                "error": "Error interno"
+            }), 500
 
 
     # ============================================================
@@ -447,9 +450,13 @@ def create_app():
             response = jsonify(get_industries_response())
             response.headers["Cache-Control"] = "public, max-age=3600"
             return response
+
         except Exception as e:
             logger.exception(f"INDUSTRIES ERROR: {e}")
-            return jsonify({"error": "Error interno"}), 500
+            return jsonify({
+                "success": False,
+                "error": "Error interno"
+            }), 500
 
     # ============================================================
     # INDUSTRY SUGGESTIONS — Guardar nuevas industrias
@@ -461,7 +468,10 @@ def create_app():
             name = data.get("name")
 
             if not name or not name.strip():
-                return jsonify({"error": "Nombre requerido"}), 400
+                return jsonify({
+                    "success": False,
+                    "error": "Nombre requerido"
+                }), 400
 
             from src.catalogs.industry_suggestions import save_industry_suggestion
 
@@ -472,9 +482,12 @@ def create_app():
                 "result": result
             })
 
- except Exception as e:
-    logger.exception(f"SUGGESTION ERROR: {e}")
-    return jsonify({"error": "Error interno"}), 500
+        except Exception as e:
+            logger.exception(f"SUGGESTION ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Error interno"
+            }), 500
 
 
     # ============================================================
