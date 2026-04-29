@@ -1868,8 +1868,19 @@ async function doNext() {
     console.error("Error creando business desde onboarding:", err);
   }
 
+  try {
+    await fetch(`${API_BASE}/api/brand-profile`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(businessPayload),
+    });
+  } catch (err) {
+    console.error("Error guardando brandProfile desde onboarding:", err);
+  }
+
   // Save AI generation settings
-  const isManual = (data.aiGenFrequency ?? "daily") === "none";
+   const isManual = (data.aiGenFrequency ?? "daily") === "none";
   const freqMap: Record<string, string> = {
     daily: "daily",
     "3x": "3x_week",
