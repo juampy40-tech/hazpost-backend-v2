@@ -1851,18 +1851,18 @@ async function doNext() {
     : (freqMap[data.aiGenFrequency ?? "daily"] ?? "daily");
 
   try {
-    await fetch(`/api/settings`, {
-      method: "PUT",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        aiEnabled: !isManual,
-        frequency: genFreq,
-      }),
-    });
-  } catch {
-    /* non-blocking */
-  }
+  await fetch(`${API_BASE}/api/settings`, {
+    method: "PUT",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      aiEnabled: !isManual,
+      frequency: genFreq,
+    }),
+  });
+} catch {
+  /* non-blocking */
+}
 
   if (isManual) {
     toast({
