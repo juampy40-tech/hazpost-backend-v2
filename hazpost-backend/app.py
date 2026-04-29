@@ -595,11 +595,42 @@ def create_app():
 
             businesses_list[index] = updated_business
             session["businesses"] = businesses_list
+
+            # ============================================================
+            # BRAND PROFILE SYNC — IA usa cambios del Perfil de marca
+            # ============================================================
+            current_brand_profile = session.get("brandProfile", {})
+            if not isinstance(current_brand_profile, dict):
+                current_brand_profile = {}
+
+            synced_brand_profile = {
+                **current_brand_profile,
+                "id": updated_business.get("id"),
+                "companyName": updated_business.get("companyName") or updated_business.get("name") or current_brand_profile.get("companyName"),
+                "industry": updated_business.get("industry") or current_brand_profile.get("industry"),
+                "subIndustry": updated_business.get("subIndustry") or current_brand_profile.get("subIndustry"),
+                "city": updated_business.get("city") or current_brand_profile.get("city"),
+                "country": updated_business.get("country") or current_brand_profile.get("country"),
+                "slogan": updated_business.get("slogan") or current_brand_profile.get("slogan"),
+                "businessDescription": (
+                    updated_business.get("businessDescription")
+                    or updated_business.get("description")
+                    or current_brand_profile.get("businessDescription")
+                ),
+                "audience": updated_business.get("audience") or current_brand_profile.get("audience"),
+                "brandTone": updated_business.get("brandTone") or updated_business.get("tone") or current_brand_profile.get("brandTone"),
+                "logoUrl": updated_business.get("logoUrl") or current_brand_profile.get("logoUrl"),
+                "primaryColor": updated_business.get("primaryColor") or current_brand_profile.get("primaryColor"),
+                "website": updated_business.get("website") or current_brand_profile.get("website"),
+            }
+
+            session["brandProfile"] = synced_brand_profile
             session.permanent = True
 
             return jsonify({
                 "success": True,
                 "business": updated_business,
+                "brandProfile": synced_brand_profile,
             })
 
         except Exception as e:
