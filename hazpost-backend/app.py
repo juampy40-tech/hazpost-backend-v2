@@ -509,16 +509,47 @@ def create_app():
 
             business = {
                 "id": len(businesses_list) + 1,
-                **data,
+                      **data,
             }
 
             businesses_list.append(business)
             session["businesses"] = businesses_list
+
+            # ============================================================
+            # BRAND PROFILE SYNC — Fuente única para IA + Perfil de marca
+            # ============================================================
+            current_brand_profile = session.get("brandProfile", {})
+            if not isinstance(current_brand_profile, dict):
+                current_brand_profile = {}
+
+            synced_brand_profile = {
+                **current_brand_profile,
+                "id": business.get("id"),
+                "companyName": business.get("companyName") or business.get("name") or current_brand_profile.get("companyName"),
+                "industry": business.get("industry") or current_brand_profile.get("industry"),
+                "subIndustry": business.get("subIndustry") or current_brand_profile.get("subIndustry"),
+                "city": business.get("city") or current_brand_profile.get("city"),
+                "country": business.get("country") or current_brand_profile.get("country"),
+                "slogan": business.get("slogan") or current_brand_profile.get("slogan"),
+                "businessDescription": (
+                    business.get("businessDescription")
+                    or business.get("description")
+                    or current_brand_profile.get("businessDescription")
+                ),
+                "audience": business.get("audience") or current_brand_profile.get("audience"),
+                "brandTone": business.get("brandTone") or business.get("tone") or current_brand_profile.get("brandTone"),
+                "logoUrl": business.get("logoUrl") or current_brand_profile.get("logoUrl"),
+                "primaryColor": business.get("primaryColor") or current_brand_profile.get("primaryColor"),
+                "website": business.get("website") or current_brand_profile.get("website"),
+            }
+
+            session["brandProfile"] = synced_brand_profile
             session.permanent = True
 
             return jsonify({
                 "success": True,
                 "business": business,
+                "brandProfile": synced_brand_profile,
             }), 201
 
         except Exception as e:
