@@ -368,7 +368,7 @@ useEffect(() => {
       </div>
 
       {/* ── Activación PRO post-onboarding ── */}
-{brandProfileLoaded && hasBrandProfile && (
+{brandProfileLoaded && (
   <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/15 via-black/40 to-secondary/10 p-6 shadow-[0_0_25px_rgba(0,201,83,0.08)]">
     <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
     <div className="absolute -left-16 -bottom-16 h-40 w-40 rounded-full bg-secondary/10 blur-3xl" />
@@ -377,16 +377,26 @@ useEffect(() => {
       <div>
         <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
           <Sparkles className="h-3.5 w-3.5" />
-          Marca lista
+          {hasBrandProfile ? "Marca lista" : "Empieza aquí"}
         </div>
 
         <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
-          {brandName} ya puede empezar a crear contenido con IA
+          {hasBrandProfile
+            ? `${brandName} ya puede empezar a crear contenido con IA`
+            : "Crea tu primer contenido con IA en segundos"}
         </h2>
 
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          HazPost usará tu industria, colores, logo, tipografía, audiencia y estilo para preparar publicaciones listas para revisar.
+          {hasBrandProfile
+            ? "HazPost usará tu industria, colores, logo, tipografía, audiencia y estilo para preparar publicaciones listas para revisar."
+            : "HazPost puede crear un primer post aunque todavía falten datos. Entre más completes tu perfil, mejores serán los resultados."}
         </p>
+
+        {!hasBrandProfile && (
+          <p className="mt-2 text-xs font-medium text-yellow-400">
+            Completa tu perfil de marca para que la IA genere contenido más preciso.
+          </p>
+        )}
 
         <div className="mt-5 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-transparent p-6 space-y-4">
           <div className="flex items-center gap-2 text-primary font-semibold text-sm">
@@ -398,27 +408,28 @@ useEffect(() => {
             Crea contenido listo para publicar en segundos
           </h3>
 
-        <p className="text-sm text-muted-foreground max-w-md">
-  En segundos tendrás un post con texto, hashtags e idea visual listo para revisar.
-</p>
+          <p className="text-sm text-muted-foreground max-w-md">
+            En segundos tendrás un post con texto, hashtags e idea visual listo para revisar.
+          </p>
 
-{!firstPost && (
-  <Button
-  onClick={generateFirstPost}
-  disabled={loadingFirstPost}
-  className="mt-2 inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] transition-all duration-200"
->
-  {loadingFirstPost
-    ? "HazPost está creando tu primer post..."
-    : "Quiero ver mi primer post listo 🚀"}
-</Button>
-)}
+          {!firstPost && (
+            <>
+              <Button
+                onClick={generateFirstPost}
+                disabled={loadingFirstPost}
+                className="mt-2 inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] transition-all duration-200"
+              >
+                {loadingFirstPost
+                  ? "HazPost está creando tu primer post..."
+                  : "Quiero ver mi primer post listo 🚀"}
+              </Button>
 
-{!firstPost && (
-  <p className="text-xs text-muted-foreground">
-    ⚡ Incluye texto, hashtags y dirección visual automáticamente
-  </p>
-)}
+              <p className="text-xs text-muted-foreground">
+                ⚡ Incluye texto, hashtags y dirección visual automáticamente
+              </p>
+            </>
+          )}
+
           {firstPost && (
             <div className="space-y-4">
               <FirstPostPreview
@@ -427,7 +438,7 @@ useEffect(() => {
                 brandName={brandName}
               />
 
-              <div className="flex gap-2 pt-1">
+              <div className="flex flex-wrap gap-2 pt-1">
                 <Link
                   href="/generate"
                   className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
@@ -450,7 +461,11 @@ useEffect(() => {
       <div className="rounded-xl border border-border/50 bg-black/30 p-4">
         <p className="text-sm font-bold text-foreground">Próximo paso recomendado</p>
 
-        {hasConnectedSocial ? (
+        {firstPost ? (
+          <p className="mt-1 text-xs text-muted-foreground">
+            Tu post ya quedó listo. Revísalo en la cola de aprobación para editarlo, aprobarlo o rechazarlo.
+          </p>
+        ) : hasConnectedSocial ? (
           <p className="mt-1 text-xs text-muted-foreground">
             Tus redes están conectadas. Genera contenido y apruébalo para programarlo.
           </p>
@@ -473,7 +488,8 @@ useEffect(() => {
     </div>
   </div>
 )}
-      {/* ── Guía rápida del flujo ── */}
+
+{/* ── Guía rápida del flujo ── */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { step: "1", icon: "✨", title: "Generar", desc: "La IA crea imágenes y textos listos para publicar según tus nichos de negocio.", href: "/generate" },
