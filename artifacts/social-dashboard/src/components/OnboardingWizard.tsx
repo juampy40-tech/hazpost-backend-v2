@@ -1600,6 +1600,11 @@ export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialS
   const [analyzing, setAnalyzing] = useState(false);
   const [activeBizId, setActiveBizId] = useState<number | null>(null);
   const [pendingAction, setPendingAction] = useState<"next" | "skip" | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  }, [step]);
 
   function isStepEmpty(stepIdx: number, d: BrandProfile): boolean {
     switch (stepIdx) {
