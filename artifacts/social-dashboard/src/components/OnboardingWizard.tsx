@@ -2009,26 +2009,35 @@ async function doNext() {
                 Entrar al panel
               </button>
             )}
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-muted-foreground">{step + 1} / {TOTAL_STEPS}</span>
-            {isLastStep ? (
-              <Button onClick={handleComplete} disabled={saving}>
-                {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Check className="w-4 h-4 mr-2" />}
-                {editMode ? "Guardar cambios" : "Entrar a mi panel 🚀"}
-              </Button>
-            ) : (
-              <Button onClick={handleNext} disabled={saving}>
-                {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-                Siguiente
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
-            )}
-          </div>
-        </div>
-        </div>
+         </div>
+<div className="flex items-center gap-3">
+  <span className="text-xs text-muted-foreground">
+    {step + 1} / {TOTAL_STEPS}
+  </span>
 
-      </div>
-    </div>
-  );
+  {isLastStep ? (
+    <Button onClick={handleComplete} disabled={saving}>
+      {saving ? (
+        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+      ) : (
+        <Check className="w-4 h-4 mr-2" />
+      )}
+      {editMode ? "Guardar cambios" : "Entrar a mi panel 🚀"}
+    </Button>
+  ) : (
+    <Button onClick={handleNext} disabled={saving}>
+      {saving ? (
+        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+      ) : null}
+      Siguiente
+      <ChevronRight className="w-4 h-4 ml-1" />
+    </Button>
+  )}
+</div>
+</div>
+</div>
+
+</div>
+</div>
+);
 }
