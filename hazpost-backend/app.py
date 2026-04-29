@@ -1201,27 +1201,51 @@ def create_app():
 
             client = OpenAI(api_key=api_key)
 
+            # -----------------------------
+            # 🧠 PROMPT CORREGIDO (FUERZA JSON)
+            # -----------------------------
             prompt = f"""
-Crea un post de marketing para:
+Eres un experto en marketing digital.
 
-Negocio: {company_name}
+Crea un post para redes sociales optimizado para engagement.
+
+Devuelve SOLO JSON válido, sin texto adicional, sin explicaciones.
+
+Formato exacto:
+{{
+  "caption": "...",
+  "hashtags": ["#tag1", "#tag2", "#tag3"],
+  "visualIdea": "...",
+  "visualPlan": {{
+    "format": "single_image",
+    "prompt": "..."
+  }}
+}}
+
+Datos del negocio:
+Nombre: {company_name}
 Tipo: {business_type}
 Ubicación: {location}
-
-Devuelve JSON con:
-caption, hashtags, visualIdea, visualPlan.prompt
+Tono: {tone}
+Audiencia: {audience}
+Descripción: {description}
 """
 
             response = client.responses.create(
                 model="gpt-4o-mini",
-                input=prompt
+                input=prompt,
+                temperature=0.7
             )
 
             text = response.output_text.strip()
 
+            # 🧪 DEBUG (puedes ver esto en logs de Railway)
+            print("OPENAI RAW:", text)
+
             try:
                 data = json.loads(text)
             except Exception:
+                logger.warning("⚠️ JSON inválido, usando fallback")
                 data = fallback()
 
             hashtags = data.get("hashtags", [])
@@ -1244,7 +1268,7 @@ caption, hashtags, visualIdea, visualPlan.prompt
                 "success": False,
                 "error": "Error generando primer post"
             }), 500
-            
+
     # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
