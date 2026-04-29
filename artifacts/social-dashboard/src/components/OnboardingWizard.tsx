@@ -1845,22 +1845,24 @@ async function doNext() {
   if (!ok) return;
 
   const businessPayload = {
-    companyName: data.companyName || "",
-    name: data.companyName || "",
-    industry: data.industry || "",
-    subIndustry: data.subIndustry || "",
-    city: data.city || "",
-    country: data.country || "",
-    slogan: data.slogan || "",
-    businessDescription: data.businessDescription || "",
-    description: data.businessDescription || "",
-    audience: data.audienceDescription || "",
-    brandTone: data.brandTone || data.tone || "cercano",
-    tone: data.brandTone || data.tone || "cercano",
-    website: data.website || "",
-    logoUrl: data.logoUrl || "",
-    primaryColor: data.primaryColor || "",
-  };
+  companyName: data.companyName || "",
+  name: data.companyName || "",
+  industry: data.industry || "",
+  subIndustry: data.subIndustry || "",
+  city: data.city || "",
+  country: data.country || "",
+  slogan: data.slogan || "",
+  businessDescription: data.businessDescription || "",
+  description: data.businessDescription || "",
+  audience: data.audienceDescription || data.audience || "",
+  audienceDescription: data.audienceDescription || data.audience || "",
+  brandTone: data.brandTone || data.tone || "cercano",
+  tone: data.brandTone || data.tone || "cercano",
+  website: data.website || "",
+  logoUrl: data.logoUrl || "",
+  primaryColor: data.primaryColor || "",
+  secondaryColor: data.secondaryColor || "",
+};
 
   try {
   const businessRes = await fetch(`${API_BASE}/api/businesses`, {
