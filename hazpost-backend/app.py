@@ -524,12 +524,22 @@ def create_app():
     @app.route('/api/brand-profile', methods=['GET', 'PUT', 'POST'])
     def brand_profile():
         try:
+            # ============================
+            # GET
+            # ============================
             if request.method == 'GET':
-                logger.info(f"LEYENDO BRAND PROFILE: {session.get('brandProfile')}")
+                store = _get_user_store()
+                brand_profile_data = store.get("brandProfile") or session.get("brandProfile") or {}
+
+                logger.info(f"LEYENDO BRAND PROFILE: {brand_profile_data}")
+
                 return jsonify({
-                    "brandProfile": session.get("brandProfile", {})
+                    "brandProfile": brand_profile_data
                 })
 
+            # ============================
+            # PUT / POST
+            # ============================
             data = request.get_json(silent=True) or {}
             logger.info(f"DATA RECIBIDA: {data}")
 
@@ -558,6 +568,9 @@ def create_app():
 
             logger.info(f"GUARDANDO BRAND PROFILE: {profile}")
 
+            store = _get_user_store()
+            store["brandProfile"] = profile
+
             session["brandProfile"] = profile
             session.permanent = True
             session.modified = True
@@ -573,7 +586,6 @@ def create_app():
                 "success": False,
                 "error": "Error interno"
             }), 500
-
 
     # ============================================================
     # BUSINESSES — Guardado inicial del negocio
