@@ -1858,27 +1858,31 @@ async function doNext() {
   };
 
   try {
-    await fetch(`${API_BASE}/api/businesses`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(businessPayload),
-    });
-  } catch (err) {
-    console.error("Error creando business desde onboarding:", err);
+  const businessRes = await fetch(`${API_BASE}/api/businesses`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(businessPayload),
+  });
+
+  const profileRes = await fetch(`${API_BASE}/api/brand-profile`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(businessPayload),
+  });
+
+  if (!businessRes.ok) {
+    console.error("❌ Error creando business:", await businessRes.text());
   }
 
-  try {
-    await fetch(`${API_BASE}/api/brand-profile`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(businessPayload),
-    });
-  } catch (err) {
-    console.error("Error guardando brandProfile desde onboarding:", err);
+  if (!profileRes.ok) {
+    console.error("❌ Error guardando brandProfile:", await profileRes.text());
   }
 
+} catch (err) {
+  console.error("🔥 Error crítico en onboarding:", err);
+}
   // Save AI generation settings
    const isManual = (data.aiGenFrequency ?? "daily") === "none";
   const freqMap: Record<string, string> = {
