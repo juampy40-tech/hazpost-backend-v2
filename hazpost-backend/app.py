@@ -1158,7 +1158,18 @@ def create_app():
             import json
             from openai import OpenAI
 
-            profile = session.get("brandProfile", {}) or {}
+            # 🔥 FIX REAL: leer perfil desde sesión O desde request (frontend)
+            profile = session.get("brandProfile")
+
+            if not profile:
+                try:
+                    body = request.get_json(silent=True) or {}
+                    profile = body.get("brandProfile") or body
+                except Exception:
+                    profile = None
+
+            if not isinstance(profile, dict):
+                profile = {}
 
             company_name = (profile.get("companyName") or "Tu negocio").strip()
             industry = (profile.get("industry") or "").strip()
@@ -1202,19 +1213,22 @@ def create_app():
             client = OpenAI(api_key=api_key)
 
             # -----------------------------
-            # 🧠 PROMPT
+            # 🧠 PROMPT MEJORADO (AHORA SÍ USA EL NEGOCIO)
             # -----------------------------
             prompt = f"""
 Eres un experto en marketing digital.
 
-Crea un post para redes sociales optimizado para engagement.
+Crea un post específico y REALISTA basado en el negocio.
 
-Devuelve SOLO JSON válido, sin texto adicional, sin explicaciones.
+NO uses frases genéricas como "productos y servicios".
+USA SIEMPRE el tipo de negocio real.
 
-Formato exacto:
+Devuelve SOLO JSON válido, sin texto adicional.
+
+Formato:
 {{
   "caption": "...",
-  "hashtags": ["#tag1", "#tag2", "#tag3"],
+  "hashtags": ["#tag1", "#tag2"],
   "visualIdea": "...",
   "visualPlan": {{
     "format": "single_image",
@@ -1222,9 +1236,11 @@ Formato exacto:
   }}
 }}
 
-Datos del negocio:
-Nombre: {company_name}
-Tipo: {business_type}
+Datos:
+Empresa: {company_name}
+Industria: {industry}
+Sub-industria: {sub_industry}
+Tipo negocio: {business_type}
 Ubicación: {location}
 Tono: {tone}
 Audiencia: {audience}
@@ -1239,20 +1255,17 @@ Descripción: {description}
 
             text = response.output_text.strip()
 
-            # 🧪 DEBUG
             print("OPENAI RAW:", text)
 
             # -----------------------------
-            # 🔥 PARSER ROBUSTO (FIX REAL)
+            # 🔥 PARSER ROBUSTO
             # -----------------------------
             try:
                 clean_text = text.strip()
 
-                # quitar ```json ``` 
                 if clean_text.startswith("```"):
                     clean_text = clean_text.replace("```json", "").replace("```", "").strip()
 
-                # extraer solo JSON si viene texto extra
                 json_start = clean_text.find("{")
                 json_end = clean_text.rfind("}")
 
