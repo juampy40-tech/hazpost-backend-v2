@@ -1202,7 +1202,7 @@ def create_app():
             client = OpenAI(api_key=api_key)
 
             # -----------------------------
-            # 🧠 PROMPT CORREGIDO (FUERZA JSON)
+            # 🧠 PROMPT
             # -----------------------------
             prompt = f"""
 Eres un experto en marketing digital.
@@ -1239,13 +1239,30 @@ Descripción: {description}
 
             text = response.output_text.strip()
 
-            # 🧪 DEBUG (puedes ver esto en logs de Railway)
+            # 🧪 DEBUG
             print("OPENAI RAW:", text)
 
+            # -----------------------------
+            # 🔥 PARSER ROBUSTO (FIX REAL)
+            # -----------------------------
             try:
-                data = json.loads(text)
-            except Exception:
-                logger.warning("⚠️ JSON inválido, usando fallback")
+                clean_text = text.strip()
+
+                # quitar ```json ``` 
+                if clean_text.startswith("```"):
+                    clean_text = clean_text.replace("```json", "").replace("```", "").strip()
+
+                # extraer solo JSON si viene texto extra
+                json_start = clean_text.find("{")
+                json_end = clean_text.rfind("}")
+
+                if json_start != -1 and json_end != -1:
+                    clean_text = clean_text[json_start:json_end + 1]
+
+                data = json.loads(clean_text)
+
+            except Exception as parse_error:
+                logger.warning(f"⚠️ JSON inválido, usando fallback: {parse_error}")
                 data = fallback()
 
             hashtags = data.get("hashtags", [])
