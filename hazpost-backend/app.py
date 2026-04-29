@@ -1272,25 +1272,22 @@ def create_app():
                             f"clean composition, high quality, no text overlay."
                         ),
                         "slides": []
-                    }
+                    },
+                    "source": "fallback"
                 }
 
+            result = None
+
+            # -----------------------------
+            # 🧠 IA REAL O FALLBACK SEGURO
+            # -----------------------------
             if not api_key or not api_key.strip().startswith("sk-"):
                 result = fallback()
-                return jsonify({
-                    "success": True,
-                    **result,
-                    "tone": tone,
-                    "status": "draft",
-                    "source": "fallback"
-                })
+            else:
+                try:
+                    client = OpenAI(api_key=api_key)
 
-            client = OpenAI(api_key=api_key)
-
-            # -----------------------------
-            # 🧠 PROMPT MEJORADO (VENDE, NO SOLO DESCRIBE)
-            # -----------------------------
-            prompt = f"""
+                    prompt = f"""
 Eres un experto en marketing digital y copywriting.
 
 Tu objetivo es VENDER, no solo describir.
@@ -1331,53 +1328,87 @@ Descripción: {description}
 Slogan: {slogan}
 
 Extra:
-- Usa beneficios (estilo, elegancia, confianza)
-- Puedes incluir urgencia (ej: este fin de semana)
+- Usa beneficios reales del negocio
+- Puedes incluir urgencia si aplica
+- Evita sonar robótico
 """
 
-            response = client.responses.create(
-                model="gpt-4o-mini",
-                input=prompt,
-                temperature=0.8
-            )
+                    response = client.responses.create(
+                        model="gpt-4o-mini",
+                        input=prompt,
+                        temperature=0.8
+                    )
 
-            text = response.output_text.strip()
+                    text = response.output_text.strip()
+                    print("OPENAI RAW:", text)
 
-            print("OPENAI RAW:", text)
+                    try:
+                        clean_text = text.strip()
 
-            # -----------------------------
-            # 🔥 PARSER ROBUSTO
-            # -----------------------------
-            try:
-                clean_text = text.strip()
+                        if clean_text.startswith("```"):
+                            clean_text = clean_text.replace("```json", "").replace("```", "").strip()
 
-                if clean_text.startswith("```"):
-                    clean_text = clean_text.replace("```json", "").replace("```", "").strip()
+                        json_start = clean_text.find("{")
+                        json_end = clean_text.rfind("}")
 
-                json_start = clean_text.find("{")
-                json_end = clean_text.rfind("}")
+                        if json_start != -1 and json_end != -1:
+                            clean_text = clean_text[json_start:json_end + 1]
 
-                if json_start != -1 and json_end != -1:
-                    clean_text = clean_text[json_start:json_end + 1]
+                        result = json.loads(clean_text)
+                        result["source"] = "openai"
 
-                data = json.loads(clean_text)
+                    except Exception as parse_error:
+                        logger.warning(f"⚠️ JSON inválido, usando fallback: {parse_error}")
+                        result = fallback()
 
-            except Exception as parse_error:
-                logger.warning(f"⚠️ JSON inválido, usando fallback: {parse_error}")
-                data = fallback()
+                except Exception as openai_error:
+                    logger.warning(f"⚠️ OpenAI falló, usando fallback: {openai_error}")
+                    result = fallback()
 
-            hashtags = data.get("hashtags", [])
+            hashtags = result.get("hashtags", [])
             if isinstance(hashtags, list):
                 hashtags = " ".join(hashtags)
 
+            result["hashtags"] = hashtags
+
+            # ============================================================
+            # 💾 GUARDAR EN COLA DE APROBACIÓN
+            # ============================================================
+            posts_list = session.get("posts", [])
+            if not isinstance(posts_list, list):
+                posts_list = []
+
+            new_post = {
+                "id": len(posts_list) + 1,
+                "caption": result.get("caption"),
+                "hashtags": result.get("hashtags"),
+                "visualIdea": result.get("visualIdea"),
+                "visualPlan": result.get("visualPlan"),
+                "tone": tone,
+                "source": result.get("source"),
+                "status": "pending_approval",
+                "companyName": company_name,
+                "industry": industry,
+                "subIndustry": sub_industry,
+                "businessType": business_type,
+                "location": location,
+            }
+
+            posts_list.append(new_post)
+            session["posts"] = posts_list
+            session.permanent = True
+
             return jsonify({
                 "success": True,
-                "caption": data.get("caption"),
-                "hashtags": hashtags,
-                "visualIdea": data.get("visualIdea"),
-                "visualPlan": data.get("visualPlan"),
+                "caption": result.get("caption"),
+                "hashtags": result.get("hashtags"),
+                "visualIdea": result.get("visualIdea"),
+                "visualPlan": result.get("visualPlan"),
                 "tone": tone,
-                "status": "draft"
+                "source": result.get("source"),
+                "status": "pending_approval",
+                "postId": new_post["id"],
+                "post": new_post,
             })
 
         except Exception as e:
