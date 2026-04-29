@@ -1213,13 +1213,14 @@ def create_app():
                     }
                 }
 
-            if not api_key:
+            if not api_key or not api_key.strip().startswith("sk-"):
                 result = fallback()
                 return jsonify({
                     "success": True,
                     **result,
                     "tone": tone,
-                    "status": "draft"
+                    "status": "draft",
+                    "source": "fallback"
                 })
 
             client = OpenAI(api_key=api_key)
