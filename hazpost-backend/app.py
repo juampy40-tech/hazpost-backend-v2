@@ -287,7 +287,10 @@ def create_app():
             password = data.get("password") or ""
 
             if not email or not password:
-                return jsonify({"error": "Email y contraseña requeridos"}), 400
+                return jsonify({
+                    "success": False,
+                    "error": "Email y contraseña requeridos"
+                }), 400
 
             user = {
                 "id": 1,
