@@ -29,6 +29,31 @@ from src.dashboard_routes import dashboard_bp
 
 _SCHEDULER_LOCK_FILE = None
 
+# ============================================================
+# TEMP STORE — Persistencia temporal por usuario
+# ============================================================
+# CTO NOTE:
+# Esto reemplaza dependencia de session (que falla en Railway/Vercel)
+# Es temporal hasta migrar a PostgreSQL
+# ============================================================
+TEMP_USER_DATA = {}
+
+
+def _get_user_key():
+    user = session.get("user") or {}
+    return str(user.get("email") or user.get("id") or "anonymous")
+
+
+def _get_user_store():
+    user_key = _get_user_key()
+    if user_key not in TEMP_USER_DATA:
+        TEMP_USER_DATA[user_key] = {
+            "brandProfile": {},
+            "businesses": [],
+            "posts": [],
+        }
+    return TEMP_USER_DATA[user_key]
+
 
 # ============================================================
 # CORS CENTRALIZADO HAZPOST
