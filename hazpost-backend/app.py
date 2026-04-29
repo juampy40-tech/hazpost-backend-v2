@@ -593,15 +593,26 @@ def create_app():
     @app.route('/api/businesses', methods=['GET', 'POST'])
     def businesses():
         try:
+            # ============================
+            # GET
+            # ============================
             if request.method == 'GET':
-                businesses_list = session.get("businesses", [])
+                store = _get_user_store()
+                businesses_list = store.get("businesses") or session.get("businesses", [])
+
                 if not isinstance(businesses_list, list):
                     businesses_list = []
+
                 return jsonify({"businesses": businesses_list})
 
+            # ============================
+            # POST
+            # ============================
             data = request.get_json(silent=True) or {}
 
-            businesses_list = session.get("businesses", [])
+            store = _get_user_store()
+
+            businesses_list = store.get("businesses") or session.get("businesses", [])
             if not isinstance(businesses_list, list):
                 businesses_list = []
 
@@ -611,9 +622,12 @@ def create_app():
             }
 
             businesses_list.append(business)
+
+            store["businesses"] = businesses_list
             session["businesses"] = businesses_list
 
-            current_brand_profile = session.get("brandProfile", {})
+            current_brand_profile = store.get("brandProfile") or session.get("brandProfile") or {}
+
             if not isinstance(current_brand_profile, dict):
                 current_brand_profile = {}
 
@@ -637,6 +651,8 @@ def create_app():
                 "primaryColor": business.get("primaryColor") or current_brand_profile.get("primaryColor"),
                 "website": business.get("website") or current_brand_profile.get("website"),
             }
+
+            store["brandProfile"] = synced_brand_profile
 
             session["brandProfile"] = synced_brand_profile
             session.permanent = True
