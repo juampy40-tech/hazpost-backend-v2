@@ -1845,65 +1845,89 @@ async function doNext() {
   if (!ok) return;
 
   const businessPayload = {
-  companyName: data.companyName || "",
-  name: data.companyName || "",
-  industry: data.industry || "",
-  subIndustry: data.subIndustry || "",
-  city: data.city || "",
-  country: data.country || "",
-  slogan: data.slogan || "",
-  businessDescription: data.businessDescription || "",
-  description: data.businessDescription || "",
-  audience: data.audienceDescription || data.audience || "",
-  audienceDescription: data.audienceDescription || data.audience || "",
-  brandTone: data.brandTone || data.tone || "cercano",
-  tone: data.brandTone || data.tone || "cercano",
-  website: data.website || "",
-  logoUrl: data.logoUrl || "",
-  primaryColor: data.primaryColor || "",
-  secondaryColor: data.secondaryColor || "",
-};
+    companyName: data.companyName || "",
+    name: data.companyName || "",
+    industry: data.industry || "",
+    subIndustry: data.subIndustry || "",
+    city: data.city || "",
+    country: data.country || "",
+    slogan: data.slogan || "",
+    businessDescription: data.businessDescription || "",
+    description: data.businessDescription || "",
+    audience: data.audienceDescription || data.audience || "",
+    audienceDescription: data.audienceDescription || data.audience || "",
+    brandTone: data.brandTone || data.tone || "cercano",
+    tone: data.brandTone || data.tone || "cercano",
+    website: data.website || "",
+    logoUrl: data.logoUrl || "",
+    primaryColor: data.primaryColor || "",
+    secondaryColor: data.secondaryColor || "",
+  };
+
+  const profilePayload = {
+    companyName: data.companyName || "",
+    industry: data.industry || "",
+    subIndustry: data.subIndustry || "",
+    city: data.city || "",
+    country: data.country || "",
+    slogan: data.slogan || "",
+    description: data.businessDescription || "",
+    businessDescription: data.businessDescription || "",
+    audience: data.audienceDescription || data.audience || "",
+    audienceDescription: data.audienceDescription || data.audience || "",
+    tone: data.brandTone || data.tone || "cercano",
+    brandTone: data.brandTone || data.tone || "cercano",
+    website: data.website || "",
+    logoUrl: data.logoUrl || "",
+    primaryColor: data.primaryColor || "",
+    secondaryColor: data.secondaryColor || "",
+  };
 
   try {
-  const businessRes = await fetch(`${API_BASE}/api/businesses`, {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(businessPayload),
-  });
+    const businessRes = await fetch(`${API_BASE}/api/businesses`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(businessPayload),
+    });
 
-  const profileRes = await fetch(`${API_BASE}/api/brand-profile`, {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(businessPayload),
-  });
+    const profileRes = await fetch(`${API_BASE}/api/brand-profile`, {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(profilePayload),
+    });
 
-  if (businessRes.ok && profileRes.ok) {
-  console.log("✅ Onboarding guardado correctamente");
-}
+    if (businessRes.ok && profileRes.ok) {
+      console.log("✅ Onboarding guardado correctamente");
+    }
 
-if (!businessRes.ok) {
-  console.error("❌ Error creando business:", await businessRes.text());
-}
+    if (!businessRes.ok) {
+      console.error("❌ Error creando business:", await businessRes.text());
+      return;
+    }
 
-if (!profileRes.ok) {
-  console.error("❌ Error guardando brandProfile:", await profileRes.text());
-}
+    if (!profileRes.ok) {
+      console.error("❌ Error guardando brandProfile:", await profileRes.text());
+      return;
+    }
+  } catch (err) {
+    console.error("🔥 Error crítico en onboarding:", err);
+    return;
+  }
 
-} catch (err) {
-  console.error("🔥 Error crítico en onboarding:", err);
-}
   // Save AI generation settings
-   const isManual = (data.aiGenFrequency ?? "daily") === "none";
+  const isManual = (data.aiGenFrequency ?? "daily") === "none";
+
   const freqMap: Record<string, string> = {
     daily: "daily",
     "3x": "3x_week",
     weekly: "weekly",
   };
+
   const genFreq = isManual
     ? "none"
-    : (freqMap[data.aiGenFrequency ?? "daily"] ?? "daily");
+    : freqMap[data.aiGenFrequency ?? "daily"] ?? "daily";
 
   try {
     await fetch(`${API_BASE}/api/settings`, {
