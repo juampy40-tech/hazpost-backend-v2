@@ -1,9 +1,11 @@
 import os
+import uuid
 import fcntl
 import logging
-from flask import Flask, render_template, request, make_response, jsonify, session
+from flask import Flask, render_template, request, make_response, jsonify, session, send_from_directory
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
+from werkzeug.utils import secure_filename
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s: %(message)s')
@@ -272,7 +274,7 @@ def create_app():
                 "priceUsd": 19.99,
             },
         })
-
+        
     # ============================================================
     # LOGIN USER — Compatibilidad frontend HazPost
     # ============================================================
@@ -314,6 +316,7 @@ def create_app():
             session["user"] = user
             session["subscription"] = subscription
             session.permanent = True
+            session.modified = True  # 🔥 IMPORTANTE
 
             return jsonify({
                 "success": True,
@@ -332,10 +335,15 @@ def create_app():
     @app.route('/api/user/me', methods=['GET'])
     def user_me():
         user = session.get("user")
+
         if not user:
-            return jsonify({"error": "Not authenticated"}), 401
+            return jsonify({
+                "success": False,
+                "error": "Not authenticated"
+            }), 401
 
         return jsonify({
+            "success": True,
             "user": user,
             "subscription": session.get("subscription"),
         })
@@ -347,6 +355,7 @@ def create_app():
     @app.route('/api/user/logout', methods=['POST'])
     def user_logout():
         session.clear()
+        session.modified = True  # 🔥 importante
         return jsonify({"success": True})
 
 
@@ -355,7 +364,10 @@ def create_app():
     # ============================================================
     @app.route('/api/user/bootstrap', methods=['GET'])
     def user_bootstrap():
-        return jsonify({"hasUsers": True})
+        return jsonify({
+            "success": True,
+            "hasUsers": True
+        })
 
     
     # ============================================================
