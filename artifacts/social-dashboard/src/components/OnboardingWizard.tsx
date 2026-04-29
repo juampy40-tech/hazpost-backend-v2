@@ -1883,9 +1883,13 @@ async function doNext() {
   console.log("✅ Onboarding guardado correctamente");
 }
 
-  if (!profileRes.ok) {
-    console.error("❌ Error guardando brandProfile:", await profileRes.text());
-  }
+if (!businessRes.ok) {
+  console.error("❌ Error creando business:", await businessRes.text());
+}
+
+if (!profileRes.ok) {
+  console.error("❌ Error guardando brandProfile:", await profileRes.text());
+}
 
 } catch (err) {
   console.error("🔥 Error crítico en onboarding:", err);
