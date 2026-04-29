@@ -1836,32 +1836,53 @@ async function doNext() {
   }
 
   async function handleComplete() {
-    const ok = await saveProgress(5, true);  // markComplete=true — only call that sets onboardingCompleted
-    if (!ok) return;
+  const ok = await saveProgress(5, true); // markComplete=true
+  if (!ok) return;
 
-    // Save AI generation settings
-    const isManual = (data.aiGenFrequency ?? "daily") === "none";
-    const freqMap: Record<string, string> = { daily: "daily", "3x": "3x_week", weekly: "weekly" };
-    const genFreq = isManual ? "none" : (freqMap[data.aiGenFrequency ?? "daily"] ?? "daily");
-    try {
-     await fetch(`/api/settings`, {
-  method: "PUT",
-  credentials: "include",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-  aiEnabled: !isManual,
-  frequency: genFreq,
-}),
-});
-    } catch { /* non-blocking */ }
+  // Save AI generation settings
+  const isManual = (data.aiGenFrequency ?? "daily") === "none";
+  const freqMap: Record<string, string> = {
+    daily: "daily",
+    "3x": "3x_week",
+    weekly: "weekly",
+  };
+  const genFreq = isManual
+    ? "none"
+    : (freqMap[data.aiGenFrequency ?? "daily"] ?? "daily");
 
-    if (isManual) {
-      toast({ title: "¡Marca lista! 🎉", description: "Entra al panel para generar tu primer contenido." });
-    } else {
-      toast({ title: "¡Todo listo! 🚀", description: "Tu marca está lista para generar contenido con IA." });
-    }
-    onComplete();
+  try {
+    await fetch(`/api/settings`, {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        aiEnabled: !isManual,
+        frequency: genFreq,
+      }),
+    });
+  } catch {
+    /* non-blocking */
   }
+
+  if (isManual) {
+    toast({
+      title: "¡Marca lista! 🎉",
+      description: "Entra al panel para generar tu primer contenido.",
+    });
+  } else {
+    toast({
+      title: "¡Todo listo! 🚀",
+      description: "Tu marca está lista para generar contenido con IA.",
+    });
+  }
+
+  if (editMode) {
+    onComplete();
+    return;
+  }
+
+  window.location.href = "/dashboard";
+}
 
   async function handleSkip() {
     if (step === 4) {
