@@ -2006,7 +2006,7 @@ async function doNext() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6">
+        <div ref={contentRef} className="flex-1 overflow-y-auto px-6">
           <AnimatePresence>
             {analyzing && (step === 1 || step === 3) && (
               <motion.div
