@@ -1849,7 +1849,7 @@ async function doNext() {
     slogan: data.slogan || "",
     businessDescription: data.businessDescription || "",
     description: data.businessDescription || "",
-    audience: data.audience || "",
+    audience: data.audienceDescription || "",
     brandTone: data.brandTone || data.tone || "cercano",
     tone: data.brandTone || data.tone || "cercano",
     website: data.website || "",
