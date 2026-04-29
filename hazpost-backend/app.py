@@ -593,7 +593,7 @@ def businesses():
         return jsonify({"error": "Error interno"}), 500
 
 
-    # ============================================================
+# ============================================================
 # BUSINESS DETAIL — Editar / leer / borrar negocio por ID
 # ============================================================
 @app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
@@ -612,492 +612,497 @@ def business_detail(business_id):
         if index is None:
             return jsonify({"error": "Negocio no encontrado"}), 404
 
+        # GET
         if request.method == 'GET':
             return jsonify({"business": businesses_list[index]})
 
+        # DELETE
         if request.method == 'DELETE':
             deleted = businesses_list.pop(index)
             session["businesses"] = businesses_list
             session.permanent = True
             return jsonify({"success": True, "business": deleted})
 
+        # UPDATE
         data = request.get_json(silent=True) or {}
 
         updated_business = {
             **businesses_list[index],
             **data,
+            "id": business_id,
         }
 
         businesses_list[index] = updated_business
         session["businesses"] = businesses_list
+
+        # 🔥 SYNC CON BRAND PROFILE
+        current_brand_profile = session.get("brandProfile", {})
+        if not isinstance(current_brand_profile, dict):
+            current_brand_profile = {}
+
+        synced_brand_profile = {
+            **current_brand_profile,
+            "id": updated_business.get("id"),
+            "companyName": updated_business.get("companyName") or updated_business.get("name") or current_brand_profile.get("companyName"),
+            "industry": updated_business.get("industry") or current_brand_profile.get("industry"),
+            "subIndustry": updated_business.get("subIndustry") or current_brand_profile.get("subIndustry"),
+            "city": updated_business.get("city") or current_brand_profile.get("city"),
+            "country": updated_business.get("country") or current_brand_profile.get("country"),
+            "slogan": updated_business.get("slogan") or current_brand_profile.get("slogan"),
+            "businessDescription": (
+                updated_business.get("businessDescription")
+                or updated_business.get("description")
+                or current_brand_profile.get("businessDescription")
+            ),
+            "audience": updated_business.get("audience") or current_brand_profile.get("audience"),
+            "brandTone": updated_business.get("brandTone") or updated_business.get("tone") or current_brand_profile.get("brandTone"),
+            "logoUrl": updated_business.get("logoUrl") or current_brand_profile.get("logoUrl"),
+            "primaryColor": updated_business.get("primaryColor") or current_brand_profile.get("primaryColor"),
+            "website": updated_business.get("website") or current_brand_profile.get("website"),
+        }
+
+        session["brandProfile"] = synced_brand_profile
         session.permanent = True
 
         return jsonify({
             "success": True,
             "business": updated_business,
+            "brandProfile": synced_brand_profile,
         })
 
     except Exception as e:
         logger.exception(f"BUSINESS DETAIL ERROR: {e}")
         return jsonify({"error": "Error interno"}), 500
 
-            # ============================================================
-            # BRAND PROFILE SYNC — IA usa cambios del Perfil de marca
-            # ============================================================
-            current_brand_profile = session.get("brandProfile", {})
-            if not isinstance(current_brand_profile, dict):
-                current_brand_profile = {}
 
-            synced_brand_profile = {
-                **current_brand_profile,
-                "id": updated_business.get("id"),
-                "companyName": updated_business.get("companyName") or updated_business.get("name") or current_brand_profile.get("companyName"),
-                "industry": updated_business.get("industry") or current_brand_profile.get("industry"),
-                "subIndustry": updated_business.get("subIndustry") or current_brand_profile.get("subIndustry"),
-                "city": updated_business.get("city") or current_brand_profile.get("city"),
-                "country": updated_business.get("country") or current_brand_profile.get("country"),
-                "slogan": updated_business.get("slogan") or current_brand_profile.get("slogan"),
-                "businessDescription": (
-                    updated_business.get("businessDescription")
-                    or updated_business.get("description")
-                    or current_brand_profile.get("businessDescription")
-                ),
-                "audience": updated_business.get("audience") or current_brand_profile.get("audience"),
-                "brandTone": updated_business.get("brandTone") or updated_business.get("tone") or current_brand_profile.get("brandTone"),
-                "logoUrl": updated_business.get("logoUrl") or current_brand_profile.get("logoUrl"),
-                "primaryColor": updated_business.get("primaryColor") or current_brand_profile.get("primaryColor"),
-                "website": updated_business.get("website") or current_brand_profile.get("website"),
-            }
-
-            session["brandProfile"] = synced_brand_profile
-            session.permanent = True
-
-            return jsonify({
-                "success": True,
-                "business": updated_business,
-                "brandProfile": synced_brand_profile,
-            })
-
-        except Exception as e:
-            logger.exception(f"BUSINESS DETAIL ERROR: {e}")
-            return jsonify({"error": "Error interno"}), 500
+# ============================================================
+# ROOT + HEALTH
+# ============================================================
+@app.route('/')
+def index():
+    return {"status": "ok"}
 
 
-    @app.route('/')
-    def index():
-        return {"status": "ok"}
+@app.route('/health')
+def health():
+    return {"status": "ok"}
 
 
-    @app.route('/health')
-    def health():
-        return {"status": "ok"}
+# ============================================================
+# CORS OPTIONS (PREVENT 405)
+# ============================================================
+@app.route('/api/<path:_path>', methods=['OPTIONS'])
+def api_options(_path):
+    response = make_response("", 204)
+    return _attach_cors_headers(response)
 
 
-    # Catch-all OPTIONS para que cualquier endpoint nuevo del backend responda preflight.
-    @app.route('/api/<path:_path>', methods=['OPTIONS'])
-    def api_options(_path):
-        response = make_response("", 204)
-        return _attach_cors_headers(response)
+# ============================================================
+# SETTINGS / AUTOMATION STUBS
+# ============================================================
+@app.route('/api/devices', methods=['GET'])
+def devices():
+    return jsonify([])
 
 
-    # ============================================================
-    # SETTINGS / AUTOMATION STUBS — Evita errores de UI
-    # ============================================================
-    @app.route('/api/devices', methods=['GET'])
-    def devices():
-        return jsonify([])
+@app.route('/api/telegram', methods=['GET'])
+def telegram():
+    return jsonify({
+        "connected": False,
+        "enabled": False,
+        "status": "inactive",
+    })
 
 
-    @app.route('/api/telegram', methods=['GET'])
-    def telegram():
-        return jsonify({
-            "connected": False,
-            "enabled": False,
-            "status": "inactive",
-        })
+@app.route('/api/auto-gen', methods=['GET'])
+def auto_gen():
+    return jsonify({
+        "enabled": False,
+        "status": "inactive",
+    })
 
 
-    @app.route('/api/auto-gen', methods=['GET'])
-    def auto_gen():
-        return jsonify({
-            "enabled": False,
-            "status": "inactive",
-        })
+@app.route('/api/backgrounds', methods=['GET'])
+def backgrounds():
+    return jsonify([])
 
 
-    @app.route('/api/backgrounds', methods=['GET'])
-    def backgrounds():
-        return jsonify([])
+@app.route('/api/summary', methods=['GET'])
+def summary():
+    return jsonify({
+        "total": 0,
+        "successful": 0,
+        "failed": 0,
+        "auto": 0,
+        "manual": 0,
+    })
 
 
-    @app.route('/api/summary', methods=['GET'])
-    def summary():
-        return jsonify({
+@app.route('/api/my-trial', methods=['GET'])
+def my_trial():
+    return jsonify({
+        "active": True,
+        "plan": "free",
+        "creditsRemaining": 40,
+        "creditsTotal": 40,
+    })
+
+
+@app.route('/api/publish-log', methods=['GET'])
+def publish_log():
+    return jsonify([])
+
+
+@app.route('/api/suggest', methods=['POST'])
+def suggest():
+    return jsonify({
+        "success": True,
+        "suggestions": [],
+    })
+
+
+# ============================================================
+# ANALYTICS / IA SUGERENCIAS
+# ============================================================
+@app.route('/api/analytics/posting-suggestions', methods=['GET'])
+def analytics_posting_suggestions():
+    return jsonify({
+        "hasRealData": False,
+        "aiSlotsCount": 0,
+        "suggestions": {
+            "instagram": {},
+            "tiktok": {},
+            "facebook": {}
+        },
+        "items": [],
+        "data": []
+    })
+
+
+@app.route('/api/posting-suggestions', methods=['GET'])
+def posting_suggestions():
+    return jsonify({
+        "hasRealData": False,
+        "aiSlotsCount": 0,
+        "suggestions": {
+            "instagram": {},
+            "tiktok": {},
+            "facebook": {}
+        },
+        "items": [],
+        "data": []
+    })
+
+
+@app.route('/api/analytics/summary', methods=['GET'])
+def analytics_summary():
+    return jsonify({
+        "overview": {
             "total": 0,
-            "successful": 0,
+            "published": 0,
+            "scheduled": 0,
+            "pending": 0,
             "failed": 0,
-            "auto": 0,
-            "manual": 0,
-        })
+            "likes": 0,
+            "comments": 0,
+            "shares": 0,
+            "reach": 0,
+            "saves": 0
+        },
+        "byContentType": [],
+        "byDayOfWeek": [],
+        "byHour": [],
+        "byPlatform": [],
+        "topPosts": []
+    })
 
 
-    @app.route('/api/my-trial', methods=['GET'])
-    def my_trial():
-        return jsonify({
-            "active": True,
-            "plan": "free",
-            "creditsRemaining": 40,
-            "creditsTotal": 40,
-        })
+@app.route('/api/analytics/content-insights', methods=['GET'])
+def analytics_content_insights():
+    return jsonify({
+        "typeRanking": [],
+        "top3": [],
+        "insights": []
+    })
 
 
-    @app.route('/api/publish-log', methods=['GET'])
-    def publish_log():
-        return jsonify([])
+@app.route('/api/analytics/hashtag-insights', methods=['GET'])
+def analytics_hashtag_insights():
+    return jsonify({
+        "byPool": [],
+        "topHashtags": [],
+        "hashtags": []
+    })
 
 
-    @app.route('/api/suggest', methods=['POST'])
-    def suggest():
-        return jsonify({
-            "success": True,
-            "suggestions": [],
-        })
+# ============================================================
+# ANALYTICS — Publishing cadence
+# ============================================================
+@app.route('/api/analytics/publishing-cadence', methods=['GET'])
+def analytics_publishing_cadence():
+    return jsonify({
+        "weeks": [],
+        "currentWeekCount": 0,
+        "avgPerWeek": 0,
+        "totalInPeriod": 0
+    })
 
 
-    # ============================================================
-    # ANALYTICS / IA SUGERENCIAS — requerido por frontend
-    # ============================================================
-    @app.route('/api/analytics/posting-suggestions', methods=['GET'])
-    def analytics_posting_suggestions():
-        return jsonify({
-            "hasRealData": False,
-            "aiSlotsCount": 0,
-            "suggestions": {
-                "instagram": {},
-                "tiktok": {},
-                "facebook": {}
-            },
-            "items": [],
-            "data": []
-        })
+# ============================================================
+# GOOGLE LOGIN TEMPORAL — Admin directo
+# ============================================================
+@app.route('/api/auth/google', methods=['GET'])
+def google_login_temp_admin():
+    user = {
+        "id": 1,
+        "email": "admin@hazpost.com",
+        "displayName": "Admin HazPost",
+        "role": "admin",
+        "plan": "agency",
+        "aiCredits": 250,
+        "onboardingStep": 5,
+        "emailVerified": True,
+        "avatarUrl": None,
+        "timezone": "America/Bogota",
+    }
+
+    subscription = {
+        "id": 1,
+        "userId": user["id"],
+        "plan": "agency",
+        "status": "active",
+        "creditsRemaining": 250,
+        "creditsTotal": 250,
+        "periodEnd": None,
+    }
+
+    session.clear()
+    session["user"] = user
+    session["subscription"] = subscription
+    session.permanent = True
+
+    return """
+    <script>
+      window.location.href = "https://hazpost-frontend.vercel.app/dashboard";
+    </script>
+    """
 
 
-    @app.route('/api/posting-suggestions', methods=['GET'])
-    def posting_suggestions():
-        return jsonify({
-            "hasRealData": False,
-            "aiSlotsCount": 0,
-            "suggestions": {
-                "instagram": {},
-                "tiktok": {},
-                "facebook": {}
-            },
-            "items": [],
-            "data": []
-        })
+# ============================================================
+# ADMIN / AGENCY STUBS — Evita errores en panel admin/agencia
+# ============================================================
+@app.route('/api/user/admin/users', methods=['GET'])
+def user_admin_users():
+    return jsonify({
+        "users": [],
+        "items": [],
+        "data": [],
+        "total": 0
+    })
 
 
-    @app.route('/api/analytics/summary', methods=['GET'])
-    def analytics_summary():
-        return jsonify({
-            "overview": {
-                "total": 0,
-                "published": 0,
-                "scheduled": 0,
-                "pending": 0,
-                "failed": 0,
-                "likes": 0,
-                "comments": 0,
-                "shares": 0,
-                "reach": 0,
-                "saves": 0
-            },
-            "byContentType": [],
-            "byDayOfWeek": [],
-            "byHour": [],
-            "byPlatform": [],
-            "topPosts": []
-        })
+@app.route('/api/users', methods=['GET'])
+def admin_users():
+    return jsonify({
+        "users": [],
+        "items": [],
+        "data": [],
+        "total": 0
+    })
 
 
-    @app.route('/api/analytics/content-insights', methods=['GET'])
-    def analytics_content_insights():
-        return jsonify({
-            "typeRanking": [],
-            "top3": [],
-            "insights": []
-        })
+@app.route('/api/admin/users', methods=['GET'])
+def admin_users_alt():
+    return user_admin_users()
 
 
-    @app.route('/api/analytics/hashtag-insights', methods=['GET'])
-    def analytics_hashtag_insights():
-        return jsonify({
-            "byPool": [],
-            "topHashtags": [],
-            "hashtags": []
-        })
+@app.route('/api/brand-profile/admin/all', methods=['GET'])
+def brand_profile_admin_all():
+    return jsonify({
+        "profiles": []
+    })
 
 
-    @app.route('/api/analytics/publishing-cadence', methods=['GET'])
-    def analytics_publishing_cadence():
-        return jsonify({
-            "weeks": [],
-            "currentWeekCount": 0,
-            "avgPerWeek": 0,
-            "totalInPeriod": 0
-        })
-
-
-    # ============================================================
-    # GOOGLE LOGIN TEMPORAL — Admin directo
-    # ============================================================
-    @app.route('/api/auth/google', methods=['GET'])
-    def google_login_temp_admin():
-        user = {
-            "id": 1,
-            "email": "admin@hazpost.com",
-            "displayName": "Admin HazPost",
-            "role": "admin",
-            "plan": "agency",
-            "aiCredits": 250,
-            "onboardingStep": 5,
-            "emailVerified": True,
-            "avatarUrl": None,
-            "timezone": "America/Bogota",
-        }
-
-        subscription = {
-            "id": 1,
-            "userId": user["id"],
-            "plan": "agency",
-            "status": "active",
-            "creditsRemaining": 250,
-            "creditsTotal": 250,
-            "periodEnd": None,
-        }
-
-        session.clear()
-        session["user"] = user
-        session["subscription"] = subscription
-        session.permanent = True
-
-        return """
-        <script>
-          window.location.href = "https://hazpost-frontend.vercel.app/dashboard";
-        </script>
-        """
-
-
-    # ============================================================
-    # ADMIN / AGENCY STUBS — Evita errores en panel admin/agencia
-    # ============================================================
-    @app.route('/api/user/admin/users', methods=['GET'])
-    def user_admin_users():
-        return jsonify({
-            "users": [],
-            "items": [],
-            "data": [],
+@app.route('/api/admin/metrics', methods=['GET'])
+def admin_metrics():
+    return jsonify({
+        "mrr": 0,
+        "paidUsers": 0,
+        "freeUsers": 0,
+        "totalActive": 0,
+        "conversionRate": 0,
+        "newUsers7d": 0,
+        "newUsers30d": 0,
+        "credits": {
+            "issued": 0,
+            "consumed": 0,
+            "avgRemaining": 0,
+            "utilizationPct": 0
+        },
+        "posts": {
+            "total": 0,
+            "last7d": 0,
+            "last30d": 0
+        },
+        "images": {
             "total": 0
-        })
-
-
-    @app.route('/api/users', methods=['GET'])
-    def admin_users():
-        return user_admin_users()
-
-
-    @app.route('/api/admin/users', methods=['GET'])
-    def admin_users_alt():
-        return user_admin_users()
-
-
-    @app.route('/api/brand-profile/admin/all', methods=['GET'])
-    def brand_profile_admin_all():
-        return jsonify({
-            "profiles": []
-        })
-
-
-    @app.route('/api/admin/metrics', methods=['GET'])
-    def admin_metrics():
-        return jsonify({
-            "mrr": 0,
-            "paidUsers": 0,
-            "freeUsers": 0,
-            "totalActive": 0,
-            "conversionRate": 0,
-            "newUsers7d": 0,
-            "newUsers30d": 0,
-            "credits": {
-                "issued": 0,
-                "consumed": 0,
-                "avgRemaining": 0,
-                "utilizationPct": 0
-            },
-            "posts": {
-                "total": 0,
-                "last7d": 0,
-                "last30d": 0
-            },
-            "images": {
-                "total": 0
-            },
-            "businesses": 0,
-            "planBreakdown": [],
-            "subStatuses": [],
-            "referrals": {
-                "rows": [],
-                "total": 0
-            },
-            "affiliates": {
-                "rows": [],
-                "total": 0
-            },
-            "postsPerDay": [],
-            "usersPerDay": []
-        })
-
-
-    @app.route('/api/metrics', methods=['GET'])
-    def metrics_alias():
-        return admin_metrics()
-
-
-    @app.route('/api/admin/metrics/generation-costs', methods=['GET'])
-    def admin_generation_costs():
-        period = request.args.get("period", "today")
-        return jsonify({
-            "period": period,
-            "from": "",
-            "to": "",
-            "seriesDays": 0,
-            "byType": [],
-            "totalCount": 0,
-            "totalCostUsd": 0,
-            "timeSeries": []
-        })
-
-
-    @app.route('/api/niches', methods=['GET'])
-    def admin_niches():
-        scope = request.args.get("scope")
-        if scope == "all":
-            return jsonify([])
-        return jsonify([])
-
-
-    @app.route('/api/all', methods=['GET'])
-    def all_admin_data():
-        return jsonify({
-            "users": [],
-            "businesses": [],
-            "posts": [],
-            "niches": [],
-            "metrics": [],
-            "items": [],
-            "data": []
-        })
-
-
-    @app.route('/api/backgrounds-master', methods=['GET'])
-    @app.route('/api/admin/backgrounds-master', methods=['GET'])
-    def backgrounds_master():
-        return jsonify({
-            "backgrounds": [],
-            "items": [],
-            "data": [],
+        },
+        "businesses": 0,
+        "planBreakdown": [],
+        "subStatuses": [],
+        "referrals": {
+            "rows": [],
             "total": 0
-        })
+        },
+        "affiliates": {
+            "rows": [],
+            "total": 0
+        },
+        "postsPerDay": [],
+        "usersPerDay": []
+    })
 
 
-    @app.route('/api/conversations', methods=['GET'])
-    @app.route('/api/admin/conversations', methods=['GET'])
-    def conversations():
-        return jsonify({
-            "conversations": [],
-            "items": [],
-            "data": []
-        })
+@app.route('/api/metrics', methods=['GET'])
+def metrics_alias():
+    return admin_metrics()
 
 
-    @app.route('/api/referrals', methods=['GET'])
-    @app.route('/api/admin/affiliates', methods=['GET'])
-    def referrals():
+@app.route('/api/admin/metrics/generation-costs', methods=['GET'])
+def admin_generation_costs():
+    period = request.args.get("period", "today")
+    return jsonify({
+        "period": period,
+        "from": "",
+        "to": "",
+        "seriesDays": 0,
+        "byType": [],
+        "totalCount": 0,
+        "totalCostUsd": 0,
+        "timeSeries": []
+    })
+
+
+@app.route('/api/niches', methods=['GET'])
+def admin_niches():
+    scope = request.args.get("scope")
+    if scope == "all":
         return jsonify([])
+    return jsonify([])
 
 
-    @app.route('/api/conversions', methods=['GET'])
-    def conversions():
-        return jsonify({})
+@app.route('/api/all', methods=['GET'])
+def all_admin_data():
+    return jsonify({
+        "users": [],
+        "businesses": [],
+        "posts": [],
+        "niches": [],
+        "metrics": [],
+        "items": [],
+        "data": []
+    })
 
 
-    @app.route('/api/affiliate-settings', methods=['GET'])
-    @app.route('/api/admin/affiliate-settings', methods=['GET'])
-    def affiliate_settings():
-        return jsonify({
-            "enabled": False,
-            "commission": 0,
-            "settings": {},
-            "items": [],
-            "data": []
-        })
+@app.route('/api/backgrounds-master', methods=['GET'])
+@app.route('/api/admin/backgrounds-master', methods=['GET'])
+def backgrounds_master():
+    return jsonify({
+        "backgrounds": [],
+        "items": [],
+        "data": [],
+        "total": 0
+    })
 
 
-    @app.route('/api/affiliate-codes', methods=['GET'])
-    @app.route('/api/admin/affiliate-codes', methods=['GET'])
-    def affiliate_codes():
-        return jsonify([])
+@app.route('/api/conversations', methods=['GET'])
+@app.route('/api/admin/conversations', methods=['GET'])
+def conversations():
+    return jsonify({
+        "conversations": [],
+        "items": [],
+        "data": []
+    })
 
 
-    @app.route('/api/codes', methods=['GET'])
-    def codes():
-        return jsonify([])
+@app.route('/api/referrals', methods=['GET'])
+@app.route('/api/admin/affiliates', methods=['GET'])
+def referrals():
+    return jsonify([])
 
 
-    @app.route('/api/billing/plans', methods=['GET'])
-    def billing_plans():
-        return jsonify({
-            "plans": [],
-            "items": [],
-            "data": []
-        })
+@app.route('/api/conversions', methods=['GET'])
+def conversions():
+    return jsonify({})
 
 
-    # ============================================================
-    # REFERRALS ADMIN — evita error extra_niche
-    # ============================================================
-    @app.route('/api/admin/referrals/settings', methods=['GET', 'PUT'])
-    def admin_referrals_settings():
-        return jsonify({
-            "id": None,
-            "is_enabled": True,
-            "referrer_credits": 30,
-            "referee_credits": 10,
-            "referrer_free_days": 0,
-            "referee_free_days": 0,
-            "min_plan_for_bonus": "starter",
-            "max_activation_days": 60,
-            "max_referrals_per_user": 0,
-            "referrer_unlocks": {
-                "extra_niche": False,
-                "watermark_removal": False,
-                "priority_generation": False,
-                "custom_domain": False
-            },
-            "referee_unlocks": {
-                "extra_niche": False,
-                "watermark_removal": False,
-                "priority_generation": False,
-                "custom_domain": False
-            },
-            "updated_at": None
-        })
+@app.route('/api/affiliate-settings', methods=['GET'])
+@app.route('/api/admin/affiliate-settings', methods=['GET'])
+def affiliate_settings():
+    return jsonify({
+        "enabled": False,
+        "commission": 0,
+        "settings": {},
+        "items": [],
+        "data": []
+    })
 
-    # ============================================================
-    # STORAGE UPLOAD — Logos / imágenes onboarding
-    # Debe ir ANTES del fallback.
-    # ============================================================
-    import uuid
+
+@app.route('/api/affiliate-codes', methods=['GET'])
+@app.route('/api/admin/affiliate-codes', methods=['GET'])
+def affiliate_codes():
+    return jsonify([])
+
+
+@app.route('/api/codes', methods=['GET'])
+def codes():
+    return jsonify([])
+
+
+@app.route('/api/billing/plans', methods=['GET'])
+def billing_plans():
+    return jsonify({
+        "plans": [],
+        "items": [],
+        "data": []
+    })
+
+
+# ============================================================
+# REFERRALS ADMIN — evita error extra_niche
+# ============================================================
+@app.route('/api/admin/referrals/settings', methods=['GET', 'PUT'])
+def admin_referrals_settings():
+    return jsonify({
+        "id": None,
+        "is_enabled": True,
+        "referrer_credits": 30,
+        "referee_credits": 10,
+        "referrer_free_days": 0,
+        "referee_free_days": 0,
+        "min_plan_for_bonus": "starter",
+        "max_activation_days": 60,
+        "max_referrals_per_user": 0,
+        "referrer_unlocks": {
+            "extra_niche": False,
+            "watermark_removal": False,
+            "priority_generation": False,
+            "custom_domain": False
+        },
+        "referee_unlocks": {
+            "extra_niche": False,
+            "watermark_removal": False,
+            "priority_generation": False,
+            "custom_domain": False
+        },
+        "updated_at": None
+    })
+
+
+# ============================================================
+# STORAGE UPLOAD — Logos / imágenes onboarding
+# Debe ir ANTES del fallback.
+# ============================================================    import uuid
     from werkzeug.utils import secure_filename
     from flask import send_from_directory
 
