@@ -460,10 +460,10 @@ def create_app():
                 "result": result
             })
 
-        except Exception as e:
-            logger.exception(f"SUGGESTION ERROR: {e}")
-            return jsonify({"error": "Error interno"}), 500
-            
+ except Exception as e:
+    logger.exception(f"SUGGESTION ERROR: {e}")
+    return jsonify({"error": "Error interno"}), 500
+
 
 # ============================================================
 # BRAND PROFILE — Guardado progreso onboarding
@@ -471,10 +471,18 @@ def create_app():
 @app.route('/api/brand-profile', methods=['GET', 'PUT', 'POST'])
 def brand_profile():
     try:
+        # ============================
+        # GET → Obtener perfil
+        # ============================
         if request.method == 'GET':
             logger.info(f"LEYENDO BRAND PROFILE: {session.get('brandProfile')}")
-            return jsonify({"brandProfile": session.get("brandProfile", {})})
+            return jsonify({
+                "brandProfile": session.get("brandProfile", {})
+            })
 
+        # ============================
+        # POST / PUT → Guardar perfil
+        # ============================
         data = request.get_json(silent=True) or {}
 
         logger.info(f"DATA RECIBIDA: {data}")
@@ -528,7 +536,9 @@ def brand_profile():
 
     except Exception as e:
         logger.exception(f"BRAND PROFILE ERROR: {e}")
-        return jsonify({"error": "Error interno"}), 500
+        return jsonify({
+            "error": "Error interno"
+        }), 500
 
 
 # ============================================================
@@ -537,11 +547,23 @@ def brand_profile():
 @app.route('/api/businesses', methods=['GET', 'POST'])
 def businesses():
     try:
+        # ============================
+        # GET → listar negocios
+        # ============================
         if request.method == 'GET':
-            return jsonify({"businesses": session.get("businesses", [])})
+            businesses_list = session.get("businesses", [])
+            if not isinstance(businesses_list, list):
+                businesses_list = []
+            return jsonify({"businesses": businesses_list})
 
+        # ============================
+        # POST → crear negocio
+        # ============================
         data = request.get_json(silent=True) or {}
+
         businesses_list = session.get("businesses", [])
+        if not isinstance(businesses_list, list):
+            businesses_list = []
 
         business = {
             "id": len(businesses_list) + 1,
@@ -550,6 +572,20 @@ def businesses():
 
         businesses_list.append(business)
         session["businesses"] = businesses_list
+        session.permanent = True
+        session.modified = True
+
+        return jsonify({
+            "success": True,
+            "business": business,
+            "businesses": businesses_list
+        }), 201
+
+    except Exception as e:
+        logger.exception(f"BUSINESSES ERROR: {e}")
+        return jsonify({
+            "error": "Error interno"
+        }), 500
 
         # ============================================================
         # BRAND PROFILE SYNC
