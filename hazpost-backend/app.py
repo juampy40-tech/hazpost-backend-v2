@@ -465,100 +465,72 @@ def create_app():
     return jsonify({"error": "Error interno"}), 500
 
 
-# ============================================================
-# BRAND PROFILE — Guardado progreso onboarding
-# ============================================================
-@app.route('/api/brand-profile', methods=['GET', 'PUT', 'POST'])
-def brand_profile():
-    try:
-        # ============================
-        # GET → Obtener perfil
-        # ============================
-        if request.method == 'GET':
-            logger.info(f"LEYENDO BRAND PROFILE: {session.get('brandProfile')}")
+    # ============================================================
+    # BRAND PROFILE — Guardado progreso onboarding
+    # ============================================================
+    @app.route('/api/brand-profile', methods=['GET', 'PUT', 'POST'])
+    def brand_profile():
+        try:
+            if request.method == 'GET':
+                logger.info(f"LEYENDO BRAND PROFILE: {session.get('brandProfile')}")
+                return jsonify({
+                    "brandProfile": session.get("brandProfile", {})
+                })
+
+            data = request.get_json(silent=True) or {}
+            logger.info(f"DATA RECIBIDA: {data}")
+
+            current = session.get("brandProfile", {})
+            if not isinstance(current, dict):
+                current = {}
+
+            allowed_keys = [
+                "id", "companyName", "name", "industry", "subIndustry",
+                "city", "country", "slogan", "businessDescription",
+                "description", "audience", "brandTone", "tone",
+                "logoUrl", "primaryColor", "secondaryColor", "website",
+            ]
+
+            cleaned = {
+                key: data.get(key)
+                for key in allowed_keys
+                if key in data and data.get(key) is not None
+            }
+
+            profile = {
+                **current,
+                **cleaned,
+                "id": current.get("id") or cleaned.get("id") or 1,
+            }
+
+            logger.info(f"GUARDANDO BRAND PROFILE: {profile}")
+
+            session["brandProfile"] = profile
+            session.permanent = True
+            session.modified = True
+
             return jsonify({
-                "brandProfile": session.get("brandProfile", {})
+                "success": True,
+                "brandProfile": profile,
             })
 
-        # ============================
-        # POST / PUT → Guardar perfil
-        # ============================
-        data = request.get_json(silent=True) or {}
-
-        logger.info(f"DATA RECIBIDA: {data}")
-
-        current = session.get("brandProfile", {})
-        if not isinstance(current, dict):
-            current = {}
-
-        allowed_keys = [
-            "id",
-            "companyName",
-            "name",
-            "industry",
-            "subIndustry",
-            "city",
-            "country",
-            "slogan",
-            "businessDescription",
-            "description",
-            "audience",
-            "brandTone",
-            "tone",
-            "logoUrl",
-            "primaryColor",
-            "secondaryColor",
-            "website",
-        ]
-
-        cleaned = {
-            key: data.get(key)
-            for key in allowed_keys
-            if key in data and data.get(key) is not None
-        }
-
-        profile = {
-            **current,
-            **cleaned,
-            "id": current.get("id") or cleaned.get("id") or 1,
-        }
-
-        logger.info(f"GUARDANDO BRAND PROFILE: {profile}")
-
-        session["brandProfile"] = profile
-        session.permanent = True
-        session.modified = True
-
-        return jsonify({
-            "success": True,
-            "brandProfile": profile,
-        })
-
-    except Exception as e:
-        logger.exception(f"BRAND PROFILE ERROR: {e}")
-        return jsonify({
-            "error": "Error interno"
-        }), 500
+        except Exception as e:
+            logger.exception(f"BRAND PROFILE ERROR: {e}")
+            return jsonify({"error": "Error interno"}), 500
 
 
-# ============================================================
-# BUSINESSES — Guardado inicial del negocio
-# ============================================================
-@app.route('/api/businesses', methods=['GET', 'POST'])
-def businesses():
+    # ============================================================
+    # BUSINESSES — Guardado inicial del negocio
+    # ============================================================
+    @app.route('/api/businesses', methods=['GET', 'POST'])
+    def businesses():
     try:
-        # ============================
-        # GET → listar negocios
-        # ============================
         if request.method == 'GET':
             businesses_list = session.get("businesses", [])
             if not isinstance(businesses_list, list):
                 businesses_list = []
             return jsonify({"businesses": businesses_list})
 
-        # ============================
-        # POST → crear negocio
-        # ============================
         data = request.get_json(silent=True) or {}
 
         businesses_list = session.get("businesses", [])
@@ -572,24 +544,7 @@ def businesses():
 
         businesses_list.append(business)
         session["businesses"] = businesses_list
-        session.permanent = True
-        session.modified = True
 
-        return jsonify({
-            "success": True,
-            "business": business,
-            "businesses": businesses_list
-        }), 201
-
-    except Exception as e:
-        logger.exception(f"BUSINESSES ERROR: {e}")
-        return jsonify({
-            "error": "Error interno"
-        }), 500
-
-        # ============================================================
-        # BRAND PROFILE SYNC
-        # ============================================================
         current_brand_profile = session.get("brandProfile", {})
         if not isinstance(current_brand_profile, dict):
             current_brand_profile = {}
@@ -617,10 +572,12 @@ def businesses():
 
         session["brandProfile"] = synced_brand_profile
         session.permanent = True
+        session.modified = True
 
         return jsonify({
             "success": True,
             "business": business,
+            "businesses": businesses_list,
             "brandProfile": synced_brand_profile,
         }), 201
 
@@ -629,11 +586,11 @@ def businesses():
         return jsonify({"error": "Error interno"}), 500
 
 
-# ============================================================
-# BUSINESS DETAIL — Editar / leer / borrar negocio por ID
-# ============================================================
-@app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
-def business_detail(business_id):
+    # ============================================================
+    # BUSINESS DETAIL — Editar / leer / borrar negocio por ID
+    # ============================================================
+    @app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
+    def business_detail(business_id):
     try:
         businesses_list = session.get("businesses", [])
         if not isinstance(businesses_list, list):
@@ -648,18 +605,16 @@ def business_detail(business_id):
         if index is None:
             return jsonify({"error": "Negocio no encontrado"}), 404
 
-        # GET
         if request.method == 'GET':
             return jsonify({"business": businesses_list[index]})
 
-        # DELETE
         if request.method == 'DELETE':
             deleted = businesses_list.pop(index)
             session["businesses"] = businesses_list
             session.permanent = True
+            session.modified = True
             return jsonify({"success": True, "business": deleted})
 
-        # UPDATE
         data = request.get_json(silent=True) or {}
 
         updated_business = {
@@ -671,7 +626,6 @@ def business_detail(business_id):
         businesses_list[index] = updated_business
         session["businesses"] = businesses_list
 
-        # 🔥 SYNC CON BRAND PROFILE
         current_brand_profile = session.get("brandProfile", {})
         if not isinstance(current_brand_profile, dict):
             current_brand_profile = {}
@@ -699,6 +653,7 @@ def business_detail(business_id):
 
         session["brandProfile"] = synced_brand_profile
         session.permanent = True
+        session.modified = True
 
         return jsonify({
             "success": True,
@@ -710,543 +665,539 @@ def business_detail(business_id):
         logger.exception(f"BUSINESS DETAIL ERROR: {e}")
         return jsonify({"error": "Error interno"}), 500
 
+    # ============================================================
+    # ROOT + HEALTH
+    # ============================================================
+    @app.route('/')
+    def index():
+        return {"status": "ok"}
 
-# ============================================================
-# ROOT + HEALTH
-# ============================================================
-@app.route('/')
-def index():
-    return {"status": "ok"}
-
-
-@app.route('/health')
-def health():
-    return {"status": "ok"}
+    @app.route('/health')
+    def health():
+        return {"status": "ok"}
 
 
-# ============================================================
-# CORS OPTIONS (PREVENT 405)
-# ============================================================
-@app.route('/api/<path:_path>', methods=['OPTIONS'])
-def api_options(_path):
-    response = make_response("", 204)
-    return _attach_cors_headers(response)
+    # ============================================================
+    # CORS OPTIONS (PREVENT 405)
+    # ============================================================
+    @app.route('/api/<path:_path>', methods=['OPTIONS'])
+    def api_options(_path):
+        response = make_response("", 204)
+        return _attach_cors_headers(response)
 
 
-# ============================================================
-# SETTINGS / AUTOMATION STUBS
-# ============================================================
-@app.route('/api/devices', methods=['GET'])
-def devices():
-    return jsonify([])
-
-
-@app.route('/api/telegram', methods=['GET'])
-def telegram():
-    return jsonify({
-        "connected": False,
-        "enabled": False,
-        "status": "inactive",
-    })
-
-
-@app.route('/api/auto-gen', methods=['GET'])
-def auto_gen():
-    return jsonify({
-        "enabled": False,
-        "status": "inactive",
-    })
-
-
-@app.route('/api/backgrounds', methods=['GET'])
-def backgrounds():
-    return jsonify([])
-
-
-@app.route('/api/summary', methods=['GET'])
-def summary():
-    return jsonify({
-        "total": 0,
-        "successful": 0,
-        "failed": 0,
-        "auto": 0,
-        "manual": 0,
-    })
-
-
-@app.route('/api/my-trial', methods=['GET'])
-def my_trial():
-    return jsonify({
-        "active": True,
-        "plan": "free",
-        "creditsRemaining": 40,
-        "creditsTotal": 40,
-    })
-
-
-@app.route('/api/publish-log', methods=['GET'])
-def publish_log():
-    return jsonify([])
-
-
-@app.route('/api/suggest', methods=['POST'])
-def suggest():
-    return jsonify({
-        "success": True,
-        "suggestions": [],
-    })
-
-
-# ============================================================
-# ANALYTICS / IA SUGERENCIAS
-# ============================================================
-@app.route('/api/analytics/posting-suggestions', methods=['GET'])
-def analytics_posting_suggestions():
-    return jsonify({
-        "hasRealData": False,
-        "aiSlotsCount": 0,
-        "suggestions": {
-            "instagram": {},
-            "tiktok": {},
-            "facebook": {}
-        },
-        "items": [],
-        "data": []
-    })
-
-
-@app.route('/api/posting-suggestions', methods=['GET'])
-def posting_suggestions():
-    return jsonify({
-        "hasRealData": False,
-        "aiSlotsCount": 0,
-        "suggestions": {
-            "instagram": {},
-            "tiktok": {},
-            "facebook": {}
-        },
-        "items": [],
-        "data": []
-    })
-
-
-@app.route('/api/analytics/summary', methods=['GET'])
-def analytics_summary():
-    return jsonify({
-        "overview": {
-            "total": 0,
-            "published": 0,
-            "scheduled": 0,
-            "pending": 0,
-            "failed": 0,
-            "likes": 0,
-            "comments": 0,
-            "shares": 0,
-            "reach": 0,
-            "saves": 0
-        },
-        "byContentType": [],
-        "byDayOfWeek": [],
-        "byHour": [],
-        "byPlatform": [],
-        "topPosts": []
-    })
-
-
-@app.route('/api/analytics/content-insights', methods=['GET'])
-def analytics_content_insights():
-    return jsonify({
-        "typeRanking": [],
-        "top3": [],
-        "insights": []
-    })
-
-
-@app.route('/api/analytics/hashtag-insights', methods=['GET'])
-def analytics_hashtag_insights():
-    return jsonify({
-        "byPool": [],
-        "topHashtags": [],
-        "hashtags": []
-    })
-
-
-# ============================================================
-# ANALYTICS — Publishing cadence
-# ============================================================
-@app.route('/api/analytics/publishing-cadence', methods=['GET'])
-def analytics_publishing_cadence():
-    return jsonify({
-        "weeks": [],
-        "currentWeekCount": 0,
-        "avgPerWeek": 0,
-        "totalInPeriod": 0
-    })
-
-
-# ============================================================
-# GOOGLE LOGIN TEMPORAL — Admin directo
-# ============================================================
-@app.route('/api/auth/google', methods=['GET'])
-def google_login_temp_admin():
-    user = {
-        "id": 1,
-        "email": "admin@hazpost.com",
-        "displayName": "Admin HazPost",
-        "role": "admin",
-        "plan": "agency",
-        "aiCredits": 250,
-        "onboardingStep": 5,
-        "emailVerified": True,
-        "avatarUrl": None,
-        "timezone": "America/Bogota",
-    }
-
-    subscription = {
-        "id": 1,
-        "userId": user["id"],
-        "plan": "agency",
-        "status": "active",
-        "creditsRemaining": 250,
-        "creditsTotal": 250,
-        "periodEnd": None,
-    }
-
-    session.clear()
-    session["user"] = user
-    session["subscription"] = subscription
-    session.permanent = True
-
-    return """
-    <script>
-      window.location.href = "https://hazpost-frontend.vercel.app/dashboard";
-    </script>
-    """
-
-
-# ============================================================
-# ADMIN / AGENCY STUBS — Evita errores en panel admin/agencia
-# ============================================================
-@app.route('/api/user/admin/users', methods=['GET'])
-def user_admin_users():
-    return jsonify({
-        "users": [],
-        "items": [],
-        "data": [],
-        "total": 0
-    })
-
-
-@app.route('/api/users', methods=['GET'])
-def admin_users():
-    return jsonify({
-        "users": [],
-        "items": [],
-        "data": [],
-        "total": 0
-    })
-
-
-@app.route('/api/admin/users', methods=['GET'])
-def admin_users_alt():
-    return user_admin_users()
-
-
-@app.route('/api/brand-profile/admin/all', methods=['GET'])
-def brand_profile_admin_all():
-    return jsonify({
-        "profiles": []
-    })
-
-
-@app.route('/api/admin/metrics', methods=['GET'])
-def admin_metrics():
-    return jsonify({
-        "mrr": 0,
-        "paidUsers": 0,
-        "freeUsers": 0,
-        "totalActive": 0,
-        "conversionRate": 0,
-        "newUsers7d": 0,
-        "newUsers30d": 0,
-        "credits": {
-            "issued": 0,
-            "consumed": 0,
-            "avgRemaining": 0,
-            "utilizationPct": 0
-        },
-        "posts": {
-            "total": 0,
-            "last7d": 0,
-            "last30d": 0
-        },
-        "images": {
-            "total": 0
-        },
-        "businesses": 0,
-        "planBreakdown": [],
-        "subStatuses": [],
-        "referrals": {
-            "rows": [],
-            "total": 0
-        },
-        "affiliates": {
-            "rows": [],
-            "total": 0
-        },
-        "postsPerDay": [],
-        "usersPerDay": []
-    })
-
-
-@app.route('/api/metrics', methods=['GET'])
-def metrics_alias():
-    return admin_metrics()
-
-
-@app.route('/api/admin/metrics/generation-costs', methods=['GET'])
-def admin_generation_costs():
-    period = request.args.get("period", "today")
-    return jsonify({
-        "period": period,
-        "from": "",
-        "to": "",
-        "seriesDays": 0,
-        "byType": [],
-        "totalCount": 0,
-        "totalCostUsd": 0,
-        "timeSeries": []
-    })
-
-
-@app.route('/api/niches', methods=['GET'])
-def admin_niches():
-    scope = request.args.get("scope")
-    if scope == "all":
+    # ============================================================
+    # SETTINGS / AUTOMATION STUBS
+    # ============================================================
+    @app.route('/api/devices', methods=['GET'])
+    def devices():
         return jsonify([])
-    return jsonify([])
 
 
-@app.route('/api/all', methods=['GET'])
-def all_admin_data():
-    return jsonify({
-        "users": [],
-        "businesses": [],
-        "posts": [],
-        "niches": [],
-        "metrics": [],
-        "items": [],
-        "data": []
-    })
-
-
-@app.route('/api/backgrounds-master', methods=['GET'])
-@app.route('/api/admin/backgrounds-master', methods=['GET'])
-def backgrounds_master():
-    return jsonify({
-        "backgrounds": [],
-        "items": [],
-        "data": [],
-        "total": 0
-    })
-
-
-@app.route('/api/conversations', methods=['GET'])
-@app.route('/api/admin/conversations', methods=['GET'])
-def conversations():
-    return jsonify({
-        "conversations": [],
-        "items": [],
-        "data": []
-    })
-
-
-@app.route('/api/referrals', methods=['GET'])
-@app.route('/api/admin/affiliates', methods=['GET'])
-def referrals():
-    return jsonify([])
-
-
-@app.route('/api/conversions', methods=['GET'])
-def conversions():
-    return jsonify({})
-
-
-@app.route('/api/affiliate-settings', methods=['GET'])
-@app.route('/api/admin/affiliate-settings', methods=['GET'])
-def affiliate_settings():
-    return jsonify({
-        "enabled": False,
-        "commission": 0,
-        "settings": {},
-        "items": [],
-        "data": []
-    })
-
-
-@app.route('/api/affiliate-codes', methods=['GET'])
-@app.route('/api/admin/affiliate-codes', methods=['GET'])
-def affiliate_codes():
-    return jsonify([])
-
-
-@app.route('/api/codes', methods=['GET'])
-def codes():
-    return jsonify([])
-
-
-@app.route('/api/billing/plans', methods=['GET'])
-def billing_plans():
-    return jsonify({
-        "plans": [],
-        "items": [],
-        "data": []
-    })
-
-
-# ============================================================
-# REFERRALS ADMIN — evita error extra_niche
-# ============================================================
-@app.route('/api/admin/referrals/settings', methods=['GET', 'PUT'])
-def admin_referrals_settings():
-    return jsonify({
-        "id": None,
-        "is_enabled": True,
-        "referrer_credits": 30,
-        "referee_credits": 10,
-        "referrer_free_days": 0,
-        "referee_free_days": 0,
-        "min_plan_for_bonus": "starter",
-        "max_activation_days": 60,
-        "max_referrals_per_user": 0,
-        "referrer_unlocks": {
-            "extra_niche": False,
-            "watermark_removal": False,
-            "priority_generation": False,
-            "custom_domain": False
-        },
-        "referee_unlocks": {
-            "extra_niche": False,
-            "watermark_removal": False,
-            "priority_generation": False,
-            "custom_domain": False
-        },
-        "updated_at": None
-    })
-
-
-# ============================================================
-# STORAGE UPLOAD — Logos / imágenes onboarding
-# Debe ir ANTES del fallback.
-# ============================================================
-
-@app.route('/api/storage/uploads/request-url', methods=['POST'])
-def storage_request_url():
-    try:
-        data = request.get_json(silent=True) or {}
-
-        original_name = data.get("name") or "upload.bin"
-        content_type = data.get("contentType") or "application/octet-stream"
-        size = data.get("size")
-
-        safe_name = secure_filename(original_name) or "upload.bin"
-        file_id = str(uuid.uuid4())
-        stored_name = f"{file_id}_{safe_name}"
-
-        upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
-        os.makedirs(upload_dir, exist_ok=True)
-
-        object_path = f"/storage/objects/uploads/{stored_name}"
-        base_url = request.host_url.rstrip('/').replace('http://', 'https://')
-
-        public_url = f"{base_url}/api{object_path}"
-        upload_url = f"{base_url}/api/storage/uploads/direct?filename={stored_name}"
-
+    @app.route('/api/telegram', methods=['GET'])
+    def telegram():
         return jsonify({
-            "success": True,
-            "uploadURL": upload_url,
-            "uploadUrl": upload_url,
-            "upload_url": upload_url,
-            "signedUrl": upload_url,
-            "url": upload_url,
-            "objectPath": object_path,
-            "publicUrl": public_url,
-            "name": safe_name,
-            "storedName": stored_name,
-            "contentType": content_type,
-            "size": size,
+            "connected": False,
+            "enabled": False,
+            "status": "inactive",
         })
 
-    except Exception as e:
-        logger.exception(f"STORAGE REQUEST URL ERROR: {e}")
+
+    @app.route('/api/auto-gen', methods=['GET'])
+    def auto_gen():
         return jsonify({
-            "success": False,
-            "error": "Error generando URL de subida"
-        }), 500
+            "enabled": False,
+            "status": "inactive",
+        })
 
 
-@app.route('/api/storage/uploads/direct', methods=['POST'])
-def storage_upload_direct():
-    try:
-        filename = request.args.get("filename") or f"{uuid.uuid4()}_upload.bin"
-        safe_name = secure_filename(filename) or f"{uuid.uuid4()}_upload.bin"
+    @app.route('/api/backgrounds', methods=['GET'])
+    def backgrounds():
+        return jsonify([])
 
-        upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
-        os.makedirs(upload_dir, exist_ok=True)
 
-        filepath = os.path.join(upload_dir, safe_name)
+    @app.route('/api/summary', methods=['GET'])
+    def summary():
+        return jsonify({
+            "total": 0,
+            "successful": 0,
+            "failed": 0,
+            "auto": 0,
+            "manual": 0,
+        })
 
-        if 'file' not in request.files:
+
+    @app.route('/api/my-trial', methods=['GET'])
+    def my_trial():
+        return jsonify({
+            "active": True,
+            "plan": "free",
+            "creditsRemaining": 40,
+            "creditsTotal": 40,
+        })
+
+
+    @app.route('/api/publish-log', methods=['GET'])
+    def publish_log():
+        return jsonify([])
+
+
+    @app.route('/api/suggest', methods=['POST'])
+    def suggest():
+        return jsonify({
+            "success": True,
+            "suggestions": [],
+        })
+
+
+    # ============================================================
+    # ANALYTICS / IA SUGERENCIAS
+    # ============================================================
+    @app.route('/api/analytics/posting-suggestions', methods=['GET'])
+    def analytics_posting_suggestions():
+        return jsonify({
+            "hasRealData": False,
+            "aiSlotsCount": 0,
+            "suggestions": {
+                "instagram": {},
+                "tiktok": {},
+                "facebook": {}
+            },
+            "items": [],
+            "data": []
+        })
+
+
+    @app.route('/api/posting-suggestions', methods=['GET'])
+    def posting_suggestions():
+        return jsonify({
+            "hasRealData": False,
+            "aiSlotsCount": 0,
+            "suggestions": {
+                "instagram": {},
+                "tiktok": {},
+                "facebook": {}
+            },
+            "items": [],
+            "data": []
+        })
+
+
+    @app.route('/api/analytics/summary', methods=['GET'])
+    def analytics_summary():
+        return jsonify({
+            "overview": {
+                "total": 0,
+                "published": 0,
+                "scheduled": 0,
+                "pending": 0,
+                "failed": 0,
+                "likes": 0,
+                "comments": 0,
+                "shares": 0,
+                "reach": 0,
+                "saves": 0
+            },
+            "byContentType": [],
+            "byDayOfWeek": [],
+            "byHour": [],
+            "byPlatform": [],
+            "topPosts": []
+        })
+
+
+    @app.route('/api/analytics/content-insights', methods=['GET'])
+    def analytics_content_insights():
+        return jsonify({
+            "typeRanking": [],
+            "top3": [],
+            "insights": []
+        })
+
+
+    @app.route('/api/analytics/hashtag-insights', methods=['GET'])
+    def analytics_hashtag_insights():
+        return jsonify({
+            "byPool": [],
+            "topHashtags": [],
+            "hashtags": []
+        })
+
+
+    # ============================================================
+    # ANALYTICS — Publishing cadence
+    # ============================================================
+    @app.route('/api/analytics/publishing-cadence', methods=['GET'])
+    def analytics_publishing_cadence():
+        return jsonify({
+            "weeks": [],
+            "currentWeekCount": 0,
+            "avgPerWeek": 0,
+            "totalInPeriod": 0
+        })
+
+
+    # ============================================================
+    # GOOGLE LOGIN TEMPORAL — Admin directo
+    # ============================================================
+    @app.route('/api/auth/google', methods=['GET'])
+    def google_login_temp_admin():
+        user = {
+            "id": 1,
+            "email": "admin@hazpost.com",
+            "displayName": "Admin HazPost",
+            "role": "admin",
+            "plan": "agency",
+            "aiCredits": 250,
+            "onboardingStep": 5,
+            "emailVerified": True,
+            "avatarUrl": None,
+            "timezone": "America/Bogota",
+        }
+
+        subscription = {
+            "id": 1,
+            "userId": user["id"],
+            "plan": "agency",
+            "status": "active",
+            "creditsRemaining": 250,
+            "creditsTotal": 250,
+            "periodEnd": None,
+        }
+
+        session.clear()
+        session["user"] = user
+        session["subscription"] = subscription
+        session.permanent = True
+
+        return """
+        <script>
+          window.location.href = "https://hazpost-frontend.vercel.app/dashboard";
+        </script>
+        """
+
+
+    # ============================================================
+    # ADMIN / AGENCY STUBS — Evita errores en panel admin/agencia
+    # ============================================================
+    @app.route('/api/user/admin/users', methods=['GET'])
+    def user_admin_users():
+        return jsonify({
+            "users": [],
+            "items": [],
+            "data": [],
+            "total": 0
+        })
+
+
+    @app.route('/api/users', methods=['GET'])
+    def admin_users():
+        return jsonify({
+            "users": [],
+            "items": [],
+            "data": [],
+            "total": 0
+        })
+
+
+    @app.route('/api/admin/users', methods=['GET'])
+    def admin_users_alt():
+        return user_admin_users()
+
+
+    @app.route('/api/brand-profile/admin/all', methods=['GET'])
+    def brand_profile_admin_all():
+        return jsonify({
+            "profiles": []
+        })
+
+
+    @app.route('/api/admin/metrics', methods=['GET'])
+    def admin_metrics():
+        return jsonify({
+            "mrr": 0,
+            "paidUsers": 0,
+            "freeUsers": 0,
+            "totalActive": 0,
+            "conversionRate": 0,
+            "newUsers7d": 0,
+            "newUsers30d": 0,
+            "credits": {
+                "issued": 0,
+                "consumed": 0,
+                "avgRemaining": 0,
+                "utilizationPct": 0
+            },
+            "posts": {
+                "total": 0,
+                "last7d": 0,
+                "last30d": 0
+            },
+            "images": {
+                "total": 0
+            },
+            "businesses": 0,
+            "planBreakdown": [],
+            "subStatuses": [],
+            "referrals": {
+                "rows": [],
+                "total": 0
+            },
+            "affiliates": {
+                "rows": [],
+                "total": 0
+            },
+            "postsPerDay": [],
+            "usersPerDay": []
+        })
+
+
+    @app.route('/api/metrics', methods=['GET'])
+    def metrics_alias():
+        return admin_metrics()
+
+
+    @app.route('/api/admin/metrics/generation-costs', methods=['GET'])
+    def admin_generation_costs():
+        period = request.args.get("period", "today")
+        return jsonify({
+            "period": period,
+            "from": "",
+            "to": "",
+            "seriesDays": 0,
+            "byType": [],
+            "totalCount": 0,
+            "totalCostUsd": 0,
+            "timeSeries": []
+        })
+
+
+    @app.route('/api/niches', methods=['GET'])
+    def admin_niches():
+        scope = request.args.get("scope")
+        if scope == "all":
+            return jsonify([])
+        return jsonify([])
+
+
+    @app.route('/api/all', methods=['GET'])
+    def all_admin_data():
+        return jsonify({
+            "users": [],
+            "businesses": [],
+            "posts": [],
+            "niches": [],
+            "metrics": [],
+            "items": [],
+            "data": []
+        })
+
+
+    @app.route('/api/backgrounds-master', methods=['GET'])
+    @app.route('/api/admin/backgrounds-master', methods=['GET'])
+    def backgrounds_master():
+        return jsonify({
+            "backgrounds": [],
+            "items": [],
+            "data": [],
+            "total": 0
+        })
+
+
+    @app.route('/api/conversations', methods=['GET'])
+    @app.route('/api/admin/conversations', methods=['GET'])
+    def conversations():
+        return jsonify({
+            "conversations": [],
+            "items": [],
+            "data": []
+        })
+
+
+    @app.route('/api/referrals', methods=['GET'])
+    @app.route('/api/admin/affiliates', methods=['GET'])
+    def referrals():
+        return jsonify([])
+
+
+    @app.route('/api/conversions', methods=['GET'])
+    def conversions():
+        return jsonify({})
+
+
+    @app.route('/api/affiliate-settings', methods=['GET'])
+    @app.route('/api/admin/affiliate-settings', methods=['GET'])
+    def affiliate_settings():
+        return jsonify({
+            "enabled": False,
+            "commission": 0,
+            "settings": {},
+            "items": [],
+            "data": []
+        })
+
+
+    @app.route('/api/affiliate-codes', methods=['GET'])
+    @app.route('/api/admin/affiliate-codes', methods=['GET'])
+    def affiliate_codes():
+        return jsonify([])
+
+
+    @app.route('/api/codes', methods=['GET'])
+    def codes():
+        return jsonify([])
+
+
+    @app.route('/api/billing/plans', methods=['GET'])
+    def billing_plans():
+        return jsonify({
+            "plans": [],
+            "items": [],
+            "data": []
+        })
+
+
+    # ============================================================
+    # REFERRALS ADMIN — evita error extra_niche
+    # ============================================================
+    @app.route('/api/admin/referrals/settings', methods=['GET', 'PUT'])
+    def admin_referrals_settings():
+        return jsonify({
+            "id": None,
+            "is_enabled": True,
+            "referrer_credits": 30,
+            "referee_credits": 10,
+            "referrer_free_days": 0,
+            "referee_free_days": 0,
+            "min_plan_for_bonus": "starter",
+            "max_activation_days": 60,
+            "max_referrals_per_user": 0,
+            "referrer_unlocks": {
+                "extra_niche": False,
+                "watermark_removal": False,
+                "priority_generation": False,
+                "custom_domain": False
+            },
+            "referee_unlocks": {
+                "extra_niche": False,
+                "watermark_removal": False,
+                "priority_generation": False,
+                "custom_domain": False
+            },
+            "updated_at": None
+        })
+
+
+    # ============================================================
+    # STORAGE UPLOAD — Logos / imágenes onboarding
+    # Debe ir ANTES del fallback.
+    # ============================================================
+
+    @app.route('/api/storage/uploads/request-url', methods=['POST'])
+    def storage_request_url():
+        try:
+            data = request.get_json(silent=True) or {}
+            original_name = data.get("name") or "upload.bin"
+            content_type = data.get("contentType") or "application/octet-stream"
+            size = data.get("size")
+
+            safe_name = secure_filename(original_name) or "upload.bin"
+            file_id = str(uuid.uuid4())
+            stored_name = f"{file_id}_{safe_name}"
+
+            upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+            os.makedirs(upload_dir, exist_ok=True)
+
+            object_path = f"/storage/objects/uploads/{stored_name}"
+            base_url = request.host_url.rstrip('/').replace('http://', 'https://')
+
+            public_url = f"{base_url}/api{object_path}"
+            upload_url = f"{base_url}/api/storage/uploads/direct?filename={stored_name}"
+
+            return jsonify({
+                "success": True,
+                "uploadURL": upload_url,
+                "uploadUrl": upload_url,
+                "upload_url": upload_url,
+                "signedUrl": upload_url,
+                "url": upload_url,
+                "objectPath": object_path,
+                "publicUrl": public_url,
+                "name": safe_name,
+                "storedName": stored_name,
+                "contentType": content_type,
+                "size": size,
+            })
+
+        except Exception as e:
+            logger.exception(f"STORAGE REQUEST URL ERROR: {e}")
             return jsonify({
                 "success": False,
-                "error": "Archivo requerido"
-            }), 400
-
-        uploaded_file = request.files['file']
-        uploaded_file.save(filepath)
-
-        object_path = f"/storage/objects/uploads/{safe_name}"
-        base_url = request.host_url.rstrip('/').replace('http://', 'https://')
-        public_url = f"{base_url}/api{object_path}"
-
-        return jsonify({
-            "success": True,
-            "url": public_url,
-            "publicUrl": public_url,
-            "objectPath": object_path,
-            "filename": safe_name,
-        })
-
-    except Exception as e:
-        logger.exception(f"STORAGE DIRECT UPLOAD ERROR: {e}")
-        return jsonify({
-            "success": False,
-            "error": "Error subiendo archivo"
-        }), 500
+                "error": "Error generando URL de subida"
+            }), 500
 
 
-@app.route('/api/storage/objects/uploads/<path:filename>', methods=['GET'])
-def storage_get_uploaded_object(filename):
-    try:
-        safe_name = secure_filename(filename)
-        upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+    @app.route('/api/storage/uploads/direct', methods=['POST'])
+    def storage_upload_direct():
+        try:
+            filename = request.args.get("filename") or f"{uuid.uuid4()}_upload.bin"
+            safe_name = secure_filename(filename) or f"{uuid.uuid4()}_upload.bin"
 
-        if not safe_name:
-            return jsonify({"error": "Archivo inválido"}), 400
+            upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+            os.makedirs(upload_dir, exist_ok=True)
 
-        return send_from_directory(upload_dir, safe_name)
+            filepath = os.path.join(upload_dir, safe_name)
 
-    except Exception as e:
-        logger.exception(f"STORAGE GET OBJECT ERROR: {e}")
-        return jsonify({
-            "success": False,
-            "error": "Archivo no encontrado"
-        }), 404
+            if 'file' not in request.files:
+                return jsonify({
+                    "success": False,
+                    "error": "Archivo requerido"
+                }), 400
+
+            uploaded_file = request.files['file']
+            uploaded_file.save(filepath)
+
+            object_path = f"/storage/objects/uploads/{safe_name}"
+            base_url = request.host_url.rstrip('/').replace('http://', 'https://')
+            public_url = f"{base_url}/api{object_path}"
+
+            return jsonify({
+                "success": True,
+                "url": public_url,
+                "publicUrl": public_url,
+                "objectPath": object_path,
+                "filename": safe_name,
+            })
+
+        except Exception as e:
+            logger.exception(f"STORAGE DIRECT UPLOAD ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Error subiendo archivo"
+            }), 500
 
 
-# ============================================================
-# ANALYZE WEBSITE — IA onboarding (MVP funcional)
-# ============================================================
+    @app.route('/api/storage/objects/uploads/<path:filename>', methods=['GET'])
+    def storage_get_uploaded_object(filename):
+        try:
+            safe_name = secure_filename(filename)
+            upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+
+            if not safe_name:
+                return jsonify({"error": "Archivo inválido"}), 400
+
+            return send_from_directory(upload_dir, safe_name)
+
+        except Exception as e:
+            logger.exception(f"STORAGE GET OBJECT ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Archivo no encontrado"
+            }), 404
+
+    # ============================================================
+    # ANALYZE WEBSITE — IA onboarding (MVP funcional)
+    # ============================================================
     @app.route('/api/analyze-website', methods=['POST'])
     def analyze_website():
         try:
@@ -1481,6 +1432,7 @@ Extra:
             posts_list.append(new_post)
             session["posts"] = posts_list
             session.permanent = True
+            session.modified = True
 
             return jsonify({
                 "success": True,
@@ -1502,7 +1454,7 @@ Extra:
                 "error": "Error generando primer post"
             }), 500
 
-    # ============================================================
+      # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
     @app.route('/api/<path:unknown_path>', methods=['GET'])
@@ -1520,13 +1472,21 @@ Extra:
         }), 200
 
 
+    # ============================================================
+    # RETURN APP (FIN create_app)
+    # ============================================================
     return app
 
 
-# 🔥 ESTA LÍNEA ES CLAVE PARA GUNICORN
+# ============================================================
+# APP GLOBAL PARA GUNICORN
+# ============================================================
 app = create_app()
 
 
+# ============================================================
+# RUN LOCAL (SOLO DEV)
+# ============================================================
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
