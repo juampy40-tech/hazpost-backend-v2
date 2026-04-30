@@ -165,7 +165,7 @@ def create_app():
 
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
 
-    # ============================================================
+        # ============================================================
     # 🍪 COOKIES / SESIÓN — FIX CRÍTICO PARA VERCEL + RAILWAY
     # ============================================================
     app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -191,7 +191,7 @@ def create_app():
     # CORS primero para que incluso errores, OPTIONS y respuestas bloqueadas lleven headers correctos.
     _apply_cors(app)
 
-    # 🔥 NUEVO — Inicializar PostgreSQL
+    # 🔥 Inicializar PostgreSQL
     init_db()
 
     # Seguridad después, manteniendo rate limit, headers, bloqueo de IP y API key.
@@ -206,7 +206,10 @@ def create_app():
     app.register_blueprint(duplicados_bp, url_prefix='/api/duplicados')
     app.register_blueprint(aislamiento_bp, url_prefix='/api/aislamiento')
     app.register_blueprint(aprendizaje_bp, url_prefix='/api/aprendizaje')
-    app.register_blueprint(dashboard_bp, url_prefix='/api')
+
+    # ⚠️ IMPORTANTE:
+    # dashboard_bp NO va aquí porque puede pisar rutas críticas como /api/brand-profile.
+    # Lo registramos al final, justo antes del fallback.
 
 
     # ============================================================
