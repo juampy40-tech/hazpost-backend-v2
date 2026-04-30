@@ -312,11 +312,8 @@ export default function Profile() {
       setBizTone(active.brandTone ?? "");
 
       if (active.logoUrl) {
-        const resolved = active.logoUrl.startsWith("/objects/")
-          ? `${BASE}/api/storage/objects/${active.logoUrl.slice("/objects/".length)}`
-          : active.logoUrl;
         setBizLogoUrl(active.logoUrl);
-        setBizLogoPreview(resolved);
+        setBizLogoPreview(resolveAssetUrl(active.logoUrl));
       } else {
         setBizLogoUrl("");
         setBizLogoPreview("");
@@ -324,38 +321,31 @@ export default function Profile() {
     };
 
     const applyProfileToForm = (profile: Record<string, unknown>) => {
-      setBizId(null);
-      setBizName(String(profile.companyName || profile.businessName || profile.name || ""));
-      setRawSavedIndustry(String(profile.industry || ""));
+  setBizId(null);
+  setBizName(String(profile.companyName || profile.businessName || profile.name || ""));
+  setRawSavedIndustry(String(profile.industry || ""));
 
-      const rawSubs = profile.subIndustries;
-      if (Array.isArray(rawSubs)) {
-        setBizSubIndustries(rawSubs.map(String));
-      } else if (typeof rawSubs === "string") {
-        try {
-          const parsed = JSON.parse(rawSubs);
-          setBizSubIndustries(Array.isArray(parsed) ? parsed.map(String) : []);
-        } catch {
-          setBizSubIndustries(rawSubs ? [rawSubs] : []);
-        }
-      } else if (profile.subIndustry) {
-        setBizSubIndustries([String(profile.subIndustry)]);
-      } else {
-        setBizSubIndustries([]);
-      }
+  const parsedSubs = splitSavedSubIndustries(profile.subIndustries);
+  setBizSubIndustries(
+    parsedSubs.length > 0
+      ? parsedSubs
+      : splitSavedSubIndustries(profile.subIndustry)
+  );
 
-      setBizSlogan(String(profile.slogan || ""));
-      setBizDescription(String(profile.businessDescription || profile.description || ""));
-      setBizCity(String(profile.city || profile.defaultLocation || ""));
-      setBizPrimary(String(profile.primaryColor || "#00C2FF"));
-      setBizSecondary(String(profile.secondaryColor || "#0077FF"));
-      setBizWebsite(String(profile.website || ""));
-      originalBizWebsiteRef.current = String(profile.website || "");
-      setBizAudience(String(profile.audienceDescription || profile.audience || ""));
-      setBizTone(String(profile.brandTone || profile.tone || ""));
-      setBizLogoUrl(String(profile.logoUrl || ""));
-      setBizLogoPreview(String(profile.logoUrl || ""));
-    };
+  setBizSlogan(String(profile.slogan || ""));
+  setBizDescription(String(profile.businessDescription || profile.description || ""));
+  setBizCity(String(profile.city || profile.defaultLocation || ""));
+  setBizPrimary(String(profile.primaryColor || "#00C2FF"));
+  setBizSecondary(String(profile.secondaryColor || "#0077FF"));
+  setBizWebsite(String(profile.website || ""));
+  originalBizWebsiteRef.current = String(profile.website || "");
+  setBizAudience(String(profile.audienceDescription || profile.audience || ""));
+  setBizTone(String(profile.brandTone || profile.tone || ""));
+
+  const savedLogoUrl = String(profile.logoUrl || "");
+  setBizLogoUrl(savedLogoUrl);
+  setBizLogoPreview(resolveAssetUrl(savedLogoUrl));
+};
 
     async function loadProfile() {
   setLoadingBiz(true);
