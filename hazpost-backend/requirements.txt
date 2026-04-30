@@ -8,5 +8,8 @@ scikit-learn==1.5.1
 numpy==1.26.4
 gunicorn==22.0.0
 
+SQLAlchemy==2.0.36
+psycopg2-binary==2.9.10
+
 openai>=1.0.0
 replicate>=0.25.0
