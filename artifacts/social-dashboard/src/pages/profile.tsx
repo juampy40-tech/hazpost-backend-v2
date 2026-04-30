@@ -40,6 +40,7 @@ function PasswordStrengthHints({ password }: { password: string }) {
 }
 
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
+const API_BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") || BASE;
 
 const splitSavedSubIndustries = (value: unknown): string[] => {
   if (!value) return [];
@@ -74,19 +75,21 @@ const resolveAssetUrl = (url: string | null | undefined): string => {
   if (!url) return "";
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
 
-  if (url.startsWith("/storage/objects/")) {
-    return `${BASE}/api/storage/objects/${url.slice("/storage/objects/".length)}`;
+  const cleanPath = url.startsWith("/") ? url : `/${url}`;
+
+  if (cleanPath.startsWith("/storage/objects/")) {
+    return `${API_BASE}${cleanPath}`;
   }
 
-  if (url.startsWith("/api/storage/objects/")) {
-    return `${BASE}${url}`;
+  if (cleanPath.startsWith("/api/storage/objects/")) {
+    return `${API_BASE}${cleanPath}`;
   }
 
-  if (url.startsWith("/objects/")) {
-    return `${BASE}/api/storage/objects/${url.slice("/objects/".length)}`;
+  if (cleanPath.startsWith("/objects/")) {
+    return `${API_BASE}/api/storage/objects/${cleanPath.slice("/objects/".length)}`;
   }
 
-  return url;
+  return `${API_BASE}${cleanPath}`;
 };
 
 const INDUSTRIES_FALLBACK = [
