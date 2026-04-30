@@ -1712,7 +1712,7 @@ async function triggerAnalyze(url: string): Promise<void> {
   setAnalyzing(true);
 
   try {
-    const res = await fetch(getAnalyzeEndpoint(), {
+    const res = await fetch(`${API_BASE}${getAnalyzeEndpoint()}`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
