@@ -26,6 +26,7 @@ from src.aislamiento import aislamiento_bp
 from src.aprendizaje_colectivo import aprendizaje_bp
 from src.catalogs.industries import get_industries_response
 from src.dashboard_routes import dashboard_bp
+from src.db import init_db
 
 _SCHEDULER_LOCK_FILE = None
 
