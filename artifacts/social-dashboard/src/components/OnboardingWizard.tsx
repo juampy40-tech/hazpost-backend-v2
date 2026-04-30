@@ -1773,7 +1773,6 @@ async function triggerAnalyze(url: string): Promise<void> {
         onboardingStep: nextStep,
       };
 
-      // Solo marcar completo si se indica explícitamente
       if (markComplete !== undefined) {
         payload.onboardingCompleted = markComplete;
       }
@@ -1786,39 +1785,21 @@ async function triggerAnalyze(url: string): Promise<void> {
       });
 
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-
-        console.error("❌ Error guardando progreso:", body);
-
-        toast({
-          title: "Error al guardar",
-          description:
-            (body as { error?: string }).error ??
-            "No se pudo guardar el progreso.",
-          variant: "destructive",
-        });
-
-        return true; // 🔥 CLAVE: NO bloquear flujo
+        console.error("❌ Error guardando progreso:", await res.text());
+        return true; // No bloquear onboarding
       }
 
       return true;
     } catch (err) {
       console.error("🔥 Error crítico saveProgress:", err);
-
-      toast({
-        title: "Error al guardar",
-        description: "No se pudo guardar el progreso.",
-        variant: "destructive",
-      });
-
-      return true; // 🔥 CLAVE: NO bloquear flujo
+      return true; // No bloquear onboarding
     } finally {
       setSaving(false);
     }
   },
-  [data, toast]
+  [data]
 );
-
+  
 async function doNext() {
   const nextStep = step + 1;
 
