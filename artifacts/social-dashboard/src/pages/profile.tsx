@@ -325,7 +325,16 @@ export default function Profile() {
 
     const applyProfileToForm = (profile: Record<string, unknown>) => {
   setBizId(null);
-  setBizName(String(profile.companyName || profile.businessName || profile.name || ""));
+
+  setBizName(
+    String(
+      profile.companyName ||
+        profile.businessName ||
+        profile.name ||
+        ""
+    )
+  );
+
   setRawSavedIndustry(String(profile.industry || ""));
 
   const parsedSubs = splitSavedSubIndustries(profile.subIndustries);
@@ -336,12 +345,19 @@ export default function Profile() {
   );
 
   setBizSlogan(String(profile.slogan || ""));
-  setBizDescription(String(profile.businessDescription || profile.description || ""));
+
+  setBizDescription(
+    String(profile.businessDescription || profile.description || "")
+  );
+
   setBizCity(String(profile.city || profile.defaultLocation || ""));
   setBizPrimary(String(profile.primaryColor || "#00C2FF"));
   setBizSecondary(String(profile.secondaryColor || "#0077FF"));
-  setBizWebsite(String(profile.website || ""));
-  originalBizWebsiteRef.current = String(profile.website || "");
+
+  const website = String(profile.website || "");
+  setBizWebsite(website);
+  originalBizWebsiteRef.current = website;
+
   setBizAudience(String(profile.audienceDescription || profile.audience || ""));
   setBizTone(String(profile.brandTone || profile.tone || ""));
 
@@ -349,7 +365,6 @@ export default function Profile() {
   setBizLogoUrl(savedLogoUrl);
   setBizLogoPreview(resolveAssetUrl(savedLogoUrl));
 };
-
     async function loadProfile() {
   setLoadingBiz(true);
 
