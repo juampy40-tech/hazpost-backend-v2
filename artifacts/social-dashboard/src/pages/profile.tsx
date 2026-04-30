@@ -330,8 +330,9 @@ export default function Profile() {
       Object.keys(profile).length > 0;
 
     if (hasProfileData) {
+      console.log("BRAND PROFILE CARGADO EN PROFILE.TSX:", profile);
       applyProfileToForm(profile);
-      return;
+     return;
     }
 
     const businessesRes = await fetch(`${BASE}/api/businesses`, {
