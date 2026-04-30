@@ -1935,59 +1935,56 @@ async function doNext() {
       return;
     }
 
-    console.log("✅ Onboarding guardado correctamente");
+        console.log("✅ Onboarding guardado correctamente");
 
-    navigate("/dashboard");
+    // Save AI generation settings
+    const isManual = (data.aiGenFrequency ?? "daily") === "none";
 
+    const freqMap: Record<string, string> = {
+      daily: "daily",
+      "3x": "3x_week",
+      weekly: "weekly",
+    };
+
+    const genFreq = isManual
+      ? "none"
+      : freqMap[data.aiGenFrequency ?? "daily"] ?? "daily";
+
+    try {
+      await fetch(`${API_BASE}/api/settings`, {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          aiEnabled: !isManual,
+          frequency: genFreq,
+        }),
+      });
+    } catch {
+      /* non-blocking */
+    }
+
+    if (isManual) {
+      toast({
+        title: "¡Marca lista! 🎉",
+        description: "Entra al panel para generar tu primer contenido.",
+      });
+    } else {
+      toast({
+        title: "¡Todo listo! 🚀",
+        description: "Tu marca está lista para generar contenido con IA.",
+      });
+    }
+
+    if (editMode) {
+      onComplete();
+      return;
+    }
+
+    window.location.href = "/dashboard";
   } catch (err) {
     console.error("🔥 Error crítico en onboarding:", err);
   }
-}
-  // Save AI generation settings
-  const isManual = (data.aiGenFrequency ?? "daily") === "none";
-
-  const freqMap: Record<string, string> = {
-    daily: "daily",
-    "3x": "3x_week",
-    weekly: "weekly",
-  };
-
-  const genFreq = isManual
-    ? "none"
-    : freqMap[data.aiGenFrequency ?? "daily"] ?? "daily";
-
-  try {
-    await fetch(`${API_BASE}/api/settings`, {
-      method: "PUT",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        aiEnabled: !isManual,
-        frequency: genFreq,
-      }),
-    });
-  } catch {
-    /* non-blocking */
-  }
-
-  if (isManual) {
-    toast({
-      title: "¡Marca lista! 🎉",
-      description: "Entra al panel para generar tu primer contenido.",
-    });
-  } else {
-    toast({
-      title: "¡Todo listo! 🚀",
-      description: "Tu marca está lista para generar contenido con IA.",
-    });
-  }
-
-  if (editMode) {
-    onComplete();
-    return;
-  }
-
-  window.location.href = "/dashboard";
 }
 
   async function handleSkip() {
