@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request, session
+from src.db import get_posts, save_post
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
@@ -96,66 +97,40 @@ def social_accounts():
 
 # ------------------ POSTS ------------------
 
-@dashboard_bp.route('/posts', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+@dashboard_bp.route('/posts', methods=['GET', 'POST', 'DELETE'])
 def posts():
-    posts_list = _as_list(session.get("posts", []))
+    user_id = session.get("user_id") or session.get("userId") or "demo"
 
     # -------- GET --------
     if request.method == 'GET':
-        status_filter = request.args.get("status")
+        status = request.args.get("status")
         business_id = request.args.get("businessId")
-        slim = request.args.get("slim")
+        slim = request.args.get("slim") == "1"
 
-        filtered = posts_list
+        posts = get_posts(
+            user_id=user_id,
+            status=status,
+            business_id=business_id,
+            slim=slim
+        )
 
-        # Filtrar por status
-        if status_filter:
-            statuses = status_filter.split(",")
-            filtered = [
-                p for p in filtered
-                if p.get("status") in statuses
-            ]
-
-        # Filtrar por businessId
-        if business_id:
-            filtered = [
-                p for p in filtered
-                if str(p.get("businessId")) == str(business_id)
-            ]
-
-        # Slim mode
-        if slim == "1":
-            filtered = [
-                {
-                    "id": p.get("id"),
-                    "status": p.get("status"),
-                }
-                for p in filtered
-            ]
-
-        return jsonify(filtered)
+        return jsonify(posts)
 
     # -------- DELETE --------
     if request.method == 'DELETE':
-        session["posts"] = []
-        session.permanent = True
         return jsonify([])
 
     # -------- CREATE --------
     data = request.get_json(silent=True) or {}
 
-    post = {
-        "id": len(posts_list) + 1,
-        "status": data.get("status", "draft"),
-        **data
-    }
+    saved_post = save_post(
+        user_id=user_id,
+        post=data,
+        business_id=data.get("businessId"),
+        status=data.get("status", "pending_approval")
+    )
 
-    posts_list.append(post)
-    session["posts"] = posts_list
-    session.permanent = True
-
-    return jsonify(posts_list), 201
-
+    return jsonify(saved_post), 201
 
 # ------------------ APPROVALS ------------------
 
