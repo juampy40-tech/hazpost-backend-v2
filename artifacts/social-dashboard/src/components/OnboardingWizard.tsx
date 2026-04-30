@@ -1709,10 +1709,20 @@ function dismissSuggestion(field: "description" | "audience" | "tone" | "primary
 }
 
 async function triggerAnalyze(url: string): Promise<void> {
+  console.log("🔥 ANALYZE TRIGGER", url);
+
+  if (!url || !url.trim()) {
+    console.warn("⚠️ No hay URL para analizar");
+    return;
+  }
+
   setAnalyzing(true);
 
   try {
-    const res = await fetch(`${API_BASE}${getAnalyzeEndpoint()}`, {
+    const endpoint = `${API_BASE}${getAnalyzeEndpoint()}`;
+    console.log("🌐 ANALYZE ENDPOINT", endpoint);
+
+    const res = await fetch(endpoint, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -1728,9 +1738,13 @@ async function triggerAnalyze(url: string): Promise<void> {
       }),
     });
 
-    if (!res.ok) return;
+    if (!res.ok) {
+      console.error("❌ Error analizando website:", await res.text());
+      return;
+    }
 
-    const suggestions = await res.json() as AiSuggestions;
+    const suggestions = (await res.json()) as AiSuggestions;
+    console.log("✅ AI SUGGESTIONS", suggestions);
 
     if (
       suggestions.description ||
@@ -1739,41 +1753,73 @@ async function triggerAnalyze(url: string): Promise<void> {
       suggestions.primaryColor
     ) {
       handleAiAnalysis(suggestions);
+    } else {
+      console.warn("⚠️ IA respondió sin sugerencias útiles", suggestions);
     }
-  } catch {
-    /* fail silently */
+  } catch (err) {
+    console.error("🔥 Error crítico triggerAnalyze:", err);
   } finally {
     setTimeout(() => {
       setAnalyzing(false);
-    }, 1500);
+    }, 1200);
   }
 }
 
-  const saveProgress = useCallback(async (nextStep: number, markComplete?: boolean): Promise<boolean> => {
+  const saveProgress = useCallback(
+  async (nextStep: number, markComplete?: boolean): Promise<boolean> => {
     setSaving(true);
+
     try {
-      const payload: Record<string, unknown> = { ...data, onboardingStep: nextStep };
-      // Only set onboardingCompleted if explicitly requested (avoids resetting a completed profile during step navigation)
-      if (markComplete !== undefined) payload.onboardingCompleted = markComplete;
+      const payload: Record<string, unknown> = {
+        ...data,
+        onboardingStep: nextStep,
+      };
+
+      // Solo marcar completo si se indica explícitamente
+      if (markComplete !== undefined) {
+        payload.onboardingCompleted = markComplete;
+      }
+
       const res = await fetch(`${API_BASE}/api/brand-profile`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        toast({ title: "Error al guardar", description: (body as { error?: string }).error ?? "No se pudo guardar el progreso.", variant: "destructive" });
-        return false;
+
+        console.error("❌ Error guardando progreso:", body);
+
+        toast({
+          title: "Error al guardar",
+          description:
+            (body as { error?: string }).error ??
+            "No se pudo guardar el progreso.",
+          variant: "destructive",
+        });
+
+        return true; // 🔥 CLAVE: NO bloquear flujo
       }
+
       return true;
-    } catch {
-      toast({ title: "Error al guardar", description: "No se pudo guardar el progreso.", variant: "destructive" });
-      return false;
+    } catch (err) {
+      console.error("🔥 Error crítico saveProgress:", err);
+
+      toast({
+        title: "Error al guardar",
+        description: "No se pudo guardar el progreso.",
+        variant: "destructive",
+      });
+
+      return true; // 🔥 CLAVE: NO bloquear flujo
     } finally {
       setSaving(false);
     }
-  }, [data, toast]);
+  },
+  [data, toast]
+);
 
 async function doNext() {
   const nextStep = step + 1;
