@@ -165,7 +165,7 @@ def create_app():
 
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
 
-        # ============================================================
+    # ============================================================
     # 🍪 COOKIES / SESIÓN — FIX CRÍTICO PARA VERCEL + RAILWAY
     # ============================================================
     app.config['SESSION_COOKIE_HTTPONLY'] = True
