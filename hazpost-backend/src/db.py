@@ -42,6 +42,8 @@ def init_db():
 
     try:
         with db_session() as db:
+
+            # 🔵 TABLA EXISTENTE (NO TOCAR)
             db.execute(text("""
                 CREATE TABLE IF NOT EXISTS brand_profiles (
                     id SERIAL PRIMARY KEY,
@@ -50,6 +52,35 @@ def init_db():
                     created_at TIMESTAMP DEFAULT NOW(),
                     updated_at TIMESTAMP DEFAULT NOW()
                 );
+            """))
+
+            # 🔴 NUEVA TABLA POSTS (CLAVE)
+            db.execute(text("""
+                CREATE TABLE IF NOT EXISTS posts (
+                    id SERIAL PRIMARY KEY,
+                    user_id TEXT NOT NULL,
+                    business_id TEXT,
+                    post JSONB NOT NULL DEFAULT '{}'::jsonb,
+                    status TEXT NOT NULL DEFAULT 'pending_approval',
+                    created_at TIMESTAMP DEFAULT NOW(),
+                    updated_at TIMESTAMP DEFAULT NOW()
+                );
+            """))
+
+            # ⚡ ÍNDICES (performance)
+            db.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_posts_user_id
+                ON posts (user_id);
+            """))
+
+            db.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_posts_status
+                ON posts (status);
+            """))
+
+            db.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_posts_business_id
+                ON posts (business_id);
             """))
 
         logger.info("Base de datos inicializada correctamente")
@@ -113,3 +144,119 @@ def get_brand_profile(user_id):
             return {}
 
     return profile if isinstance(profile, dict) else {}
+
+
+# ================================
+# POSTS (NUEVO - PERSISTENCIA REAL)
+# ================================
+
+def save_post(user_id, post, business_id=None, status=None):
+    if not user_id:
+        raise ValueError("user_id es requerido")
+
+    if not isinstance(post, dict):
+        raise ValueError("post debe ser un diccionario")
+
+    post_status = status or post.get("status") or "pending_approval"
+    post_business_id = business_id or post.get("businessId") or post.get("business_id")
+
+    with db_session() as db:
+        row = db.execute(
+            text("""
+                INSERT INTO posts (user_id, business_id, post, status, updated_at)
+                VALUES (:user_id, :business_id, CAST(:post AS JSONB), :status, NOW())
+                RETURNING id, post, status, business_id, created_at, updated_at;
+            """),
+            {
+                "user_id": str(user_id),
+                "business_id": str(post_business_id) if post_business_id is not None else None,
+                "post": json.dumps(post, ensure_ascii=False),
+                "status": str(post_status),
+            }
+        ).mappings().first()
+
+    saved_post = row.get("post") or {}
+
+    if isinstance(saved_post, str):
+        try:
+            saved_post = json.loads(saved_post)
+        except Exception:
+            saved_post = {}
+
+    if not isinstance(saved_post, dict):
+        saved_post = {}
+
+    saved_post["id"] = row.get("id")
+    saved_post["status"] = row.get("status") or post_status
+
+    if row.get("business_id") is not None:
+        saved_post["businessId"] = row.get("business_id")
+
+    saved_post["createdAt"] = row.get("created_at").isoformat() if row.get("created_at") else None
+    saved_post["updatedAt"] = row.get("updated_at").isoformat() if row.get("updated_at") else None
+
+    return saved_post
+
+
+def get_posts(user_id, status=None, business_id=None, slim=False):
+    if not user_id:
+        return []
+
+    conditions = ["user_id = :user_id"]
+    params = {"user_id": str(user_id)}
+
+    if status:
+        statuses = [s.strip() for s in str(status).split(",") if s.strip()]
+        if statuses:
+            conditions.append("status = ANY(:statuses)")
+            params["statuses"] = statuses
+
+    if business_id:
+        conditions.append("business_id = :business_id")
+        params["business_id"] = str(business_id)
+
+    where_sql = " AND ".join(conditions)
+
+    with db_session() as db:
+        rows = db.execute(
+            text(f"""
+                SELECT id, post, status, business_id, created_at, updated_at
+                FROM posts
+                WHERE {where_sql}
+                ORDER BY created_at DESC;
+            """),
+            params
+        ).mappings().all()
+
+    posts = []
+
+    for row in rows:
+        post = row.get("post") or {}
+
+        if isinstance(post, str):
+            try:
+                post = json.loads(post)
+            except Exception:
+                post = {}
+
+        if not isinstance(post, dict):
+            post = {}
+
+        post["id"] = row.get("id")
+        post["status"] = row.get("status")
+
+        if row.get("business_id") is not None:
+            post["businessId"] = row.get("business_id")
+
+        post["createdAt"] = row.get("created_at").isoformat() if row.get("created_at") else None
+        post["updatedAt"] = row.get("updated_at").isoformat() if row.get("updated_at") else None
+
+        if slim:
+            posts.append({
+                "id": post.get("id"),
+                "status": post.get("status"),
+            })
+        else:
+            posts.append(post)
+
+    return posts
