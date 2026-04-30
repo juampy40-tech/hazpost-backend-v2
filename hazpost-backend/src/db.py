@@ -260,3 +260,79 @@ def get_posts(user_id, status=None, business_id=None, slim=False):
             posts.append(post)
 
     return posts
+
+def update_post_status(user_id, post_id, status, extra_updates=None):
+    if not user_id:
+        raise ValueError("user_id es requerido")
+
+    if not post_id:
+        raise ValueError("post_id es requerido")
+
+    updates = extra_updates if isinstance(extra_updates, dict) else {}
+
+    with db_session() as db:
+        row = db.execute(
+            text("""
+                SELECT post
+                FROM posts
+                WHERE id = :post_id AND user_id = :user_id
+                LIMIT 1;
+            """),
+            {
+                "post_id": int(post_id),
+                "user_id": str(user_id),
+            }
+        ).mappings().first()
+
+        if not row:
+            return None
+
+        post = row.get("post") or {}
+
+        if isinstance(post, str):
+            try:
+                post = json.loads(post)
+            except Exception:
+                post = {}
+
+        if not isinstance(post, dict):
+            post = {}
+
+        post.update(updates)
+        post["status"] = status
+
+        updated = db.execute(
+            text("""
+                UPDATE posts
+                SET post = CAST(:post AS JSONB),
+                    status = :status,
+                    updated_at = NOW()
+                WHERE id = :post_id AND user_id = :user_id
+                RETURNING id, post, status, business_id, created_at, updated_at;
+            """),
+            {
+                "post_id": int(post_id),
+                "user_id": str(user_id),
+                "post": json.dumps(post, ensure_ascii=False),
+                "status": str(status),
+            }
+        ).mappings().first()
+
+    saved_post = updated.get("post") or {}
+
+    if isinstance(saved_post, str):
+        try:
+            saved_post = json.loads(saved_post)
+        except Exception:
+            saved_post = {}
+
+    if not isinstance(saved_post, dict):
+        saved_post = {}
+
+    saved_post["id"] = updated.get("id")
+    saved_post["status"] = updated.get("status")
+    saved_post["businessId"] = updated.get("business_id")
+    saved_post["createdAt"] = updated.get("created_at").isoformat() if updated.get("created_at") else None
+    saved_post["updatedAt"] = updated.get("updated_at").isoformat() if updated.get("updated_at") else None
+
+    return saved_post
