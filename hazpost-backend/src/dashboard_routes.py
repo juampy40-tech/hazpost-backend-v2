@@ -132,34 +132,28 @@ def posts():
 
     return jsonify(saved_post), 201
 
-# ------------------ APPROVALS ------------------
 
-@dashboard_bp.route('/approvals', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
-def approvals():
-    approvals_list = _as_list(session.get("approvals", []))
+# ------------------ APPROVE POST ------------------
 
-    if request.method == 'GET':
-        return jsonify(approvals_list)
+@dashboard_bp.route('/posts/<int:post_id>/approve', methods=['POST'])
+def approve_post(post_id):
+    from src.db import update_post_status
 
-    if request.method == 'DELETE':
-        session["approvals"] = []
-        session.permanent = True
-        return jsonify([])
+    user_id = session.get("user_id") or session.get("userId") or "demo"
 
-    data = request.get_json(silent=True) or {}
+    updated = update_post_status(
+        user_id=user_id,
+        post_id=post_id,
+        status="scheduled"
+    )
 
-    approval = {
-        "id": len(approvals_list) + 1,
-        "status": data.get("status", "pending"),
-        **data
-    }
+    if not updated:
+        return jsonify({"success": False, "error": "Post no encontrado"}), 404
 
-    approvals_list.append(approval)
-    session["approvals"] = approvals_list
-    session.permanent = True
-
-    return jsonify(approvals_list), 201
-
+    return jsonify({
+        "success": True,
+        "post": updated
+    })
 
 # ------------------ SCHEDULE ------------------
 
