@@ -1629,14 +1629,12 @@ Extra:
             result["hashtags"] = hashtags
 
             # ============================================================
-            # 💾 GUARDAR EN COLA DE APROBACIÓN
+            # 💾 GUARDAR EN DB (POSTGRESQL)
             # ============================================================
-            posts_list = session.get("posts", [])
-            if not isinstance(posts_list, list):
-                posts_list = []
+            user = session.get("user") or {}
+            user_id = str(user.get("email") or user.get("id") or "anonymous")
 
             new_post = {
-                "id": len(posts_list) + 1,
                 "caption": result.get("caption"),
                 "hashtags": result.get("hashtags"),
                 "visualIdea": result.get("visualIdea"),
@@ -1651,10 +1649,12 @@ Extra:
                 "location": location,
             }
 
-            posts_list.append(new_post)
-            session["posts"] = posts_list
-            session.permanent = True
-            session.modified = True
+            saved_post = save_post(
+                user_id=user_id,
+                post=new_post,
+                business_id=None,
+                status="pending_approval"
+            )
 
             return jsonify({
                 "success": True,
@@ -1665,8 +1665,8 @@ Extra:
                 "tone": tone,
                 "source": result.get("source"),
                 "status": "pending_approval",
-                "postId": new_post["id"],
-                "post": new_post,
+                "postId": saved_post.get("id"),
+                "post": saved_post,
             })
 
         except Exception as e:
