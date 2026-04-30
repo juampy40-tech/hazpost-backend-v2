@@ -271,7 +271,7 @@ export default function Profile() {
       }
     };
 
-    const applyBrandProfileFallback = (profile: Record<string, unknown>) => {
+    const applyProfileToForm = (profile: Record<string, unknown>) => {
       setBizId(null);
       setBizName(String(profile.companyName || profile.businessName || profile.name || ""));
       setRawSavedIndustry(String(profile.industry || ""));
