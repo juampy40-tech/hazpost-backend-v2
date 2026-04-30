@@ -105,7 +105,7 @@ def posts():
     if request.method == 'GET':
         status = request.args.get("status")
         business_id = request.args.get("businessId")
-        slim = request.args.get("slim") == "1"
+        slim = request.args.get("slim") == "1" and not status
 
         posts = get_posts(
             user_id=user_id,
