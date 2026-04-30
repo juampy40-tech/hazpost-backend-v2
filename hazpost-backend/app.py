@@ -191,6 +191,9 @@ def create_app():
     # CORS primero para que incluso errores, OPTIONS y respuestas bloqueadas lleven headers correctos.
     _apply_cors(app)
 
+    # 🔥 NUEVO — Inicializar PostgreSQL
+    init_db()
+
     # Seguridad después, manteniendo rate limit, headers, bloqueo de IP y API key.
     init_security(app)
 
