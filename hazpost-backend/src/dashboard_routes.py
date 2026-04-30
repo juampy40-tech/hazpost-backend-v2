@@ -377,7 +377,7 @@ def _get_user_store():
     return session["user_store"]
 
 
-@dashboard_bp.route('/api/brand-profile', methods=['GET', 'POST', 'PUT'])
+@dashboard_bp.route('/brand-profile', methods=['GET', 'POST', 'PUT'])
 def brand_profile():
     store = _get_user_store()
 
