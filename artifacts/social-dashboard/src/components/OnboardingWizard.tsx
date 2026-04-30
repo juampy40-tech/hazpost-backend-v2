@@ -1918,7 +1918,7 @@ async function doNext() {
       body: JSON.stringify(businessPayload),
     });
 
-    const profileRes = await fetch(`${API_BASE}/brand-profile`, {
+    const profileRes = await fetch(`${API_BASE}/api/brand-profile`, {
       method: "PUT",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
