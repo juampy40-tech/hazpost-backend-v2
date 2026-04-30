@@ -451,7 +451,7 @@ def brand_profile():
 @dashboard_bp.route('/generate-first-post', methods=['POST'])
 def generate_first_post():
     store = _get_user_store()
-    profile = store.get("brandProfile") or session.get("brandProfile") or {}
+    profile = store.get("brandProfile") or {}
 
     company = profile.get("companyName") or profile.get("businessName") or profile.get("name") or "tu negocio"
     industry = profile.get("industry") or "tu sector"
