@@ -41,6 +41,54 @@ function PasswordStrengthHints({ password }: { password: string }) {
 
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
 
+const splitSavedSubIndustries = (value: unknown): string[] => {
+  if (!value) return [];
+
+  if (Array.isArray(value)) {
+    return value.map(String).map(s => s.trim()).filter(Boolean);
+  }
+
+  if (typeof value === "string") {
+    const raw = value.trim();
+    if (!raw) return [];
+
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        return parsed.map(String).map(s => s.trim()).filter(Boolean);
+      }
+    } catch {
+      // Si no es JSON, seguimos con separación por comas.
+    }
+
+    return raw
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+};
+
+const resolveAssetUrl = (url: string | null | undefined): string => {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+
+  if (url.startsWith("/storage/objects/")) {
+    return `${BASE}/api/storage/objects/${url.slice("/storage/objects/".length)}`;
+  }
+
+  if (url.startsWith("/api/storage/objects/")) {
+    return `${BASE}${url}`;
+  }
+
+  if (url.startsWith("/objects/")) {
+    return `${BASE}/api/storage/objects/${url.slice("/objects/".length)}`;
+  }
+
+  return url;
+};
+
 const INDUSTRIES_FALLBACK = [
   "Agricultura & Agro",
   "Arte & Diseño Creativo",
