@@ -1753,8 +1753,6 @@ async function triggerAnalyze(url: string): Promise<void> {
       suggestions.primaryColor
     ) {
       handleAiAnalysis(suggestions);
-    } else {
-      console.warn("⚠️ IA respondió sin sugerencias útiles", suggestions);
     }
   } catch (err) {
     console.error("🔥 Error crítico triggerAnalyze:", err);
