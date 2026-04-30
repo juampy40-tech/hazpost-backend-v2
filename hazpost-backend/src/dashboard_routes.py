@@ -497,4 +497,4 @@ Impulsa tu negocio en el sector {industry} con soluciones reales.
     session.permanent = True
     session.modified = True
 
-    return jsonify(post
+    return jsonify(post)
