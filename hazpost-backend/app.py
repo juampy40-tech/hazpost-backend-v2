@@ -1634,6 +1634,7 @@ Extra:
             user_id = session.get("user_id") or session.get("userId") or "demo"
 
             new_post = {
+                "businessId": "1",
                 "caption": result.get("caption"),
                 "hashtags": result.get("hashtags"),
                 "visualIdea": result.get("visualIdea"),
@@ -1651,7 +1652,7 @@ Extra:
             saved_post = save_post(
                 user_id=user_id,
                 post=new_post,
-                business_id=None,
+                business_id="1",
                 status="pending_approval"
             )
 
