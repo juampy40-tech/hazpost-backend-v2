@@ -371,56 +371,97 @@ def subscriptions_me():
 
     return jsonify(subscription)
 
-# ------------------ BRAND PROFILE (NUEVO) ------------------
+# ------------------ BRAND PROFILE ------------------
 
 def _get_user_store():
-    if "user_store" not in session or not isinstance(session.get("user_store"), dict):
-        session["user_store"] = {}
-    return session["user_store"]
+    store = session.get("user_store")
+    if not isinstance(store, dict):
+        store = {}
+        session["user_store"] = store
+    return store
 
 
 @dashboard_bp.route('/brand-profile', methods=['GET', 'POST', 'PUT'])
 def brand_profile():
     store = _get_user_store()
 
-    # -------- GET --------
     if request.method == 'GET':
         profile = store.get("brandProfile") or session.get("brandProfile") or {}
         return jsonify(profile)
 
-    # -------- CREATE / UPDATE --------
     data = request.get_json(silent=True) or {}
 
-    normalized = {
+    current = store.get("brandProfile") or session.get("brandProfile") or {}
+    if not isinstance(current, dict):
+        current = {}
+
+    incoming = {
         "companyName": data.get("companyName") or data.get("businessName") or data.get("name"),
+        "businessName": data.get("businessName") or data.get("companyName") or data.get("name"),
+        "name": data.get("name") or data.get("companyName") or data.get("businessName"),
         "industry": data.get("industry"),
-        "subIndustries": data.get("subIndustries") or data.get("subcategories") or [],
-        "description": data.get("description") or data.get("businessDescription"),
+        "subIndustry": data.get("subIndustry"),
+        "subIndustries": data.get("subIndustries") or data.get("subcategories"),
+        "country": data.get("country"),
         "city": data.get("city") or data.get("location"),
-        "audience": data.get("audience") or data.get("targetAudience"),
-        "tone": data.get("tone"),
+        "location": data.get("location") or data.get("city"),
+        "slogan": data.get("slogan"),
+        "description": data.get("description") or data.get("businessDescription"),
+        "businessDescription": data.get("businessDescription") or data.get("description"),
+        "audience": data.get("audience") or data.get("targetAudience") or data.get("audienceDescription"),
+        "targetAudience": data.get("targetAudience") or data.get("audience") or data.get("audienceDescription"),
+        "audienceDescription": data.get("audienceDescription") or data.get("audience") or data.get("targetAudience"),
+        "tone": data.get("tone") or data.get("brandTone"),
+        "brandTone": data.get("brandTone") or data.get("tone"),
         "website": data.get("website"),
         "logoUrl": data.get("logoUrl"),
+        "logoUrls": data.get("logoUrls"),
+        "primaryColor": data.get("primaryColor"),
+        "secondaryColor": data.get("secondaryColor"),
+        "brandFont": data.get("brandFont"),
+        "brandFontUrl": data.get("brandFontUrl"),
+        "referenceImages": data.get("referenceImages"),
+        "aiGenFrequency": data.get("aiGenFrequency"),
+        "onboardingStep": data.get("onboardingStep"),
+        "onboardingCompleted": data.get("onboardingCompleted"),
     }
 
-    store["brandProfile"] = normalized
+    clean_incoming = {
+        key: value
+        for key, value in incoming.items()
+        if value is not None and value != ""
+    }
 
-    session["brandProfile"] = normalized
+    profile = {
+        **current,
+        **clean_incoming,
+    }
+
+    store["brandProfile"] = profile
+    session["brandProfile"] = profile
     session["user_store"] = store
     session.permanent = True
+    session.modified = True
 
-    return jsonify(normalized)
+    return jsonify(profile)
+
+
 # ------------------ GENERATE FIRST POST (FIX IA) ------------------
 
 @dashboard_bp.route('/generate-first-post', methods=['POST'])
 def generate_first_post():
-    profile = session.get("brandProfile") or {}
+    store = _get_user_store()
+    profile = store.get("brandProfile") or session.get("brandProfile") or {}
 
-    company = profile.get("companyName") or "tu negocio"
+    company = profile.get("companyName") or profile.get("businessName") or profile.get("name") or "tu negocio"
     industry = profile.get("industry") or "tu sector"
-    description = profile.get("description") or profile.get("businessDescription") or f"Somos expertos en {industry}."
+    description = (
+        profile.get("description")
+        or profile.get("businessDescription")
+        or f"Somos expertos en {industry}."
+    )
     city = profile.get("city") or profile.get("location") or ""
-    tone = profile.get("tone") or "cercano"
+    tone = profile.get("tone") or profile.get("brandTone") or "cercano"
 
     caption = f"""
 🌞 {company}{f" en {city}" if city else ""}
@@ -447,9 +488,13 @@ Impulsa tu negocio en el sector {industry} con soluciones reales.
     }
 
     posts = session.get("posts", [])
+    if not isinstance(posts, list):
+        posts = []
+
     posts.append(post)
 
     session["posts"] = posts
     session.permanent = True
+    session.modified = True
 
     return jsonify(post)
