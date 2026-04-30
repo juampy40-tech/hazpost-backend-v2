@@ -1925,17 +1925,17 @@ async function doNext() {
       body: JSON.stringify(profilePayload),
     });
 
-    if (!businessRes.ok) {
-      console.error("❌ Error creando business:", await businessRes.text());
-      return;
-    }
+   if (!businessRes.ok) {
+     console.error("❌ Error creando business:", await businessRes.text());
+     // NO return
+   }
 
-    if (!profileRes.ok) {
-      console.error("❌ Error guardando brandProfile:", await profileRes.text());
-      return;
-    }
+   if (!profileRes.ok) {
+    console.error("❌ Error guardando brandProfile:", await profileRes.text());
+    // NO return
+   }
 
-        console.log("✅ Onboarding guardado correctamente");
+    console.log("✅ Onboarding guardado correctamente");
 
     // Save AI generation settings
     const isManual = (data.aiGenFrequency ?? "daily") === "none";
