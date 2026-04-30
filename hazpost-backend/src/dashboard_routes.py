@@ -408,3 +408,41 @@ def brand_profile():
     session.permanent = True
 
     return jsonify(normalized)
+# ------------------ GENERATE FIRST POST (FIX IA) ------------------
+
+@dashboard_bp.route('/generate-first-post', methods=['POST'])
+def generate_first_post():
+    profile = session.get("brandProfile") or {}
+
+    company = profile.get("companyName", "tu negocio")
+    industry = profile.get("industry", "")
+    description = profile.get("description", "")
+    city = profile.get("city", "")
+    tone = profile.get("tone", "cercano")
+
+    # 🔥 Generación simple (luego conectamos OpenAI)
+    caption = f"""
+🌞 {company} en {city}
+
+{description}
+
+Impulsa tu negocio en el sector {industry} con soluciones reales.
+
+📩 Escríbenos hoy y empieza a crecer 🚀
+""".strip()
+
+    post = {
+        "id": int(time.time()),
+        "status": "draft",
+        "caption": caption,
+        "industry": industry,
+        "createdAt": datetime.utcnow().isoformat()
+    }
+
+    posts = session.get("posts", [])
+    posts.append(post)
+
+    session["posts"] = posts
+    session.permanent = True
+
+    return jsonify(post)
