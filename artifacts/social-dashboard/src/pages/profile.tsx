@@ -338,6 +338,7 @@ export default function Profile() {
   setRawSavedIndustry(String(profile.industry || ""));
 
   const parsedSubs = splitSavedSubIndustries(profile.subIndustries);
+
   setBizSubIndustries(
     parsedSubs.length > 0
       ? parsedSubs
@@ -365,7 +366,8 @@ export default function Profile() {
   setBizLogoUrl(savedLogoUrl);
   setBizLogoPreview(resolveAssetUrl(savedLogoUrl));
 };
-    async function loadProfile() {
+
+async function loadProfile() {
   setLoadingBiz(true);
 
   try {
@@ -379,8 +381,8 @@ export default function Profile() {
       profileData?.brandProfile && typeof profileData.brandProfile === "object"
         ? profileData.brandProfile
         : profileData && typeof profileData === "object"
-        ? profileData
-        : {};
+          ? profileData
+          : {};
 
     if (cancelled) return;
 
@@ -392,7 +394,7 @@ export default function Profile() {
     if (hasProfileData) {
       console.log("BRAND PROFILE CARGADO EN PROFILE.TSX:", profile);
       applyProfileToForm(profile);
-     return;
+      return;
     }
 
     const businessesRes = await fetch(`${BASE}/api/businesses`, {
@@ -400,6 +402,7 @@ export default function Profile() {
     });
 
     const businessesData = businessesRes.ok ? await businessesRes.json() : {};
+
     const list: BusinessData[] = Array.isArray(businessesData.businesses)
       ? businessesData.businesses
       : [];
