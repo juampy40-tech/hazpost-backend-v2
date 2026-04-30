@@ -368,3 +368,43 @@ def subscriptions_me():
     }
 
     return jsonify(subscription)
+
+# ------------------ BRAND PROFILE (NUEVO) ------------------
+
+def _get_user_store():
+    if "user_store" not in session or not isinstance(session.get("user_store"), dict):
+        session["user_store"] = {}
+    return session["user_store"]
+
+
+@dashboard_bp.route('/api/brand-profile', methods=['GET', 'POST', 'PUT'])
+def brand_profile():
+    store = _get_user_store()
+
+    # -------- GET --------
+    if request.method == 'GET':
+        profile = store.get("brandProfile") or session.get("brandProfile") or {}
+        return jsonify(profile)
+
+    # -------- CREATE / UPDATE --------
+    data = request.get_json(silent=True) or {}
+
+    normalized = {
+        "companyName": data.get("companyName") or data.get("businessName") or data.get("name"),
+        "industry": data.get("industry"),
+        "subIndustries": data.get("subIndustries") or data.get("subcategories") or [],
+        "description": data.get("description") or data.get("businessDescription"),
+        "city": data.get("city") or data.get("location"),
+        "audience": data.get("audience") or data.get("targetAudience"),
+        "tone": data.get("tone"),
+        "website": data.get("website"),
+        "logoUrl": data.get("logoUrl"),
+    }
+
+    store["brandProfile"] = normalized
+
+    session["brandProfile"] = normalized
+    session["user_store"] = store
+    session.permanent = True
+
+    return jsonify(normalized)
