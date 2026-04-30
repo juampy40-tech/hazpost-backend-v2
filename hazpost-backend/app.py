@@ -528,14 +528,23 @@ def create_app():
     @app.route('/api/brand-profile', methods=['GET', 'PUT', 'POST'])
     def brand_profile():
         try:
+            user = session.get("user") or {}
+            user_id = str(user.get("email") or user.get("id") or "anonymous")
+
             # ============================
             # GET
             # ============================
             if request.method == 'GET':
-                store = _get_user_store()
-                brand_profile_data = store.get("brandProfile") or session.get("brandProfile") or {}
+                brand_profile_data = {}
 
-                logger.info(f"LEYENDO BRAND PROFILE: {brand_profile_data}")
+                if db_available():
+                    brand_profile_data = get_brand_profile(user_id)
+
+                if not brand_profile_data:
+                    store = _get_user_store()
+                    brand_profile_data = store.get("brandProfile") or session.get("brandProfile") or {}
+
+                logger.info(f"LEYENDO BRAND PROFILE user_id={user_id}: {brand_profile_data}")
 
                 return jsonify({
                     "brandProfile": brand_profile_data
@@ -545,9 +554,16 @@ def create_app():
             # PUT / POST
             # ============================
             data = request.get_json(silent=True) or {}
-            logger.info(f"DATA RECIBIDA: {data}")
+            logger.info(f"DATA RECIBIDA BRAND PROFILE user_id={user_id}: {data}")
 
-            current = session.get("brandProfile", {})
+            current = {}
+
+            if db_available():
+                current = get_brand_profile(user_id)
+
+            if not current:
+                current = session.get("brandProfile", {})
+
             if not isinstance(current, dict):
                 current = {}
 
@@ -570,7 +586,10 @@ def create_app():
                 "id": current.get("id") or cleaned.get("id") or 1,
             }
 
-            logger.info(f"GUARDANDO BRAND PROFILE: {profile}")
+            logger.info(f"GUARDANDO BRAND PROFILE user_id={user_id}: {profile}")
+
+            if db_available():
+                save_brand_profile(user_id, profile)
 
             store = _get_user_store()
             store["brandProfile"] = profile
@@ -1569,7 +1588,7 @@ Extra:
                 "error": "Error generando primer post"
             }), 500
 
-      # ============================================================
+    # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
     @app.route('/api/<path:unknown_path>', methods=['GET'])
