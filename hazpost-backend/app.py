@@ -1631,8 +1631,7 @@ Extra:
             # ============================================================
             # 💾 GUARDAR EN DB (POSTGRESQL)
             # ============================================================
-            user = session.get("user") or {}
-            user_id = str(user.get("email") or user.get("id") or "anonymous")
+            user_id = session.get("user_id") or session.get("userId") or "demo"
 
             new_post = {
                 "caption": result.get("caption"),
