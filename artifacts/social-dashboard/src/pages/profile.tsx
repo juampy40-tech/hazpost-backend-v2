@@ -306,37 +306,54 @@ export default function Profile() {
     };
 
     async function loadProfile() {
-      setLoadingBiz(true);
-      try {
-        const businessesRes = await fetch(`${BASE}/api/businesses`, { credentials: "include" });
-        const businessesData = businessesRes.ok ? await businessesRes.json() : {};
-        const list: BusinessData[] = Array.isArray(businessesData.businesses) ? businessesData.businesses : [];
-        const active = (globalBizId ? list.find(b => b.id === globalBizId) : null) ?? list.find(b => b.isDefault) ?? list[0];
+  setLoadingBiz(true);
 
-        if (cancelled) return;
+  try {
+    const businessesRes = await fetch(`${BASE}/api/businesses`, {
+      credentials: "include",
+    });
 
-        if (active) {
-          applyBusinessToForm(active);
-          return;
-        }
+    const businessesData = businessesRes.ok ? await businessesRes.json() : {};
+    const list: BusinessData[] = Array.isArray(businessesData.businesses)
+      ? businessesData.businesses
+      : [];
 
-        const profileRes = await fetch(`${BASE}/api/brand-profile`, { credentials: "include" });
-        const profileData = profileRes.ok ? await profileRes.json() : {};
-        const profile = profileData.brandProfile && typeof profileData.brandProfile === "object"
-          ? profileData.brandProfile
-          : {};
+    const active =
+      (globalBizId ? list.find((b) => b.id === globalBizId) : null) ??
+      list.find((b) => b.isDefault) ??
+      list[0];
 
-        if (cancelled) return;
-        applyBrandProfileFallback(profile);
-      } catch (error) {
-        if (!cancelled) {
-          setBizId(null);
-          setBizName("");
-        }
-      } finally {
-        if (!cancelled) setLoadingBiz(false);
-      }
+    if (cancelled) return;
+
+    if (active) {
+      applyBusinessToForm(active);
+      return;
     }
+
+    const profileRes = await fetch(`${BASE}/api/brand-profile`, {
+      credentials: "include",
+    });
+
+    const profileData = profileRes.ok ? await profileRes.json() : {};
+
+    const profile =
+      profileData?.brandProfile && typeof profileData.brandProfile === "object"
+        ? profileData.brandProfile
+        : profileData && typeof profileData === "object"
+        ? profileData
+        : {};
+
+    if (cancelled) return;
+
+    applyProfileToForm(profile);
+  } catch (err) {
+    console.error("Error cargando perfil de marca:", err);
+  } finally {
+    if (!cancelled) {
+      setLoadingBiz(false);
+    }
+  }
+}
 
     loadProfile();
 
