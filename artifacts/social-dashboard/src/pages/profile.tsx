@@ -293,7 +293,11 @@ export default function Profile() {
         }
       })();
 
-      setBizSubIndustries(loadedSubInds.length > 0 ? loadedSubInds : (active.subIndustry ? [active.subIndustry] : []));
+      setBizSubIndustries(
+        loadedSubInds.length > 0
+          ? loadedSubInds
+          : splitSavedSubIndustries(active.subIndustry)
+      );
       setBizSlogan(active.slogan ?? "");
       setBizDescription(active.description ?? "");
       setBizCity(active.defaultLocation ?? "");
