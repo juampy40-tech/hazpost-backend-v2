@@ -1841,44 +1841,71 @@ async function doNext() {
   }
 
  async function handleComplete() {
-  const ok = await saveProgress(5, true); // markComplete=true
+  const ok = await saveProgress(5, true);
   if (!ok) return;
 
   const businessPayload = {
     companyName: data.companyName || "",
     name: data.companyName || "",
+    businessName: data.companyName || "",
+
     industry: data.industry || "",
     subIndustry: data.subIndustry || "",
+    subIndustries: data.subIndustries || (data.subIndustry ? [data.subIndustry] : []),
+
     city: data.city || "",
     country: data.country || "",
+    location: data.city || "",
+
     slogan: data.slogan || "",
+
     businessDescription: data.businessDescription || "",
     description: data.businessDescription || "",
+
     audience: data.audienceDescription || data.audience || "",
+    targetAudience: data.audienceDescription || data.audience || "",
     audienceDescription: data.audienceDescription || data.audience || "",
+
     brandTone: data.brandTone || data.tone || "cercano",
     tone: data.brandTone || data.tone || "cercano",
+
     website: data.website || "",
     logoUrl: data.logoUrl || "",
+
     primaryColor: data.primaryColor || "",
     secondaryColor: data.secondaryColor || "",
+
+    isDefault: true,
   };
 
   const profilePayload = {
     companyName: data.companyName || "",
+    businessName: data.companyName || "",
+    name: data.companyName || "",
+
     industry: data.industry || "",
     subIndustry: data.subIndustry || "",
+    subIndustries: data.subIndustries || (data.subIndustry ? [data.subIndustry] : []),
+
     city: data.city || "",
     country: data.country || "",
+    location: data.city || "",
+
     slogan: data.slogan || "",
+
     description: data.businessDescription || "",
     businessDescription: data.businessDescription || "",
+
     audience: data.audienceDescription || data.audience || "",
+    targetAudience: data.audienceDescription || data.audience || "",
     audienceDescription: data.audienceDescription || data.audience || "",
+
     tone: data.brandTone || data.tone || "cercano",
     brandTone: data.brandTone || data.tone || "cercano",
+
     website: data.website || "",
     logoUrl: data.logoUrl || "",
+
     primaryColor: data.primaryColor || "",
     secondaryColor: data.secondaryColor || "",
   };
@@ -1891,30 +1918,31 @@ async function doNext() {
       body: JSON.stringify(businessPayload),
     });
 
-    const profileRes = await fetch(`${API_BASE}/api/brand-profile`, {
+    const profileRes = await fetch(`${API_BASE}/brand-profile`, {
       method: "PUT",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(profilePayload),
     });
 
-   if (!businessRes.ok) {
-     console.error("❌ Error creando business:", await businessRes.text());
-     return;
-   }
+    if (!businessRes.ok) {
+      console.error("❌ Error creando business:", await businessRes.text());
+      return;
+    }
 
-   if (!profileRes.ok) {
-     console.error("❌ Error guardando brandProfile:", await profileRes.text());
-     return;
-   }
+    if (!profileRes.ok) {
+      console.error("❌ Error guardando brandProfile:", await profileRes.text());
+      return;
+    }
 
-  console.log("✅ Onboarding guardado correctamente");
-  
+    console.log("✅ Onboarding guardado correctamente");
+
+    navigate("/dashboard");
+
   } catch (err) {
     console.error("🔥 Error crítico en onboarding:", err);
-    return;
   }
-
+}
   // Save AI generation settings
   const isManual = (data.aiGenFrequency ?? "daily") === "none";
 
