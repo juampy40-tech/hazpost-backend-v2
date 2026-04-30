@@ -540,9 +540,11 @@ def create_app():
             if request.method == 'GET':
                 brand_profile_data = {}
 
+                # 1. Leer por user_id real
                 if db_available():
                     brand_profile_data = get_brand_profile(user_id)
 
+                # 2. Fallback a anonymous + migración automática
                 if not brand_profile_data and user_id != "anonymous":
                     anonymous_profile = {}
 
@@ -551,7 +553,11 @@ def create_app():
 
                     if not anonymous_profile:
                         store = _get_user_store()
-                        anonymous_profile = store.get("brandProfile") or session.get("brandProfile") or {}
+                        anonymous_profile = (
+                            store.get("brandProfile")
+                            or session.get("brandProfile")
+                            or {}
+                        )
 
                     if anonymous_profile:
                         logger.info(f"MIGRANDO BRAND PROFILE de anonymous a {user_id}")
@@ -568,9 +574,14 @@ def create_app():
 
                         brand_profile_data = anonymous_profile
 
+                # 3. Fallback final (solo si no hay nada en DB)
                 if not brand_profile_data:
                     store = _get_user_store()
-                    brand_profile_data = store.get("brandProfile") or session.get("brandProfile") or {}
+                    brand_profile_data = (
+                        store.get("brandProfile")
+                        or session.get("brandProfile")
+                        or {}
+                    )
 
                 logger.info(f"LEYENDO BRAND PROFILE user_id={user_id}: {brand_profile_data}")
 
