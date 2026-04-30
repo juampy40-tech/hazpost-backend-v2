@@ -434,12 +434,17 @@ Impulsa tu negocio en el sector {industry} con soluciones reales.
 """.strip()
 
     post = {
-        "id": int(time.time()),
-        "status": "draft",
-        "caption": caption,
-        "industry": industry,
-        "createdAt": datetime.utcnow().isoformat()
-    }
+    "id": int(time.time()),
+    "status": "draft",
+    "caption": caption,
+    "content": caption,
+    "text": caption,
+    "title": f"Primer post para {company}",
+    "industry": industry,
+    "businessName": company,
+    "city": city,
+    "createdAt": datetime.utcnow().isoformat()
+}
 
     posts = session.get("posts", [])
     posts.append(post)
