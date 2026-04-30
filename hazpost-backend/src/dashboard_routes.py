@@ -416,15 +416,14 @@ def brand_profile():
 def generate_first_post():
     profile = session.get("brandProfile") or {}
 
-    company = profile.get("companyName", "tu negocio")
-    industry = profile.get("industry", "")
-    description = profile.get("description", "")
-    city = profile.get("city", "")
-    tone = profile.get("tone", "cercano")
+    company = profile.get("companyName") or "tu negocio"
+    industry = profile.get("industry") or "tu sector"
+    description = profile.get("description") or profile.get("businessDescription") or f"Somos expertos en {industry}."
+    city = profile.get("city") or profile.get("location") or ""
+    tone = profile.get("tone") or "cercano"
 
-    # 🔥 Generación simple (luego conectamos OpenAI)
     caption = f"""
-🌞 {company} en {city}
+🌞 {company}{f" en {city}" if city else ""}
 
 {description}
 
@@ -434,17 +433,18 @@ Impulsa tu negocio en el sector {industry} con soluciones reales.
 """.strip()
 
     post = {
-    "id": int(time.time()),
-    "status": "draft",
-    "caption": caption,
-    "content": caption,
-    "text": caption,
-    "title": f"Primer post para {company}",
-    "industry": industry,
-    "businessName": company,
-    "city": city,
-    "createdAt": datetime.utcnow().isoformat()
-}
+        "id": int(time.time()),
+        "status": "draft",
+        "caption": caption,
+        "content": caption,
+        "text": caption,
+        "title": f"Primer post para {company}",
+        "industry": industry,
+        "businessName": company,
+        "city": city,
+        "tone": tone,
+        "createdAt": datetime.utcnow().isoformat()
+    }
 
     posts = session.get("posts", [])
     posts.append(post)
