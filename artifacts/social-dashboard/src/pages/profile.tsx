@@ -309,6 +309,31 @@ export default function Profile() {
   setLoadingBiz(true);
 
   try {
+    const profileRes = await fetch(`${BASE}/api/brand-profile`, {
+      credentials: "include",
+    });
+
+    const profileData = profileRes.ok ? await profileRes.json() : {};
+
+    const profile =
+      profileData?.brandProfile && typeof profileData.brandProfile === "object"
+        ? profileData.brandProfile
+        : profileData && typeof profileData === "object"
+        ? profileData
+        : {};
+
+    if (cancelled) return;
+
+    const hasProfileData =
+      profile &&
+      typeof profile === "object" &&
+      Object.keys(profile).length > 0;
+
+    if (hasProfileData) {
+      applyProfileToForm(profile);
+      return;
+    }
+
     const businessesRes = await fetch(`${BASE}/api/businesses`, {
       credentials: "include",
     });
@@ -327,25 +352,7 @@ export default function Profile() {
 
     if (active) {
       applyBusinessToForm(active);
-      return;
     }
-
-    const profileRes = await fetch(`${BASE}/api/brand-profile`, {
-      credentials: "include",
-    });
-
-    const profileData = profileRes.ok ? await profileRes.json() : {};
-
-    const profile =
-      profileData?.brandProfile && typeof profileData.brandProfile === "object"
-        ? profileData.brandProfile
-        : profileData && typeof profileData === "object"
-        ? profileData
-        : {};
-
-    if (cancelled) return;
-
-    applyProfileToForm(profile);
   } catch (err) {
     console.error("Error cargando perfil de marca:", err);
   } finally {
