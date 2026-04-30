@@ -1866,40 +1866,50 @@ async function doNext() {
   }
 
  async function handleComplete() {
-  const ok = await saveProgress(5, true);
-  if (!ok) return;
+  await saveProgress(5, true);
+
+  const finalDescription =
+    data.businessDescription ||
+    aiSuggestions?.description ||
+    "";
+
+  const finalAudience =
+    data.audienceDescription ||
+    aiSuggestions?.audience ||
+    "";
+
+  const finalTone =
+    data.brandTone ||
+    aiSuggestions?.tone ||
+    data.tone ||
+    "cercano";
+
+  const finalPrimaryColor =
+    data.primaryColor ||
+    aiSuggestions?.primaryColor ||
+    "";
 
   const businessPayload = {
     companyName: data.companyName || "",
     name: data.companyName || "",
     businessName: data.companyName || "",
-
     industry: data.industry || "",
     subIndustry: data.subIndustry || "",
-    subIndustries: data.subIndustries || (data.subIndustry ? [data.subIndustry] : []),
-
     city: data.city || "",
     country: data.country || "",
     location: data.city || "",
-
     slogan: data.slogan || "",
-
-    businessDescription: data.businessDescription || "",
-    description: data.businessDescription || "",
-
-    audience: data.audienceDescription || data.audience || "",
-    targetAudience: data.audienceDescription || data.audience || "",
-    audienceDescription: data.audienceDescription || data.audience || "",
-
-    brandTone: data.brandTone || data.tone || "cercano",
-    tone: data.brandTone || data.tone || "cercano",
-
+    businessDescription: finalDescription,
+    description: finalDescription,
+    audience: finalAudience,
+    targetAudience: finalAudience,
+    audienceDescription: finalAudience,
+    brandTone: finalTone,
+    tone: finalTone,
     website: data.website || "",
     logoUrl: data.logoUrl || "",
-
-    primaryColor: data.primaryColor || "",
+    primaryColor: finalPrimaryColor,
     secondaryColor: data.secondaryColor || "",
-
     isDefault: true,
   };
 
@@ -1907,32 +1917,25 @@ async function doNext() {
     companyName: data.companyName || "",
     businessName: data.companyName || "",
     name: data.companyName || "",
-
     industry: data.industry || "",
     subIndustry: data.subIndustry || "",
-    subIndustries: data.subIndustries || (data.subIndustry ? [data.subIndustry] : []),
-
     city: data.city || "",
     country: data.country || "",
     location: data.city || "",
-
     slogan: data.slogan || "",
-
-    description: data.businessDescription || "",
-    businessDescription: data.businessDescription || "",
-
-    audience: data.audienceDescription || data.audience || "",
-    targetAudience: data.audienceDescription || data.audience || "",
-    audienceDescription: data.audienceDescription || data.audience || "",
-
-    tone: data.brandTone || data.tone || "cercano",
-    brandTone: data.brandTone || data.tone || "cercano",
-
+    description: finalDescription,
+    businessDescription: finalDescription,
+    audience: finalAudience,
+    targetAudience: finalAudience,
+    audienceDescription: finalAudience,
+    tone: finalTone,
+    brandTone: finalTone,
     website: data.website || "",
     logoUrl: data.logoUrl || "",
-
-    primaryColor: data.primaryColor || "",
+    primaryColor: finalPrimaryColor,
     secondaryColor: data.secondaryColor || "",
+    onboardingStep: 5,
+    onboardingCompleted: true,
   };
 
   try {
@@ -1943,6 +1946,10 @@ async function doNext() {
       body: JSON.stringify(businessPayload),
     });
 
+    if (!businessRes.ok) {
+      console.error("❌ Error creando business:", await businessRes.text());
+    }
+
     const profileRes = await fetch(`${API_BASE}/api/brand-profile`, {
       method: "PUT",
       credentials: "include",
@@ -1950,19 +1957,10 @@ async function doNext() {
       body: JSON.stringify(profilePayload),
     });
 
-   if (!businessRes.ok) {
-     console.error("❌ Error creando business:", await businessRes.text());
-     // NO return
-   }
+    if (!profileRes.ok) {
+      console.error("❌ Error guardando brandProfile:", await profileRes.text());
+    }
 
-   if (!profileRes.ok) {
-    console.error("❌ Error guardando brandProfile:", await profileRes.text());
-    // NO return
-   }
-
-    console.log("✅ Onboarding guardado correctamente");
-
-    // Save AI generation settings
     const isManual = (data.aiGenFrequency ?? "daily") === "none";
 
     const freqMap: Record<string, string> = {
@@ -1989,17 +1987,12 @@ async function doNext() {
       /* non-blocking */
     }
 
-    if (isManual) {
-      toast({
-        title: "¡Marca lista! 🎉",
-        description: "Entra al panel para generar tu primer contenido.",
-      });
-    } else {
-      toast({
-        title: "¡Todo listo! 🚀",
-        description: "Tu marca está lista para generar contenido con IA.",
-      });
-    }
+    toast({
+      title: isManual ? "¡Marca lista! 🎉" : "¡Todo listo! 🚀",
+      description: isManual
+        ? "Entra al panel para generar tu primer contenido."
+        : "Tu marca está lista para generar contenido con IA.",
+    });
 
     if (editMode) {
       onComplete();
@@ -2009,6 +2002,7 @@ async function doNext() {
     window.location.href = "/dashboard";
   } catch (err) {
     console.error("🔥 Error crítico en onboarding:", err);
+    window.location.href = "/dashboard";
   }
 }
 
