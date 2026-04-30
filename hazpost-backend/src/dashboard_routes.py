@@ -386,12 +386,12 @@ def brand_profile():
     store = _get_user_store()
 
     if request.method == 'GET':
-        profile = store.get("brandProfile") or session.get("brandProfile") or {}
+        profile = store.get("brandProfile") or {}
         return jsonify(profile)
 
     data = request.get_json(silent=True) or {}
 
-    current = store.get("brandProfile") or session.get("brandProfile") or {}
+    current = store.get("brandProfile") or {}
     if not isinstance(current, dict):
         current = {}
 
