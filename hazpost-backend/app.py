@@ -540,11 +540,9 @@ def create_app():
             if request.method == 'GET':
                 brand_profile_data = {}
 
-                # 1. Leer primero por user_id real
                 if db_available():
                     brand_profile_data = get_brand_profile(user_id)
 
-                # 2. Si no hay datos en el usuario real, buscar perfil temporal en anonymous
                 if not brand_profile_data and user_id != "anonymous":
                     anonymous_profile = {}
 
@@ -555,7 +553,6 @@ def create_app():
                         store = _get_user_store()
                         anonymous_profile = store.get("brandProfile") or session.get("brandProfile") or {}
 
-                    # 3. Migrar automáticamente de anonymous al usuario real
                     if anonymous_profile:
                         logger.info(f"MIGRANDO BRAND PROFILE de anonymous a {user_id}")
 
@@ -571,7 +568,6 @@ def create_app():
 
                         brand_profile_data = anonymous_profile
 
-                # 4. Fallback final
                 if not brand_profile_data:
                     store = _get_user_store()
                     brand_profile_data = store.get("brandProfile") or session.get("brandProfile") or {}
@@ -581,6 +577,7 @@ def create_app():
                 return jsonify({
                     "brandProfile": brand_profile_data
                 })
+
             # ============================
             # PUT / POST
             # ============================
@@ -592,6 +589,12 @@ def create_app():
             if db_available():
                 current = get_brand_profile(user_id)
 
+                if not current and user_id != "anonymous":
+                    anonymous_profile = get_brand_profile("anonymous")
+                    if anonymous_profile:
+                        logger.info(f"USANDO BRAND PROFILE anonymous como base para {user_id}")
+                        current = anonymous_profile
+
             if not current:
                 current = session.get("brandProfile", {})
 
@@ -599,10 +602,30 @@ def create_app():
                 current = {}
 
             allowed_keys = [
-                "id", "companyName", "name", "industry", "subIndustry",
-                "city", "country", "slogan", "businessDescription",
-                "description", "audience", "brandTone", "tone",
-                "logoUrl", "primaryColor", "secondaryColor", "website",
+                "id",
+                "companyName",
+                "name",
+                "industry",
+                "subIndustry",
+                "subIndustries",
+                "city",
+                "country",
+                "slogan",
+                "businessDescription",
+                "description",
+                "audience",
+                "audienceDescription",
+                "targetAudience",
+                "brandTone",
+                "tone",
+                "logoUrl",
+                "logoUrls",
+                "referenceImages",
+                "primaryColor",
+                "secondaryColor",
+                "website",
+                "onboardingStep",
+                "onboardingCompleted",
             ]
 
             cleaned = {
@@ -610,6 +633,30 @@ def create_app():
                 for key in allowed_keys
                 if key in data and data.get(key) is not None
             }
+
+            if cleaned.get("audienceDescription") and not cleaned.get("audience"):
+                cleaned["audience"] = cleaned["audienceDescription"]
+
+            if cleaned.get("targetAudience") and not cleaned.get("audience"):
+                cleaned["audience"] = cleaned["targetAudience"]
+
+            if cleaned.get("description") and not cleaned.get("businessDescription"):
+                cleaned["businessDescription"] = cleaned["description"]
+
+            if cleaned.get("businessDescription") and not cleaned.get("description"):
+                cleaned["description"] = cleaned["businessDescription"]
+
+            if cleaned.get("tone") and not cleaned.get("brandTone"):
+                cleaned["brandTone"] = cleaned["tone"]
+
+            if cleaned.get("brandTone") and not cleaned.get("tone"):
+                cleaned["tone"] = cleaned["brandTone"]
+
+            if cleaned.get("companyName") and not cleaned.get("name"):
+                cleaned["name"] = cleaned["companyName"]
+
+            if cleaned.get("name") and not cleaned.get("companyName"):
+                cleaned["companyName"] = cleaned["name"]
 
             profile = {
                 **current,
@@ -621,6 +668,9 @@ def create_app():
 
             if db_available():
                 save_brand_profile(user_id, profile)
+
+                if user_id != "anonymous":
+                    save_brand_profile(user_id, profile)
 
             store = _get_user_store()
             store["brandProfile"] = profile
@@ -640,7 +690,6 @@ def create_app():
                 "success": False,
                 "error": "Error interno"
             }), 500
-
     # ============================================================
     # BUSINESSES — Guardado inicial del negocio
     # ============================================================
