@@ -540,9 +540,38 @@ def create_app():
             if request.method == 'GET':
                 brand_profile_data = {}
 
+                # 1. Leer primero por user_id real
                 if db_available():
                     brand_profile_data = get_brand_profile(user_id)
 
+                # 2. Si no hay datos en el usuario real, buscar perfil temporal en anonymous
+                if not brand_profile_data and user_id != "anonymous":
+                    anonymous_profile = {}
+
+                    if db_available():
+                        anonymous_profile = get_brand_profile("anonymous")
+
+                    if not anonymous_profile:
+                        store = _get_user_store()
+                        anonymous_profile = store.get("brandProfile") or session.get("brandProfile") or {}
+
+                    # 3. Migrar automáticamente de anonymous al usuario real
+                    if anonymous_profile:
+                        logger.info(f"MIGRANDO BRAND PROFILE de anonymous a {user_id}")
+
+                        if db_available():
+                            save_brand_profile(user_id, anonymous_profile)
+
+                        store = _get_user_store()
+                        store["brandProfile"] = anonymous_profile
+
+                        session["brandProfile"] = anonymous_profile
+                        session.permanent = True
+                        session.modified = True
+
+                        brand_profile_data = anonymous_profile
+
+                # 4. Fallback final
                 if not brand_profile_data:
                     store = _get_user_store()
                     brand_profile_data = store.get("brandProfile") or session.get("brandProfile") or {}
@@ -552,7 +581,6 @@ def create_app():
                 return jsonify({
                     "brandProfile": brand_profile_data
                 })
-
             # ============================
             # PUT / POST
             # ============================
