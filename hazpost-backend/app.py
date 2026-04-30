@@ -680,9 +680,6 @@ def create_app():
             if db_available():
                 save_brand_profile(user_id, profile)
 
-                if user_id != "anonymous":
-                    save_brand_profile(user_id, profile)
-
             store = _get_user_store()
             store["brandProfile"] = profile
 
