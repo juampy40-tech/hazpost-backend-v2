@@ -442,7 +442,11 @@ async function loadProfile() {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: file.name, contentType: file.type }),
+        body: JSON.stringify({
+          name: file.name,
+          contentType: file.type,
+          userId: user?.email || user?.id,
+        }),
       });
       if (!urlRes.ok) throw new Error("No se pudo obtener URL de subida");
       const { uploadURL, objectPath } = await urlRes.json() as { uploadURL: string; objectPath: string };
@@ -535,7 +539,11 @@ async function loadProfile() {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: file.name, contentType: file.type }),
+        body: JSON.stringify({
+          name: file.name,
+          contentType: file.type,
+          userId: user?.email || user?.id,
+        }),
       });
       if (!urlRes.ok) throw new Error("No se pudo obtener URL de subida");
       const { uploadURL, objectPath } = await urlRes.json() as { uploadURL: string; objectPath: string };
