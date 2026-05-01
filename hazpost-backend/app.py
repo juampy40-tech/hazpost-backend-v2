@@ -1491,6 +1491,16 @@ def create_app():
 
             filename = request.args.get("filename") or f"{uuid.uuid4()}_upload.bin"
             safe_name = secure_filename(filename) or f"{uuid.uuid4()}_upload.bin"
+
+            allowed_extensions = {"png", "jpg", "jpeg", "gif", "webp"}
+            extension = safe_name.rsplit(".", 1)[-1].lower() if "." in safe_name else ""
+
+            if extension not in allowed_extensions:
+                return jsonify({
+                    "success": False,
+                    "error": "Tipo de archivo no permitido"
+                }), 400
+
             object_key = f"uploads/{safe_name}"
 
             if 'file' not in request.files:
