@@ -295,32 +295,42 @@ useEffect(() => {
 }, []);
 
   useEffect(() => {
-    const refetch = () => {
-      fetch(`${BASE}/api/social-accounts`, { credentials: "include" })
-        .then(r => r.ok ? r.json() : [])
-        .then((d: unknown) => {
-          if (Array.isArray(d)) setSocialAccounts(d);
-          else if (d !== null && typeof d === "object" && Array.isArray((d as Record<string, unknown>).accounts)) {
-            setSocialAccounts((d as Record<string, unknown>).accounts as typeof socialAccounts);
-          }
-          setSocialAccountsLoaded(true);
-        })
-        .catch(() => { setSocialAccountsLoaded(true); });
-    };
-    refetch();
-    const onVisible = () => { if (!document.hidden) refetch(); };
-    document.addEventListener("visibilitychange", onVisible);
-    return () => document.removeEventListener("visibilitychange", onVisible);
-  }, []);
-
-  useEffect(() => {
-    apiFetch("/api/brand-profile")
-      .then((d: { brandProfile?: BrandProfileSummary }) => {
-        setBrandProfile(d.brandProfile ?? null);
-        setBrandProfileLoaded(true);
+  const fetchSocialAccounts = () => {
+    fetch(`${BASE}/api/social-accounts`, { credentials: "include" })
+      .then(r => r.ok ? r.json() : [])
+      .then((d: unknown) => {
+        if (Array.isArray(d)) {
+          setSocialAccounts(d);
+        } else if (
+          d !== null &&
+          typeof d === "object" &&
+          Array.isArray((d as Record<string, unknown>).accounts)
+        ) {
+          setSocialAccounts(
+            (d as Record<string, unknown>).accounts as typeof socialAccounts
+          );
+        }
+        setSocialAccountsLoaded(true);
       })
-      .catch(() => setBrandProfileLoaded(true));
-  }, []);
+      .catch(() => {
+        setSocialAccountsLoaded(true);
+      });
+  };
+
+  // Primera carga
+  fetchSocialAccounts();
+
+  // Refrescar cuando vuelves a la pestaña
+  const onVisible = () => {
+    if (!document.hidden) fetchSocialAccounts();
+  };
+
+  document.addEventListener("visibilitychange", onVisible);
+
+  return () => {
+    document.removeEventListener("visibilitychange", onVisible);
+  };
+}, []);
 
   async function handleActivateAI() {
     setAiActivating(true);
