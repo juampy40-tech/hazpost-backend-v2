@@ -1502,7 +1502,9 @@ def create_app():
                     "error": "Tipo de archivo no permitido"
                 }), 400
 
-            object_key = f"uploads/{safe_name}"
+            user = session.get("user") or {}
+            user_key = secure_filename(str(user.get("email") or user.get("id") or "anonymous"))
+            object_key = f"uploads/{user_key}/{safe_name}"
 
             mime_map = {
                 "png": "image/png",
