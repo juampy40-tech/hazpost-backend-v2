@@ -110,7 +110,7 @@ const STYLE_COLORS: Record<string, string> = {
 };
 
 
-const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
 
 /** Rotates a base64 JPEG image by the given degrees using an in-memory canvas.
  * No server round-trip needed — purely client-side. */
