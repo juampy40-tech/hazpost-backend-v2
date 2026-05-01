@@ -6,7 +6,7 @@ import logging
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
-from flask import Flask, render_template, request, make_response, jsonify, session, send_from_directory, redirect
+from flask import Flask, render_template, request, make_response, jsonify, session, redirect
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
 from werkzeug.utils import secure_filename
