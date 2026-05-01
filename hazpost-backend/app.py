@@ -1538,6 +1538,7 @@ def create_app():
 
 
     @app.route('/api/storage/objects/uploads/<path:filename>', methods=['GET'])
+    @app.route('/storage/objects/uploads/<path:filename>', methods=['GET'])
     def storage_get_uploaded_object(filename):
         try:
             safe_name = secure_filename(filename)
