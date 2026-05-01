@@ -448,11 +448,32 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
   En segundos tendrás un post con texto, hashtags e idea visual listo para revisar.
 </p>
 
-<>
+{/* Selector tipo de post */}
+<div className="mt-3 space-y-2">
+  <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+    Tipo de post
+  </label>
+
+  <select
+    value={postType}
+    onChange={(e) => setPostType(e.target.value)}
+    disabled={loadingFirstPost}
+    className="w-full max-w-xs rounded-xl border border-primary/20 bg-black/40 px-4 py-3 text-sm text-foreground outline-none transition-all focus:border-primary"
+  >
+    <option value="auto">Automático recomendado ✨</option>
+    <option value="image">Imagen</option>
+    <option value="story">Historia</option>
+    <option value="carousel">Carrusel</option>
+    <option value="reel">Reel</option>
+  </select>
+</div>
+
+{/* Botón generar */}
+<div className="mt-2">
   <Button
     onClick={generateFirstPost}
     disabled={loadingFirstPost}
-    className="mt-2 inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] transition-all duration-200"
+    className="inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] transition-all duration-200"
   >
     {loadingFirstPost
       ? hasGeneratedFirstPost
@@ -463,11 +484,11 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
         : "Quiero ver mi primer post listo 🚀"}
   </Button>
 
-  <p className="text-xs text-muted-foreground">
+  <p className="mt-1 text-xs text-muted-foreground">
     ⚡ Incluye texto, hashtags y dirección visual automáticamente
   </p>
-</>
-
+</div>
+          
 {/* 🧠 Mensaje cuando ya hay posts pero no hay firstPost en memoria */}
 {!firstPost && hasPosts && (
   <div className="mt-4 text-sm text-muted-foreground">
