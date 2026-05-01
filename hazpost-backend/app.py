@@ -1,29 +1,12 @@
-# ============================================================
-# R2 STORAGE (Cloudflare)
-# ============================================================
-import boto3
-from botocore.exceptions import BotoCoreError, ClientError
-
-R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
-R2_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
-R2_ENDPOINT_URL = os.getenv("R2_ENDPOINT_URL")
-R2_BUCKET_NAME = os.getenv("R2_BUCKET_NAME")
-R2_PUBLIC_URL = os.getenv("R2_PUBLIC_URL")
-
-def get_r2_client():
-    return boto3.client(
-        "s3",
-        endpoint_url=R2_ENDPOINT_URL,
-        aws_access_key_id=R2_ACCESS_KEY_ID,
-        aws_secret_access_key=R2_SECRET_ACCESS_KEY,
-    )
-    
 import os
 import uuid
 import fcntl
 import logging
-    
-from flask import Flask, render_template, request, make_response, jsonify, session, send_from_directory
+
+import boto3
+from botocore.exceptions import BotoCoreError, ClientError
+
+from flask import Flask, render_template, request, make_response, jsonify, session, send_from_directory, redirect
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
 from werkzeug.utils import secure_filename
@@ -49,8 +32,23 @@ from src.catalogs.industries import get_industries_response
 from src.dashboard_routes import dashboard_bp
 from src.db import init_db, db_available, get_brand_profile, save_brand_profile, save_post
 
-_SCHEDULER_LOCK_FILE = None
+R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
+R2_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
+R2_ENDPOINT_URL = os.getenv("R2_ENDPOINT_URL")
+R2_BUCKET_NAME = os.getenv("R2_BUCKET_NAME")
+R2_PUBLIC_URL = os.getenv("R2_PUBLIC_URL")
 
+
+def get_r2_client():
+    return boto3.client(
+        "s3",
+        endpoint_url=R2_ENDPOINT_URL,
+        aws_access_key_id=R2_ACCESS_KEY_ID,
+        aws_secret_access_key=R2_SECRET_ACCESS_KEY,
+    )
+
+
+_SCHEDULER_LOCK_FILE = None
 
 # ============================================================
 # TEMP STORE — Persistencia temporal por usuario
