@@ -1479,7 +1479,7 @@ def create_app():
             }), 500
 
 
-    @app.route('/api/storage/uploads/direct', methods=['POST'])
+    @app.route('/api/storage/uploads/direct', methods=['POST', 'PUT'])
     def storage_upload_direct():
         try:
             if not _r2_ready():
