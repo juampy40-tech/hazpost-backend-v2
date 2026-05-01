@@ -492,7 +492,6 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </Sidebar>
         
         <main className="flex-1 flex flex-col h-full overflow-y-auto relative bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-secondary/5 via-background to-background">
-          <div className="absolute inset-0 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 mix-blend-overlay"></div>
           <div className="sticky top-0 z-10 px-4 py-2 flex items-center md:hidden bg-background/80 backdrop-blur-md border-b border-border/50">
             <SidebarTrigger className="h-11 w-11" />
             <span className="ml-3 flex items-center gap-0.5">
