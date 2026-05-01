@@ -372,12 +372,39 @@ def create_app():
         try:
             store = _get_user_store()
 
-            # ============================
-            # GET
-            # ============================
+            user = store.get("user") or session.get("user")
+
+            if not isinstance(user, dict) or not user:
+                user = {
+                    "id": 1,
+                    "email": "test@eco-col.com",
+                    "displayName": "test",
+                    "role": "user",
+                    "plan": "free",
+                    "aiCredits": 40,
+                    "onboardingStep": 5,
+                    "emailVerified": True,
+                    "avatarUrl": None,
+                    "timezone": "America/Bogota",
+                }
+
+            subscription = store.get("subscription") or session.get("subscription") or {
+                "id": 1,
+                "userId": user.get("id", 1),
+                "plan": user.get("plan", "free"),
+                "status": "active",
+                "creditsRemaining": user.get("aiCredits", 40),
+                "creditsTotal": 40,
+                "periodEnd": None,
+            }
+
             if request.method == 'GET':
-                user = store.get("user") or session.get("user") or {}
-                subscription = store.get("subscription") or session.get("subscription") or {}
+                store["user"] = user
+                store["subscription"] = subscription
+                session["user"] = user
+                session["subscription"] = subscription
+                session.permanent = True
+                session.modified = True
 
                 return jsonify({
                     "success": True,
@@ -385,27 +412,25 @@ def create_app():
                     "subscription": subscription
                 })
 
-            # ============================
-            # PUT (GUARDAR DATOS PERSONALES)
-            # ============================
             data = request.get_json(silent=True) or {}
-
-            user = store.get("user") or session.get("user") or {}
 
             updated_user = {
                 **user,
-                "displayName": data.get("displayName", user.get("displayName")),
-                "email": data.get("email", user.get("email")),
+                "displayName": data.get("displayName") or user.get("displayName") or "test",
+                "email": data.get("email") or user.get("email") or "test@eco-col.com",
             }
 
             store["user"] = updated_user
+            store["subscription"] = subscription
             session["user"] = updated_user
+            session["subscription"] = subscription
             session.permanent = True
             session.modified = True
 
             return jsonify({
                 "success": True,
-                "user": updated_user
+                "user": updated_user,
+                "subscription": subscription
             })
 
         except Exception as e:
