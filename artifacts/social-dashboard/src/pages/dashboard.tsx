@@ -212,7 +212,7 @@ function FirstPostPreview({ firstPost, brandProfile, brandName }: FirstPostPrevi
 }
 
 export default function Dashboard() {
-  const { data: posts, isLoading } = useBusinessPosts({ slim: '1' });
+  const { data: posts, isLoading, refetch } = useBusinessPosts({ slim: '1' });
   const activeBusiness = useActiveBusiness();
   const [healthStatus, setHealthStatus] = useState<HealthStatus | null>(null);
   const [apisBannerDismissed, setApisBannerDismissed] = useState(() =>
