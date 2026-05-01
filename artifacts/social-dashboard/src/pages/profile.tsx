@@ -39,8 +39,8 @@ function PasswordStrengthHints({ password }: { password: string }) {
   );
 }
 
-const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
-const API_BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") || BASE;
+const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
+const API_BASE = BASE;
 
 const splitSavedSubIndustries = (value: unknown): string[] => {
   if (!value) return [];
