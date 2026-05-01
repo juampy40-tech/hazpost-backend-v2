@@ -177,7 +177,7 @@ const PLAN_LABELS: Record<string, string> = {
   agency: "Agencia",
 };
 
-const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
+const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") || "";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
