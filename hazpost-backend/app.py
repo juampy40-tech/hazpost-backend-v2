@@ -1436,12 +1436,12 @@ def create_app():
 
 
     def _r2_public_url(object_key: str) -> str:
-        return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
+    return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
 
 
+    # 👇 FUERA DE LA FUNCIÓN (sin indentación extra)
     @app.route('/api/storage/uploads/request-url', methods=['POST'])
-    def storage_request_url():
-        try:
+    def storage_request_url():        try:
             data = request.get_json(silent=True) or {}
             original_name = data.get("name") or "upload.bin"
             content_type = data.get("contentType") or "application/octet-stream"
