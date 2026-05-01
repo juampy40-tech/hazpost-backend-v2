@@ -1813,7 +1813,14 @@ Extra:
             # ============================================================
             # 💾 GUARDAR EN DB (POSTGRESQL)
             # ============================================================
-            user_id = session.get("user_id") or session.get("userId") or "demo"
+            user = session.get("user") or {}
+            user_id = str(
+                user.get("email")
+                or user.get("id")
+                or session.get("user_id")
+                or session.get("userId")
+                or "demo"
+            )
 
             new_post = {
                 "businessId": "1",
