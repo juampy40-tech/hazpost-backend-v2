@@ -105,7 +105,11 @@ def posts():
     if request.method == 'GET':
         status = request.args.get("status")
         business_id = request.args.get("businessId")
-        slim = request.args.get("slim") == "1" and not status
+
+        # Calendario necesita datos completos para pintar fecha, texto y estado.
+        # Si viene allBusinesses=1, NO usamos slim aunque el frontend lo pida.
+        all_businesses = request.args.get("allBusinesses") == "1"
+        slim = request.args.get("slim") == "1" and not status and not all_businesses
 
         posts = get_posts(
             user_id=user_id,
