@@ -472,9 +472,9 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
           <div className="rounded-xl border border-border/50 bg-black/30 p-4">
             <p className="text-sm font-bold text-foreground">Próximo paso recomendado</p>
 
-            {firstPost ? (
+            {hasGeneratedFirstPost ? (
               <p className="mt-1 text-xs text-muted-foreground">
-                Tu post ya quedó listo. Ve a la cola de aprobación para editarlo o aprobarlo.
+                Ya tienes contenido generado. Ve a la cola de aprobación para editarlo o aprobarlo.
               </p>
             ) : hasConnectedSocial ? (
               <p className="mt-1 text-xs text-muted-foreground">
