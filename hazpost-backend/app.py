@@ -1635,6 +1635,20 @@ def create_app():
                 try:
                     client = OpenAI(api_key=api_key)
 
+                    # 🔥 INSTRUCCIÓN SEGÚN TIPO DE POST
+                    extra_instruction = ""
+
+                    if post_type == "reel":
+                        extra_instruction = "El contenido debe ser tipo REEL: corto, dinámico, con gancho fuerte en la primera línea y ritmo rápido."
+                    elif post_type == "carousel":
+                        extra_instruction = "El contenido debe estructurarse como CARRUSEL: varias ideas o pasos que generen curiosidad y hagan deslizar."
+                    elif post_type == "story":
+                        extra_instruction = "El contenido debe ser tipo HISTORIA: muy corto, directo y emocional."
+                    elif post_type == "image":
+                        extra_instruction = "El contenido debe ser para una sola imagen: claro, directo y visual."
+                    else:
+                        extra_instruction = "Elige el mejor formato automáticamente según el negocio."
+
                     prompt = f"""
 Eres un experto en marketing digital y copywriting.
 
@@ -1645,6 +1659,9 @@ Crea un post para redes sociales que:
 - Genere deseo
 - Sea emocional y cercano
 - Incluya un llamado a la acción claro
+
+Formato solicitado: {post_type}
+Instrucción especial: {extra_instruction}
 
 Reglas:
 - NO uses frases genéricas
