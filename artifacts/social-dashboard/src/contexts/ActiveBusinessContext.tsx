@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 
-const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
+const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
 
 type BusinessItem = { id: number; name: string; isDefault: boolean; industry?: string | null };
 
