@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, session
-from src.db import get_posts, save_post
+from src.db import get_posts, save_post, update_post_fields
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
