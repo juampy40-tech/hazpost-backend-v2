@@ -1438,6 +1438,22 @@ def create_app():
     def _r2_public_url(object_key: str) -> str:
         return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
 
+    def _get_storage_user_key():
+        data = request.get_json(silent=True) or {}
+
+        raw_user_key = (
+            request.args.get("userId")
+            or request.headers.get("X-User-ID")
+            or data.get("userId")
+            or data.get("email")
+        )
+
+        if not raw_user_key:
+            user = session.get("user") or {}
+            raw_user_key = user.get("email") or user.get("id") or "anonymous"
+
+        return secure_filename(str(raw_user_key)) or "anonymous"    
+
 
     # 👇 FUERA DE LA FUNCIÓN (sin indentación extra)
     @app.route('/api/storage/uploads/request-url', methods=['POST'])
