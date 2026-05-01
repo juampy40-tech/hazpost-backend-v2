@@ -1582,12 +1582,7 @@ def create_app():
                 return jsonify({"error": "Archivo inválido"}), 400
 
             public_url = _r2_public_url(f"uploads/{safe_name}")
-
-            return jsonify({
-                "success": True,
-                "url": public_url,
-                "publicUrl": public_url,
-            })
+            return redirect(public_url, code=302)
 
         except Exception as e:
             logger.exception(f"STORAGE GET OBJECT ERROR: {e}")
@@ -1595,6 +1590,7 @@ def create_app():
                 "success": False,
                 "error": "Archivo no encontrado"
             }), 404
+            
     # ============================================================
     # ANALYZE WEBSITE — IA onboarding (MVP funcional)
     # ============================================================
