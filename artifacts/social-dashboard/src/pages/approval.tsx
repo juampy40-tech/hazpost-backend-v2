@@ -2367,14 +2367,14 @@ export default function Approval() {
     });
   };
 
-    const buildSchedulePayload = () => {
+  const buildSchedulePayload = () => {
     const isBoth = (editedPlatform || currentPost?.platform) === "both";
 
     if (isBoth && (rescheduleIgDate || rescheduleTkDate)) {
       const igUtc = rescheduleIgDate ? bogotaLocalToUtc(rescheduleIgDate, userTz) : undefined;
       const tkUtc = rescheduleTkDate ? bogotaLocalToUtc(rescheduleTkDate, userTz) : undefined;
 
-      const dates = [igUtc, tkUtc].filter(Boolean) as string[];
+      const dates = [igUtc, tkUtc].filter((d): d is string => !!d);
       const canonical = dates.length
         ? dates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime())[0]
         : undefined;
