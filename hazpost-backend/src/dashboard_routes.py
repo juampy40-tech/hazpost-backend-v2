@@ -144,11 +144,27 @@ def approve_post(post_id):
     from src.db import update_post_status
 
     user_id = session.get("user_id") or session.get("userId") or "demo"
+    data = request.get_json(silent=True) or {}
+
+    scheduled_at = data.get("scheduledAt")
+
+    extra_updates = {}
+
+    if scheduled_at:
+        extra_updates["scheduledAt"] = scheduled_at
+        extra_updates["scheduled_at"] = scheduled_at
+
+    if data.get("scheduledAtInstagram"):
+        extra_updates["scheduledAtInstagram"] = data.get("scheduledAtInstagram")
+
+    if data.get("scheduledAtTiktok"):
+        extra_updates["scheduledAtTiktok"] = data.get("scheduledAtTiktok")
 
     updated = update_post_status(
         user_id=user_id,
         post_id=post_id,
-        status="scheduled"
+        status="scheduled",
+        extra_updates=extra_updates
     )
 
     if not updated:
@@ -156,6 +172,7 @@ def approve_post(post_id):
 
     return jsonify({
         "success": True,
+        "status": "scheduled",
         "post": updated
     })
 
