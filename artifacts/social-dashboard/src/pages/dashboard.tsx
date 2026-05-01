@@ -229,6 +229,7 @@ export default function Dashboard() {
   const [brandProfileLoaded, setBrandProfileLoaded] = useState(false);
   const [firstPost, setFirstPost] = useState<any>(null);
   const [loadingFirstPost, setLoadingFirstPost] = useState(false);
+  const [postType, setPostType] = useState("auto");
 
 async function generateFirstPost() {
   setLoadingFirstPost(true);
@@ -242,6 +243,7 @@ async function generateFirstPost() {
       },
       body: JSON.stringify({
         brandProfile: brandProfile,
+        postType: postType,
       }),
     });
 
