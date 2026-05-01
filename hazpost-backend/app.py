@@ -790,13 +790,20 @@ def create_app():
     @app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
     def business_detail(business_id):
         try:
-            businesses_list = session.get("businesses", [])
+            store = _get_user_store()
+
+            businesses_list = store.get("businesses") or session.get("businesses", [])
             if not isinstance(businesses_list, list):
                 businesses_list = []
 
             # Fallback seguro: si businesses está vacío, reconstruir desde brandProfile
             if not businesses_list:
-                brand_profile = session.get("brandProfile") or session.get("brand_profile") or {}
+                brand_profile = (
+                    store.get("brandProfile")
+                    or session.get("brandProfile")
+                    or session.get("brand_profile")
+                    or {}
+                )
 
                 if isinstance(brand_profile, dict) and brand_profile:
                     businesses_list = [{
@@ -815,6 +822,7 @@ def create_app():
                         "isDefault": True,
                     }]
 
+                    store["businesses"] = businesses_list
                     session["businesses"] = businesses_list
                     session.permanent = True
                     session.modified = True
