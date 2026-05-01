@@ -1520,9 +1520,10 @@ def create_app():
 
             content_type = mime_map.get(extension, "application/octet-stream")
 
-            r2 = get_r2_client()
+            uploaded_file.stream.seek(0)
+
             r2.upload_fileobj(
-                uploaded_file.stream,
+                uploaded_file,
                 R2_BUCKET_NAME,
                 object_key,
                 ExtraArgs={
