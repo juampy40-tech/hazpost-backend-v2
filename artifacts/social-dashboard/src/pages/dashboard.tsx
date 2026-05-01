@@ -348,7 +348,7 @@ useEffect(() => {
   brandProfile?.businessDescription
 );
 
-const hasPosts = !!posts && posts.length > 0;
+const hasPosts = Array.isArray(posts) && posts.length > 0;
 const hasGeneratedFirstPost = hasPosts || !!firstPost;
 
   return (
