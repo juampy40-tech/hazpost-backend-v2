@@ -341,7 +341,7 @@ useEffect(() => {
     })
     .catch(() => setBrandProfileLoaded(true));
 }, []);
-
+  
   async function handleActivateAI() {
     setAiActivating(true);
     try {
