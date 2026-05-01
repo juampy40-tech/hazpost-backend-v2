@@ -434,7 +434,15 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
     ⚡ Incluye texto, hashtags y dirección visual automáticamente
   </p>
 </>
-          
+
+{/* 🧠 Mensaje cuando ya hay posts pero no hay firstPost en memoria */}
+{!firstPost && hasPosts && (
+  <div className="mt-4 text-sm text-muted-foreground">
+    Ya tienes contenido generado. Puedes crear más o revisarlo en la cola.
+  </div>
+)}
+
+{/* 🎯 Preview SOLO cuando acabas de generar */}
 {firstPost && (
   <div className="space-y-4">
     <FirstPostPreview
@@ -442,23 +450,24 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
       brandProfile={brandProfile}
       brandName={brandName}
     />
-              <div className="flex flex-wrap gap-2 pt-1">
-                <Link
-                  href="/approval"
-                  className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
-                >
-                  Editar
-                </Link>
 
-                <Link
-                  href="/approval"
-                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90"
-                >
-                  Aprobar
-                </Link>
-              </div>
-            </div>
-          )}
+    <div className="flex flex-wrap gap-2 pt-1">
+      <Link
+        href="/approval"
+        className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
+      >
+        Editar
+      </Link>
+
+      <Link
+        href="/approval"
+        className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90"
+      >
+        Aprobar
+      </Link>
+    </div>
+  </div>
+)}
 
           <div className="rounded-xl border border-border/50 bg-black/30 p-4">
             <p className="text-sm font-bold text-foreground">Próximo paso recomendado</p>
