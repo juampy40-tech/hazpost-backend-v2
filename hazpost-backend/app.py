@@ -1472,7 +1472,7 @@ def create_app():
 
             public_url = _r2_public_url(object_key)
             base_url = request.host_url.rstrip('/').replace('http://', 'https://')
-            upload_url = f"{base_url}/api/storage/uploads/direct?filename={stored_name}"
+            upload_url = f"{base_url}/api/storage/uploads/direct?filename={stored_name}&userId={user_key}"
 
             return jsonify({
                 "success": True,
