@@ -62,7 +62,8 @@ TEMP_USER_DATA = {}
 
 
 def _get_user_key():
-    user_key = _get_storage_user_key()
+    user = session.get("user") or {}
+    return str(user.get("email") or user.get("id") or "anonymous")
 
 def _get_user_store():
     user_key = _get_user_key()
