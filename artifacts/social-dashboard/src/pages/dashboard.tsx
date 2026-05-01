@@ -297,7 +297,7 @@ useEffect(() => {
   useEffect(() => {
   const fetchSocialAccounts = () => {
     fetch(`${BASE}/api/social-accounts`, { credentials: "include" })
-      .then(r => r.ok ? r.json() : [])
+      .then(r => (r.ok ? r.json() : []))
       .then((d: unknown) => {
         if (Array.isArray(d)) {
           setSocialAccounts(d);
@@ -310,6 +310,7 @@ useEffect(() => {
             (d as Record<string, unknown>).accounts as typeof socialAccounts
           );
         }
+
         setSocialAccountsLoaded(true);
       })
       .catch(() => {
@@ -330,6 +331,15 @@ useEffect(() => {
   return () => {
     document.removeEventListener("visibilitychange", onVisible);
   };
+}, []);
+  
+  useEffect(() => {
+  apiFetch("/api/brand-profile")
+    .then((d: { brandProfile?: BrandProfileSummary }) => {
+      setBrandProfile(d.brandProfile ?? null);
+      setBrandProfileLoaded(true);
+    })
+    .catch(() => setBrandProfileLoaded(true));
 }, []);
 
   async function handleActivateAI() {
