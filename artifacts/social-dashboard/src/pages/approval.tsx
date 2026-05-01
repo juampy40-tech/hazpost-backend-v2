@@ -2519,46 +2519,47 @@ export default function Approval() {
 
     const extraDate = buildSchedulePayload();
 
-updatePost.mutate(
-  {
-    id: currentPost.id,
-    data: {
-      caption: buildFinalCaption(),
-      hashtags: editedHashtags,
-      hashtagsTiktok: editedHashtagsTiktok,
-      selectedImageVariant: selectedVariant,
-      platform: editedPlatform,
-      ...extraDate,
-    } as any,
-  },
-  {
-    onSuccess: () => {
-      approvePost.mutate(
-        {
-          id: currentPost.id,
+    updatePost.mutate(
+      {
+        id: currentPost.id,
+        data: {
+          caption: buildFinalCaption(),
+          hashtags: editedHashtags,
+          hashtagsTiktok: editedHashtagsTiktok,
+          selectedImageVariant: selectedVariant,
+          platform: editedPlatform,
           ...extraDate,
         } as any,
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: getGetPostsQueryKey() });
-            queryClient.invalidateQueries({ queryKey: ["calendar-posts"] });
+      },
+      {
+        onSuccess: async () => {
+          await fetch(`${BASE}/api/posts/${currentPost.id}/approve`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...extraDate,
+            }),
+          });
 
-            toast({
-              title: "Post Aprobado",
-              description: "El post fue programado para publicarse.",
-            });
+          queryClient.invalidateQueries({ queryKey: getGetPostsQueryKey() });
+          queryClient.invalidateQueries({ queryKey: ["calendar-posts"] });
 
-            if (currentIndex >= allPendingPosts.length - 1) {
-              setCurrentIndex(Math.max(0, allPendingPosts.length - 2));
-            }
-          },
-        }
-      );
-    },
-  }
-);
+          toast({
+            title: "Post Aprobado",
+            description: "El post fue programado para publicarse.",
+          });
 
-}; // 👈 ESTA LÍNEA FALTABA
+          if (currentIndex >= allPendingPosts.length - 1) {
+            setCurrentIndex(Math.max(0, allPendingPosts.length - 2));
+          }
+        },
+      }
+    );
+
+  }; // cierra handleApprove
         
 
   // Rotate libraryMedia purely client-side (canvas, no network cost).
