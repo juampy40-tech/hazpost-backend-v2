@@ -794,6 +794,31 @@ def create_app():
             if not isinstance(businesses_list, list):
                 businesses_list = []
 
+            # Fallback seguro: si businesses está vacío, reconstruir desde brandProfile
+            if not businesses_list:
+                brand_profile = session.get("brandProfile") or session.get("brand_profile") or {}
+
+                if isinstance(brand_profile, dict) and brand_profile:
+                    businesses_list = [{
+                        **brand_profile,
+                        "id": int(brand_profile.get("id") or business_id),
+                        "name": (
+                            brand_profile.get("name")
+                            or brand_profile.get("companyName")
+                            or "Mi negocio"
+                        ),
+                        "companyName": (
+                            brand_profile.get("companyName")
+                            or brand_profile.get("name")
+                            or "Mi negocio"
+                        ),
+                        "isDefault": True,
+                    }]
+
+                    session["businesses"] = businesses_list
+                    session.permanent = True
+                    session.modified = True
+
             index = next(
                 (i for i, business in enumerate(businesses_list)
                  if int(business.get("id", 0)) == business_id),
