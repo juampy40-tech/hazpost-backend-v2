@@ -136,6 +136,56 @@ def posts():
 
     return jsonify(saved_post), 201
 
+@dashboard_bp.route('/posts/<int:post_id>', methods=['PUT', 'PATCH'])
+def update_post(post_id):
+    user_id = session.get("user_id") or session.get("userId") or "demo"
+    data = request.get_json(silent=True) or {}
+
+    allowed_fields = {
+        "scheduledAt",
+        "scheduled_at",
+        "scheduledAtInstagram",
+        "scheduledAtTiktok",
+        "scheduledAtFacebook",
+        "status",
+        "platform",
+        "caption",
+        "hashtags",
+        "contentType",
+        "instagramPostId",
+        "tiktokPostId",
+        "facebookPostId",
+    }
+
+    updates = {
+        key: value
+        for key, value in data.items()
+        if key in allowed_fields
+    }
+
+    if not updates:
+        return jsonify({
+            "success": False,
+            "error": "No hay campos válidos para actualizar"
+        }), 400
+
+    updated = update_post_fields(
+        user_id=user_id,
+        post_id=post_id,
+        updates=updates
+    )
+
+    if not updated:
+        return jsonify({
+            "success": False,
+            "error": "Post no encontrado"
+        }), 404
+
+    return jsonify({
+        "success": True,
+        "post": updated
+    })
+
 
 # ------------------ APPROVE POST ------------------
 
