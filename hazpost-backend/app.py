@@ -1439,7 +1439,7 @@ def create_app():
         return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
 
 
-    @app.route('/api/storage/uploads/request-url', methods=['POST'])
+        @app.route('/api/storage/uploads/request-url', methods=['POST'])
     def storage_request_url():
         try:
             data = request.get_json(silent=True) or {}
@@ -1503,14 +1503,6 @@ def create_app():
 
             object_key = f"uploads/{safe_name}"
 
-            if 'file' not in request.files:
-                return jsonify({
-                    "success": False,
-                    "error": "Archivo requerido"
-                }), 400
-
-            uploaded_file = request.files['file']
-
             mime_map = {
                 "png": "image/png",
                 "jpg": "image/jpeg",
@@ -1521,19 +1513,37 @@ def create_app():
 
             content_type = mime_map.get(extension, "application/octet-stream")
 
+            r2 = get_r2_client()
+
             logger.info(f"SUBIENDO A R2: {object_key}")
 
-            r2 = get_r2_client()
-            uploaded_file.stream.seek(0)
+            if 'file' in request.files:
+                uploaded_file = request.files['file']
+                uploaded_file.stream.seek(0)
 
-            r2.upload_fileobj(
-                uploaded_file,
-                R2_BUCKET_NAME,
-                object_key,
-                ExtraArgs={
-                    "ContentType": content_type,
-                }
-            )
+                r2.upload_fileobj(
+                    uploaded_file,
+                    R2_BUCKET_NAME,
+                    object_key,
+                    ExtraArgs={
+                        "ContentType": content_type,
+                    }
+                )
+            else:
+                raw_file = request.get_data()
+
+                if not raw_file:
+                    return jsonify({
+                        "success": False,
+                        "error": "Archivo requerido"
+                    }), 400
+
+                r2.put_object(
+                    Bucket=R2_BUCKET_NAME,
+                    Key=object_key,
+                    Body=raw_file,
+                    ContentType=content_type,
+                )
 
             logger.info(f"UPLOAD OK: {object_key}")
 
@@ -1560,6 +1570,7 @@ def create_app():
                 "success": False,
                 "error": "Error subiendo archivo"
             }), 500
+
 
     @app.route('/api/storage/objects/uploads/<path:filename>', methods=['GET'])
     @app.route('/storage/objects/uploads/<path:filename>', methods=['GET'])
