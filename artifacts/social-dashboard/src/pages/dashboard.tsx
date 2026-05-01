@@ -440,7 +440,7 @@ useEffect(() => {
 
               <div className="flex flex-wrap gap-2 pt-1">
                 <Link
-                  href="/generate"
+                  href="/approval"
                   className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
                 >
                   Editar
@@ -450,20 +450,18 @@ useEffect(() => {
                   href="/approval"
                   className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90"
                 >
-                  Revisar y aprobar
+                  Aprobar
                 </Link>
               </div>
             </div>
-          )}
-        </div>
-      </div>
+                    )}
 
-      <div className="rounded-xl border border-border/50 bg-black/30 p-4">
+          <div className="rounded-xl border border-border/50 bg-black/30 p-4">
         <p className="text-sm font-bold text-foreground">Próximo paso recomendado</p>
 
         {firstPost ? (
           <p className="mt-1 text-xs text-muted-foreground">
-            Tu post ya quedó listo. Revísalo en la cola de aprobación para editarlo, aprobarlo o rechazarlo.
+            Tu post ya quedó listo. Ve a la cola de aprobación para editarlo o aprobarlo.
           </p>
         ) : hasConnectedSocial ? (
           <p className="mt-1 text-xs text-muted-foreground">
