@@ -1641,6 +1641,21 @@ Extra:
                 "visualPlan": result.get("visualPlan"),
                 "tone": tone,
                 "source": result.get("source"),
+
+                # 🔥 CLAVE: plataformas desde el inicio
+                "platform": "both",  # IG + TK por defecto
+
+                # 🔥 CLAVE: estructura preparada para calendar
+                "scheduledAt": None,
+                "scheduledAtInstagram": None,
+                "scheduledAtTiktok": None,
+                "scheduledAtFacebook": None,
+
+                # 🔥 tracking futuro
+                "instagramPostId": None,
+                "tiktokPostId": None,
+                "facebookPostId": None,
+
                 "status": "pending_approval",
                 "companyName": company_name,
                 "industry": industry,
@@ -1649,6 +1664,7 @@ Extra:
                 "location": location,
             }
 
+            # 🔥 ESTO TE FALTABA
             saved_post = save_post(
                 user_id=user_id,
                 post=new_post,
