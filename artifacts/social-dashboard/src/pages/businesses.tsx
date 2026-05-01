@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { DeleteBusinessModal } from "@/components/DeleteBusinessModal";
 
-const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
+const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
 
 interface IndustryCatalogEntry {
   name: string;
