@@ -365,24 +365,55 @@ def create_app():
 
 
     # ============================================================
-    # USER ME
+    # USER ME — Obtener y actualizar datos del usuario
     # ============================================================
-    @app.route('/api/user/me', methods=['GET'])
+    @app.route('/api/user/me', methods=['GET', 'PUT'])
     def user_me():
-        user = session.get("user")
+        try:
+            store = _get_user_store()
 
-        if not user:
+            # ============================
+            # GET
+            # ============================
+            if request.method == 'GET':
+                user = store.get("user") or session.get("user") or {}
+                subscription = store.get("subscription") or session.get("subscription") or {}
+
+                return jsonify({
+                    "success": True,
+                    "user": user,
+                    "subscription": subscription
+                })
+
+            # ============================
+            # PUT (GUARDAR DATOS PERSONALES)
+            # ============================
+            data = request.get_json(silent=True) or {}
+
+            user = store.get("user") or session.get("user") or {}
+
+            updated_user = {
+                **user,
+                "displayName": data.get("displayName", user.get("displayName")),
+                "email": data.get("email", user.get("email")),
+            }
+
+            store["user"] = updated_user
+            session["user"] = updated_user
+            session.permanent = True
+            session.modified = True
+
+            return jsonify({
+                "success": True,
+                "user": updated_user
+            })
+
+        except Exception as e:
+            logger.exception(f"USER ME ERROR: {e}")
             return jsonify({
                 "success": False,
-                "error": "Not authenticated"
-            }), 401
-
-        return jsonify({
-            "success": True,
-            "user": user,
-            "subscription": session.get("subscription"),
-        })
-
+                "error": "Error interno"
+            }), 500
 
     # ============================================================
     # LOGOUT
