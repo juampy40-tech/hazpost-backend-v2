@@ -2557,6 +2557,8 @@ updatePost.mutate(
     },
   }
 );
+
+}; // 👈 ESTA LÍNEA FALTABA
         
 
   // Rotate libraryMedia purely client-side (canvas, no network cost).
