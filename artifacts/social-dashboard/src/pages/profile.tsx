@@ -505,8 +505,8 @@ async function loadProfile() {
         toast({ title: "Sin cambios que guardar" });
         return;
       }
-      const res = await fetch(`${BASE}/api/users/me`, {
-        method: "PATCH",
+      const res = await fetch(`${BASE}/api/user/me`, {
+        method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
