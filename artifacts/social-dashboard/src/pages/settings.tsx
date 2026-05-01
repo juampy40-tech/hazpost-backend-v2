@@ -16,7 +16,7 @@ import { AIPostingSuggestionsPanel } from "@/components/AIPostingSuggestionsPane
 import { useAuth } from "@/contexts/AuthContext";
 import { useActiveBusiness } from "@/contexts/ActiveBusinessContext";
 
-const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
+const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
 
 interface BrandProfile {
   companyName?: string;
