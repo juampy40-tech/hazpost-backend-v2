@@ -454,34 +454,36 @@ useEffect(() => {
                 </Link>
               </div>
             </div>
-                    )}
+          )}
 
           <div className="rounded-xl border border-border/50 bg-black/30 p-4">
-        <p className="text-sm font-bold text-foreground">Próximo paso recomendado</p>
+            <p className="text-sm font-bold text-foreground">Próximo paso recomendado</p>
 
-        {firstPost ? (
-          <p className="mt-1 text-xs text-muted-foreground">
-            Tu post ya quedó listo. Ve a la cola de aprobación para editarlo o aprobarlo.
-          </p>
-        ) : hasConnectedSocial ? (
-          <p className="mt-1 text-xs text-muted-foreground">
-            Tus redes están conectadas. Genera contenido y apruébalo para programarlo.
-          </p>
-        ) : (
-          <>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Conecta Instagram, Facebook o TikTok cuando quieras publicar automáticamente.
-            </p>
+            {firstPost ? (
+              <p className="mt-1 text-xs text-muted-foreground">
+                Tu post ya quedó listo. Ve a la cola de aprobación para editarlo o aprobarlo.
+              </p>
+            ) : hasConnectedSocial ? (
+              <p className="mt-1 text-xs text-muted-foreground">
+                Tus redes están conectadas. Genera contenido y apruébalo para programarlo.
+              </p>
+            ) : (
+              <>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Conecta Instagram, Facebook o TikTok cuando quieras publicar automáticamente.
+                </p>
 
-            <Link
-              href="/settings"
-              className="mt-3 inline-flex items-center gap-2 rounded-lg border border-secondary/40 bg-secondary/10 px-3 py-2 text-xs font-semibold text-secondary transition-all hover:bg-secondary/20"
-            >
-              <Zap className="h-3.5 w-3.5" />
-              Conectar redes
-            </Link>
-          </>
-        )}
+                <Link
+                  href="/settings"
+                  className="mt-3 inline-flex items-center gap-2 rounded-lg border border-secondary/40 bg-secondary/10 px-3 py-2 text-xs font-semibold text-secondary transition-all hover:bg-secondary/20"
+                >
+                  <Zap className="h-3.5 w-3.5" />
+                  Conectar redes
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   </div>
