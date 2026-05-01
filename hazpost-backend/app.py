@@ -1457,7 +1457,7 @@ def create_app():
         })
 
 
-        # ============================================================
+    # ============================================================
     # STORAGE UPLOAD — Logos / imágenes onboarding
     # Cloudflare R2 — Producción SaaS
     # Debe ir ANTES del fallback.
