@@ -1518,8 +1518,7 @@ def create_app():
                     "error": "Tipo de archivo no permitido"
                 }), 400
 
-            user = session.get("user") or {}
-            user_key = secure_filename(str(user.get("email") or user.get("id") or "anonymous"))
+            user_key = _get_storage_user_key()
             object_key = f"uploads/{user_key}/{safe_name}"
 
             mime_map = {
@@ -1600,8 +1599,6 @@ def create_app():
             if not safe_name:
                 return jsonify({"error": "Archivo inválido"}), 400
 
-            # Si filename ya viene con carpeta, respetarla.
-            # Ej: anonymous/logo.png o testeco-col.com/logo.png
             if "/" in filename:
                 public_url = _r2_public_url(f"uploads/{filename.lstrip('/')}")
             else:
