@@ -2367,27 +2367,34 @@ export default function Approval() {
     });
   };
 
-  const buildSchedulePayload = () => {
+    const buildSchedulePayload = () => {
     const isBoth = (editedPlatform || currentPost?.platform) === "both";
+
     if (isBoth && (rescheduleIgDate || rescheduleTkDate)) {
-      // Per-platform scheduling (using user's timezone)
       const igUtc = rescheduleIgDate ? bogotaLocalToUtc(rescheduleIgDate, userTz) : undefined;
       const tkUtc = rescheduleTkDate ? bogotaLocalToUtc(rescheduleTkDate, userTz) : undefined;
-      // Use the earlier of the two as the canonical scheduledAt for backward compat
-      const canonical = igUtc ?? tkUtc;
+
+      const dates = [igUtc, tkUtc].filter(Boolean) as string[];
+      const canonical = dates.length
+        ? dates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime())[0]
+        : undefined;
+
       return {
         ...(canonical ? { scheduledAt: canonical } : {}),
         ...(igUtc ? { scheduledAtInstagram: igUtc } : {}),
         ...(tkUtc ? { scheduledAtTiktok: tkUtc } : {}),
       };
     }
-    // Single-platform: just use rescheduleDate (using user's timezone)
-    return rescheduleDate ? { scheduledAt: bogotaLocalToUtc(rescheduleDate, userTz) } : {};
+
+    return rescheduleDate
+      ? { scheduledAt: bogotaLocalToUtc(rescheduleDate, userTz) }
+      : {};
   };
 
   const buildFinalCaption = () => {
     const trimmed = localCustomText.trim();
     if (!trimmed) return editedCaption;
+
     return localCustomTextPosition === "before"
       ? `${trimmed}\n\n${editedCaption}`
       : `${editedCaption}\n\n${trimmed}`;
