@@ -1579,15 +1579,20 @@ def create_app():
     @app.route('/storage/objects/uploads/<path:filename>', methods=['GET'])
     def storage_get_uploaded_object(filename):
         try:
-            user = session.get("user") or {}
-            user_key = secure_filename(str(user.get("email") or user.get("id") or "anonymous"))
-
-            public_url = _r2_public_url(f"uploads/{user_key}/{safe_name}")
+            safe_name = secure_filename(filename)
 
             if not safe_name:
                 return jsonify({"error": "Archivo inválido"}), 400
 
-            public_url = _r2_public_url(f"uploads/{safe_name}")
+            # Si filename ya viene con carpeta, respetarla.
+            # Ej: anonymous/logo.png o testeco-col.com/logo.png
+            if "/" in filename:
+                public_url = _r2_public_url(f"uploads/{filename.lstrip('/')}")
+            else:
+                user = session.get("user") or {}
+                user_key = secure_filename(str(user.get("email") or user.get("id") or "anonymous"))
+                public_url = _r2_public_url(f"uploads/{user_key}/{safe_name}")
+
             return redirect(public_url, code=302)
 
         except Exception as e:
