@@ -241,7 +241,7 @@ async function generateFirstPost() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        brandProfile: brandProfile, // 👈 FIX REAL
+        brandProfile: brandProfile,
       }),
     });
 
@@ -251,9 +251,17 @@ async function generateFirstPost() {
     }
 
     const data = await res.json();
+
+    // 👉 Guardamos preview
     setFirstPost(data);
-  } catch {
-    // No rompemos el dashboard si falla
+
+    // 👉 Refrescamos lista real de posts (si existe)
+    if (typeof refetch === "function") {
+      refetch();
+    }
+
+  } catch (error) {
+    console.error("Error generating first post:", error);
   } finally {
     setLoadingFirstPost(false);
   }
