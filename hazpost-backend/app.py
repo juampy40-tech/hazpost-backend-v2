@@ -1522,7 +1522,7 @@ def create_app():
                 uploaded_file = request.files['file']
                 uploaded_file.stream.seek(0)
 
-                                r2.upload_fileobj(
+                r2.upload_fileobj(
                     uploaded_file,
                     R2_BUCKET_NAME,
                     object_key,
