@@ -127,34 +127,64 @@ function platformEntryStatus(post: Post, platform: 'instagram' | 'tiktok' | 'bot
 
 function expandPostsToEntries(posts: Post[]): CalendarEntry[] {
   const entries: CalendarEntry[] = [];
+
   for (const post of posts) {
     const ig = post.scheduledAtInstagram ?? null;
     const tk = post.scheduledAtTiktok ?? null;
 
-    if (ig && tk) {
-      // Same day AND same minute → merge into one "both-platforms" entry
-      const igD = parseISO(ig);
-      const tkD = parseISO(tk);
-      const sameTime = igD.getTime() === tkD.getTime();
-      if (sameTime) {
-        entries.push({ ...post, entryKey: `${post.id}-both`, entryScheduledAt: ig, entryPlatform: 'instagram,tiktok', entryStatus: platformEntryStatus(post, 'both', ig) });
+    if (ig) {
+      entries.push({
+        ...post,
+        entryKey: `${post.id}-ig`,
+        entryScheduledAt: ig,
+        entryPlatform: "instagram",
+        entryStatus: platformEntryStatus(post, "instagram", ig),
+      });
+    }
+
+    if (tk) {
+      entries.push({
+        ...post,
+        entryKey: `${post.id}-tk`,
+        entryScheduledAt: tk,
+        entryPlatform: "tiktok",
+        entryStatus: platformEntryStatus(post, "tiktok", tk),
+      });
+    }
+
+    if (!ig && !tk && post.scheduledAt) {
+      if (post.platform === "both") {
+        entries.push({
+          ...post,
+          entryKey: `${post.id}-ig`,
+          entryScheduledAt: post.scheduledAt,
+          entryPlatform: "instagram",
+          entryStatus: platformEntryStatus(post, "instagram", post.scheduledAt),
+        });
+
+        entries.push({
+          ...post,
+          entryKey: `${post.id}-tk`,
+          entryScheduledAt: post.scheduledAt,
+          entryPlatform: "tiktok",
+          entryStatus: platformEntryStatus(post, "tiktok", post.scheduledAt),
+        });
       } else {
-        entries.push({ ...post, entryKey: `${post.id}-ig`, entryScheduledAt: ig, entryPlatform: 'instagram', entryStatus: platformEntryStatus(post, 'instagram', ig) });
-        entries.push({ ...post, entryKey: `${post.id}-tk`, entryScheduledAt: tk, entryPlatform: 'tiktok', entryStatus: platformEntryStatus(post, 'tiktok', tk) });
-      }
-    } else if (ig) {
-      entries.push({ ...post, entryKey: `${post.id}-ig`, entryScheduledAt: ig, entryPlatform: 'instagram', entryStatus: platformEntryStatus(post, 'instagram', ig) });
-    } else if (tk) {
-      entries.push({ ...post, entryKey: `${post.id}-tk`, entryScheduledAt: tk, entryPlatform: 'tiktok', entryStatus: platformEntryStatus(post, 'tiktok', tk) });
-    } else if (post.scheduledAt) {
-      if (post.platform === 'both') {
-        entries.push({ ...post, entryKey: `${post.id}-ig`, entryScheduledAt: post.scheduledAt, entryPlatform: 'instagram', entryStatus: platformEntryStatus(post, 'instagram', post.scheduledAt) });
-        entries.push({ ...post, entryKey: `${post.id}-tk`, entryScheduledAt: post.scheduledAt, entryPlatform: 'tiktok', entryStatus: platformEntryStatus(post, 'tiktok', post.scheduledAt) });
-      } else {
-        entries.push({ ...post, entryKey: `${post.id}`, entryScheduledAt: post.scheduledAt, entryPlatform: post.platform ?? '', entryStatus: platformEntryStatus(post, (post.platform as 'instagram' | 'tiktok') ?? 'instagram', post.scheduledAt) });
+        entries.push({
+          ...post,
+          entryKey: `${post.id}-${post.platform ?? "single"}`,
+          entryScheduledAt: post.scheduledAt,
+          entryPlatform: post.platform ?? "",
+          entryStatus: platformEntryStatus(
+            post,
+            (post.platform as "instagram" | "tiktok") ?? "instagram",
+            post.scheduledAt
+          ),
+        });
       }
     }
   }
+
   return entries;
 }
 
