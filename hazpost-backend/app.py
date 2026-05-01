@@ -1565,16 +1565,18 @@ def create_app():
             import json
             from openai import OpenAI
 
-            # 🔥 FIX REAL: leer perfil desde TEMP STORE, session o request
+            # 🔥 LEER BODY SIEMPRE
+            body = request.get_json(silent=True) or {}
+
+            # 🔥 NUEVO: tipo de post (SIEMPRE definido)
+            post_type = (body.get("postType") or "auto").lower()
+
+            # 🔥 PERFIL: store → session → request
             store = _get_user_store()
             profile = store.get("brandProfile") or session.get("brandProfile")
 
             if not profile:
-                try:
-                    body = request.get_json(silent=True) or {}
-                    profile = body.get("brandProfile") or body
-                except Exception:
-                    profile = None
+                profile = body.get("brandProfile") or body
 
             if not isinstance(profile, dict):
                 profile = {}
@@ -1593,7 +1595,7 @@ def create_app():
             location = city or country or "tu zona"
 
             api_key = os.getenv("OPENAI_API_KEY")
-
+        
             # -----------------------------
             # 🛟 FALLBACK (NO ROMPE NADA)
             # -----------------------------
