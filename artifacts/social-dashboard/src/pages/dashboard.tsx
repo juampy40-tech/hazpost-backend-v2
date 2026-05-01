@@ -409,35 +409,36 @@ useEffect(() => {
           </h3>
 
           <p className="text-sm text-muted-foreground max-w-md">
-            En segundos tendrás un post con texto, hashtags e idea visual listo para revisar.
-          </p>
+  En segundos tendrás un post con texto, hashtags e idea visual listo para revisar.
+</p>
 
-          {!firstPost && (
-            <>
-              <Button
-                onClick={generateFirstPost}
-                disabled={loadingFirstPost}
-                className="mt-2 inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] transition-all duration-200"
-              >
-                {loadingFirstPost
-                  ? "HazPost está creando tu primer post..."
-                  : "Quiero ver mi primer post listo 🚀"}
-              </Button>
+<>
+  <Button
+    onClick={generateFirstPost}
+    disabled={loadingFirstPost}
+    className="mt-2 inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] transition-all duration-200"
+  >
+    {loadingFirstPost
+      ? hasGeneratedFirstPost
+        ? "HazPost está creando tu nuevo post..."
+        : "HazPost está creando tu primer post..."
+      : hasGeneratedFirstPost
+        ? "Crear nuevo post 🚀"
+        : "Quiero ver mi primer post listo 🚀"}
+  </Button>
 
-              <p className="text-xs text-muted-foreground">
-                ⚡ Incluye texto, hashtags y dirección visual automáticamente
-              </p>
-            </>
-          )}
-
-          {firstPost && (
-            <div className="space-y-4">
-              <FirstPostPreview
-                firstPost={firstPost}
-                brandProfile={brandProfile}
-                brandName={brandName}
-              />
-
+  <p className="text-xs text-muted-foreground">
+    ⚡ Incluye texto, hashtags y dirección visual automáticamente
+  </p>
+</>
+          
+{firstPost && (
+  <div className="space-y-4">
+    <FirstPostPreview
+      firstPost={firstPost}
+      brandProfile={brandProfile}
+      brandName={brandName}
+    />
               <div className="flex flex-wrap gap-2 pt-1">
                 <Link
                   href="/approval"
