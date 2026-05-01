@@ -245,7 +245,10 @@ async function generateFirstPost() {
       }),
     });
 
-    if (!res.ok) return;
+    if (!res.ok) {
+      console.error("Error generating first post");
+      return;
+    }
 
     const data = await res.json();
     setFirstPost(data);
