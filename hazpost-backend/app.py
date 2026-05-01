@@ -1,7 +1,28 @@
+# ============================================================
+# R2 STORAGE (Cloudflare)
+# ============================================================
+import boto3
+from botocore.exceptions import BotoCoreError, ClientError
+
+R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
+R2_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
+R2_ENDPOINT_URL = os.getenv("R2_ENDPOINT_URL")
+R2_BUCKET_NAME = os.getenv("R2_BUCKET_NAME")
+R2_PUBLIC_URL = os.getenv("R2_PUBLIC_URL")
+
+def get_r2_client():
+    return boto3.client(
+        "s3",
+        endpoint_url=R2_ENDPOINT_URL,
+        aws_access_key_id=R2_ACCESS_KEY_ID,
+        aws_secret_access_key=R2_SECRET_ACCESS_KEY,
+    )
+    
 import os
 import uuid
 import fcntl
 import logging
+    
 from flask import Flask, render_template, request, make_response, jsonify, session, send_from_directory
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -29,6 +50,44 @@ from src.dashboard_routes import dashboard_bp
 from src.db import init_db, db_available, get_brand_profile, save_brand_profile, save_post
 
 _SCHEDULER_LOCK_FILE = None
+
+
+# ============================================================
+# TEMP STORE — Persistencia temporal por usuario
+# ============================================================
+import os
+import uuid
+import fcntl
+import logging
+
+from flask import Flask, render_template, request, make_response, jsonify, session, send_from_directory
+from dotenv import load_dotenv
+from apscheduler.schedulers.background import BackgroundScheduler
+from werkzeug.utils import secure_filename
+
+load_dotenv()
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s: %(message)s')
+logger = logging.getLogger(__name__)
+
+from src.security import init_security
+from src.security_routes import security_bp
+from src.seo import seo_bp
+from src.monitor import monitor_bp, check_site_status
+from src.scanner import scanner_bp, run_full_scan
+from src.backup import backup_bp, run_backup
+from src.github_backup import run_github_backup
+from src.escaneo_imagenes import run_image_scan
+from src.auto_actualizacion import check_and_update
+from src.imagenes_routes import imagenes_bp
+from src.duplicados import duplicados_bp
+from src.aislamiento import aislamiento_bp
+from src.aprendizaje_colectivo import aprendizaje_bp
+from src.catalogs.industries import get_industries_response
+from src.dashboard_routes import dashboard_bp
+from src.db import init_db, db_available, get_brand_profile, save_brand_profile, save_post
+
+_SCHEDULER_LOCK_FILE = None
+
 
 # ============================================================
 # TEMP STORE — Persistencia temporal por usuario
