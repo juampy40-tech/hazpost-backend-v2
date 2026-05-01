@@ -1467,7 +1467,8 @@ def create_app():
             safe_name = secure_filename(original_name) or "upload.bin"
             file_id = str(uuid.uuid4())
             stored_name = f"{file_id}_{safe_name}"
-            object_key = f"uploads/{stored_name}"
+            user_key = _get_storage_user_key()
+            object_key = f"uploads/{user_key}/{stored_name}"
 
             public_url = _r2_public_url(object_key)
             base_url = request.host_url.rstrip('/').replace('http://', 'https://')
