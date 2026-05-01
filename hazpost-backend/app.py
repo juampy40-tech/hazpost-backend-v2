@@ -1510,7 +1510,15 @@ def create_app():
                 }), 400
 
             uploaded_file = request.files['file']
-            content_type = uploaded_file.content_type or "application/octet-stream"
+            mime_map = {
+                "png": "image/png",
+                "jpg": "image/jpeg",
+                "jpeg": "image/jpeg",
+                "gif": "image/gif",
+                "webp": "image/webp"
+            }
+
+            content_type = mime_map.get(extension, "application/octet-stream")
 
             r2 = get_r2_client()
             r2.upload_fileobj(
