@@ -1510,6 +1510,7 @@ def create_app():
                 }), 400
 
             uploaded_file = request.files['file']
+
             mime_map = {
                 "png": "image/png",
                 "jpg": "image/jpeg",
@@ -1520,6 +1521,9 @@ def create_app():
 
             content_type = mime_map.get(extension, "application/octet-stream")
 
+            logger.info(f"SUBIENDO A R2: {object_key}")
+
+            r2 = get_r2_client()
             uploaded_file.stream.seek(0)
 
             r2.upload_fileobj(
@@ -1530,6 +1534,8 @@ def create_app():
                     "ContentType": content_type,
                 }
             )
+
+            logger.info(f"UPLOAD OK: {object_key}")
 
             public_url = _r2_public_url(object_key)
 
@@ -1554,7 +1560,6 @@ def create_app():
                 "success": False,
                 "error": "Error subiendo archivo"
             }), 500
-
 
     @app.route('/api/storage/objects/uploads/<path:filename>', methods=['GET'])
     @app.route('/storage/objects/uploads/<path:filename>', methods=['GET'])
