@@ -1439,7 +1439,7 @@ def create_app():
         return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
 
 
-        @app.route('/api/storage/uploads/request-url', methods=['POST'])
+    @app.route('/api/storage/uploads/request-url', methods=['POST'])
     def storage_request_url():
         try:
             data = request.get_json(silent=True) or {}
