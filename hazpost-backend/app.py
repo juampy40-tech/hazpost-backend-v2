@@ -1457,10 +1457,25 @@ def create_app():
         })
 
 
-    # ============================================================
+        # ============================================================
     # STORAGE UPLOAD — Logos / imágenes onboarding
+    # Cloudflare R2 — Producción SaaS
     # Debe ir ANTES del fallback.
     # ============================================================
+
+    def _r2_ready():
+        return all([
+            R2_ACCESS_KEY_ID,
+            R2_SECRET_ACCESS_KEY,
+            R2_ENDPOINT_URL,
+            R2_BUCKET_NAME,
+            R2_PUBLIC_URL,
+        ])
+
+
+    def _r2_public_url(object_key: str) -> str:
+        return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
+
 
     @app.route('/api/storage/uploads/request-url', methods=['POST'])
     def storage_request_url():
@@ -1473,14 +1488,10 @@ def create_app():
             safe_name = secure_filename(original_name) or "upload.bin"
             file_id = str(uuid.uuid4())
             stored_name = f"{file_id}_{safe_name}"
+            object_key = f"uploads/{stored_name}"
 
-            upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
-            os.makedirs(upload_dir, exist_ok=True)
-
-            object_path = f"/storage/objects/uploads/{stored_name}"
+            public_url = _r2_public_url(object_key)
             base_url = request.host_url.rstrip('/').replace('http://', 'https://')
-
-            public_url = f"{base_url}/api{object_path}"
             upload_url = f"{base_url}/api/storage/uploads/direct?filename={stored_name}"
 
             return jsonify({
@@ -1490,7 +1501,7 @@ def create_app():
                 "upload_url": upload_url,
                 "signedUrl": upload_url,
                 "url": upload_url,
-                "objectPath": object_path,
+                "objectPath": f"/storage/objects/{object_key}",
                 "publicUrl": public_url,
                 "name": safe_name,
                 "storedName": stored_name,
@@ -1509,13 +1520,16 @@ def create_app():
     @app.route('/api/storage/uploads/direct', methods=['POST'])
     def storage_upload_direct():
         try:
+            if not _r2_ready():
+                logger.error("R2 CONFIG ERROR: variables R2 incompletas")
+                return jsonify({
+                    "success": False,
+                    "error": "Storage no configurado"
+                }), 500
+
             filename = request.args.get("filename") or f"{uuid.uuid4()}_upload.bin"
             safe_name = secure_filename(filename) or f"{uuid.uuid4()}_upload.bin"
-
-            upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
-            os.makedirs(upload_dir, exist_ok=True)
-
-            filepath = os.path.join(upload_dir, safe_name)
+            object_key = f"uploads/{safe_name}"
 
             if 'file' not in request.files:
                 return jsonify({
@@ -1524,19 +1538,34 @@ def create_app():
                 }), 400
 
             uploaded_file = request.files['file']
-            uploaded_file.save(filepath)
+            content_type = uploaded_file.content_type or "application/octet-stream"
 
-            object_path = f"/storage/objects/uploads/{safe_name}"
-            base_url = request.host_url.rstrip('/').replace('http://', 'https://')
-            public_url = f"{base_url}/api{object_path}"
+            r2 = get_r2_client()
+            r2.upload_fileobj(
+                uploaded_file.stream,
+                R2_BUCKET_NAME,
+                object_key,
+                ExtraArgs={
+                    "ContentType": content_type,
+                }
+            )
+
+            public_url = _r2_public_url(object_key)
 
             return jsonify({
                 "success": True,
                 "url": public_url,
                 "publicUrl": public_url,
-                "objectPath": object_path,
+                "objectPath": f"/storage/objects/{object_key}",
                 "filename": safe_name,
             })
+
+        except (BotoCoreError, ClientError) as e:
+            logger.exception(f"R2 UPLOAD ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Error subiendo archivo a R2"
+            }), 500
 
         except Exception as e:
             logger.exception(f"STORAGE DIRECT UPLOAD ERROR: {e}")
@@ -1550,12 +1579,17 @@ def create_app():
     def storage_get_uploaded_object(filename):
         try:
             safe_name = secure_filename(filename)
-            upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
 
             if not safe_name:
                 return jsonify({"error": "Archivo inválido"}), 400
 
-            return send_from_directory(upload_dir, safe_name)
+            public_url = _r2_public_url(f"uploads/{safe_name}")
+
+            return jsonify({
+                "success": True,
+                "url": public_url,
+                "publicUrl": public_url,
+            })
 
         except Exception as e:
             logger.exception(f"STORAGE GET OBJECT ERROR: {e}")
@@ -1563,7 +1597,6 @@ def create_app():
                 "success": False,
                 "error": "Archivo no encontrado"
             }), 404
-
     # ============================================================
     # ANALYZE WEBSITE — IA onboarding (MVP funcional)
     # ============================================================
