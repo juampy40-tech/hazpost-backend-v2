@@ -342,11 +342,14 @@ useEffect(() => {
 
   const brandName = brandProfile?.companyName?.trim() || "tu negocio";
   const hasBrandProfile = !!(
-    brandProfile?.companyName ||
-    brandProfile?.industry ||
-    brandProfile?.logoUrl ||
-    brandProfile?.businessDescription
-  );
+  brandProfile?.companyName ||
+  brandProfile?.industry ||
+  brandProfile?.logoUrl ||
+  brandProfile?.businessDescription
+);
+
+const hasPosts = !!posts && posts.length > 0;
+const hasGeneratedFirstPost = hasPosts || !!firstPost;
 
   return (
     <div className="space-y-8 pb-8">
