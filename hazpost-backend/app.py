@@ -1722,6 +1722,30 @@ Extra:
                         result = json.loads(clean_text)
                         result["source"] = "openai"
 
+                        # 🔥 AJUSTAR FORMATO SEGÚN post_type
+                        if "visualPlan" not in result:
+                            result["visualPlan"] = {}
+
+                        if post_type == "reel":
+                            result["visualPlan"]["format"] = "reel"
+
+                        elif post_type == "carousel":
+                            result["visualPlan"]["format"] = "carousel"
+
+                            # 🔥 BONUS: crear slides si no vienen
+                            if "slides" not in result["visualPlan"]:
+                                result["visualPlan"]["slides"] = [
+                                    {"text": "Slide 1"},
+                                    {"text": "Slide 2"},
+                                    {"text": "Slide 3"}
+                                ]
+
+                        elif post_type == "story":
+                            result["visualPlan"]["format"] = "story"
+
+                        elif post_type == "image":
+                            result["visualPlan"]["format"] = "single_image"
+
                     except Exception as parse_error:
                         logger.warning(f"⚠️ JSON inválido, usando fallback: {parse_error}")
                         result = fallback()
