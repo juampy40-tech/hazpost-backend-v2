@@ -462,8 +462,8 @@ async function loadProfile() {
       setAvatarUrl(objectPath);
 
       // Save to backend immediately so the user doesn't have to click "Guardar"
-      const res = await fetch(`${BASE}/api/users/me`, {
-        method: "PATCH",
+      const res = await fetch(`${BASE}/api/user/me`, {
+        method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ avatarUrl: objectPath }),
