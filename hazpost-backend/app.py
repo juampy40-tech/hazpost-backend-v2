@@ -69,7 +69,7 @@ def _get_user_key():
         return "anonymous"
 
     # 🔥 SIEMPRE usar email como clave única
-    return str(user.get("email"))
+    return str(user.get("email") or "anonymous")
 
 def _get_user_store():
     user_key = _get_user_key()
