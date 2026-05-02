@@ -479,23 +479,7 @@ def create_app():
         session.modified = True  # 🔥 importante
         return jsonify({"success": True})
 
-    # ============================================================
-    # FALLBACK (UNO SOLO Y COMPLETO)
-    # ============================================================
-    @app.route('/api/<path:unknown_path>', methods=['GET'])
-    def api_fallback_get(unknown_path):
-        logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
-        return jsonify([])
-
-    @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
-    def api_fallback_mutation(unknown_path):
-        logger.warning(f"[FALLBACK MUTATION] Endpoint no implementado: /api/{unknown_path}")
-        return jsonify({
-            "success": True,
-            "message": f"Endpoint /api/{unknown_path} recibido en modo fallback"
-        }), 200
-
-
+    
     # ============================================================
     # USER BOOTSTRAP — Compatibilidad frontend
     # ============================================================
