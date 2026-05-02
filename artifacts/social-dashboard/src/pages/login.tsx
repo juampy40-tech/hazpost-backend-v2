@@ -18,7 +18,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
-const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
+const BASE = "https://hazpost-backend-v2-production.up.railway.app";
 
 function GoogleIcon() {
   return (
