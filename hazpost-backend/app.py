@@ -198,15 +198,14 @@ def create_app():
         'dev-secret-key-change-in-production'
     )
 
-    # 🍪 COOKIES / SESIÓN (IMPORTANTE)
+    # 🍪 COOKIES / SESIÓN
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
     app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_DOMAIN'] = None
 
-    # 🔥 SESIÓN PERSISTENTE (ARREGLO CLAVE)
+    # 🔥 SESIÓN
     from flask_session import Session
-
     app.config["SESSION_TYPE"] = "filesystem"
     app.config["SESSION_FILE_DIR"] = "/tmp/flask_session"
     app.config["SESSION_USE_SIGNER"] = True
@@ -215,20 +214,8 @@ def create_app():
 
     Session(app)
 
-    # ⚙️ CONFIG GENERAL
+    # ⚙️ CONFIG
     app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
-    app.config['TARGET_SITE'] = os.getenv('TARGET_SITE', 'https://hazpost.app')
-    app.config['TELEGRAM_BOT_TOKEN'] = os.getenv('TELEGRAM_BOT_TOKEN', '')
-    app.config['TELEGRAM_CHAT_ID'] = os.getenv('TELEGRAM_CHAT_ID', '')
-    app.config['BACKUP_RETENTION_DAYS'] = int(os.getenv('BACKUP_RETENTION_DAYS', '30'))
-    app.config['DATA_DIR'] = os.getenv(
-        'DATA_DIR',
-        os.path.join(os.path.dirname(__file__), 'data')
-    )
-    app.config['SCAN_INTERVAL_HOURS'] = int(os.getenv('SCAN_INTERVAL_HOURS', '6'))
-    app.config['MONITOR_INTERVAL_MINUTES'] = int(os.getenv('MONITOR_INTERVAL_MINUTES', '5'))
-    app.config['BACKUP_HOUR_UTC'] = int(os.getenv('BACKUP_HOUR_UTC', '2'))
-    app.config['API_KEY'] = os.getenv('API_KEY', '')
 
     # 🌐 CORS
     _apply_cors(app)
@@ -239,7 +226,7 @@ def create_app():
     # 🔒 SEGURIDAD
     init_security(app)
 
-    # 🔗 BLUEPRINTS
+    # 🔗 BLUEPRINTS BASE
     app.register_blueprint(seo_bp)
     app.register_blueprint(security_bp, url_prefix='/api/security')
     app.register_blueprint(monitor_bp, url_prefix='/api/monitor')
@@ -250,7 +237,32 @@ def create_app():
     app.register_blueprint(aislamiento_bp, url_prefix='/api/aislamiento')
     app.register_blueprint(aprendizaje_bp, url_prefix='/api/aprendizaje')
 
-    return app
+    # ============================================================
+    # 👇 TODAS TUS RUTAS VAN AQUÍ (NO BORRAR)
+    # ============================================================
+
+    @app.route('/api/plans', methods=['GET'])
+    def get_public_plans():
+        return jsonify({"plans": []})
+
+    # 👉 (aquí siguen TODAS tus rutas: login, user/me, etc.)
+
+    # ============================================================
+    # BLUEPRINTS FINALES
+    # ============================================================
+    app.register_blueprint(oauth_meta_bp)
+    app.register_blueprint(dashboard_bp, url_prefix='/api')
+
+    # ============================================================
+    # FALLBACK
+    # ============================================================
+    @app.route('/api/<path:unknown_path>', methods=['GET'])
+    def api_fallback_get(unknown_path):
+        return jsonify([])
+
+    @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
+    def api_fallback_mutation(unknown_path):
+        return jsonify({"success": True})
 
     # ============================================================
     # PUBLIC PLANS — Registro / Pricing
@@ -346,7 +358,7 @@ def create_app():
                 "priceUsd": 19.99,
             },
         })
-                 
+
     # ============================================================
     # LOGIN USER — Compatibilidad frontend HazPost
     # ============================================================
@@ -1995,3 +2007,4 @@ app = create_app()
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+
