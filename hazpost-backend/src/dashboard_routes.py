@@ -219,7 +219,7 @@ def update_post(post_id):
 def approve_post(post_id):
     from src.db import update_post_status
 
-    user_id = session.get("user_id") or session.get("userId") or "demo"
+    user_id = _get_dashboard_user_id()
     data = request.get_json(silent=True) or {}
 
     scheduled_at = data.get("scheduledAt")
