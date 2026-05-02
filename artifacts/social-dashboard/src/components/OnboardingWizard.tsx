@@ -492,7 +492,7 @@ function resolveStorageUrl(pathOrUrl?: string): string {
   return `${API_BASE}/api/storage${cleanPath}`;
 }
 
-async function uploadFile(file: File): Promise<string> {
+async function uploadFile(file: File, userId?: string): Promise<string> {
   const urlRes = await fetch(`${API_BASE}/api/storage/uploads/request-url`, {
     method: "POST",
     credentials: "include",
@@ -506,6 +506,7 @@ async function uploadFile(file: File): Promise<string> {
       size: file.size,
       contentType: file.type,
       content_type: file.type,
+      userId,
     }),
   });
 
