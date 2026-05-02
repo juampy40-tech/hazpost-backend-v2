@@ -220,6 +220,17 @@ def create_app():
     # 🌐 CORS
     _apply_cors(app)
 
+    # ============================================================
+    # 🔥 FIX CRÍTICO — OPTIONS GLOBAL (ANTES DE TODO)
+    # ============================================================
+    @app.route('/api/<path:_path>', methods=['OPTIONS'])
+    def api_options(_path):
+        response = make_response("", 204)
+        return _attach_cors_headers(response)
+
+# 🗄️ DB
+init_db()
+
     # 🗄️ DB
     init_db()
 
