@@ -10,7 +10,7 @@ def _as_list(value):
 
 # ------------------ CORE ------------------
 
-@dashboard_bp.route('/health/status', methods=['GET', 'POST']
+@dashboard_bp.route('/health/status', methods=['GET', 'POST'])
 def health_status():
     return jsonify({
         "status": "ok",
