@@ -63,8 +63,13 @@ TEMP_USER_DATA = {}
 
 
 def _get_user_key():
-    user = session.get("user") or {}
-    return str(user.get("email") or user.get("id") or "anonymous")
+    user = session.get("user")
+
+    if not user or not isinstance(user, dict):
+        return "anonymous"
+
+    # 🔥 SIEMPRE usar email como clave única
+    return str(user.get("email"))
 
 def _get_user_store():
     user_key = _get_user_key()
