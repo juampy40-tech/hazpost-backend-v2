@@ -327,6 +327,7 @@ export default function Profile() {
     };
 
     const applyProfileToForm = (profile: Record<string, unknown>) => {
+  setBrandProfileExists(true);
   setBizId(null);
 
   setBizName(
