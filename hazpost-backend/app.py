@@ -395,20 +395,11 @@ def create_app():
 
             user = store.get("user") or session.get("user")
 
-            if not isinstance(user, dict) or not user:
-                user = {
-                    "id": 1,
-                    "email": "test@eco-col.com",
-                    "displayName": "test",
-                    "role": "user",
-                    "plan": "free",
-                    "aiCredits": 40,
-                    "onboardingStep": 5,
-                    "emailVerified": True,
-                    "avatarUrl": None,
-                    "timezone": "America/Bogota",
-                }
-
+            if not user:
+                return jsonify({
+                "success": False,
+                "error": "No autenticado"
+            }), 401
             subscription = store.get("subscription") or session.get("subscription") or {
                 "id": 1,
                 "userId": user.get("id", 1),
