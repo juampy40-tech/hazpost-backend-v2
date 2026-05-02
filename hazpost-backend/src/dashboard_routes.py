@@ -106,7 +106,7 @@ def social_accounts():
     data = request.get_json(silent=True) or {}
 
     account = {
-        "id": len(accounts) + 1,
+        "id": str(uuid.uuid4())
         "platform": data.get("platform") or data.get("provider") or data.get("network"),
         "connected": data.get("connected", True),
         **data
