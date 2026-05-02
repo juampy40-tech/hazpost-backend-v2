@@ -226,6 +226,7 @@ export default function Profile() {
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [savingBiz, setSavingBiz] = useState(false);
   const [loadingBiz, setLoadingBiz] = useState(true);
+  const [brandProfileExists, setBrandProfileExists] = useState(false);
   const [industries, setIndustries] = useState<string[]>(INDUSTRIES_FALLBACK);
   const [rawSavedIndustry, setRawSavedIndustry] = useState<string>("");
   const [customIndustryStatus, setCustomIndustryStatus] = useState<"idle" | "validating" | "ok" | "error">("idle");
