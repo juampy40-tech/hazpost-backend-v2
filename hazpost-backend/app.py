@@ -1974,13 +1974,18 @@ Extra:
 
 
     # ============================================================
+    # BLUEPRINTS FINALES (CRÍTICO PARA DASHBOARD)
+    # ============================================================
+    app.register_blueprint(oauth_meta_bp)
+    app.register_blueprint(dashboard_bp, url_prefix='/api')
+
+    # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
     @app.route('/api/<path:unknown_path>', methods=['GET'])
     def api_fallback_get(unknown_path):
         logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
         return jsonify([])
-
 
     @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
     def api_fallback_mutation(unknown_path):
@@ -1990,15 +1995,7 @@ Extra:
             "message": f"Endpoint /api/{unknown_path} recibido en modo fallback"
         }), 200
 
-
-# ============================================================
-# BLUEPRINTS FINALES (CRÍTICO PARA DASHBOARD)
-# ============================================================
-app.register_blueprint(oauth_meta_bp)
-app.register_blueprint(dashboard_bp, url_prefix='/api')
-
-
-# ============================================================
+    # ============================================================
     # RETURN APP (FIN create_app)
     # ============================================================
     return app
