@@ -1018,15 +1018,6 @@ def create_app():
 
 
     # ============================================================
-    # CORS OPTIONS (PREVENT 405)
-    # ============================================================
-    @app.route('/api/<path:_path>', methods=['OPTIONS'])
-    def api_options(_path):
-        response = make_response("", 204)
-        return _attach_cors_headers(response)
-
-
-    # ============================================================
     # SETTINGS / AUTOMATION STUBS
     # ============================================================
     @app.route('/api/devices', methods=['GET'])
