@@ -495,11 +495,6 @@ def create_app():
             "message": f"Endpoint /api/{unknown_path} recibido en modo fallback"
         }), 200
 
-    
-    # ============================================================
-    # RETURN FINAL
-    # ============================================================
-    return app
 
     # ============================================================
     # USER BOOTSTRAP — Compatibilidad frontend
