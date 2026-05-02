@@ -216,17 +216,7 @@ def update_post(post_id):
 # ------------------ APPROVE POST ------------------
 
 @dashboard_bp.route('/posts/<int:post_id>/approve', methods=['POST'])
-import uuid
-
-from flask import Blueprint, jsonify, request, session
-
-from src.db import (
-    get_posts,
-    save_post,
-    update_post_fields,
-    update_post_status
-)
-
+def approve_post(post_id):
     user_id = _get_dashboard_user_id()
     data = request.get_json(silent=True) or {}
 
