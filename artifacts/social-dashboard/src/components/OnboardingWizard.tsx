@@ -1320,6 +1320,7 @@ function Step4({
   onChange: (d: Partial<BrandProfile>) => void;
   aiSuggestions?: AiSuggestions | null;
   onDismissSuggestion?: (field: "audience" | "tone") => void;
+  userId?: string;
 }) {
   const { toast } = useToast();
   const [uploading, setUploading] = useState(false);
