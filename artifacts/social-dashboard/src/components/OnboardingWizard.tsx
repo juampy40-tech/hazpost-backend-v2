@@ -814,12 +814,13 @@ const checkerStyle: React.CSSProperties = {
 // ── Step 2: Marca ──────────────────────────────────────────────────────────────
 
 function Step2({
-  data, onChange, aiSuggestions, onDismissSuggestion,
+  data, onChange, aiSuggestions, onDismissSuggestion, userId,
 }: {
   data: BrandProfile;
   onChange: (d: Partial<BrandProfile>) => void;
   aiSuggestions?: AiSuggestions | null;
   onDismissSuggestion?: (field: "description" | "primaryColor") => void;
+  userId?: string;
 }) {
   const { toast } = useToast();
   const [uploading, setUploading] = useState(false);
