@@ -1380,7 +1380,11 @@ async function loadProfile() {
 
               <Button type="submit" disabled={savingBiz || analyzingWebsite} className="gap-2 h-9">
                 {(savingBiz || analyzingWebsite) ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                {analyzingWebsite ? "Analizando sitio web…" : (bizId ? "Guardar perfil de marca" : "Crear perfil de marca")}
+                {analyzingWebsite
+                  ? "Analizando sitio web…"
+                  : brandProfileExists
+                    ? "Actualizar perfil de marca"
+                    : "Crear perfil de marca"}
               </Button>
             </form>
           )}
