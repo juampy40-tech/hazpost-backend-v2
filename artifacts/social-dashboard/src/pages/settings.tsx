@@ -753,11 +753,32 @@ export default function Settings() {
     refetchSettings();
   };
 
-  const handleConnectMeta = () => {
-    // VM-4b: use the globally-active business from context (not the Elements-section local state)
-    // so the social account is registered under the business the user has selected in the top nav.
-    const biz = globalBusinessId ? `?businessId=${globalBusinessId}` : "";
-    window.location.href = `${BASE}/api/auth/meta/redirect${biz}`;
+  const handleConnectMeta = async () => {
+    try {
+      const res = await fetch(`${BASE}/api/oauth/facebook/start`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const data = await res.json();
+
+      if (data?.loginUrl) {
+        window.location.href = data.loginUrl;
+        return;
+      }
+
+      toast({
+        title: "No se pudo iniciar Meta",
+        description: data?.error || "El backend no devolvió loginUrl.",
+        variant: "destructive",
+      });
+    } catch (error) {
+      toast({
+        title: "Error de conexión con Meta",
+        description: "No se pudo iniciar la autorización con Meta.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleConnectTikTok = () => {
