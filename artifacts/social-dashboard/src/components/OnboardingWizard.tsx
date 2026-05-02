@@ -1207,7 +1207,7 @@ function Step2({
       
 // ── Step 3: Tipografía ─────────────────────────────────────────────────────────
 
-function Step3({ data, onChange }: { data: BrandProfile; onChange: (d: Partial<BrandProfile>) => void }) {
+function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: Partial<BrandProfile>) => void; userId?: string }) {
   const { toast } = useToast();
   const [fontSearch, setFontSearch] = useState("");
   const [uploading, setUploading] = useState(false);
