@@ -234,7 +234,7 @@ def approve_post(post_id):
     if data.get("scheduledAtTiktok"):
         extra_updates["scheduledAtTiktok"] = data.get("scheduledAtTiktok")
 
-    updated = update_post_status(
+    updated = updated = update_post_status(
         user_id=user_id,
         post_id=post_id,
         status="scheduled",
