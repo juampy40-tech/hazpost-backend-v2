@@ -83,13 +83,20 @@ def settings():
 
 @dashboard_bp.route('/social-accounts', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def social_accounts():
-    accounts = _as_list(session.get("social_accounts", []))
+    user_id = _get_dashboard_user_id()
+
+    all_accounts = session.get("social_accounts", {})
+    if not isinstance(all_accounts, dict):
+        all_accounts = {}
+
+    accounts = _as_list(all_accounts.get(user_id, []))
 
     if request.method == 'GET':
         return jsonify(accounts)
 
     if request.method == 'DELETE':
-        session["social_accounts"] = []
+        all_accounts[user_id] = []
+        session["social_accounts"] = all_accounts
         session.permanent = True
         return jsonify([])
 
@@ -103,7 +110,9 @@ def social_accounts():
     }
 
     accounts.append(account)
-    session["social_accounts"] = accounts
+    all_accounts[user_id] = accounts
+
+    session["social_accounts"] = all_accounts
     session.permanent = True
 
     return jsonify(accounts), 201
