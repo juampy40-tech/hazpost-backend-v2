@@ -284,19 +284,21 @@ export default function Profile() {
     let cancelled = false;
 
     const applyBusinessToForm = (active: Partial<BusinessData>) => {
+      setBrandProfileExists(true);
+
       setBizId(typeof active.id === "number" ? active.id : null);
       setBizName(active.name ?? "");
       setRawSavedIndustry(active.industry ?? "");
 
-      const loadedSubInds = (() => {
-        try {
-          if (Array.isArray(active.subIndustries)) return active.subIndustries as unknown as string[];
-          return JSON.parse(active.subIndustries ?? "[]") as string[];
-        } catch {
-          return [];
-        }
-      })();
-
+     const loadedSubInds = (() => {
+      try {
+        if (Array.isArray(active.subIndustries)) return active.subIndustries as unknown as string[];
+        return JSON.parse(active.subIndustries ?? "[]") as string[];
+      } catch {
+      return [];
+      }
+    })();
+  
       setBizSubIndustries(
         loadedSubInds.length > 0
           ? loadedSubInds
