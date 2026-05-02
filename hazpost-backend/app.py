@@ -241,28 +241,13 @@ def create_app():
     # 👇 TODAS TUS RUTAS VAN AQUÍ (NO BORRAR)
     # ============================================================
 
-    @app.route('/api/plans', methods=['GET'])
-    def get_public_plans():
-        return jsonify({"plans": []})
+    # ⚠️ Aquí deben estar tus rutas reales:
+    # /api/user/login
+    # /api/user/me
+    # /api/user/logout
+    # /api/plans (EL COMPLETO, no el vacío)
 
-    # 👉 (aquí siguen TODAS tus rutas: login, user/me, etc.)
-
-    # ============================================================
-    # BLUEPRINTS FINALES
-    # ============================================================
-    app.register_blueprint(oauth_meta_bp)
-    app.register_blueprint(dashboard_bp, url_prefix='/api')
-
-    # ============================================================
-    # FALLBACK
-    # ============================================================
-    @app.route('/api/<path:unknown_path>', methods=['GET'])
-    def api_fallback_get(unknown_path):
-        return jsonify([])
-
-    @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
-    def api_fallback_mutation(unknown_path):
-        return jsonify({"success": True})
+    # (NO dejes esto vacío en producción)
 
     # ============================================================
     # PUBLIC PLANS — Registro / Pricing
@@ -359,6 +344,7 @@ def create_app():
             },
         })
 
+
     # ============================================================
     # LOGIN USER — Compatibilidad frontend HazPost
     # ============================================================
@@ -415,7 +401,6 @@ def create_app():
             logger.exception(f"LOGIN ERROR: {e}")
             return jsonify({"error": "Error interno"}), 500
 
-    
     # ============================================================
     # USER ME — Obtener y actualizar datos del usuario
     # ============================================================
@@ -494,6 +479,27 @@ def create_app():
         session.modified = True  # 🔥 importante
         return jsonify({"success": True})
 
+    # ============================================================
+    # FALLBACK (UNO SOLO Y COMPLETO)
+    # ============================================================
+    @app.route('/api/<path:unknown_path>', methods=['GET'])
+    def api_fallback_get(unknown_path):
+        logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
+        return jsonify([])
+
+    @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
+    def api_fallback_mutation(unknown_path):
+        logger.warning(f"[FALLBACK MUTATION] Endpoint no implementado: /api/{unknown_path}")
+        return jsonify({
+            "success": True,
+            "message": f"Endpoint /api/{unknown_path} recibido en modo fallback"
+        }), 200
+
+    
+    # ============================================================
+    # RETURN FINAL
+    # ============================================================
+    return app
 
     # ============================================================
     # USER BOOTSTRAP — Compatibilidad frontend
@@ -1966,10 +1972,6 @@ Extra:
                 "error": "Error generando primer post"
             }), 500
 
-    app.register_blueprint(oauth_meta_bp)
-    
-    # Dashboard blueprint al final para que NO pise rutas críticas locales
-    app.register_blueprint(dashboard_bp, url_prefix='/api')
 
     # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
@@ -1989,7 +1991,14 @@ Extra:
         }), 200
 
 
-    # ============================================================
+# ============================================================
+# BLUEPRINTS FINALES (CRÍTICO PARA DASHBOARD)
+# ============================================================
+app.register_blueprint(oauth_meta_bp)
+app.register_blueprint(dashboard_bp, url_prefix='/api')
+
+
+# ============================================================
     # RETURN APP (FIN create_app)
     # ============================================================
     return app
