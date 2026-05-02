@@ -8,6 +8,20 @@ def _as_list(value):
     return value if isinstance(value, list) else []
 
 
+def _get_dashboard_user_id():
+    user = session.get("user") or {}
+
+    user_id = (
+        user.get("email")
+        or user.get("id")
+        or session.get("user_id")
+        or session.get("userId")
+        or "demo"
+    )
+
+    return str(user_id).strip().lower()
+
+
 # ------------------ CORE ------------------
 
 @dashboard_bp.route('/health/status', methods=['GET', 'POST'])
