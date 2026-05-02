@@ -202,7 +202,7 @@ def create_app():
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
     app.config['SESSION_COOKIE_SECURE'] = True
-    app.config['SESSION_COOKIE_DOMAIN'] = None
+    app.config['SESSION_COOKIE_DOMAIN'] = ".hazpost.app"
 
     # 🔥 SESIÓN
     from flask_session import Session
