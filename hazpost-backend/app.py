@@ -228,9 +228,6 @@ def create_app():
         response = make_response("", 204)
         return _attach_cors_headers(response)
 
-# 🗄️ DB
-init_db()
-
     # 🗄️ DB
     init_db()
 
