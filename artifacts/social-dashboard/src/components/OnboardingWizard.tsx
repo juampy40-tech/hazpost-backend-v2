@@ -1230,7 +1230,7 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
     }
     setUploading(true);
     try {
-      const objectPath = await uploadFile(file);
+      const objectPath = await uploadFile(file, userId);
       onChange({ brandFontUrl: objectPath, brandFont: file.name.replace(/\.(ttf|otf|woff2)$/i, "") });
       toast({ title: "Fuente subida", description: `${file.name} fue cargada correctamente.` });
     } catch {
