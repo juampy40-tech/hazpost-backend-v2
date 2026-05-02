@@ -2107,7 +2107,6 @@ async function doNext() {
               transition={{ duration: 0.25 }}
             >
               {step === 0 && <Step1 data={data} onChange={patchData} />}
-              {step === 1 && <Step2 data={data} onChange={patchData} aiSuggestions={aiSuggestions} onDismissSuggestion={dismissSuggestion} />}
               {step === 1 && <Step2 data={data} onChange={patchData} aiSuggestions={aiSuggestions} onDismissSuggestion={dismissSuggestion} userId={user?.email || user?.id} />}
               {step === 2 && <Step3 data={data} onChange={patchData} userId={user?.email || user?.id} />}
               {step === 3 && <Step4 data={data} onChange={patchData} aiSuggestions={aiSuggestions} onDismissSuggestion={dismissSuggestion} userId={user?.email || user?.id} />}
