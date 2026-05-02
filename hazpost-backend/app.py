@@ -391,30 +391,30 @@ def create_app():
     @app.route('/api/user/me', methods=['GET', 'PUT'])
     def user_me():
         try:
-            store = _get_user_store()
+            user = session.get("user")
 
-            user = store.get("user") or session.get("user")
-
-            if not user:
+            # 🔒 VALIDACIÓN REAL (NO fallback falso)
+            if not isinstance(user, dict) or not user:
                 return jsonify({
-                "success": False,
-                "error": "No autenticado"
-            }), 401
-            subscription = store.get("subscription") or session.get("subscription") or {
-                "id": 1,
-                "userId": user.get("id", 1),
+                    "success": False,
+                    "error": "No autenticado"
+                }), 401
+
+            # 📦 Subscription segura
+            subscription = session.get("subscription") or {
+                "id": user.get("id"),
+                "userId": user.get("id"),
                 "plan": user.get("plan", "free"),
                 "status": "active",
                 "creditsRemaining": user.get("aiCredits", 40),
-                "creditsTotal": 40,
+                "creditsTotal": user.get("aiCredits", 40),
                 "periodEnd": None,
             }
 
+            # ====================================================
+            # GET
+            # ====================================================
             if request.method == 'GET':
-                store["user"] = user
-                store["subscription"] = subscription
-                session["user"] = user
-                session["subscription"] = subscription
                 session.permanent = True
                 session.modified = True
 
@@ -424,16 +424,17 @@ def create_app():
                     "subscription": subscription
                 })
 
+            # ====================================================
+            # PUT
+            # ====================================================
             data = request.get_json(silent=True) or {}
 
             updated_user = {
                 **user,
-                "displayName": data.get("displayName") or user.get("displayName") or "test",
-                "email": data.get("email") or user.get("email") or "test@eco-col.com",
+                "displayName": data.get("displayName") or user.get("displayName") or "",
+                "email": user.get("email"),  # 🔒 no se toca
             }
 
-            store["user"] = updated_user
-            store["subscription"] = subscription
             session["user"] = updated_user
             session["subscription"] = subscription
             session.permanent = True
@@ -451,6 +452,7 @@ def create_app():
                 "success": False,
                 "error": "Error interno"
             }), 500
+
 
     # ============================================================
     # LOGOUT
