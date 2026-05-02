@@ -2,7 +2,12 @@ import uuid
 
 from flask import Blueprint, jsonify, request, session
 
-from src.db import get_posts, save_post, update_post_fields
+from src.db import (
+    get_posts,
+    save_post,
+    update_post_fields,
+    update_post_status
+)
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
