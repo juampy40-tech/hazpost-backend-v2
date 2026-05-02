@@ -852,7 +852,7 @@ function Step2({
     }
     setUploading(true);
     try {
-      const paths = await Promise.all(files.map(f => uploadFile(f)));
+      const paths = await Promise.all(files.map(f => uploadFile(f, userId)));
       const updated = [...logos, ...paths];
       saveLogos(updated);
       toast({ title: `${paths.length === 1 ? "Logo subido" : `${paths.length} logos subidos`}`, description: "Los logos fueron cargados correctamente." });
@@ -1338,7 +1338,7 @@ function Step4({
     }
     setUploading(true);
     try {
-      const paths = await Promise.all(files.map(f => uploadFile(f)));
+      const paths = await Promise.all(files.map(f => uploadFile(f, userId)));
       const newImages = [...currentImages, ...paths];
       onChange({ referenceImages: JSON.stringify(newImages) });
       toast({ title: "Imágenes subidas", description: `${files.length} imagen(es) cargada(s).` });
