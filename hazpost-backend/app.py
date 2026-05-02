@@ -179,45 +179,62 @@ def _try_acquire_scheduler_lock(data_dir: str):
         return None
 
 
+# ============================================================
+# CREATE APP
+# ============================================================
 def create_app():
     global _SCHEDULER_LOCK_FILE
 
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
+    # 🔐 SECRET
+    app.config['SECRET_KEY'] = os.getenv(
+        'SECRET_KEY',
+        'dev-secret-key-change-in-production'
+    )
 
-    # ============================================================
-    # 🍪 COOKIES / SESIÓN — FIX CRÍTICO PARA VERCEL + RAILWAY
-    # ============================================================
+    # 🍪 COOKIES / SESIÓN (IMPORTANTE)
     app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['SESSION_COOKIE_SAMESITE'] = 'None'   # 🔥 obligatorio cross-domain
-    app.config['SESSION_COOKIE_SECURE'] = True       # 🔥 obligatorio HTTPS
-    app.config['SESSION_COOKIE_DOMAIN'] = None       # 🔥 evita conflictos de dominio
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+    app.config['SESSION_COOKIE_SECURE'] = True
+    app.config['SESSION_COOKIE_DOMAIN'] = None
 
-    # 🔥 Persistencia de sesión
-    app.config['SESSION_PERMANENT'] = True
-    app.config['PERMANENT_SESSION_LIFETIME'] = 60 * 60 * 24 * 7  # 7 días
+    # 🔥 SESIÓN PERSISTENTE (ARREGLO CLAVE)
+    from flask_session import Session
 
+    app.config["SESSION_TYPE"] = "filesystem"
+    app.config["SESSION_FILE_DIR"] = "/tmp/flask_session"
+    app.config["SESSION_USE_SIGNER"] = True
+    app.config["SESSION_PERMANENT"] = True
+    app.config['PERMANENT_SESSION_LIFETIME'] = 60 * 60 * 24 * 7
+
+    Session(app)
+
+    # ⚙️ CONFIG GENERAL
     app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
     app.config['TARGET_SITE'] = os.getenv('TARGET_SITE', 'https://hazpost.app')
     app.config['TELEGRAM_BOT_TOKEN'] = os.getenv('TELEGRAM_BOT_TOKEN', '')
     app.config['TELEGRAM_CHAT_ID'] = os.getenv('TELEGRAM_CHAT_ID', '')
     app.config['BACKUP_RETENTION_DAYS'] = int(os.getenv('BACKUP_RETENTION_DAYS', '30'))
-    app.config['DATA_DIR'] = os.getenv('DATA_DIR', os.path.join(os.path.dirname(__file__), 'data'))
+    app.config['DATA_DIR'] = os.getenv(
+        'DATA_DIR',
+        os.path.join(os.path.dirname(__file__), 'data')
+    )
     app.config['SCAN_INTERVAL_HOURS'] = int(os.getenv('SCAN_INTERVAL_HOURS', '6'))
     app.config['MONITOR_INTERVAL_MINUTES'] = int(os.getenv('MONITOR_INTERVAL_MINUTES', '5'))
     app.config['BACKUP_HOUR_UTC'] = int(os.getenv('BACKUP_HOUR_UTC', '2'))
     app.config['API_KEY'] = os.getenv('API_KEY', '')
 
-    # CORS primero para que incluso errores, OPTIONS y respuestas bloqueadas lleven headers correctos.
+    # 🌐 CORS
     _apply_cors(app)
 
-    # 🔥 Inicializar PostgreSQL
+    # 🗄️ DB
     init_db()
 
-    # Seguridad después, manteniendo rate limit, headers, bloqueo de IP y API key.
+    # 🔒 SEGURIDAD
     init_security(app)
 
+    # 🔗 BLUEPRINTS
     app.register_blueprint(seo_bp)
     app.register_blueprint(security_bp, url_prefix='/api/security')
     app.register_blueprint(monitor_bp, url_prefix='/api/monitor')
@@ -228,10 +245,7 @@ def create_app():
     app.register_blueprint(aislamiento_bp, url_prefix='/api/aislamiento')
     app.register_blueprint(aprendizaje_bp, url_prefix='/api/aprendizaje')
 
-    # ⚠️ IMPORTANTE:
-    # dashboard_bp NO va aquí porque puede pisar rutas críticas como /api/brand-profile.
-    # Lo registramos al final, justo antes del fallback.
-
+    return app
 
     # ============================================================
     # PUBLIC PLANS — Registro / Pricing
@@ -327,7 +341,7 @@ def create_app():
                 "priceUsd": 19.99,
             },
         })
-        
+                 
     # ============================================================
     # LOGIN USER — Compatibilidad frontend HazPost
     # ============================================================
@@ -384,7 +398,7 @@ def create_app():
             logger.exception(f"LOGIN ERROR: {e}")
             return jsonify({"error": "Error interno"}), 500
 
-
+    
     # ============================================================
     # USER ME — Obtener y actualizar datos del usuario
     # ============================================================
