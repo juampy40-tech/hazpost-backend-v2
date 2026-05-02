@@ -164,7 +164,7 @@ def posts():
 
 @dashboard_bp.route('/posts/<int:post_id>', methods=['POST', 'PUT', 'PATCH'])
 def update_post(post_id):
-    user_id = session.get("user_id") or session.get("userId") or "demo"
+    user_id = _get_dashboard_user_id()
     data = request.get_json(silent=True) or {}
 
     allowed_fields = {
