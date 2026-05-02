@@ -269,7 +269,7 @@ def schedule():
     data = request.get_json(silent=True) or {}
 
     item = {
-        "id": len(schedule_list) + 1,
+        "id": str(uuid.uuid4())
         **data
     }
 
@@ -297,7 +297,7 @@ def unread():
     data = request.get_json(silent=True) or {}
 
     item = {
-        "id": len(unread_list) + 1,
+        "id": str(uuid.uuid4())
         "read": False,
         **data
     }
@@ -360,7 +360,7 @@ def alerts():
     data = request.get_json(silent=True) or {}
 
     alert = {
-        "id": len(alerts_list) + 1,
+        "id": str(uuid.uuid4())
         "status": data.get("status", "active"),
         **data
     }
