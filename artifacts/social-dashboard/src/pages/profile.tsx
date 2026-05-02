@@ -706,17 +706,23 @@ async function loadProfile() {
       const bizData = await bizRes.json();
       if (!bizRes.ok) throw new Error(bizData.error ?? "Error al guardar negocio");
 
+      const wasEditing = !!bizId;
+
       if (!bizId && bizData.business?.id) {
         setBizId(bizData.business.id);
       }
 
+      setBrandProfileExists(true);
+
       originalBizWebsiteRef.current = bizWebsite.trim();
-      toast({ title: bizId ? "Perfil de marca actualizado" : "Perfil de marca creado" });
+
+      toast({
+        title: wasEditing ? "Perfil de marca actualizado" : "Perfil de marca creado",
+      });
 
       if (isNewWebsite) {
         handleAnalyzeWebsite();
-      }
-    } catch (err) {
+}    } catch (err) {
       toast({ title: "Error al guardar", description: String(err), variant: "destructive" });
     } finally {
       setSavingBiz(false);
