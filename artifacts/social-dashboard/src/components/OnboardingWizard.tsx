@@ -1314,7 +1314,7 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
 // ── Step 4: Audiencia y tono ───────────────────────────────────────────────────
 
 function Step4({
-  data, onChange, aiSuggestions, onDismissSuggestion,
+  data, onChange, aiSuggestions, onDismissSuggestion, userId,
 }: {
   data: BrandProfile;
   onChange: (d: Partial<BrandProfile>) => void;
