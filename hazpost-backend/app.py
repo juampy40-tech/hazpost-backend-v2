@@ -1942,6 +1942,7 @@ Extra:
                 "error": "Error generando primer post"
             }), 500
 
+    app.register_blueprint(oauth_meta_bp)
     # Dashboard blueprint al final para que NO pise rutas críticas locales
     app.register_blueprint(dashboard_bp, url_prefix='/api')
 
