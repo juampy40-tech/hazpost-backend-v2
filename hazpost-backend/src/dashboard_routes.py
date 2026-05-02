@@ -125,7 +125,7 @@ def social_accounts():
 
 @dashboard_bp.route('/posts', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def posts():
-    user_id = session.get("user_id") or session.get("userId") or "demo"
+    user_id = _get_dashboard_user_id()
 
     # -------- GET --------
     if request.method == 'GET':
