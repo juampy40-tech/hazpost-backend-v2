@@ -27,7 +27,7 @@ def health_status():
     })
 
 
-@dashboard_bp.route('/status', methods=['GET'])
+@dashboard_bp.route('/status', methods=['GET', 'POST']
 def status_alias():
     return health_status()
 
