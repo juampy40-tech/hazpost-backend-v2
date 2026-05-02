@@ -543,15 +543,7 @@ def list_social_accounts():
     user_id = _get_user_key()
 
     if not db_available():
-        return jsonify(
-            {
-                "ok": True,
-                "success": True,
-                "accounts": [],
-                "items": [],
-                "warning": "DATABASE_URL no está configurada",
-            }
-        )
+        return jsonify([])
 
     _ensure_social_accounts_table()
 
@@ -583,15 +575,7 @@ def list_social_accounts():
 
     accounts = [_serialize_social_account(row) for row in rows]
 
-    return jsonify(
-        {
-            "ok": True,
-            "success": True,
-            "accounts": accounts,
-            "items": accounts,
-            "count": len(accounts),
-        }
-    )
+    return jsonify(accounts)
 
 
 @oauth_meta_bp.route("/api/social-accounts/<int:account_id>", methods=["DELETE", "OPTIONS"])
