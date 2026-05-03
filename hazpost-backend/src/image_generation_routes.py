@@ -67,7 +67,7 @@ def generate_image():
         logger.info(f"Generando imagen con prompt: {prompt}")
 
         output = replicate.run(
-            "black-forest-labs/flux-schnell",
+            "black-forest-labs/flux-dev",
             input={
                 "prompt": prompt,
                 "num_outputs": 1,
