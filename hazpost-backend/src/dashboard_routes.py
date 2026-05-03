@@ -1,8 +1,13 @@
 import uuid
+import os
+import requests
 
 from flask import Blueprint, jsonify, request, session
+from sqlalchemy import text
 
 from src.db import (
+    db_available,
+    db_session,
     get_posts,
     save_post,
     update_post_fields,
