@@ -896,36 +896,32 @@ useEffect(() => {
 // ── Save default account ───────────────────────────────────────────
 const handleSetDefaultAccount = async (accountId: number | string) => {
   try {
-    setSavingDefaultAccount(true)
-    setSavedDefaultAccount(false)
+    setSavingDefaultAccount(true);
+    setSavedDefaultAccount(false);
 
-    const token = localStorage.getItem("token")
-
-    const res = await fetch(`${API_URL}/api/social-accounts/default`, {
+    const res = await fetch(`${BASE}/api/social-accounts/default`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      credentials: "include",
       body: JSON.stringify({
         account_id: accountId,
       }),
-    })
+    });
 
     if (!res.ok) {
-      throw new Error("Error guardando cuenta default")
+      throw new Error("Error guardando cuenta default");
     }
 
-    setSavedDefaultAccount(true)
-
-    setTimeout(() => setSavedDefaultAccount(false), 2000)
-
+    setSavedDefaultAccount(true);
+    setTimeout(() => setSavedDefaultAccount(false), 2000);
   } catch (err) {
-    console.error("Error setting default account:", err)
+    console.error("Error setting default account:", err);
   } finally {
-    setSavingDefaultAccount(false)
+    setSavingDefaultAccount(false);
   }
-}
+};
 
 async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
     const label = platform === "instagram" ? "Meta (Instagram + Facebook)" : "TikTok";
