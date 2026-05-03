@@ -1796,16 +1796,25 @@ Devuelve SOLO JSON válido:
   "visualIdea": "Describe brevemente una idea visual alineada al negocio real",
   "visualPlan": {{
     "format": "single_image",
-    "prompt": "Describe una imagen realista como director creativo de publicidad para redes sociales. La imagen debe representar fielmente el negocio indicado usando su industria, sub-industria, descripción, audiencia, ubicación y tono.
+    "prompt": "Genera una descripción de imagen para IA que represente EXACTAMENTE el negocio.
 
-Incluye SIEMPRE:
-- El producto, servicio o beneficio real del negocio
-- Un entorno coherente con la industria
+OBLIGATORIO:
+- La imagen DEBE mostrar el producto o servicio principal del negocio según su industria, sub-industria y descripción
+- Si no aparece el servicio real del negocio, la respuesta es incorrecta
+
+Reglas estrictas:
+- PROHIBIDO generar escenas genéricas (salas, decoración, paisajes sin relación)
+- PROHIBIDO ignorar el tipo de negocio
+- PROHIBIDO crear imágenes abstractas o sin contexto comercial
+- DEBE ser una escena real del negocio (trabajo, instalación, uso del producto, cliente, servicio en acción)
+
+Debe incluir:
+- Producto o servicio real
+- Contexto real del negocio
 - Personas, objetos o escena relacionados directamente con el negocio
-- Iluminación profesional natural o comercial
-- Estilo visual tipo anuncio para Instagram o redes sociales
-- Emoción alineada al negocio: confianza, deseo, bienestar, ahorro, seguridad, alegría o transformación
-- Detalles fotográficos: alta calidad, realista, profundidad de campo, sombras suaves, composición limpia
+- Emoción alineada al negocio
+- Estilo fotografía profesional tipo anuncio para redes sociales
+- Alta calidad, realista, iluminación natural o comercial, composición limpia
 
 IMPORTANTE:
 - NO generar escenas genéricas
@@ -1814,8 +1823,8 @@ IMPORTANTE:
 - NO incluir texto, logos falsos ni marcas inventadas dentro de la imagen
 - DEBE parecer una fotografía real usada por una empresa real
 
-Ejemplo de estructura:
-[producto o servicio real] en [entorno real del negocio], con [emoción principal], iluminación profesional, fotografía realista, alta calidad, estilo anuncio para redes sociales"
+Formato:
+[servicio o producto real] en [contexto real del negocio], con [emoción principal], fotografía profesional, realista, alta calidad, estilo anuncio para redes sociales"
   }}
 }}
 
