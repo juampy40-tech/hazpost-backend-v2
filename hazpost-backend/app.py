@@ -93,6 +93,7 @@ def _get_user_store():
 #   CORS_ORIGIN=https://hazpost-frontend.vercel.app,https://hazpost.app
 # ============================================================
 DEFAULT_ALLOWED_ORIGINS = [
+    "https://app.hazpost.app",   # 🔥 ESTE ES EL IMPORTANTE
     "https://hazpost-frontend.vercel.app",
     "https://hazpost.app",
     "https://www.hazpost.app",
