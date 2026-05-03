@@ -199,20 +199,14 @@ def create_app():
     )
 
     # 🍪 COOKIES / SESIÓN
+    # Railway + Gunicorn = NO usar filesystem en /tmp
+    # Flask usará sesión firmada en cookie, estable entre requests.
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
     app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_DOMAIN'] = ".hazpost.app"
-
-    # 🔥 SESIÓN
-    from flask_session import Session
-    app.config["SESSION_TYPE"] = "filesystem"
-    app.config["SESSION_FILE_DIR"] = "/tmp/flask_session"
-    app.config["SESSION_USE_SIGNER"] = True
     app.config["SESSION_PERMANENT"] = True
     app.config['PERMANENT_SESSION_LIFETIME'] = 60 * 60 * 24 * 7
-
-    Session(app)
 
     # ⚙️ CONFIG
     app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
@@ -220,7 +214,6 @@ def create_app():
     # 🌐 CORS
     _apply_cors(app)
 
- 
     # 🗄️ DB
     init_db()
 
