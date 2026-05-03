@@ -899,6 +899,9 @@ const handleSetDefaultAccount = async (accountId: number | string) => {
     setSavingDefaultAccount(true);
     setSavedDefaultAccount(false);
 
+    console.log("USER EMAIL DEFAULT:", user?.email); // 👈 AQUÍ
+    console.log("ACCOUNT DEFAULT:", accountId);      // 👈 AQUÍ
+
     const res = await fetch(`${BASE}/api/social-accounts/default`, {
       method: "POST",
       headers: {
