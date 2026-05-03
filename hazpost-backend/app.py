@@ -1178,7 +1178,7 @@ def create_app():
     def google_login_temp_admin():
         user = {
             "id": 1,
-            "email": "admin@hazpost.com",
+            "email": "admin@hazpost.app",
             "displayName": "Admin HazPost",
             "role": "admin",
             "plan": "agency",
