@@ -521,7 +521,7 @@ def create_app():
                 "id": 1,
                 "email": email,
                 "displayName": display_name or email.split("@")[0],
-                "role": "user",
+                "role": _get_user_role(email),
                 "plan": selected_plan or "free",
                 "aiCredits": 40,
                 "onboardingStep": 1,
