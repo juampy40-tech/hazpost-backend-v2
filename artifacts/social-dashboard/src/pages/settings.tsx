@@ -1743,7 +1743,18 @@ const getAccountStatus = (platform: string) => {
               </div>
               {accountsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> :
                 getAccountStatus("instagram") === true ?
-                  <div className="flex items-center gap-1 text-xs font-bold text-primary uppercase tracking-wider"><CheckCircle2 className="w-4 h-4" /> Cuenta vinculada{getAccount("instagram")?.username ? `: ${getAccount("instagram")?.username}` : ""}</div> :
+                  <div className="flex items-center gap-1 text-xs font-bold text-primary uppercase tracking-wider">
+                    <CheckCircle2 className="w-4 h-4" />
+                    Cuenta vinculada{
+                      getAccount("instagram")?.username
+                        ? `: @${getAccount("instagram")?.username}`
+                        : getAccount("instagram")?.instagramUsername
+                          ? `: @${getAccount("instagram")?.instagramUsername}`
+                          : getAccount("instagram")?.pageName
+                            ? `: ${getAccount("instagram")?.pageName}`
+                            : ""
+                    }
+                  </div> :
                 metaConfigured ?
                   <div className="flex items-center gap-1 text-xs font-bold text-amber-400 uppercase tracking-wider"><AlertCircle className="w-4 h-4" /> App lista — falta autorizar</div> :
                   <div className="flex items-center gap-1 text-xs font-bold text-destructive uppercase tracking-wider"><XCircle className="w-4 h-4" /> Sin configurar</div>
