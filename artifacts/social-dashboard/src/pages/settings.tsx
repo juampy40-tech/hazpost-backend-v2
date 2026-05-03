@@ -1820,6 +1820,39 @@ useEffect(() => {
                 {totalBusinesses > 1 && <ChevronDown className="w-3 h-3 text-violet-400 pointer-events-none" />}
               </div>
             )}
+
+            {/* Selector de cuenta activa */}
+            {instagramAccounts.length > 0 && (
+              <div className="grid gap-2 rounded-lg border border-pink-500/20 bg-pink-500/5 p-3">
+                <Label>Cuenta de Instagram activa para publicar</Label>
+
+                <select
+                  value={selectedInstagramAccountId ?? ""}
+                  onChange={e => setSelectedInstagramAccountId(e.target.value)}
+                  className="flex h-10 w-full max-w-md rounded-md border border-border/50 bg-black/50 px-3 py-2 text-sm text-foreground"
+                >
+                  {instagramAccounts.map((acc: any) => (
+                    <option key={acc.id} value={acc.id}>
+                      @{acc.instagramUsername || acc.username || "sin_usuario"} — {acc.pageName || "Sin página"}
+                    </option>
+                  ))}
+                </select>
+
+                <p className="text-xs text-muted-foreground">
+                  Cuenta seleccionada:{" "}
+                  <strong className="text-primary">
+                    @{
+                      instagramAccounts.find((acc: any) => String(acc.id) === String(selectedInstagramAccountId))
+                        ?.instagramUsername ||
+                      instagramAccounts.find((acc: any) => String(acc.id) === String(selectedInstagramAccountId))
+                        ?.username ||
+                      "sin_usuario"
+                   }
+                 </strong>
+               </p>
+             </div>
+           )}
+            
             <div className="flex gap-2 flex-wrap">
               <Button
                 onClick={handleConnectMeta}
