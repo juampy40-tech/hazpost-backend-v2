@@ -89,6 +89,7 @@ function getLogoFromProfile(profile: BrandProfileSummary | null) {
 function FirstPostPreview({ firstPost, brandProfile, brandName }: FirstPostPreviewProps) {
   const caption = String(firstPost.caption ?? "").trim();
   const visualIdea = String(firstPost.visualIdea ?? "").trim();
+  const imageUrl = String(firstPost.imageUrl ?? "").trim();
   const hashtags = normalizeHashtags(firstPost.hashtags);
   const logoUrl = getLogoFromProfile(brandProfile);
   const primaryColor = brandProfile?.primaryColor || "#00C953";
