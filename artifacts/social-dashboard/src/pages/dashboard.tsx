@@ -267,7 +267,7 @@ async function generateFirstPost() {
     const data = await res.json();
 
     // 👉 Guardamos preview
-    setFirstPost(data);
+    setFirstPost(postWithImage);
 
     // 👉 Refrescamos lista real de posts (si existe)
     if (typeof refetch === "function") {
