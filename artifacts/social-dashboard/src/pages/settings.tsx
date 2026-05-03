@@ -922,7 +922,6 @@ const handleSetDefaultAccount = async (accountId: number | string) => {
     setSavingDefaultAccount(false);
   }
 };
-
 async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
     const label = platform === "instagram" ? "Meta (Instagram + Facebook)" : "TikTok";
     const confirmed = window.confirm(`¿Seguro que quieres desconectar tu cuenta de ${label}? Los posts programados en estas plataformas dejarán de publicarse automáticamente.`);
