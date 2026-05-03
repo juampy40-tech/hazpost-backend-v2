@@ -133,5 +133,5 @@ def generate_image():
         logger.exception(f"GENERATE IMAGE ERROR: {e}")
         return jsonify({
             "success": False,
-            "error": "Error generando imagen"
+            "error": str(e)  # 🔥 VER ERROR REAL
         }), 500
