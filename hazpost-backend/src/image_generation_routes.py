@@ -69,13 +69,13 @@ def generate_image():
         output = replicate.run(
             "black-forest-labs/flux-dev",
             input={
-                "prompt": prompt,
+                "prompt": f"{prompt}, commercial photography, highly realistic, sharp focus, professional lighting, no blur, no abstract, no generic scene",
                 "num_outputs": 1,
                 "aspect_ratio": "1:1",
-                "output_format": "jpg"
+                "output_format": "jpg",
+                "guidance_scale": 3.5
             }
         )
-
         if not output:
             raise Exception("Replicate no devolvió imagen")
 
