@@ -1890,6 +1890,18 @@ async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
                   ))}
                 </select>
 
+                {savingDefaultAccount && (
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Guardando cuenta por defecto...
+                  </p>
+                )}
+
+                {savedDefaultAccount && (
+                  <p className="text-xs text-green-500 mt-2">
+                    Cuenta por defecto guardada ✅
+                  </p>
+                )}
+
                 <p className="text-xs text-muted-foreground">
                   Cuenta seleccionada:{" "}
                   <strong className="text-primary">
