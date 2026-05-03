@@ -76,6 +76,31 @@ def _get_user_key():
 
     return "anonymous"
 
+def _encode_oauth_state(user_id):
+    random_part = secrets.token_urlsafe(24)
+    safe_user_id = quote(str(user_id or "").strip().lower(), safe="")
+    return f"{safe_user_id}.{random_part}"
+
+
+def _decode_oauth_state(state):
+    if not state or "." not in str(state):
+        return None
+
+    encoded_user_id = str(state).split(".", 1)[0].strip()
+
+    if not encoded_user_id:
+        return None
+
+    try:
+        user_id = unquote(encoded_user_id).strip().lower()
+    except Exception:
+        return None
+
+    if not user_id or user_id == "anonymous":
+        return None
+
+    return user_id
+
 
 def _frontend_redirect(path="/settings", **params):
     clean_path = path if str(path).startswith("/") else f"/{path}"
