@@ -906,7 +906,7 @@ const handleSetDefaultAccount = async (accountId: number | string) => {
       },
       credentials: "include",
       body: JSON.stringify({
-        account_id: accountId,
+        accountId: accountId,
       }),
     });
 
