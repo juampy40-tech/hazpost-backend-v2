@@ -534,6 +534,25 @@ def meta_oauth_callback():
         saved_accounts = []
         for page in pages:
             if page.get("id") and page.get("access_token"):
+                try:
+                    page_details = _graph_get(
+                        page.get("id"),
+                        {
+                            "access_token": page.get("access_token"),
+                            "fields": "instagram_business_account{id,username}",
+                        },
+                    )
+
+                    if page_details.get("instagram_business_account"):
+                        page["instagram_business_account"] = page_details.get("instagram_business_account")
+
+                except Exception as exc:
+                    logger.warning(
+                        "No se pudo obtener Instagram para page_id=%s: %s",
+                        page.get("id"),
+                        exc,
+                    )
+
                 saved = _save_social_account(
                     user_id=user_id,
                     page=page,
