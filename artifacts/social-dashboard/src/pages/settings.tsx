@@ -41,7 +41,13 @@ export default function Settings() {
   const { user, logout } = useAuth();
   const { id: globalBusinessId, name: activeBusinessName, total: totalBusinesses, list: businessList, switchBusiness } = useActiveBusiness();
   const [, navigate] = useLocation();
-  const { data: accounts, isLoading: accountsLoading, refetch: refetchAccounts } = useGetSocialAccounts();
+  const { data: accounts, isLoading: accountsLoading, refetch: refetchAccounts } = useGetSocialAccounts({
+    request: {
+      headers: {
+        "X-User-ID": user?.email || "",
+      },
+    },
+  });
   const { data: settings, isLoading: settingsLoading, refetch: refetchSettings } = useGetSettings();
   const [showBrandWizard, setShowBrandWizard] = useState(false);
   const [brandProfile, setBrandProfile] = useState<BrandProfile | null>(null);
