@@ -1951,8 +1951,9 @@ Extra:
     # BLUEPRINTS FINALES (CRÍTICO PARA DASHBOARD)
     # ============================================================
     app.register_blueprint(oauth_meta_bp)
+    app.register_blueprint(image_generation_bp, url_prefix='/api')
     app.register_blueprint(dashboard_bp, url_prefix='/api')
-
+    
     # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
