@@ -503,7 +503,21 @@ def meta_oauth_callback():
             )
         )
 
-    user_id = session.get("meta_oauth_user_id") or _get_user_key()
+    user_id = (
+        _decode_oauth_state(received_state)
+        or session.get("meta_oauth_user_id")
+        or _get_user_key()
+    )
+
+    if not user_id or user_id == "anonymous":
+        logger.warning("Meta OAuth callback sin user_id válido")
+        return redirect(
+            _frontend_redirect(
+                "/settings",
+                meta="error",
+                reason="missing_user",
+            )
+        )    
 
     try:
         short_token, short_expires_at, token_raw = _exchange_code_for_token(code)
