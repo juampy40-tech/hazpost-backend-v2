@@ -866,6 +866,19 @@ const getAccountStatus = (platform: string) => {
   // to be present — the secret is always resolved at runtime from env vars or DB.
   const tiktokConfigured = Boolean(tiktokClientKey);
 
+  const instagramAccounts = socialAccounts.filter((a: any) =>
+  a.platform === "instagram" &&
+  (a.status === "connected" || a.connected === true || a.connected === "true")
+);
+
+const [selectedInstagramAccountId, setSelectedInstagramAccountId] = useState<number | string | null>(null);
+
+useEffect(() => {
+  if (!selectedInstagramAccountId && instagramAccounts.length > 0) {
+    setSelectedInstagramAccountId(instagramAccounts[0].id);
+  }
+}, [instagramAccounts, selectedInstagramAccountId]);
+
   async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
     const label = platform === "instagram" ? "Meta (Instagram + Facebook)" : "TikTok";
     const confirmed = window.confirm(`¿Seguro que quieres desconectar tu cuenta de ${label}? Los posts programados en estas plataformas dejarán de publicarse automáticamente.`);
