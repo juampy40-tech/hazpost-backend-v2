@@ -925,6 +925,7 @@ const handleSetDefaultAccount = async (accountId: number | string) => {
     }
 
     setSavedDefaultAccount(true);
+    await refetchAccounts(); // 🔥 clave UX
     setTimeout(() => setSavedDefaultAccount(false), 2000);
   } catch (err) {
     console.error("Error setting default account:", err);
