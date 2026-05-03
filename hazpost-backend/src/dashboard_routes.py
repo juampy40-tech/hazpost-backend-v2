@@ -409,6 +409,154 @@ def schedule():
 
     return jsonify(schedule_list), 201
 
+# ------------------ INSTAGRAM PUBLISH ------------------
+
+@dashboard_bp.route('/social-accounts/default', methods=['POST', 'OPTIONS'])
+def set_default_social_account():
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    user_id = _get_dashboard_user_id()
+    data = request.get_json(silent=True) or {}
+
+    platform = data.get("platform") or "instagram"
+    social_account_id = (
+        data.get("socialAccountId")
+        or data.get("social_account_id")
+        or data.get("instagramAccountId")
+        or data.get("instagram_account_id")
+    )
+
+    if not social_account_id:
+        return jsonify({
+            "success": False,
+            "error": "Falta socialAccountId"
+        }), 400
+
+    account = _get_instagram_social_account(user_id, social_account_id)
+
+    if not account:
+        return jsonify({
+            "success": False,
+            "error": "Cuenta social no encontrada o no pertenece al usuario"
+        }), 404
+
+    saved = _set_default_social_account(user_id, platform, social_account_id)
+
+    return jsonify({
+        "success": True,
+        "platform": platform,
+        "socialAccountId": saved.get("social_account_id"),
+        "instagramUsername": account.get("instagram_username"),
+        "pageName": account.get("page_name"),
+    })
+
+
+@dashboard_bp.route('/publish/instagram', methods=['POST', 'OPTIONS'])
+def publish_instagram_now():
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    user_id = _get_dashboard_user_id()
+    data = request.get_json(silent=True) or {}
+
+    caption = data.get("caption") or data.get("text") or ""
+    image_url = data.get("imageUrl") or data.get("image_url")
+    social_account_id = (
+        data.get("socialAccountId")
+        or data.get("social_account_id")
+        or data.get("instagramAccountId")
+        or data.get("instagram_account_id")
+    )
+
+    if not image_url:
+        return jsonify({
+            "success": False,
+            "error": "Falta image_url o imageUrl público para publicar en Instagram"
+        }), 400
+
+    account = _get_instagram_social_account(user_id, social_account_id)
+
+    if not account:
+        return jsonify({
+            "success": False,
+            "error": "No hay cuenta de Instagram conectada/default para publicar"
+        }), 404
+
+    access_token = account.get("page_access_token")
+    ig_user_id = account.get("instagram_business_account_id")
+
+    if not access_token or not ig_user_id:
+        return jsonify({
+            "success": False,
+            "error": "La cuenta seleccionada no tiene token o Instagram Business ID"
+        }), 400
+
+    try:
+        create_res = requests.post(
+            f"{META_GRAPH_BASE}/{ig_user_id}/media",
+            data={
+                "image_url": image_url,
+                "caption": caption,
+                "access_token": access_token,
+            },
+            timeout=30,
+        )
+
+        create_data = create_res.json()
+
+        if not create_res.ok:
+            return jsonify({
+                "success": False,
+                "stage": "create_media_container",
+                "error": create_data,
+            }), create_res.status_code
+
+        creation_id = create_data.get("id")
+
+        if not creation_id:
+            return jsonify({
+                "success": False,
+                "error": "Meta no devolvió creation_id",
+                "metaResponse": create_data,
+            }), 500
+
+        publish_res = requests.post(
+            f"{META_GRAPH_BASE}/{ig_user_id}/media_publish",
+            data={
+                "creation_id": creation_id,
+                "access_token": access_token,
+            },
+            timeout=30,
+        )
+
+        publish_data = publish_res.json()
+
+        if not publish_res.ok:
+            return jsonify({
+                "success": False,
+                "stage": "publish_media",
+                "error": publish_data,
+            }), publish_res.status_code
+
+        _set_default_social_account(user_id, "instagram", account.get("id"))
+
+        return jsonify({
+            "success": True,
+            "platform": "instagram",
+            "socialAccountId": account.get("id"),
+            "instagramUsername": account.get("instagram_username"),
+            "pageName": account.get("page_name"),
+            "creationId": creation_id,
+            "instagramPostId": publish_data.get("id"),
+            "metaResponse": publish_data,
+        })
+
+    except Exception as exc:
+        return jsonify({
+            "success": False,
+            "error": str(exc),
+        }), 500
 
 # ------------------ SUPPORT ------------------
 
