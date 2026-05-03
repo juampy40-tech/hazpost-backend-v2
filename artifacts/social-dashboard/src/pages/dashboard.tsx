@@ -41,6 +41,7 @@ interface FirstPostPreviewProps {
     caption?: string;
     hashtags?: string | string[];
     visualIdea?: string;
+    imageUrl?: string;
     visualPlan?: {
       format?: string;
       slides?: Array<{ type?: string; description?: string }>;
