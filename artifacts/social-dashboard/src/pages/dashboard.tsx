@@ -302,12 +302,31 @@ async function generateFirstPost() {
     const postWithImage = {
       ...data,
       imageUrl,
+      postType,
+      businessId: activeBusiness.id ?? brandProfile?.id ?? undefined,
+      status: "pending_approval",
     };
 
-    // 👉 Guardamos preview
-    setFirstPost(postWithImage);
+    const saveRes = await fetch(`${BASE}/api/posts`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postWithImage),
+    });
 
-    // 👉 Refrescamos lista real de posts (si existe)
+    if (!saveRes.ok) {
+      const saveError = await saveRes.json().catch(() => null);
+      console.error("Error saving post:", saveError);
+      setFirstPost(postWithImage);
+      return;
+    }
+
+    const savedPost = await saveRes.json();
+
+    setFirstPost(savedPost);
+
     if (typeof refetch === "function") {
       refetch();
     }
@@ -316,6 +335,47 @@ async function generateFirstPost() {
     console.error("Error generating first post:", error);
   } finally {
     setLoadingFirstPost(false);
+  }
+}
+
+  async function approveFirstPost() {
+  if (!firstPost?.id) {
+    console.error("No hay post guardado para aprobar");
+    return;
+  }
+
+  try {
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+
+    const res = await fetch(`${BASE}/api/posts/${firstPost.id}/approve`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        scheduledAt: now.toISOString(),
+      }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => null);
+      console.error("Error approving post:", errorData);
+      return;
+    }
+
+    const data = await res.json();
+
+    setFirstPost(data?.post ?? null);
+
+    if (typeof refetch === "function") {
+      refetch();
+    }
+
+    window.location.href = "/calendar";
+  } catch (error) {
+    console.error("Error approving first post:", error);
   }
 }
 
