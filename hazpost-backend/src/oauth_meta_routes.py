@@ -533,7 +533,7 @@ def meta_oauth_callback():
         expires_at = long_expires_at or short_expires_at
 
         pages = _get_pages(user_token)
-        logger.info("PAGES META: %s", pages)
+        logger.warning("PAGES META: %s", pages)
 
         saved_accounts = []
         for page in pages:
