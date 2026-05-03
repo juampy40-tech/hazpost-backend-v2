@@ -1890,10 +1890,9 @@ Extra:
                             or "producto o servicio real" in visual_prompt
                             or "contexto real del negocio" in visual_prompt
                             or "productos y servicios" in visual_prompt
-                            or "salas" in visual_prompt
-                            or "decoración" in visual_prompt
+                            or "[" in visual_prompt
+                            or "]" in visual_prompt
                         )
-
                         if bad_prompt:
                             result["visualPlan"] = {
                                 "format": "single_image",
@@ -1902,7 +1901,7 @@ Extra:
                                     f"Debe mostrar claramente el servicio principal del negocio: {description or business_type}. "
                                     f"Escena real del servicio en acción, contexto coherente con la industria, clientes o equipo trabajando, "
                                     f"fotografía profesional para redes sociales, alta calidad, luz natural, composición limpia, sin texto ni logos falsos."
-                                ) 
+                                )
                             }
 
                         # 🔥 AJUSTAR FORMATO SEGÚN post_type
