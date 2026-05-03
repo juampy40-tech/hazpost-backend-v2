@@ -41,7 +41,7 @@ def _get_user_key():
     return secure_filename(str(user.get("email") or "anonymous"))
 
 
-@image_generation_bp.route("/api/generate-image", methods=["POST"])
+@image_generation_bp.route("/generate-image", methods=["POST"])
 def generate_image():
     try:
         if not REPLICATE_API_TOKEN:
