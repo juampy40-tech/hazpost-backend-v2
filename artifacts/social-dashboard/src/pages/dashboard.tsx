@@ -7,7 +7,7 @@ import { LayoutDashboard, CheckCircle2, Clock, Upload, Plus, Sparkles, Info, Zap
 import { Link } from "wouter";
 import { useActiveBusiness } from "@/contexts/ActiveBusinessContext";
 
-const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
+const BASE = "https://api.hazpost.app";
 
 interface HealthStatus {
   status: string;
