@@ -369,7 +369,7 @@ def create_app():
                 "id": 1,
                 "email": email,
                 "displayName": email.split("@")[0],
-                "role": "user",
+                "role": _get_user_role(email),
                 "plan": "free",
                 "aiCredits": 40,
                 "onboardingStep": 1,
