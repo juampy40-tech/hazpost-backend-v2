@@ -34,6 +34,128 @@ def _get_dashboard_user_id():
 
     return str(user_id).strip().lower()
 
+META_GRAPH_VERSION = os.getenv("META_GRAPH_VERSION", "v25.0")
+META_GRAPH_BASE = f"https://graph.facebook.com/{META_GRAPH_VERSION}"
+
+def _ensure_social_defaults_table():
+    if not db_available():
+        return False
+
+    with db_session() as db:
+        db.execute(text("""
+            CREATE TABLE IF NOT EXISTS user_social_defaults (
+                id SERIAL PRIMARY KEY,
+                user_id TEXT NOT NULL,
+                platform TEXT NOT NULL,
+                social_account_id INTEGER NOT NULL,
+                created_at TIMESTAMP DEFAULT NOW(),
+                updated_at TIMESTAMP DEFAULT NOW(),
+                UNIQUE(user_id, platform)
+            );
+        """))
+
+    return True
+
+
+def _set_default_social_account(user_id, platform, social_account_id):
+    _ensure_social_defaults_table()
+
+    with db_session() as db:
+        row = db.execute(text("""
+            INSERT INTO user_social_defaults (
+                user_id,
+                platform,
+                social_account_id,
+                updated_at
+            )
+            VALUES (
+                :user_id,
+                :platform,
+                :social_account_id,
+                NOW()
+            )
+            ON CONFLICT (user_id, platform)
+            DO UPDATE SET
+                social_account_id = EXCLUDED.social_account_id,
+                updated_at = NOW()
+            RETURNING social_account_id;
+        """), {
+            "user_id": str(user_id),
+            "platform": str(platform),
+            "social_account_id": int(social_account_id),
+        }).mappings().first()
+
+    return row
+
+
+def _get_default_social_account_id(user_id, platform):
+    _ensure_social_defaults_table()
+
+    with db_session() as db:
+        row = db.execute(text("""
+            SELECT social_account_id
+            FROM user_social_defaults
+            WHERE user_id = :user_id
+              AND platform = :platform
+            LIMIT 1;
+        """), {
+            "user_id": str(user_id),
+            "platform": str(platform),
+        }).mappings().first()
+
+    return row.get("social_account_id") if row else None
+
+
+def _get_instagram_social_account(user_id, social_account_id=None):
+    if not db_available():
+        return None
+
+    if not social_account_id:
+        social_account_id = _get_default_social_account_id(user_id, "instagram")
+
+    with db_session() as db:
+        if social_account_id:
+            row = db.execute(text("""
+                SELECT
+                    id,
+                    user_id,
+                    page_access_token,
+                    instagram_business_account_id,
+                    instagram_username,
+                    page_name,
+                    status
+                FROM social_accounts
+                WHERE id = :account_id
+                  AND user_id = :user_id
+                  AND status = 'connected'
+                  AND instagram_business_account_id IS NOT NULL
+                LIMIT 1;
+            """), {
+                "account_id": int(social_account_id),
+                "user_id": str(user_id),
+            }).mappings().first()
+        else:
+            row = db.execute(text("""
+                SELECT
+                    id,
+                    user_id,
+                    page_access_token,
+                    instagram_business_account_id,
+                    instagram_username,
+                    page_name,
+                    status
+                FROM social_accounts
+                WHERE user_id = :user_id
+                  AND status = 'connected'
+                  AND instagram_business_account_id IS NOT NULL
+                ORDER BY updated_at DESC, created_at DESC
+                LIMIT 1;
+            """), {
+                "user_id": str(user_id),
+            }).mappings().first()
+
+    return row
+
 
 # ------------------ CORE ------------------
 
