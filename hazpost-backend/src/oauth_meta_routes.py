@@ -75,12 +75,13 @@ def _get_user_key():
         return str(user_id).strip().lower()
 
     return "anonymous"
+    
 
 def _encode_oauth_state(user_id):
     random_part = secrets.token_urlsafe(24)
     safe_user_id = quote(str(user_id or "").strip().lower(), safe="")
     return f"{safe_user_id}.{random_part}"
-
+    
 
 def _decode_oauth_state(state):
     if not state or "." not in str(state):
