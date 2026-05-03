@@ -699,6 +699,98 @@ def list_social_accounts():
     return jsonify(accounts)
 
 
+@oauth_meta_bp.route("/api/social-accounts/default", methods=["POST", "OPTIONS"])
+def set_default_social_account():
+    if request.method == "OPTIONS":
+        return jsonify({"ok": True})
+
+    user_id = _get_user_key()
+
+    if not db_available():
+        return _json_error("DATABASE_URL no está configurada", 500)
+
+    _ensure_social_accounts_table()
+
+    data = request.get_json(silent=True) or {}
+
+    account_id = (
+        data.get("account_id")
+        or data.get("accountId")
+        or data.get("social_account_id")
+        or data.get("socialAccountId")
+    )
+
+    platform = str(data.get("platform") or "instagram").strip().lower()
+
+    if not account_id:
+        return _json_error("Falta account_id", 400)
+
+    try:
+        account_id_int = int(account_id)
+    except Exception:
+        return _json_error("account_id inválido", 400)
+
+    with db_session() as db:
+        db.execute(text("""
+            CREATE TABLE IF NOT EXISTS user_social_defaults (
+                id SERIAL PRIMARY KEY,
+                user_id TEXT NOT NULL,
+                platform TEXT NOT NULL,
+                social_account_id INTEGER NOT NULL,
+                created_at TIMESTAMP DEFAULT NOW(),
+                updated_at TIMESTAMP DEFAULT NOW(),
+                UNIQUE(user_id, platform)
+            );
+        """))
+
+        account = db.execute(text("""
+            SELECT id
+            FROM social_accounts
+            WHERE id = :account_id
+              AND user_id = :user_id
+              AND status != 'deleted'
+            LIMIT 1;
+        """), {
+            "account_id": account_id_int,
+            "user_id": str(user_id),
+        }).mappings().first()
+
+        if not account:
+            return _json_error("Cuenta social no encontrada para este usuario", 404)
+
+        db.execute(text("""
+            INSERT INTO user_social_defaults (
+                user_id,
+                platform,
+                social_account_id,
+                created_at,
+                updated_at
+            )
+            VALUES (
+                :user_id,
+                :platform,
+                :social_account_id,
+                NOW(),
+                NOW()
+            )
+            ON CONFLICT (user_id, platform)
+            DO UPDATE SET
+                social_account_id = EXCLUDED.social_account_id,
+                updated_at = NOW();
+        """), {
+            "user_id": str(user_id),
+            "platform": platform,
+            "social_account_id": account_id_int,
+        })
+
+    return jsonify({
+        "ok": True,
+        "success": True,
+        "platform": platform,
+        "socialAccountId": account_id_int,
+    })
+
+
 @oauth_meta_bp.route("/api/social-accounts/<int:account_id>", methods=["DELETE", "OPTIONS"])
 def disconnect_social_account(account_id):
     if request.method == "OPTIONS":
