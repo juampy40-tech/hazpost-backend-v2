@@ -646,6 +646,9 @@ def list_social_accounts():
 
     _ensure_social_accounts_table()
 
+    # 🔥 NUEVO: obtener cuenta default
+    default_instagram_account_id = _get_default_social_account_id(user_id, "instagram")
+
     with db_session() as db:
         rows = db.execute(
             text(
@@ -666,13 +669,30 @@ def list_social_accounts():
                 FROM social_accounts
                 WHERE user_id = :user_id
                   AND status != 'deleted'
-                ORDER BY updated_at DESC, created_at DESC;
+                ORDER BY
+                    CASE WHEN id = :default_instagram_account_id THEN 0 ELSE 1 END,
+                    updated_at DESC,
+                    created_at DESC;
                 """
             ),
-            {"user_id": str(user_id)},
+            {
+                "user_id": str(user_id),
+                "default_instagram_account_id": default_instagram_account_id,
+            },
         ).mappings().all()
 
-    accounts = [_serialize_social_account(row) for row in rows]
+    accounts = []
+    for row in rows:
+        account = _serialize_social_account(row)
+
+        if account:
+            # 🔥 NUEVO: marcar cuál es default
+            account["isDefault"] = (
+                default_instagram_account_id is not None
+                and int(account["id"]) == int(default_instagram_account_id)
+            )
+
+            accounts.append(account)
 
     return jsonify(accounts)
 
