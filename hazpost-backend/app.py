@@ -61,7 +61,15 @@ _SCHEDULER_LOCK_FILE = None
 # ============================================================
 TEMP_USER_DATA = {}
 
+OWNER_ADMIN_EMAIL = "admin@hazpost.app"
 
+
+def _get_user_role(email: str) -> str:
+    clean_email = (email or "").strip().lower()
+    if clean_email == OWNER_ADMIN_EMAIL:
+        return "admin"
+    return "user"
+    
 def _get_user_key():
     user = session.get("user")
 
