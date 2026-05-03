@@ -1823,8 +1823,18 @@ IMPORTANTE:
 - NO incluir texto, logos falsos ni marcas inventadas dentro de la imagen
 - DEBE parecer una fotografía real usada por una empresa real
 
-Formato:
-[servicio o producto real] en [contexto real del negocio], con [emoción principal], fotografía profesional, realista, alta calidad, estilo anuncio para redes sociales"
+Instrucción final:
+Escribe el prompt final completamente listo para generar una imagen.
+
+- NO uses corchetes ni placeholders
+- NO dejes partes incompletas
+- DEBE estar totalmente adaptado al negocio recibido
+- DEBE incluir el producto o servicio real del negocio
+- DEBE incluir un contexto real donde ese servicio ocurre
+- DEBE incluir emoción alineada al negocio
+- Debe parecer una fotografía profesional usada en redes sociales
+
+El resultado debe ser una sola descripción completa, específica y lista para usar en generación de imagen."
   }}
 }}
 
