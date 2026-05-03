@@ -1485,9 +1485,19 @@ export const getGetSocialAccountsUrl = () => {
 export const getSocialAccounts = async (
   options?: RequestInit,
 ): Promise<SocialAccount[]> => {
+  const userEmail =
+    localStorage.getItem("user_email") ||
+    localStorage.getItem("email") ||
+    localStorage.getItem("userEmail") ||
+    "";
+
   return customFetch<SocialAccount[]>(getGetSocialAccountsUrl(), {
     ...options,
     method: "GET",
+    headers: {
+      ...(options?.headers || {}),
+      "X-User-ID": userEmail,
+    },
   });
 };
 
