@@ -834,14 +834,34 @@ export default function Settings() {
     });
   };
 
-  const getAccount = (platform: string) => accounts?.find(a => a.platform === platform) ?? null;
-  const getAccountStatus = (platform: string) => {
-    const acc = getAccount(platform);
-    if (!acc) return null;
-    return acc.connected === "true";
-  };
+  const socialAccounts = Array.isArray(accounts)
+  ? accounts
+  : (accounts as any)?.accounts
+    || (accounts as any)?.socialAccounts
+    || (accounts as any)?.data
+    || [];
 
-  const metaConfigured = Boolean(metaAppId && metaAppSecret);
+const getAccount = (platform: string) => {
+  return socialAccounts.find((a: any) =>
+    a.platform === platform ||
+    a.provider === platform ||
+    (platform === "instagram" && a.provider === "meta")
+  ) ?? null;
+};
+
+const getAccountStatus = (platform: string) => {
+  const acc = getAccount(platform);
+  if (!acc) return null;
+
+  return (
+    acc.connected === true ||
+    acc.connected === "true" ||
+    acc.status === "connected" ||
+    acc.status === "active"
+  );
+};
+
+  const metaConfigured = true;
   // TikTok secret is masked when stored, so we only require the client key
   // to be present — the secret is always resolved at runtime from env vars or DB.
   const tiktokConfigured = Boolean(tiktokClientKey);
