@@ -202,6 +202,7 @@ def _ensure_social_accounts_table():
         )
 
     return True
+    
 
 def _get_default_social_account_id(user_id, platform="instagram"):
     if not db_available():
