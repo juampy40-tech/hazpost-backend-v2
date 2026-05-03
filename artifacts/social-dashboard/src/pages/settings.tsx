@@ -861,21 +861,35 @@ const getAccountStatus = (platform: string) => {
   );
 };
 
-  const metaConfigured = true;
-  // TikTok secret is masked when stored, so we only require the client key
-  // to be present — the secret is always resolved at runtime from env vars or DB.
-  const tiktokConfigured = Boolean(tiktokClientKey);
+const metaConfigured = true;
 
-  const instagramAccounts = socialAccounts.filter((a: any) =>
+// TikTok secret is masked when stored, so we only require the client key
+// to be present — the secret is always resolved at runtime from env vars or DB.
+const tiktokConfigured = Boolean(tiktokClientKey);
+
+// ── Instagram Accounts ─────────────────────────────────────────────
+const instagramAccounts = socialAccounts.filter((a: any) =>
   a.platform === "instagram" &&
   (a.status === "connected" || a.connected === true || a.connected === "true")
 );
 
+// ── State ──────────────────────────────────────────────────────────
 const [selectedInstagramAccountId, setSelectedInstagramAccountId] = useState<number | string | null>(null);
+const [savingDefaultAccount, setSavingDefaultAccount] = useState(false);
+const [savedDefaultAccount, setSavedDefaultAccount] = useState(false);
 
+// ── Set default account on load ────────────────────────────────────
 useEffect(() => {
   if (!selectedInstagramAccountId && instagramAccounts.length > 0) {
-    setSelectedInstagramAccountId(instagramAccounts[0].id);
+    const defaultInstagramAccount = instagramAccounts.find(
+      (a: any) => a.isDefault === true
+    );
+
+    setSelectedInstagramAccountId(
+      defaultInstagramAccount
+        ? defaultInstagramAccount.id
+        : instagramAccounts[0].id
+    );
   }
 }, [instagramAccounts, selectedInstagramAccountId]);
 
