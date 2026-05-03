@@ -233,6 +233,7 @@ def _get_default_social_account_id(user_id, platform="instagram"):
 
     return row.get("social_account_id") if row else None
 
+
 def _graph_get(path, params=None):
     url = f"{META_GRAPH_BASE}/{str(path).lstrip('/')}"
     response = requests.get(url, params=params or {}, timeout=20)
