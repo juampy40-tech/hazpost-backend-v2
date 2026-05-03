@@ -31,6 +31,7 @@ from src.aprendizaje_colectivo import aprendizaje_bp
 from src.catalogs.industries import get_industries_response
 from src.dashboard_routes import dashboard_bp
 from src.oauth_meta_routes import oauth_meta_bp
+from src.image_generation_routes import image_generation_bp
 from src.db import init_db, db_available, get_brand_profile, save_brand_profile, save_post
 
 R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
