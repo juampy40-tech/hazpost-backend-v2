@@ -1702,7 +1702,8 @@ def create_app():
 
             if not isinstance(profile, dict):
                 profile = {}
-
+            print("PROFILE FINAL:", profile)
+            
             company_name = (profile.get("companyName") or "Tu negocio").strip()
             industry = (profile.get("industry") or "").strip()
             sub_industry = (profile.get("subIndustry") or "").strip()
