@@ -1781,18 +1781,41 @@ Instrucción especial: {extra_instruction}
 Reglas:
 - NO uses frases genéricas
 - USA el tipo de negocio real
+- Usa la industria, sub-industria, descripción, audiencia, tono, ubicación y slogan para decidir el contenido
+- Si el negocio tiene una descripción clara, priorízala sobre ideas genéricas
+- Nunca inventes un tipo de negocio diferente
 - Máximo 120 palabras
 - Usa emojis estratégicamente
+- Si hay website o referencias visuales, úsalas para entender mejor el negocio y su estilo
 
 Devuelve SOLO JSON válido:
 
 {{
   "caption": "...",
   "hashtags": ["#tag1", "#tag2", "#tag3"],
-  "visualIdea": "...",
+  "visualIdea": "Describe brevemente una idea visual alineada al negocio real",
   "visualPlan": {{
     "format": "single_image",
-    "prompt": "..."
+    "prompt": "Describe una imagen realista como director creativo de publicidad para redes sociales. La imagen debe representar fielmente el negocio indicado usando su industria, sub-industria, descripción, audiencia, ubicación y tono.
+
+Incluye SIEMPRE:
+- El producto, servicio o beneficio real del negocio
+- Un entorno coherente con la industria
+- Personas, objetos o escena relacionados directamente con el negocio
+- Iluminación profesional natural o comercial
+- Estilo visual tipo anuncio para Instagram o redes sociales
+- Emoción alineada al negocio: confianza, deseo, bienestar, ahorro, seguridad, alegría o transformación
+- Detalles fotográficos: alta calidad, realista, profundidad de campo, sombras suaves, composición limpia
+
+IMPORTANTE:
+- NO generar escenas genéricas
+- NO inventar un negocio diferente
+- NO usar elementos que no correspondan al sector
+- NO incluir texto, logos falsos ni marcas inventadas dentro de la imagen
+- DEBE parecer una fotografía real usada por una empresa real
+
+Ejemplo de estructura:
+[producto o servicio real] en [entorno real del negocio], con [emoción principal], iluminación profesional, fotografía realista, alta calidad, estilo anuncio para redes sociales"
   }}
 }}
 
@@ -1806,6 +1829,10 @@ Tono: {tone}
 Audiencia: {audience}
 Descripción: {description}
 Slogan: {slogan}
+Contexto adicional del negocio (usar si está disponible):
+Website: {profile.get("website")}
+Colores de marca: {profile.get("primaryColor")}
+Imágenes de referencia: {profile.get("referenceImages")}
 
 Extra:
 - Usa beneficios reales del negocio
