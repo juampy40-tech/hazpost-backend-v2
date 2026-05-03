@@ -4,7 +4,7 @@ import time
 import secrets
 import logging
 from datetime import datetime, timedelta, timezone
-from urllib.parse import urlencode
+from urllib.parse import urlencode, quote, unquote
 
 import requests
 from flask import Blueprint, jsonify, redirect, request, session
