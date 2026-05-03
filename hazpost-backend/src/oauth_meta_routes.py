@@ -32,7 +32,7 @@ META_REDIRECT_URI = os.getenv(
 FRONTEND_URL = (
     os.getenv("FRONTEND_URL")
     or os.getenv("CORS_ORIGIN", "").split(",")[0].strip()
-    or "https://hazpost.app"
+    or "https://app.hazpost.app"
 ).rstrip("/")
 
 META_SCOPES = [
