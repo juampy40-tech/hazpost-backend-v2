@@ -13,6 +13,8 @@ logger = logging.getLogger(__name__)
 image_generation_bp = Blueprint("image_generation", __name__)
 
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
+if REPLICATE_API_TOKEN:
+    os.environ["REPLICATE_API_TOKEN"] = REPLICATE_API_TOKEN
 
 # 🔥 REUTILIZAMOS TU CONFIG R2
 R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
