@@ -266,6 +266,43 @@ async function generateFirstPost() {
 
     const data = await res.json();
 
+    let imageUrl = "";
+
+    const imagePrompt =
+      data?.visualPlan?.prompt ||
+      data?.visualIdea ||
+      "";
+
+    if (imagePrompt) {
+      try {
+        const imageRes = await fetch(`${BASE}/api/generate-image`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt: imagePrompt,
+          }),
+        });
+
+        const imageData = await imageRes.json();
+
+        if (imageRes.ok && imageData?.success && imageData?.imageUrl) {
+          imageUrl = imageData.imageUrl;
+        } else {
+          console.error("Error generating image:", imageData);
+        }
+      } catch (imageError) {
+        console.error("Error generating image:", imageError);
+      }
+    }
+
+    const postWithImage = {
+      ...data,
+      imageUrl,
+    };
+
     // 👉 Guardamos preview
     setFirstPost(postWithImage);
 
