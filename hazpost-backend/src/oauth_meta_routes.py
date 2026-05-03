@@ -203,6 +203,35 @@ def _ensure_social_accounts_table():
 
     return True
 
+def _get_default_social_account_id(user_id, platform="instagram"):
+    if not db_available():
+        return None
+
+    with db_session() as db:
+        db.execute(text("""
+            CREATE TABLE IF NOT EXISTS user_social_defaults (
+                id SERIAL PRIMARY KEY,
+                user_id TEXT NOT NULL,
+                platform TEXT NOT NULL,
+                social_account_id INTEGER NOT NULL,
+                created_at TIMESTAMP DEFAULT NOW(),
+                updated_at TIMESTAMP DEFAULT NOW(),
+                UNIQUE(user_id, platform)
+            );
+        """))
+
+        row = db.execute(text("""
+            SELECT social_account_id
+            FROM user_social_defaults
+            WHERE user_id = :user_id
+              AND platform = :platform
+            LIMIT 1;
+        """), {
+            "user_id": str(user_id),
+            "platform": str(platform),
+        }).mappings().first()
+
+    return row.get("social_account_id") if row else None
 
 def _graph_get(path, params=None):
     url = f"{META_GRAPH_BASE}/{str(path).lstrip('/')}"
