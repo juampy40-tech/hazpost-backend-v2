@@ -410,7 +410,11 @@ def meta_oauth_start():
         )
 
     user_id = _get_user_key()
-    state = secrets.token_urlsafe(32)
+
+    if not user_id or user_id == "anonymous":
+        return _json_error("No se pudo identificar el usuario para conectar Meta", 401)
+
+    state = _encode_oauth_state(user_id)
 
     session["meta_oauth_state"] = state
     session["meta_oauth_user_id"] = user_id
