@@ -1883,6 +1883,28 @@ Extra:
                         result = json.loads(clean_text)
                         result["source"] = "openai"
 
+                        visual_prompt = ((result.get("visualPlan") or {}).get("prompt") or "").lower()
+
+                        bad_prompt = (
+                            not visual_prompt
+                            or "producto o servicio real" in visual_prompt
+                            or "contexto real del negocio" in visual_prompt
+                            or "productos y servicios" in visual_prompt
+                            or "salas" in visual_prompt
+                            or "decoración" in visual_prompt
+                        )
+
+                        if bad_prompt:
+                            result["visualPlan"] = {
+                                "format": "single_image",
+                                "prompt": (
+                                    f"Imagen publicitaria realista para {company_name}, negocio de {business_type} en {location}. "
+                                    f"Debe mostrar claramente el servicio principal del negocio: {description or business_type}. "
+                                    f"Escena real del servicio en acción, contexto coherente con la industria, clientes o equipo trabajando, "
+                                    f"fotografía profesional para redes sociales, alta calidad, luz natural, composición limpia, sin texto ni logos falsos."
+                                ) 
+                            }
+
                         # 🔥 AJUSTAR FORMATO SEGÚN post_type
                         if "visualPlan" not in result:
                             result["visualPlan"] = {}
