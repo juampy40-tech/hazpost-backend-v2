@@ -1876,7 +1876,11 @@ async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
 
                 <select
                   value={selectedInstagramAccountId ?? ""}
-                  onChange={e => setSelectedInstagramAccountId(e.target.value)}
+                  onChange={e => {
+                    const newAccountId = e.target.value;
+                    setSelectedInstagramAccountId(newAccountId);
+                    handleSetDefaultAccount(newAccountId);
+                  }}
                   className="flex h-10 w-full max-w-md rounded-md border border-border/50 bg-black/50 px-3 py-2 text-sm text-foreground"
                 >
                   {instagramAccounts.map((acc: any) => (
