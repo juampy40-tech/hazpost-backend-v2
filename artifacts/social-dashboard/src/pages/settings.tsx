@@ -893,7 +893,41 @@ useEffect(() => {
   }
 }, [instagramAccounts, selectedInstagramAccountId]);
 
-  async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
+// ── Save default account ───────────────────────────────────────────
+const handleSetDefaultAccount = async (accountId: number | string) => {
+  try {
+    setSavingDefaultAccount(true)
+    setSavedDefaultAccount(false)
+
+    const token = localStorage.getItem("token")
+
+    const res = await fetch(`${API_URL}/api/social-accounts/default`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        account_id: accountId,
+      }),
+    })
+
+    if (!res.ok) {
+      throw new Error("Error guardando cuenta default")
+    }
+
+    setSavedDefaultAccount(true)
+
+    setTimeout(() => setSavedDefaultAccount(false), 2000)
+
+  } catch (err) {
+    console.error("Error setting default account:", err)
+  } finally {
+    setSavingDefaultAccount(false)
+  }
+}
+
+async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
     const label = platform === "instagram" ? "Meta (Instagram + Facebook)" : "TikTok";
     const confirmed = window.confirm(`¿Seguro que quieres desconectar tu cuenta de ${label}? Los posts programados en estas plataformas dejarán de publicarse automáticamente.`);
     if (!confirmed) return;
