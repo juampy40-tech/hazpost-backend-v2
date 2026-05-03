@@ -240,6 +240,7 @@ export default function Dashboard() {
   const [brandProfile, setBrandProfile] = useState<BrandProfileSummary | null>(null);
   const [brandProfileLoaded, setBrandProfileLoaded] = useState(false);
   const [firstPost, setFirstPost] = useState<any>(null);
+  const [approvingFirstPost, setApprovingFirstPost] = useState(false);
   const [loadingFirstPost, setLoadingFirstPost] = useState(false);
   const [postType, setPostType] = useState("auto");
 
