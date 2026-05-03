@@ -81,22 +81,25 @@ def _get_user_key():
     
 
 def _encode_oauth_state(user_id):
-    random_part = secrets.token_urlsafe(24)
-    safe_user_id = quote(str(user_id or "").strip().lower(), safe="")
-    return f"{safe_user_id}.{random_part}"
-    
+    payload = {
+        "user_id": str(user_id or "").strip().lower(),
+        "nonce": secrets.token_urlsafe(24),
+        "ts": int(time.time()),
+    }
+
+    raw = json.dumps(payload, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return base64.urlsafe_b64encode(raw).decode("utf-8").rstrip("=")
+
 
 def _decode_oauth_state(state):
-    if not state or "." not in str(state):
-        return None
-
-    encoded_user_id = str(state).split(".", 1)[0].strip()
-
-    if not encoded_user_id:
+    if not state:
         return None
 
     try:
-        user_id = unquote(encoded_user_id).strip().lower()
+        padded_state = str(state) + "=" * (-len(str(state)) % 4)
+        raw = base64.urlsafe_b64decode(padded_state.encode("utf-8"))
+        payload = json.loads(raw.decode("utf-8"))
+        user_id = str(payload.get("user_id") or "").strip().lower()
     except Exception:
         return None
 
