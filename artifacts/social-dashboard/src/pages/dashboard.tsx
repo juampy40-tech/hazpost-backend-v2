@@ -623,12 +623,14 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
         Editar
       </Link>
 
-      <Link
-        href="/approval"
-        className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90"
+      <button
+        type="button"
+        onClick={approveFirstPost}
+        disabled={!firstPost?.id}
+        className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
       >
         Aprobar
-      </Link>
+      </button>
     </div>
   </div>
 )}
