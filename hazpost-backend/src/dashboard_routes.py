@@ -340,6 +340,7 @@ def update_post(post_id):
             "id": row.get("id"),
             "status": row.get("status"),
             "businessId": row.get("business_id"),
+            "postNumber": row.get("post_number") or row.get("id"),
             **post_data
         })
 
