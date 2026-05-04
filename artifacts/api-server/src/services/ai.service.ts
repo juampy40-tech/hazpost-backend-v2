@@ -4862,7 +4862,7 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
 
       const characterDesc = effectiveCharBank[charIdx % effectiveCharBank.length];
       // If the job has a user-specified visual scene (from brief distillation), use it; otherwise pick from the bank
-      const sceneDesc = job.imageScene ?? effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
+      const baseScene = effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
       // Business context: aligned to the same charIdx in the filtered bank (no solar context leak for non-solar biz)
       const businessContext = effectiveBusinessCtxBank[charIdx % effectiveBusinessCtxBank.length] ?? undefined;
       // Character usage was already stamped (recentCharHashes.unshift + recordCaptionHistory)
