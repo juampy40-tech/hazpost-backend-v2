@@ -2216,7 +2216,9 @@ export default function Approval() {
     setPendingPollCount(0); // reset when we start polling for this post
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`${BASE}/api/posts/${currentPost.id}`);
+        const res = await fetch(`${BASE}/api/posts/${currentPost.id}`, {
+          credentials: "include",
+        });
         const fullData = await res.json();
         const stillPending = (fullData.imageVariants ?? []).some((v: any) => v.generationStatus === "pending");
         setCurrentPostFull(fullData);
