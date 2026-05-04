@@ -3372,10 +3372,13 @@ export default function Approval() {
                 onClick={() => {
                   const a = document.createElement("a");
                   a.href = imageUrlFallback;
-                  a.download = `eco-${currentPost.platform}-${currentPost.contentType}-${new Date().toISOString().slice(0,10)}.jpg`;
+                  a.download = `eco-${currentPost?.platform ?? "post"}-${currentPost?.contentType ?? "image"}-${new Date().toISOString().slice(0,10)}.jpg`;
                   a.target = "_blank";
                   a.rel = "noreferrer";
+
+                  document.body.appendChild(a);
                   a.click();
+                  document.body.removeChild(a);
                 }}
                 className="w-full bg-secondary/10 text-secondary border border-secondary/30 hover:bg-secondary/20 gap-2"
                 variant="outline"
