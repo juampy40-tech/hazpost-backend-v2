@@ -4172,8 +4172,13 @@ function deriveBusinessIndustryScene(industry: string | null | undefined, varian
   };
 
   // ── Energía Solar (special path, handled by isSolarIndustry()) ──
-  if (lower.includes("solar") || lower.includes("energía solar") || lower.includes("energia solar"))
+  if (
+    lower.includes("solar") ||
+    lower.includes("energía solar") ||
+    lower.includes("energia solar")
+  ) {
     return null;
+  }
 
   // ── Alimentación & Restauración ──
   if (lower.includes("restaurante") || lower.includes("comida") || lower.includes("aliment"))
