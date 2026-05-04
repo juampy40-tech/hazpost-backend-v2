@@ -482,14 +482,21 @@ def publish_post_now(post_id):
     from datetime import datetime, timezone
     now_iso = datetime.now(timezone.utc).isoformat()
 
+    has_tiktok_pending = bool(
+        post_data.get("scheduledAtTiktok")
+        and not post_data.get("tiktokPostId")
+    )
+
+    next_status = "scheduled" if has_tiktok_pending else "published"
+
     updated = update_post_status(
         user_id=user_id,
         post_id=post_id,
-        status="published",
+        status=next_status,
         extra_updates={
             "instagramPostId": result.get("instagramPostId"),
             "publishedAt": now_iso,
-            "scheduledAt": now_iso,
+            "publishedAtInstagram": now_iso,
         }
     )
 
