@@ -502,7 +502,8 @@ def publish_post_now(post_id):
 
     return jsonify({
         "success": True,
-        "status": "published",
+        "status": next_status,
+        "platform": "instagram",
         "post": updated,
         "instagramPostId": result.get("instagramPostId")
     })
