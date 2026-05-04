@@ -2274,11 +2274,7 @@ function normalizeSubIndustryList(
   });
 }
 
-/**
- * Fetches the brand profile for a given userId and returns an additional context
- * block to inject into AI prompts. Returns empty string if no profile exists.
- */
-// ── Fallback niches from business profile (centralized) ─────────────────────
+
 async function buildBusinessFallbackNiches(
   userId?: number,
   businessId?: number
@@ -2357,6 +2353,10 @@ async function buildBusinessFallbackNiches(
     return [];
   }
 }
+/**
+ * Fetches the brand profile for a given userId and returns an additional context
+ * block to inject into AI prompts. Returns empty string if no profile exists.
+ */
 async function getBrandContextBlock(userId?: number, businessId?: number): Promise<string> {
   if (!userId && !businessId) return "";
   try {
