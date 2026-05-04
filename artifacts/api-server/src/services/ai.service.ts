@@ -4904,23 +4904,30 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         jobDescription,
         jobSubIndustriesArr.join(" "),
       ].filter(Boolean).join(" ").trim();
+     
       if (!job.imageScene && !job.batchRefStyle) {
-      const baseScene = scenePool[sceneIdx % scenePool.length];
-      const captionTopic = job.captionHook?.trim().slice(0, 100);
-      const captionBody = job.caption
-    ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
-    : null;
-      const subIndustrySuffix = buildSubIndustrySuffix(jobSubIndustriesArr, 1);
+        const baseScene = scenePool[sceneIdx % scenePool.length];
+       
+        const captionTopic = job.captionHook?.trim().slice(0, 100);
+        const captionBody = job.caption
+          ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
+          : null;
+   
+        const subIndustrySuffix = buildSubIndustrySuffix(jobSubIndustriesArr, 1);
 
-      const industryScene = deriveBusinessIndustryScene(effectiveIndustry, sceneIdx);
-      const nicheBaseScene = industryScene
-        ? industryScene
-        : (() => {
-        if (!nicheSceneCache.has(nicheCompositeKey)) {
-          nicheSceneCache.set(nicheCompositeKey, deriveNicheScene(job.nicheContextShort, sceneIdx));
-        }
-        return nicheSceneCache.get(nicheCompositeKey) ?? null;
-      })();
+        const industryScene = deriveBusinessIndustryScene(effectiveIndustry, sceneIdx);
+    
+        const nicheBaseScene = industryScene
+          ? industryScene
+          : (() => {
+              if (!nicheSceneCache.has(nicheCompositeKey)) {
+                nicheSceneCache.set(
+                  nicheCompositeKey,
+                  deriveNicheScene(job.nicheContextShort, sceneIdx)
+                );
+              }
+              return nicheSceneCache.get(nicheCompositeKey) ?? null;
+            })();
 
       const settingScene = nicheBaseScene
         ? `${nicheBaseScene}`
