@@ -4929,14 +4929,14 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
               return nicheSceneCache.get(nicheCompositeKey) ?? null;
             })();
 
-      const settingScene = nicheBaseScene
-        ? `${nicheBaseScene}`
-        : baseScene;
+        const settingScene = nicheBaseScene
+          ? `${nicheBaseScene}`
+          : baseScene;
 
         if (captionTopic) {
-      const bodyCtx = captionBody ? ` Content context: "${captionBody}".` : '';
+          const bodyCtx = captionBody ? ` Content context: "${captionBody}".` : '';
 
-    nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopic}".${bodyCtx}
+          nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopic}".${bodyCtx}
 
 BUSINESS VISUAL RULES:
 - The image MUST show real business activity in progress.
