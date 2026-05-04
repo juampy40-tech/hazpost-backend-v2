@@ -339,7 +339,7 @@ async function generateFirstPost() {
   }
 }
 
-  async function approveFirstPost() {
+async function approveFirstPost() {
   if (!firstPost?.id) {
     console.error("No hay post guardado para aprobar");
     return;
