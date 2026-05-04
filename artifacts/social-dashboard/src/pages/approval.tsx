@@ -3132,7 +3132,7 @@ export default function Approval() {
                 />
               ) : (
                 <img
-                  src={`data:image/jpeg;base64,${activeImage.imageData}`}
+                  src={activeImage?.imageData ? `data:image/jpeg;base64,${activeImage.imageData}` : imageUrlFallback}
                   alt="Post visual"
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
@@ -3279,7 +3279,7 @@ export default function Approval() {
                     />
                   ) : (
                   <img
-                    src={`data:image/jpeg;base64,${activeImage.imageData}`}
+                    src={activeImage?.imageData ? `data:image/jpeg;base64,${activeImage.imageData}` : imageUrlFallback}
                     alt="Post visual"
                     style={{ width: "100%", height: "100%", objectFit: "contain", display: "block", maxWidth: "100%", maxHeight: "100%" }}
                   />
