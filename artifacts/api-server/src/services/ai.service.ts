@@ -5561,7 +5561,7 @@ export async function generateBulkPosts(
   }
 
   if (niches.length === 0) {
-    return { postIds: [], imageJobs: [], searchedDays: 0, stoppedByCredits: false, actualCreditsUsed: 0 };
+    return { postIds: [], imageJobs: [], stoppedByCredits: false, actualCreditsUsed: 0 };
   }
 
   // If a custom topic is provided, distill any rich brief first, then add as virtual niche
