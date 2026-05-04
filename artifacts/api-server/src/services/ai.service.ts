@@ -4861,6 +4861,36 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       const effectiveBusinessCtxBank = CHARACTER_BUSINESS_CONTEXT;
       const effectiveSceneBank = BACKGROUND_SCENES;
 
+      const businessActivityKeywords = [
+       "empresa",
+       "negocio",
+       "servicio",
+       "instal",
+       "técnic",
+       "tecnic",
+       "industrial",
+       "comercial",
+       "mantenimiento",
+       "proyecto",
+       "operación",
+       "operacion",
+       "asesoría",
+       "asesoria",
+       "consultoría",
+       "consultoria",
+     ];
+
+     const wantsBusinessActivity = businessActivityKeywords.some(k =>
+       effectiveIndustry.toLowerCase().includes(k)
+     );
+
+     const businessFocusedCharBank = effectiveCharBank.filter((_, idx) =>
+       effectiveBusinessCtxBank[idx] !== null
+     );
+
+     const finalCharBank = wantsBusinessActivity && businessFocusedCharBank.length > 0
+       ? businessFocusedCharBank
+       : effectiveCharBank;
       const characterDesc = effectiveCharBank[charIdx % effectiveCharBank.length];
 
       const isSolarSceneBusiness = isSolarIndustry(jobIndustry, jobName, jobDescription);
