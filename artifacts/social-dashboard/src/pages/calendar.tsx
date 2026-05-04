@@ -21,9 +21,6 @@ import {
   subWeeks,
   isToday,
   parseISO,
-  setHours,
-  setMinutes,
-  setSeconds,
 } from "date-fns";
 import { es } from "date-fns/locale";
 import {
@@ -46,7 +43,7 @@ import {
   ChevronLeft, ChevronRight, Calendar as CalendarIcon, Grid3x3,
   AlignJustify, GripVertical, X, ExternalLink, Clock, CheckCircle2,
   AlertTriangle, RefreshCw, PlusCircle, CheckSquare, Square,
-  Trash2, RotateCcw, CalendarCheck, ChevronDown,
+  Trash2, RotateCcw, CalendarCheck,
 } from "lucide-react";
 import {
   AlertDialog,
