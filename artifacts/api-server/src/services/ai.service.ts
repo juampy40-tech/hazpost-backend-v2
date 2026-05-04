@@ -2278,6 +2278,85 @@ function normalizeSubIndustryList(
  * Fetches the brand profile for a given userId and returns an additional context
  * block to inject into AI prompts. Returns empty string if no profile exists.
  */
+// ── Fallback niches from business profile (centralized) ─────────────────────
+async function buildBusinessFallbackNiches(
+  userId?: number,
+  businessId?: number
+) {
+  if (!userId && !businessId) return [];
+
+  try {
+    let biz: any = null;
+
+    if (businessId != null) {
+      const [b] = await db
+        .select()
+        .from(businessesTable)
+        .where(
+          userId != null
+            ? and(eq(businessesTable.id, businessId), eq(businessesTable.userId, userId))
+            : eq(businessesTable.id, businessId)
+        )
+        .limit(1);
+
+      biz = b;
+    }
+
+    if (!biz) return [];
+
+    const industry = biz.industry?.trim() || "";
+    const subIndustries = normalizeSubIndustryList(biz.subIndustry, biz.subIndustries);
+    const audience = biz.targetAudience?.trim() || "";
+    const location = biz.defaultLocation?.trim() || "";
+
+    const baseContexts: string[] = [];
+
+    // 🔥 Si hay subindustrias → generar variedad real
+    if (subIndustries.length > 0) {
+      subIndustries.forEach((sub) => {
+        baseContexts.push(`${sub} en ${industry}`);
+        baseContexts.push(`beneficios de ${sub}`);
+        baseContexts.push(`errores comunes en ${sub}`);
+        baseContexts.push(`cómo elegir ${sub}`);
+      });
+    }
+
+    // 🔥 Fallback general por industria
+    if (industry) {
+      baseContexts.push(`beneficios de ${industry}`);
+      baseContexts.push(`tendencias en ${industry}`);
+      baseContexts.push(`errores comunes en ${industry}`);
+      baseContexts.push(`cómo funciona ${industry}`);
+      baseContexts.push(`por qué invertir en ${industry}`);
+    }
+
+    // 🔥 Añadir audiencia si existe
+    if (audience) {
+      baseContexts.push(`soluciones para ${audience}`);
+      baseContexts.push(`problemas comunes de ${audience}`);
+    }
+
+    // 🔥 Limpiar duplicados
+    const uniqueContexts = Array.from(new Set(baseContexts)).slice(0, 12);
+
+    // 🔥 Convertir a estructura de niches compatible
+    return uniqueContexts.map((ctx, i) => ({
+      id: -1000 - i, // IDs negativos para no chocar con DB
+      userId: null,
+      businessId: null,
+      name: ctx.slice(0, 80),
+      description: `${ctx}${location ? ` en ${location}` : ""}`,
+      keywords: ctx,
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+  } catch (err) {
+    console.error("[buildBusinessFallbackNiches] error:", err);
+    return [];
+  }
+}
 async function getBrandContextBlock(userId?: number, businessId?: number): Promise<string> {
   if (!userId && !businessId) return "";
   try {
