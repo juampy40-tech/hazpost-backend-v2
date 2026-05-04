@@ -327,7 +327,7 @@ def update_post_status(user_id, post_id, status, extra_updates=None):
                     status = :status,
                     updated_at = NOW()
                 WHERE id = :post_id AND user_id = :user_id
-                RETURNING id, post, status, business_id, created_at, updated_at;
+                RETURNING id, post, status, business_id, post_number, created_at, updated_at;
             """),
             {
                 "post_id": int(post_id),
