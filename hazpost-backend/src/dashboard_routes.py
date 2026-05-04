@@ -29,7 +29,6 @@ def _get_dashboard_user_id():
         or user.get("id")
         or session.get("user_id")
         or session.get("userId")
-        or "demo"
     )
 
     return str(user_id).strip().lower()
