@@ -295,7 +295,6 @@ def posts():
     return jsonify(saved_post), 201
 
 @dashboard_bp.route('/posts/<int:post_id>', methods=['GET', 'POST', 'PUT', 'PATCH'])
-@dashboard_bp.route('/posts/<int:post_id>', methods=['GET', 'POST', 'PUT', 'PATCH'])
 def update_post(post_id):
     user_id = _get_dashboard_user_id()
 
