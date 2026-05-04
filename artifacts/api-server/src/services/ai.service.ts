@@ -5086,7 +5086,7 @@ Prefer rooftops, commercial buildings, industrial zones, or real workplaces — 
           const bodyCtx = captionBodyHint ? ` Content context: "${captionBodyHint}".` : '';
 
           enrichedSceneDesc = `
-        Visual topic (PRIMARY directive): "${captionHookHint}".${bodyCtx}
+        Visual task (PRIMARY directive — MUST be visible in the image): "${captionHookHint}".${bodyCtx}
         ${visualConstraint}
         ${enrichedSceneDesc}
         `;
