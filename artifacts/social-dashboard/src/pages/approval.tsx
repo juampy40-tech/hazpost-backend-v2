@@ -2763,7 +2763,7 @@ export default function Approval() {
         credentials: "include",
       });
 
-      const data = await res.json().catch(() => ({}));
+      const data = await res.json().catch(() => ({ success: false }));
 
       if (!res.ok || data.success === false) {
         toast({
