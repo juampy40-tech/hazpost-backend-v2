@@ -4851,11 +4851,11 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       // No industry-specific hardcoding here.
       // Scene relevance is handled later by deriveBusinessIndustryScene(),
       // deriveNicheScene(), brand profile, subindustries, audience and location.
-const effectiveCharBank = CHARACTER_BANK;
-const effectiveBusinessCtxBank = CHARACTER_BUSINESS_CONTEXT;
-const effectiveSceneBank = BACKGROUND_SCENES;
+      const effectiveCharBank = CHARACTER_BANK;
+      const effectiveBusinessCtxBank = CHARACTER_BUSINESS_CONTEXT;
+      const effectiveSceneBank = BACKGROUND_SCENES;
 
-const characterDesc = effectiveCharBank[charIdx % effectiveCharBank.length];
+      const characterDesc = effectiveCharBank[charIdx % effectiveCharBank.length];
       // If the job has a user-specified visual scene (from brief distillation), use it; otherwise pick from the bank
       const sceneDesc = job.imageScene ?? effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
       // Business context: aligned to the same charIdx in the filtered bank (no solar context leak for non-solar biz)
@@ -4894,22 +4894,22 @@ const characterDesc = effectiveCharBank[charIdx % effectiveCharBank.length];
       const captionBody = job.caption
     ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
     : null;
-  const subIndustrySuffix = buildSubIndustrySuffix(jobSubIndustriesArr, 1);
+      const subIndustrySuffix = buildSubIndustrySuffix(jobSubIndustriesArr, 1);
 
-  const industryScene = deriveBusinessIndustryScene(effectiveIndustry, sceneIdx);
-  const nicheBaseScene = industryScene
-    ? industryScene
-    : (() => {
+      const industryScene = deriveBusinessIndustryScene(effectiveIndustry, sceneIdx);
+      const nicheBaseScene = industryScene
+        ? industryScene
+        : (() => {
         if (!nicheSceneCache.has(nicheCompositeKey)) {
           nicheSceneCache.set(nicheCompositeKey, deriveNicheScene(job.nicheContextShort, sceneIdx));
         }
         return nicheSceneCache.get(nicheCompositeKey) ?? null;
       })();
 
-  const settingScene = nicheBaseScene || baseScene;
+      const settingScene = nicheBaseScene || baseScene;
 
-  if (captionTopic) {
-    const bodyCtx = captionBody ? ` Content context: "${captionBody}".` : '';
+      if (captionTopic) {
+     const bodyCtx = captionBody ? ` Content context: "${captionBody}".` : '';
 
     nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopic}".${bodyCtx}
 
