@@ -872,7 +872,7 @@ const CLEAN_PHOTO_NOTE = `Pure photography backdrop with no text, no logos, no o
 const COP_RULE = CLEAN_PHOTO_NOTE; // keep alias for backward compat
 
 const IMAGE_STYLES = {
-  photorealistic: `Premium lifestyle advertising photography. Scene: professional person or family in an authentic real-world setting — modern home, office, or commercial space — with warm natural daylight, cinematic depth of field, clean blue sky. Lower third of frame has open natural space. Shot like a high-end advertising campaign. ${CLEAN_PHOTO_NOTE}`,
+  photorealistic: `Premium business advertising photography. Scene: real people performing business activity in an authentic real-world setting — store, office, workshop, service location, field, commercial or industrial space — with warm natural daylight, cinematic depth of field, clean blue sky. Lower third of frame has open natural space. Shot like a high-end advertising campaign. ${CLEAN_PHOTO_NOTE}`,
 
   graphic: `Bold graphic background for a modern brand. Rich electric blue gradient with deep navy tones, clean glowing geometric lines. Lower portion is darker and calmer. Inspired by Apple and Tesla advertising — sleek, premium, aspirational. ${CLEAN_PHOTO_NOTE}`,
 
