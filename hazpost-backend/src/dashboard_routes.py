@@ -508,6 +508,100 @@ def publish_post_now(post_id):
         "instagramPostId": result.get("instagramPostId")
     })
 
+# ---------------- NUEVO ENDPOINT MULTI ----------------
+
+@dashboard_bp.route('/posts/<int:post_id>/publish-now', methods=['POST'])
+def publish_post_all_platforms(post_id):
+    user_id = _get_dashboard_user_id()
+
+    if not user_id:
+        return jsonify({"success": False, "error": "Usuario no autenticado"}), 401
+
+    if not db_available():
+        return jsonify({"success": False, "error": "DB no disponible"}), 500
+
+    with db_session() as db:
+        row = db.execute(text("""
+            SELECT id, post, status
+            FROM posts
+            WHERE id = :post_id
+              AND user_id = :user_id
+            LIMIT 1;
+        """), {
+            "post_id": int(post_id),
+            "user_id": str(user_id)
+        }).mappings().first()
+
+    if not row:
+        return jsonify({"success": False, "error": "Post no encontrado"}), 404
+
+    post_data = row.get("post") or {}
+
+    if isinstance(post_data, str):
+        post_data = json.loads(post_data)
+
+    caption = post_data.get("caption") or ""
+    image_url = post_data.get("imageUrl") or post_data.get("image_url")
+
+    if not image_url:
+        return jsonify({"success": False, "error": "Post sin imagen pública"}), 400
+
+    results = {}
+
+    # INSTAGRAM
+    if not post_data.get("instagramPostId"):
+        ig_result = _publish_to_instagram(
+            user_id=user_id,
+            caption=caption,
+            image_url=image_url
+        )
+        results["instagram"] = ig_result
+    else:
+        results["instagram"] = {
+            "success": False,
+            "error": "Ya publicado en Instagram"
+        }
+
+    # TIKTOK (placeholder)
+    if not post_data.get("tiktokPostId"):
+        results["tiktok"] = {
+            "success": False,
+            "error": "TikTok aún no implementado"
+        }
+    else:
+        results["tiktok"] = {
+            "success": False,
+            "error": "Ya publicado en TikTok"
+        }
+
+    from datetime import datetime, timezone
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    has_tiktok_pending = not post_data.get("tiktokPostId")
+    next_status = "scheduled" if has_tiktok_pending else "published"
+
+    extra_updates = {
+        "publishedAt": now_iso
+    }
+
+    if results.get("instagram", {}).get("success"):
+        extra_updates["instagramPostId"] = results["instagram"].get("instagramPostId")
+        extra_updates["publishedAtInstagram"] = now_iso
+
+    updated = update_post_status(
+        user_id=user_id,
+        post_id=post_id,
+        status=next_status,
+        extra_updates=extra_updates
+    )
+
+    return jsonify({
+        "success": True,
+        "status": next_status,
+        "results": results,
+        "post": updated
+    })
+
 # ------------------ SCHEDULE ------------------
 
 @dashboard_bp.route('/schedule', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
