@@ -410,7 +410,7 @@ def update_post_fields(user_id, post_id, updates):
                     status = :status,
                     updated_at = NOW()
                 WHERE id = :post_id AND user_id = :user_id
-                RETURNING id, post, status, business_id, created_at, updated_at;
+                RETURNING id, post, status, business_id, post_number, created_at, updated_at;
             """),
             {
                 "post_id": int(post_id),
