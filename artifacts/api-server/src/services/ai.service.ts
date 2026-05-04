@@ -4886,7 +4886,7 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       // variantIdx = sceneIdx (not jobIdx) so that the variant selection benefits from the
       // cross-batch random offset and the within-batch uniqueness tracking.
       // Using jobIdx caused each of 5 scenes to repeat 6× in a 30-post batch.
-      const nicheCompositeKey = `${isSolar}:${job.nicheContextShort}:${sceneIdx}`;
+      const nicheCompositeKey = `${job.nicheContextShort}:${sceneIdx}`;
       let nicheSpecificScene: string | null = null;
       // Helper: build subIndustry suffix for DALL-E prompts.
       // Accepts the full array of specialties from subIndustriesPromptByKey.
