@@ -654,23 +654,33 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
       brandName={brandName}
     />
 
-    <div className="flex flex-wrap gap-2 pt-1">
-      <Link
-        href="/approval"
-        className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
-      >
-        Editar
-      </Link>
+ <div className="flex flex-wrap gap-2 pt-1">
 
-      <button
-        type="button"
-        onClick={approveFirstPost}
-        disabled={!firstPost?.id}
-        className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        Aprobar
-      </button>
-    </div>
+  <Link
+    href="/approval"
+    className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
+  >
+    Editar
+  </Link>
+
+  <Button
+    onClick={handlePublishNow}
+    disabled={publishingNow}
+    className="inline-flex items-center gap-2 rounded-lg bg-green-600/20 border border-green-500/50 px-4 py-2 text-sm font-semibold text-green-300 hover:bg-green-600/30"
+  >
+    {publishingNow ? "Publicando..." : "Publicar ahora"}
+  </Button>
+
+  <button
+    type="button"
+    onClick={approveFirstPost}
+    disabled={!firstPost?.id}
+    className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    Aprobar
+  </button>
+
+</div>
   </div>
 )}
 
