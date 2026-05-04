@@ -870,36 +870,36 @@ export default function Calendar() {
   // Uses a ref guard so the user's manual selections are never overwritten.
   // Waits for bizContextLoaded so globalBizId is available before choosing the initial scope.
   // Restores the last selection from localStorage (keyed by user id) when available.
- useEffect(() => {
-  if (scopeInitialized.current || !user || !bizContextLoaded) return;
+  useEffect(() => {
+    if (scopeInitialized.current || !user || !bizContextLoaded) return;
 
-  // 🔥 Si no hay negocios → igual cargar algo
-  if (userBusinesses.length === 0) {
-    setCalendarBizScope(globalBizId ? Number(globalBizId) : "all");
+    // 🔥 Si no hay negocios → igual cargar algo
+    if (userBusinesses.length === 0) {
+      setCalendarBizScope(globalBizId ? Number(globalBizId) : "all");
+      scopeInitialized.current = true;
+      return;
+    }
+
+    const storageKey = `hz_cal_scope_${user.id}`;
+    const saved = localStorage.getItem(storageKey);
+
+    // 🔁 Si hay algo guardado en localStorage → usarlo
+    if (saved) {
+      setCalendarBizScope(saved === "all" ? "all" : Number(saved));
+      scopeInitialized.current = true;
+      return;
+    }
+
+    // 🧠 Si no hay guardado → usar negocio actual o primero
+    const defaultBiz =
+      globalBizId
+        ? Number(globalBizId)
+        : userBusinesses[0]?.id || "all";
+
+    setCalendarBizScope(defaultBiz);
     scopeInitialized.current = true;
-    return;
-  }
 
-  const storageKey = `hz_cal_scope_${user.id}`;
-  const saved = localStorage.getItem(storageKey);
-
-  // 🔁 Si hay algo guardado en localStorage → usarlo
-  if (saved) {
-    setCalendarBizScope(saved === "all" ? "all" : Number(saved));
-    scopeInitialized.current = true;
-    return;
-  }
-
-  // 🧠 Si no hay guardado → usar negocio actual o primero
-  const defaultBiz =
-    globalBizId
-      ? Number(globalBizId)
-      : userBusinesses[0]?.id || "all";
-
-  setCalendarBizScope(defaultBiz);
-  scopeInitialized.current = true;
-
-}, [userBusinesses, user, bizContextLoaded, globalBizId]);
+  }, [userBusinesses, user, bizContextLoaded, globalBizId]);
 
   // ── Persist the current scope selection to localStorage whenever it changes ──
   useEffect(() => {
