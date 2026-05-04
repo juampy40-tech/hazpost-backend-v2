@@ -5063,13 +5063,11 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         const subIndustry = subIndustryByKey.get(jobKey) ?? "";
         const industry = jobIndustry ?? "";
 
-        const visualConstraint = `
-      Real ${subIndustry || industry || "business"} environment.
-      Location: ${location || "local business context"}.
-      Use people consistent with local demographics.
-      Avoid generic residential/family scenes unless explicitly required.
-      Prefer real commercial or professional environments.
-      `;
+        const visualConstraint = `Real ${subIndustry || industry || "business"} environment.
+        Location: ${location || "local business context"}.
+        Use people consistent with local demographics.
+        Avoid generic residential/family scenes unless explicitly required.
+        Prefer real commercial or professional environments.`;
 
         if (captionHookHint) {
           const bodyCtx = captionBodyHint ? ` Content context: "${captionBodyHint}".` : '';
