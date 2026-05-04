@@ -5557,9 +5557,11 @@ export async function generateBulkPosts(
   }
 
   if (niches.length === 0 && !customTopic?.trim()) {
-    // No niches and no custom topic — abort. The caller stamped userId on posts,
-    // so returning empty avoids generating content with wrong brand context.
-    return { postIds: [], imageJobs: [], stoppedByCredits: false, actualCreditsUsed: 0 };
+    niches = await buildBusinessFallbackNiches(userId, businessId);
+  }
+
+  if (niches.length === 0) {
+    return { postIds: [], imageJobs: [], searchedDays: 0, stoppedByCredits: false, actualCreditsUsed: 0 };
   }
 
   // If a custom topic is provided, distill any rich brief first, then add as virtual niche
