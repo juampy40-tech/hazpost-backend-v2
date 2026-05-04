@@ -2778,7 +2778,7 @@ export default function Approval() {
       const tiktokMsg = data.results?.tiktok?.error;
 
       toast({
-        title: instagramOk ? "Publicado ahora" : "Publicación procesada",
+        title: instagramOk ? "✅ Publicado en Instagram" : "⚠️ Publicación parcial"
         description: tiktokMsg
           ? `Instagram ${instagramOk ? "publicado" : "no publicado"}. TikTok: ${tiktokMsg}`
           : "El post fue enviado a publicación.",
