@@ -161,17 +161,32 @@ def save_post(user_id, post, business_id=None, status=None):
     post_business_id = business_id or post.get("businessId") or post.get("business_id")
 
     with db_session() as db:
+
+        # 🔢 Obtener siguiente número de post por usuario
+        next_post_number_row = db.execute(
+            text("""
+                SELECT COALESCE(MAX(post_number), 0) + 1 AS next_number
+                FROM posts
+                WHERE user_id = :user_id;
+            """),
+            {"user_id": str(user_id)}
+        ).mappings().first()
+
+        next_post_number = next_post_number_row.get("next_number", 1)
+
+        # 💾 Insertar post con post_number
         row = db.execute(
             text("""
-                INSERT INTO posts (user_id, business_id, post, status, updated_at)
-                VALUES (:user_id, :business_id, CAST(:post AS JSONB), :status, NOW())
-                RETURNING id, post, status, business_id, created_at, updated_at;
+                INSERT INTO posts (user_id, business_id, post, status, post_number, updated_at)
+                VALUES (:user_id, :business_id, CAST(:post AS JSONB), :status, :post_number, NOW())
+                RETURNING id, post, status, business_id, post_number, created_at, updated_at;
             """),
             {
                 "user_id": str(user_id),
                 "business_id": str(post_business_id) if post_business_id is not None else None,
                 "post": json.dumps(post, ensure_ascii=False),
                 "status": str(post_status),
+                "post_number": int(next_post_number),
             }
         ).mappings().first()
 
@@ -186,8 +201,12 @@ def save_post(user_id, post, business_id=None, status=None):
     if not isinstance(saved_post, dict):
         saved_post = {}
 
+    # 🔑 Campos base
     saved_post["id"] = row.get("id")
     saved_post["status"] = row.get("status") or post_status
+
+    # 🔢 NUEVO: número de post
+    saved_post["postNumber"] = row.get("post_number") or row.get("id")
 
     if row.get("business_id") is not None:
         saved_post["businessId"] = row.get("business_id")
@@ -196,7 +215,6 @@ def save_post(user_id, post, business_id=None, status=None):
     saved_post["updatedAt"] = row.get("updated_at").isoformat() if row.get("updated_at") else None
 
     return saved_post
-
 
 def get_posts(user_id, status=None, business_id=None, slim=False):
     if not user_id:
@@ -220,7 +238,7 @@ def get_posts(user_id, status=None, business_id=None, slim=False):
     with db_session() as db:
         rows = db.execute(
             text(f"""
-                SELECT id, post, status, business_id, created_at, updated_at
+                SELECT id, post, status, business_id, post_number, created_at, updated_at
                 FROM posts
                 WHERE {where_sql}
                 ORDER BY created_at DESC;
@@ -243,6 +261,7 @@ def get_posts(user_id, status=None, business_id=None, slim=False):
             post = {}
 
         post["id"] = row.get("id")
+        post["postNumber"] = row.get("post_number") or row.get("id")
         post["status"] = row.get("status")
 
         if row.get("business_id") is not None:
