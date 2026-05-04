@@ -4920,10 +4920,35 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
             const bodyCtxSolar = captionBodySolar ? ` Content context: "${captionBodySolar}".` : '';
             // MANDATE: solar panels on rooftops are the PRIMARY visual element, ALWAYS visible.
             // Post topic provides thematic context but must NOT replace the solar visual.
-            nicheSpecificScene = `MANDATORY visual: photovoltaic solar panels prominently installed on a rooftop or ground array MUST be the dominant visual element of this image — this is non-negotiable. Post topic (thematic context only — do NOT let this override the solar visual): "${captionTopicSolar}".${bodyCtxSolar} Character reference: solar energy professional. Setting: ${solarBaseScene}${subIndustrySuffixSolar}.`;
+            nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopicSolar}".${bodyCtxSolar}
+
+BUSINESS VISUAL RULES:
+- The image MUST show real business activity in progress.
+- Show people working, serving, installing, repairing, advising, operating, selling, preparing, delivering, inspecting, or maintaining.
+- Include tools, equipment, products, materials, documents, workspace, or service activity relevant to this business.
+- Avoid generic lifestyle, family, picnic, posing, or decorative stock scenes.
+- The scene must match the business profile, industry, subindustries, audience, and location.
+
+SETTING:
+${solarBaseScene}${subIndustrySuffixSolar}
+
+Character reference: real business professional performing their job.
+`;
           } else {
             const nicheHintSolar = job.nicheContextShort?.trim().slice(0, 60);
-            nicheSpecificScene = `MANDATORY: photovoltaic solar panels on a rooftop MUST be prominently visible as the primary visual. Setting: ${solarBaseScene}${subIndustrySuffixSolar}${nicheHintSolar ? `. Post topic: "${nicheHintSolar}" — reflect this thematically` : ''}.`;
+
+nicheSpecificScene = `BUSINESS VISUAL RULES:
+- The image MUST show real business activity in progress.
+- Show people working, serving, installing, repairing, advising, operating, selling, preparing, delivering, inspecting, or maintaining.
+- Include tools, equipment, products, materials, or service activity relevant to this business.
+- Avoid generic lifestyle, family, picnic, posing, or decorative scenes.
+- The scene must match the business profile, industry, subindustries, audience, and location.
+
+SETTING:
+${solarBaseScene}${subIndustrySuffixSolar}${nicheHintSolar ? `. Post topic: "${nicheHintSolar}" — reflect this through real business activity.` : ''}
+
+Character reference: real business professional performing their job.
+`;
           }
         } else {
         // 1. Business industry takes priority — most reliable signal for correct scene
