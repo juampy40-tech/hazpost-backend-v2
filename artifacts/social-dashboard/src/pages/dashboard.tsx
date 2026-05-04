@@ -380,6 +380,44 @@ async function generateFirstPost() {
   }
 }
 
+async function handlePublishNow() {
+  if (!firstPost?.id) {
+    console.error("No hay post para publicar");
+    return;
+  }
+
+  if (!window.confirm("¿Publicar ahora este post?")) return;
+
+  setPublishingNow(true);
+
+  try {
+    const res = await fetch(`${BASE}/api/posts/${firstPost.id}/publish-now`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    const data = await res.json().catch(() => ({ success: false }));
+
+    console.log("publish-now response:", data);
+
+    if (!res.ok || data.success === false) {
+      console.error("Error publishing:", data);
+      return;
+    }
+
+    setFirstPost(data?.post ?? null);
+
+    if (typeof refetch === "function") {
+      refetch();
+    }
+
+  } catch (error) {
+    console.error("Error publishing:", error);
+  } finally {
+    setPublishingNow(false);
+  }
+}
+  
 useEffect(() => {
   (async () => {
     try {
