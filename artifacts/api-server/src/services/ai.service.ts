@@ -4923,14 +4923,14 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
 
       const wantsBusinessActivity = businessActivityKeywords.some(k =>
         effectiveIndustry.toLowerCase().includes(k)
-     );
+      );
 
       const alignedBusinessPairs = effectiveCharBank
         .map((char, idx) => ({
-         char,
-         ctx: effectiveBusinessCtxBank[idx]
-       }))
-       .filter(pair => pair.ctx !== null);
+          char,
+          ctx: effectiveBusinessCtxBank[idx]
+        }))
+        .filter(pair => pair.ctx !== null);
 
       const businessFocusedCharBank = alignedBusinessPairs.map(p => p.char);
       const businessFocusedBusinessCtxBank = alignedBusinessPairs.map(p => p.ctx);
