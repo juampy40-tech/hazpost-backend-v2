@@ -3123,7 +3123,7 @@ export default function Approval() {
                   }
                 </button>
               </div>
-            ) : activeImage?.imageData ? (
+            ) : activeImage?.imageData || imageUrlFallback ? (
               activeImage.mimeType?.startsWith("video/") ? (
                 <video
                   src={`data:${activeImage.mimeType};base64,${activeImage.imageData}`}
@@ -3268,7 +3268,7 @@ export default function Approval() {
                       }
                     </button>
                   </div>
-                ) : activeImage?.imageData ? (
+                ) : activeImage?.imageData || imageUrlFallback ? (
                   activeImage.mimeType?.startsWith("video/") ? (
                     <video
                       src={`data:${activeImage.mimeType};base64,${activeImage.imageData}`}
