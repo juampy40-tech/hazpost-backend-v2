@@ -5063,11 +5063,24 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         const subIndustry = subIndustryByKey.get(jobKey) ?? "";
         const industry = jobIndustry ?? "";
 
-        const visualConstraint = `Real ${subIndustry || industry || "business"} environment.
-Location: ${location || "local business context"}.
-Use people consistent with local demographics.
-Avoid generic residential/family scenes unless explicitly required.
-Prefer real commercial or professional environments.`;
+        const visualConstraint = `
+MANDATORY SCENE RULES:
+
+- The image MUST show a real ${subIndustry || industry || "business"} in action.
+- Show WORK being performed (installation, maintenance, inspection, operation).
+- Include tools, equipment, or professional activity relevant to the business.
+- DO NOT show people sitting, posing, or relaxing unless the topic explicitly requires it.
+- DO NOT generate family, picnic, or lifestyle scenes.
+
+LOCATION:
+${location || "Local business environment"}
+
+PEOPLE:
+Must look like real workers or clients from that region (e.g. Colombian if in Colombia).
+
+ENVIRONMENT:
+Prefer rooftops, commercial buildings, industrial zones, or real workplaces — NOT generic homes.
+`;
         
         if (captionHookHint) {
           const bodyCtx = captionBodyHint ? ` Content context: "${captionBodyHint}".` : '';
