@@ -5119,7 +5119,7 @@ Prefer rooftops, commercial buildings, industrial zones, or real workplaces — 
       const learnedStyle = learnedImageStyleByKey.get(jobKey) as keyof typeof IMAGE_STYLES | undefined;
       const jobEffectiveStyle: keyof typeof IMAGE_STYLES = learnedStyle ?? rotatedStyle;
 
-      // Effective DALL-E customInstruction for this job (priority order):
+      // Effective gpt-image-1 customInstruction for this job (priority order):
       // 1. explicit brief imageScene (user wrote a specific scene) — highest priority
       // 2. niche-specific scene (derived from nicheContextShort, industry-matched)
       // 3. effectiveBatchRefStyle: manual ref image (batchRefStyle) OR saved business ref images (userRefStyle)
