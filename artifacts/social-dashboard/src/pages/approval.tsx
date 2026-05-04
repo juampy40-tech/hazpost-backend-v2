@@ -1152,6 +1152,12 @@ export default function Approval() {
   let currentPost = allPendingPosts[currentIndex];
   // Use full post data (with imageData) for image rendering; slim list only has variant ids
   const fullVariants = currentPostFull?.imageVariants ?? [];
+  const imageUrlFallback =
+  currentPostFull?.imageUrl ||
+  currentPostFull?.image_url ||
+  currentPostFull?.post?.imageUrl ||
+  currentPostFull?.post?.image_url ||
+  "";
   // selectedVariant stores variant.id (unique PK) — never variantIndex which can repeat
   const activeImage = (() => {
     if (currentPost?.contentType === "carousel") {
