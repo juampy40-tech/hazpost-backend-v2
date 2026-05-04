@@ -3259,25 +3259,22 @@ export default function Approval() {
                         ? <span style={{ color: "#fff", fontSize: 13 }}>⏸</span>
                         : <span style={{ color: "#fff", fontSize: 13 }}>▶</span>
                       }
-                    </button>
-                  </div>
-                ) : activeImage?.imageData || imageUrlFallback ? (
-                  activeImage.mimeType?.startsWith("video/") ? (
-                    <video
-                      src={`data:${activeImage.mimeType};base64,${activeImage.imageData}`}
-                      style={{ width: "100%", height: "100%", objectFit: "contain", display: "block", maxWidth: "100%", maxHeight: "100%" }}
-                      controls
-                      loop
-                      playsInline
-                    />
-                  ) : (
-                  <img
-                    src={activeImage?.imageData ? `data:image/jpeg;base64,${activeImage.imageData}` : imageUrlFallback}
-                    alt="Post visual"
-                    style={{ width: "100%", height: "100%", objectFit: "contain", display: "block", maxWidth: "100%", maxHeight: "100%" }}
-                  />
-                  )
-                
+                  </button>
+              </div>
+            ) : imageUrlFallback ? (
+              <img
+                src={imageUrlFallback}
+                alt="Post visual"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  display: "block",
+                  maxWidth: "100%",
+                  maxHeight: "100%"
+                }}
+              />                 
+                                  
                 ) : (imageIsStuck || pendingIsStuck || hasOnlyErrorVariants) ? (
                   <div style={{ width: "100%", height: "100%" }} className="bg-gradient-to-br from-neutral-900 to-neutral-800 flex flex-col items-center justify-center gap-3 px-4">
                     <AlertTriangle className="w-8 h-8 text-amber-400" />
