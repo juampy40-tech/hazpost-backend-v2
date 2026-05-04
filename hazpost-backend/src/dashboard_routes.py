@@ -31,6 +31,9 @@ def _get_dashboard_user_id():
         or session.get("userId")
     )
 
+    if not user_id:
+        return None  # 🔥 importante
+
     return str(user_id).strip().lower()
 
 META_GRAPH_VERSION = os.getenv("META_GRAPH_VERSION", "v25.0")
