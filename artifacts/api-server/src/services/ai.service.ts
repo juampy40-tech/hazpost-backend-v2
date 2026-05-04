@@ -3602,16 +3602,16 @@ const BUSINESS_SHOT_ANGLES: string[] = [
 // Indices 0-19: general environments. Indices 20-23: dedicated solar panel scenes.
 const BACKGROUND_SCENES: string[] = [
   "on a modern rooftop terrace overlooking a city skyline at golden hour",                          // 0
-  "in a bright residential backyard with lush tropical plants and solar panels on the roof behind",  // 1  ← solar
-  "in the parking lot of a busy shopping center with visible EV charging stations",                 // 2  ← EV
-  "outside a clean industrial warehouse with solar panels on the roof in midday light",             // 3  ← solar
+  "in a bright residential backyard with lush tropical plants and a modern home in the background", // 1
+  "in the parking lot of a busy shopping center with people walking near storefronts",              // 2 
+  "outside a clean industrial warehouse in midday light",                                           // 3  
   "in a vibrant tropical garden with exotic flowers and filtered sunlight",                         // 4
   "on a scenic mountain road with green hills and blue sky backdrop",                               // 5
   "inside a contemporary glass office building lobby with natural light and indoor plants",         // 6
   "on a colorful street in a vibrant historic Latin American neighborhood",                         // 7
   "on a modern university campus surrounded by green trees and open spaces",                        // 8
   "at a coffee plantation in the mountains with rows of coffee plants stretching back",             // 9
-  "in a hospital parking lot showing modern EV chargers installed alongside a glass building",      // 10 ← EV
+  "in a hospital parking lot beside a modern glass building with people entering the facility",     // 10 
   "at an active construction site for a modern sustainable building, hard hats visible in background", // 11
   "on a cozy apartment balcony at sunset overlooking urban neighborhoods",                          // 12
   "at an outdoor restaurant terrace with warm string lights and an urban backdrop",                 // 13
@@ -3619,7 +3619,7 @@ const BACKGROUND_SCENES: string[] = [
   "at sunrise with mountains silhouetted against an orange and pink sky",                           // 15
   "inside a modern community center with open windows, plants, and natural light",                  // 16
   "at a colorful farmers market with fruit vendors and colorful umbrellas in the background",       // 17
-  "on a highway with electric vehicles driving past green countryside",                             // 18 ← EV
+  "on a highway with regular cars driving past green countryside",                                  // 18
   "in a stylish open coworking space with large windows, exposed brick and green plants",           // 19
   // ── Solar-specific scenes (indices 20-23) ────────────────────────────────────────────────────
   "on a residential rooftop with freshly installed photovoltaic solar panels gleaming under direct sunlight, urban neighborhood visible below, clear blue sky", // 20
