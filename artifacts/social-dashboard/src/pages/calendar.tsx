@@ -911,7 +911,7 @@ export default function Calendar() {
   // ── Build the API query string based on business scope selection ──
   // Only called when calendarBizScope !== null (query is disabled otherwise).
   function buildPostsUrl() {
-    const params = new URLSearchParams({ slim: "1" });
+    const params = new URLSearchParams();
     if (calendarBizScope === "all") {
       params.set("allBusinesses", "1");
     } else if (calendarBizScope !== null) {
