@@ -243,6 +243,7 @@ export default function Dashboard() {
   const [approvingFirstPost, setApprovingFirstPost] = useState(false);
   const [loadingFirstPost, setLoadingFirstPost] = useState(false);
   const [postType, setPostType] = useState("auto");
+  const [publishingNow, setPublishingNow] = useState(false);
 
 async function generateFirstPost() {
   setLoadingFirstPost(true);
