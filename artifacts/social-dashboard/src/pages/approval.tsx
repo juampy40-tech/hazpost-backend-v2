@@ -2110,7 +2110,9 @@ export default function Approval() {
     setHeadlineSuggestions([]);
     setUseDeepElementAiApproval(false);
     setIsLoadingFull(true);
-    fetch(`${BASE}/api/posts/${currentPost.id}`)
+    fetch(`${BASE}/api/posts/${currentPost.id}`, {
+      credentials: "include",
+    })
       .then(r => r.json())
       .then(data => { setCurrentPostFull(data); setIsLoadingFull(false); })
       .catch(() => setIsLoadingFull(false));
