@@ -4905,7 +4905,7 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         jobSubIndustriesArr.join(" "),
       ].filter(Boolean).join(" ").trim();
       if (!job.imageScene && !job.batchRefStyle) {
-      const baseScene = effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
+      const baseScene = scenePool[sceneIdx % scenePool.length];
       const captionTopic = job.captionHook?.trim().slice(0, 100);
       const captionBody = job.caption
     ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
