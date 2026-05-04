@@ -2765,6 +2765,8 @@ export default function Approval() {
 
       const data = await res.json().catch(() => ({ success: false }));
 
+      console.log("publish-now response:", data);
+      
       if (!res.ok || data.success === false) {
         toast({
           title: "No se pudo publicar ahora",
