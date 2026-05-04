@@ -445,7 +445,7 @@ useEffect(() => {
   })();
 }, []);
 
-  useEffect(() => {
+useEffect(() => {
   const fetchSocialAccounts = () => {
     fetch(`${BASE}/api/social-accounts`, { credentials: "include" })
       .then(r => (r.ok ? r.json() : []))
