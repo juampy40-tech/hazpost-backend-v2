@@ -856,9 +856,16 @@ export default function Calendar() {
     queryFn: async () => {
       const res = await fetch(`${BASE}/api/businesses`, { credentials: "include" });
       if (!res.ok) return [];
+
       const data = await res.json();
-      return data.businesses ?? [];
-    },
+
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data.businesses)) return data.businesses;
+      if (Array.isArray(data.items)) return data.items;
+      if (Array.isArray(data.data)) return data.data;
+
+      return [];
+    },    
     staleTime: 60_000,
   });
 
