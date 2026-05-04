@@ -5052,22 +5052,41 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       }
 
       // ── Universal topic concordance (TODOS los usuarios, TODAS las industrias) ────
-      // Regla fundamental — Massive Post Generator Regla 1:
-      // El título y el texto del post son el driver PRIMARIO de la imagen.
-      // Para solar (isSolar=true) y batchRefStyle paths donde nicheSpecificScene=null,
-      // aplicamos topic-FIRST al enrichedSceneDesc — mismo principio que paths 1c y 2c.
       if (!job.imageScene && !nicheSpecificScene) {
         const captionHookHint = job.captionHook?.trim().slice(0, 100);
         const captionBodyHint = job.caption
           ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
           : null;
         const nicheHint = job.nicheContextShort?.trim().slice(0, 60);
+
+        const location = countryByKey.get(jobKey) ?? "";
+        const subIndustry = subIndustryByKey.get(jobKey) ?? "";
+        const industry = jobIndustry ?? "";
+
+        const visualConstraint = `
+      Real ${subIndustry || industry || "business"} environment.
+      Location: ${location || "local business context"}.
+      Use people consistent with local demographics.
+      Avoid generic residential/family scenes unless explicitly required.
+      Prefer real commercial or professional environments.
+      `;
+
         if (captionHookHint) {
-          // Topic-FIRST: captionHook leads the prompt, enrichedSceneDesc is secondary context
           const bodyCtx = captionBodyHint ? ` Content context: "${captionBodyHint}".` : '';
-          enrichedSceneDesc = `Visual topic (PRIMARY directive): "${captionHookHint}".${bodyCtx} The image MUST visually depict this specific topic above all else. Character and setting reference (secondary context — use for photographic style only): ${enrichedSceneDesc}.`;
+
+          enrichedSceneDesc = `
+      Visual topic (PRIMARY directive): "${captionHookHint}".${bodyCtx}
+      ${visualConstraint}
+      ${enrichedSceneDesc}
+      `;
         } else if (nicheHint) {
-          enrichedSceneDesc = `${enrichedSceneDesc}. Post topic: "${nicheHint}" — visually reflect this theme in the character's activity and environment.`;
+          enrichedSceneDesc = `
+      ${visualConstraint}
+      ${enrichedSceneDesc}
+      Post topic: "${nicheHint}" — reflect this visually.
+      `;
+        } else {
+          enrichedSceneDesc = `${visualConstraint} ${enrichedSceneDesc}`;
         }
       }
 
