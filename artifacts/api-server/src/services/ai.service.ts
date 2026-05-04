@@ -6455,6 +6455,10 @@ export async function generateExtraPosts(
   let niches = await db.select().from(nichesTable).where(extraNicheCond);
   if (nicheIds.length > 0) niches = niches.filter(n => nicheIds.includes(n.id));
   if (niches.length === 0 && !customTopic?.trim()) {
+    niches = await buildBusinessFallbackNiches(userId, businessId);
+  }
+
+  if (niches.length === 0) {
     return { postIds: [], imageJobs: [], searchedDays: 0, stoppedByCredits: false, actualCreditsUsed: 0 };
   }
   let extraBriefImageScene: string | undefined;
