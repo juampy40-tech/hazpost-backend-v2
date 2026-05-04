@@ -915,12 +915,16 @@ export default function Calendar() {
   // Only called when calendarBizScope !== null (query is disabled otherwise).
   function buildPostsUrl() {
     const params = new URLSearchParams();
-    if (calendarBizScope === "all") {
-      params.set("allBusinesses", "1");
-    } else if (calendarBizScope !== null) {
-      params.set("businessId", String(calendarBizScope));
+
+    if (calendarBizScope !== "all") {
+      params.append("businessId", String(calendarBizScope));
     }
-    return `${BASE}/api/posts?${params}`;
+
+    const query = params.toString();
+
+    return query
+      ? `${import.meta.env.VITE_API_URL}/api/posts?${query}`
+      : `${import.meta.env.VITE_API_URL}/api/posts`;
   }
 
   // ── Slim fetch — no base64 images, loads fast ──
