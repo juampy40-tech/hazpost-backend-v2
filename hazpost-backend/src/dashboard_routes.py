@@ -547,6 +547,9 @@ def _publish_to_instagram(user_id, caption, image_url, social_account_id=None):
                 "error": publish_data,
             }
 
+        # 🔥 AGREGA ESTA LÍNEA
+        _set_default_social_account(user_id, "instagram", account.get("id"))
+
         return {
             "success": True,
             "instagramPostId": publish_data.get("id"),
