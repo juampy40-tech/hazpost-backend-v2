@@ -4847,31 +4847,15 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       const jobSubIndustriesArr = subIndustriesPromptByKey.get(jobKey) ?? (jobSubIndustry ? [jobSubIndustry] : []);
       // Extend solar detection to name + description — covers businesses with empty industry field
       const isSolar = isSolarIndustry(jobIndustry, jobName, jobDescription);
-      // ── Solar/EV scene index separation ─────────────────────────────────────────
-      // SOLAR_EV_SCENE_INDICES: all scenes with solar/EV visual elements (excluded for non-solar biz)
-      // SOLAR_PANEL_SCENE_INDICES: only scenes with photovoltaic panels on rooftops/farms (for pure solar panel biz)
-      // EV-only scenes (indices 2, 10, 18) are kept for mixed solar+EV businesses; excluded for pure panel biz
-      const SOLAR_CHAR_INDICES = new Set([10]); // index 10: "solar/EV technician in professional uniform"
-      const SOLAR_EV_SCENE_INDICES = new Set([1, 2, 3, 10, 18, 20, 21, 22, 23]); // all solar+EV scenes
-      const SOLAR_PANEL_SCENE_INDICES = new Set([1, 3, 20, 21, 22, 23]);           // panels only (no EV chargers/highway)
-      // Determine which scene pool to use for solar businesses:
-      // If description explicitly mentions EV/cargadores, include EV scenes too; otherwise panels-only.
-      const isMixedSolarEV = isSolar && (jobDescription ?? "").toLowerCase().match(/\bev\b|cargador|vehículo eléctrico|vehiculo electrico/);
-      const solarSceneIndices = isMixedSolarEV ? SOLAR_EV_SCENE_INDICES : SOLAR_PANEL_SCENE_INDICES;
-      // Filter character and business-context banks in lockstep — both drop the same solar indices
-      // so that charIdx selects the same persona from both arrays consistently.
-      const effectiveCharBank = isSolar
-        ? CHARACTER_BANK
-        : CHARACTER_BANK.filter((_, i) => !SOLAR_CHAR_INDICES.has(i));
-      const effectiveBusinessCtxBank = isSolar
-        ? CHARACTER_BUSINESS_CONTEXT
-        : CHARACTER_BUSINESS_CONTEXT.filter((_, i) => !SOLAR_CHAR_INDICES.has(i));
-      const characterDesc = effectiveCharBank[charIdx % effectiveCharBank.length];
-      // Solar businesses: use only solar panel scenes (or solar+EV if mixed).
-      // Non-solar businesses: exclude ALL solar/EV-specific scene indices.
-      const effectiveSceneBank = isSolar
-        ? BACKGROUND_SCENES.filter((_, i) => solarSceneIndices.has(i))
-        : BACKGROUND_SCENES.filter((_, i) => !SOLAR_EV_SCENE_INDICES.has(i));
+      // ── Universal character & scene selection ───────────────────────────────────
+      // No industry-specific hardcoding here.
+      // Scene relevance is handled later by deriveBusinessIndustryScene(),
+      // deriveNicheScene(), brand profile, subindustries, audience and location.
+const effectiveCharBank = CHARACTER_BANK;
+const effectiveBusinessCtxBank = CHARACTER_BUSINESS_CONTEXT;
+const effectiveSceneBank = BACKGROUND_SCENES;
+
+const characterDesc = effectiveCharBank[charIdx % effectiveCharBank.length];
       // If the job has a user-specified visual scene (from brief distillation), use it; otherwise pick from the bank
       const sceneDesc = job.imageScene ?? effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
       // Business context: aligned to the same charIdx in the filtered bank (no solar context leak for non-solar biz)
@@ -4905,9 +4889,9 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       const effectiveIndustry = jobIndustry ||
         `${jobName ?? ''} ${jobDescription ?? ''}`.trim();
       if (!job.imageScene && !job.batchRefStyle) {
-  const baseScene = effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
-  const captionTopic = job.captionHook?.trim().slice(0, 100);
-  const captionBody = job.caption
+      const baseScene = effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
+      const captionTopic = job.captionHook?.trim().slice(0, 100);
+      const captionBody = job.caption
     ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
     : null;
   const subIndustrySuffix = buildSubIndustrySuffix(jobSubIndustriesArr, 1);
