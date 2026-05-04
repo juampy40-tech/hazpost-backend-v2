@@ -2302,7 +2302,7 @@ async function buildBusinessFallbackNiches(
 
     const industry = biz.industry?.trim() || "";
     const subIndustries = normalizeSubIndustryList(biz.subIndustry, biz.subIndustries);
-    const audience = biz.targetAudience?.trim() || "";
+    const audience = biz.audienceDescription?.trim() || "";
     const location = biz.defaultLocation?.trim() || "";
 
     const baseContexts: string[] = [];
