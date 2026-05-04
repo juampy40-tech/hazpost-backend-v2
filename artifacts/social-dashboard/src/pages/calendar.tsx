@@ -923,8 +923,8 @@ export default function Calendar() {
     const query = params.toString();
 
     return query
-      ? `${import.meta.env.VITE_API_URL}/api/posts?${query}`
-      : `${import.meta.env.VITE_API_URL}/api/posts`;
+      ? `${BASE}/api/posts?${query}`
+      : `${BASE}/api/posts`;
   }
 
   // ── Slim fetch — no base64 images, loads fast ──
