@@ -4925,22 +4925,26 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
        effectiveIndustry.toLowerCase().includes(k)
      );
 
-     const businessFocusedCharBank = effectiveCharBank.filter((_, idx) =>
-       effectiveBusinessCtxBank[idx] !== null
-     );
+     const alignedBusinessPairs = effectiveCharBank
+       .map((char, idx) => ({
+         char,
+         ctx: effectiveBusinessCtxBank[idx]
+       }))
+       .filter(pair => pair.ctx !== null);
 
-      const businessFocusedBusinessCtxBank = effectiveBusinessCtxBank.filter(ctx => ctx !== null);
+     const businessFocusedCharBank = alignedBusinessPairs.map(p => p.char);
+     const businessFocusedBusinessCtxBank = alignedBusinessPairs.map(p => p.ctx);
 
      const finalCharBank = wantsBusinessActivity && businessFocusedCharBank.length > 0
        ? businessFocusedCharBank
        : effectiveCharBank;
 
       const finalCharIdx = charIdx % finalCharBank.length;
-const characterDesc = finalCharBank[finalCharIdx];
+      const characterDesc = finalCharBank[finalCharIdx];
 
-const businessContext = wantsBusinessActivity
-  ? businessFocusedBusinessCtxBank[finalCharIdx] ?? undefined
-  : effectiveBusinessCtxBank[charIdx % effectiveBusinessCtxBank.length] ?? undefined;
+      const businessContext = wantsBusinessActivity
+        ? businessFocusedBusinessCtxBank[finalCharIdx] ?? undefined
+        : effectiveBusinessCtxBank[charIdx % effectiveBusinessCtxBank.length] ?? undefined;
 
      
       if (!job.imageScene && !job.batchRefStyle) {
