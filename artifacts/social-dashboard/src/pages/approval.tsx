@@ -7246,14 +7246,14 @@ export default function Approval() {
                 Manual
               </Button>
               <Button
-               size="lg"
-               onClick={handlePublishNow}
-               disabled={publishingNow || updatePost.isPending || approvePost.isPending || rejectPost.isPending}
-               className="flex-1 h-14 flex-col gap-0.5 text-xs bg-green-600/20 border border-green-500/50 text-green-300 hover:bg-green-600/30 hover:border-green-400/70 hover:text-green-200 transition-all"
-            >
-               {publishingNow ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Globe className="w-4 h-4" />}
-               {publishingNow ? "Publicando..." : "Publicar ahora"}
-             </Button>
+                size="lg"
+                onClick={handlePublishNow}
+                disabled={publishingNow || updatePost.isPending || approvePost.isPending || rejectPost.isPending}
+                className="h-14 flex-col gap-0.5 text-xs bg-green-600/20 border border-green-500/50 text-green-300 hover:bg-green-600/30 hover:border-green-400/70 hover:text-green-200 transition-all"
+              >
+                {publishingNow ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Globe className="w-4 h-4" />}
+                {publishingNow ? "Publicando..." : "Publicar ahora"}
+              </Button>
               <Button
                 size="lg"
                 onClick={handleApprove}
@@ -7266,7 +7266,7 @@ export default function Approval() {
             </div>
           ) : (
             /* Pending approval actions: 4 buttons — hidden on mobile (sticky bar handles actions) */
-            <div className="hidden sm:grid grid-cols-4 gap-2 shrink-0 mt-auto pt-4 border-t border-border/30">
+            <div className="hidden sm:grid grid-cols-5 gap-2 shrink-0 mt-auto pt-4 border-t border-border/30">
               <Button
                 size="lg"
                 variant="destructive"
@@ -7294,6 +7294,15 @@ export default function Approval() {
               >
                 <span className="text-base leading-none">📱</span>
                 Manual
+              </Button>
+              <Button
+                size="lg"
+                onClick={handlePublishNow}
+                disabled={publishingNow || updatePost.isPending || approvePost.isPending || rejectPost.isPending}
+                className="h-14 flex-col gap-0.5 text-xs bg-green-600/20 border border-green-500/50 text-green-300 hover:bg-green-600/30 hover:border-green-400/70 hover:text-green-200 transition-all"
+              >
+                {publishingNow ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Globe className="w-4 h-4" />}
+                {publishingNow ? "Publicando..." : "Publicar ahora"}
               </Button>
               <Button
                 size="lg"
