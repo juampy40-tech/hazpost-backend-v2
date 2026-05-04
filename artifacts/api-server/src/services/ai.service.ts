@@ -4886,8 +4886,12 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       // When industry field is empty, infer it from the business name and description.
       // This ensures businesses without a selected industry get relevant scenes instead of generic ones.
       // e.g. "Panadería Artesanal Los Andes" → bakery scene; "Clínica Dental Sonrisa" → dental scene.
-      const effectiveIndustry = jobIndustry ||
-        `${jobName ?? ''} ${jobDescription ?? ''}`.trim();
+      const effectiveIndustry = [
+        jobIndustry,
+        jobName,
+        jobDescription,
+        jobSubIndustriesArr.join(" "),
+      ].filter(Boolean).join(" ").trim();
       if (!job.imageScene && !job.batchRefStyle) {
       const baseScene = effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
       const captionTopic = job.captionHook?.trim().slice(0, 100);
