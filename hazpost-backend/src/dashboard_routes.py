@@ -295,10 +295,11 @@ def posts():
     return jsonify(saved_post), 201
 
 @dashboard_bp.route('/posts/<int:post_id>', methods=['GET', 'POST', 'PUT', 'PATCH'])
+@dashboard_bp.route('/posts/<int:post_id>', methods=['GET', 'POST', 'PUT', 'PATCH'])
 def update_post(post_id):
     user_id = _get_dashboard_user_id()
 
-    # -------- GET (FIX REAL DB) --------
+    # -------- GET (FIX DEFINITIVO) --------
     if request.method == 'GET':
         if not db_available():
             return jsonify({
@@ -322,7 +323,6 @@ def update_post(post_id):
             return jsonify({
                 "success": False,
                 "error": "Post no encontrado",
-                "debug": "direct_db_lookup_v2",
                 "postId": post_id,
                 "userId": user_id
             }), 404
@@ -338,6 +338,7 @@ def update_post(post_id):
 
     # -------- UPDATE --------
     data = request.get_json(silent=True) or {}
+
     allowed_fields = {
         "scheduledAt",
         "scheduled_at",
@@ -356,11 +357,7 @@ def update_post(post_id):
         "image_url",
     }
 
-    updates = {
-        key: value
-        for key, value in data.items()
-        if key in allowed_fields
-    }
+    updates = {k: v for k, v in data.items() if k in allowed_fields}
 
     if not updates:
         return jsonify({
@@ -384,7 +381,6 @@ def update_post(post_id):
         "success": True,
         "post": updated
     })
-
 
 # ------------------ APPROVE POST ------------------
 
