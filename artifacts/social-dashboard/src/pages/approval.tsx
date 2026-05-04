@@ -3117,32 +3117,25 @@ export default function Approval() {
                   }}
                   title={isVideoPlaying ? "Pausar" : "Reproducir"}
                 >
-                  {isVideoPlaying
-                    ? <span style={{ color: "#fff", fontSize: 14 }}>⏸</span>
-                    : <span style={{ color: "#fff", fontSize: 14 }}>▶</span>
-                  }
-                </button>
-              </div>
-            ) : activeImage?.imageData || imageUrlFallback ? (
-              activeImage.mimeType?.startsWith("video/") ? (
-                <video
-                  src={`data:${activeImage.mimeType};base64,${activeImage.imageData}`}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                  controls playsInline
-                />
-              ) : (
-                <img
-                  src={activeImage?.imageData ? `data:image/jpeg;base64,${activeImage.imageData}` : imageUrlFallback}
-                  alt="Post visual"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
-              )
-            ) : (imageIsStuck || pendingIsStuck || hasOnlyErrorVariants) ? (
-              <div className="w-full h-full min-h-[280px] bg-neutral-900 flex flex-col items-center justify-center gap-3 p-4">
-                <AlertTriangle className="w-8 h-8 text-amber-400" />
-                <span className="text-xs text-amber-300 font-medium text-center">
-                  {hasOnlyErrorVariants ? "Imagen interrumpida" : pendingIsStuck ? "Más de 8 min en cola" : "Imagen tardó más de lo esperado"}
-                </span>
+                 {isVideoPlaying ? (
+  <span style={{ color: "#fff", fontSize: 14 }}>⏸</span>
+) : (
+  <span style={{ color: "#fff", fontSize: 14 }}>▶</span>
+)}
+</button>
+</div>
+) : imageUrlFallback ? (
+  <img
+    src={imageUrlFallback}
+    alt="Post visual"
+    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+  />
+) : (imageIsStuck || pendingIsStuck || hasOnlyErrorVariants) ? (
+  <div className="w-full h-full min-h-[280px] bg-neutral-900 flex flex-col items-center justify-center gap-3 p-4">
+    <AlertTriangle className="w-8 h-8 text-amber-400" />
+    <span className="text-xs text-amber-300 font-medium text-center">
+      {hasOnlyErrorVariants ? "Imagen interrumpida" : pendingIsStuck ? "Más de 8 min en cola" : "Imagen tardó más de lo esperado"}
+    </span>
                 <span className="text-[10px] text-white/40 text-center px-2">
                   {hasOnlyErrorVariants
                     ? "El servidor se reinició durante la generación. Reintentar no descuenta créditos."
