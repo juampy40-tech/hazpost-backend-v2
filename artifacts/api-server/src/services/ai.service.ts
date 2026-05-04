@@ -4921,11 +4921,11 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         "consultoria",
       ];
 
-     const wantsBusinessActivity = businessActivityKeywords.some(k =>
+      const wantsBusinessActivity = businessActivityKeywords.some(k =>
        effectiveIndustry.toLowerCase().includes(k)
      );
 
-     const alignedBusinessPairs = effectiveCharBank
+      const alignedBusinessPairs = effectiveCharBank
        .map((char, idx) => ({
          char,
          ctx: effectiveBusinessCtxBank[idx]
