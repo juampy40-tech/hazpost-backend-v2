@@ -4891,7 +4891,7 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
      const finalCharBank = wantsBusinessActivity && businessFocusedCharBank.length > 0
        ? businessFocusedCharBank
        : effectiveCharBank;
-      const characterDesc = effectiveCharBank[charIdx % effectiveCharBank.length];
+      const characterDesc = finalCharBank[charIdx % finalCharBank.length];
 
       const isSolarSceneBusiness = isSolarIndustry(jobIndustry, jobName, jobDescription);
 
