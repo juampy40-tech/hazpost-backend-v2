@@ -103,10 +103,7 @@ function platformEntryStatus(post: Post, platform: 'instagram' | 'tiktok' | 'bot
   if (platform === 'instagram' && post.instagramPostId) return 'published';
   if (platform === 'tiktok' && post.tiktokPostId) return 'published';
 
-  // status='published' is the definitive truth — always green, regardless of which platform IDs are set
-  if (post.status === 'published') return 'published';
-
-  // If the post was already processed (not pending/scheduled) but has no confirmation
+   // If the post was already processed (not pending/scheduled) but has no confirmation
   // for this platform → that platform's publication failed.
   const wasProcessed = post.status !== 'scheduled'
     && post.status !== 'pending_approval'
