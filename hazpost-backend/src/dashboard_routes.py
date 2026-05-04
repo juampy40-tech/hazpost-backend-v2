@@ -300,6 +300,12 @@ def posts():
 def update_post(post_id):
     user_id = _get_dashboard_user_id()
 
+    if not user_id:
+        return jsonify({
+            "success": False,
+            "error": "Usuario no autenticado"
+        }), 401
+
     # -------- GET (FIX DEFINITIVO) --------
     if request.method == 'GET':
         if not db_available():
