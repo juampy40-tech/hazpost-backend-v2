@@ -2193,7 +2193,9 @@ export default function Approval() {
     if (!currentHasNoImages || !currentPost?.id) return;
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`${BASE}/api/posts/${currentPost.id}`);
+        const res = await fetch(`${BASE}/api/posts/${currentPost.id}`, {
+          credentials: "include",
+        });
         const fullData = await res.json();
         if (fullData.imageVariants?.length > 0) {
           setCurrentPostFull(fullData);
