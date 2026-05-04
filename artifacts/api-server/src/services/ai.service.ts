@@ -4915,9 +4915,9 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         return nicheSceneCache.get(nicheCompositeKey) ?? null;
       })();
 
-      const settingScene = [nicheBaseScene, baseScene]
-        .filter(Boolean)
-        .join(" | Additional setting variety: ");
+      const settingScene = nicheBaseScene
+        ? `${nicheBaseScene}`
+        : baseScene;
 
         if (captionTopic) {
       const bodyCtx = captionBody ? ` Content context: "${captionBody}".` : '';
