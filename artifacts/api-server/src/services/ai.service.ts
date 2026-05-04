@@ -2651,7 +2651,8 @@ REGLAS ABSOLUTAS:
 - NO uses información de otras marcas o sectores
 - El tono debe ser coherente con el perfil de marca definido
 - NO menciones ciudades, municipios ni regiones que no correspondan a la ubicación de esta marca (no menciones Yumbo, Jamundí, Candelaria, Palmira ni ningún municipio a menos que sea la ubicación del negocio)
-- NUNCA menciones paneles solares, energía solar, vehículos eléctricos ni ningún sector que no sea el del negocio de esta marca
+- NUNCA menciones productos, servicios o sectores que no estén explícitamente en el perfil de marca del negocio.
+- Si el perfil de marca indica paneles solares, energía solar, vehículos eléctricos u otro servicio específico, SÍ puedes mencionarlo porque pertenece a la marca.
 - El campo "caption" NO puede superar los ${effectiveBodyLimit} caracteres. Sé conciso y prioritario`,
     ].filter(Boolean).join("\n\n");
 
