@@ -5064,28 +5064,29 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         const industry = jobIndustry ?? "";
 
         const visualConstraint = `Real ${subIndustry || industry || "business"} environment.
-        Location: ${location || "local business context"}.
-        Use people consistent with local demographics.
-        Avoid generic residential/family scenes unless explicitly required.
-        Prefer real commercial or professional environments.`;
-
+Location: ${location || "local business context"}.
+Use people consistent with local demographics.
+Avoid generic residential/family scenes unless explicitly required.
+Prefer real commercial or professional environments.`;
+        
         if (captionHookHint) {
           const bodyCtx = captionBodyHint ? ` Content context: "${captionBodyHint}".` : '';
 
           enrichedSceneDesc = `
-      Visual topic (PRIMARY directive): "${captionHookHint}".${bodyCtx}
-      ${visualConstraint}
-      ${enrichedSceneDesc}
-      `;
+        Visual topic (PRIMARY directive): "${captionHookHint}".${bodyCtx}
+        ${visualConstraint}
+        ${enrichedSceneDesc}
+        `;
         } else if (nicheHint) {
           enrichedSceneDesc = `
-      ${visualConstraint}
-      ${enrichedSceneDesc}
-      Post topic: "${nicheHint}" — reflect this visually.
-      `;
+        ${visualConstraint}
+        ${enrichedSceneDesc}
+        Post topic: "${nicheHint}" — reflect this visually.
+        `;
         } else {
           enrichedSceneDesc = `${visualConstraint} ${enrichedSceneDesc}`;
         }
+        enrichedSceneDesc = enrichedSceneDesc.trim();
       }
 
       const jobTextStyle: TextStyle = textStyleByKey.get(jobKey) ?? "cinema";
