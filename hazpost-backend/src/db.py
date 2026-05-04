@@ -274,6 +274,7 @@ def get_posts(user_id, status=None, business_id=None, slim=False):
             posts.append({
                 "id": post.get("id"),
                 "status": post.get("status"),
+                "postNumber": post.get("postNumber"),
             })
         else:
             posts.append(post)
