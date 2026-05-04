@@ -4905,22 +4905,29 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       const effectiveIndustry = jobIndustry ||
         `${jobName ?? ''} ${jobDescription ?? ''}`.trim();
       if (!job.imageScene && !job.batchRefStyle) {
-        if (isSolar) {
-          // ── Step 1: Solar-specific nicheSpecificScene ──────────────────────────────
-          // Solar businesses ALWAYS get a nicheSpecificScene built here so that the
-          // Topic-FIRST block at line ~4850 never runs for them — solar panels on rooftops
-          // must be the PRIMARY visual directive, not a secondary context that DALL-E ignores.
-          const solarBaseScene = effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
-          const captionTopicSolar = job.captionHook?.trim().slice(0, 100);
-          const captionBodySolar = job.caption
-            ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
-            : null;
-          const subIndustrySuffixSolar = buildSubIndustrySuffix(jobSubIndustriesArr, 1);
-          if (captionTopicSolar) {
-            const bodyCtxSolar = captionBodySolar ? ` Content context: "${captionBodySolar}".` : '';
-            // MANDATE: solar panels on rooftops are the PRIMARY visual element, ALWAYS visible.
-            // Post topic provides thematic context but must NOT replace the solar visual.
-            nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopicSolar}".${bodyCtxSolar}
+  const baseScene = effectiveSceneBank[sceneIdx % effectiveSceneBank.length];
+  const captionTopic = job.captionHook?.trim().slice(0, 100);
+  const captionBody = job.caption
+    ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
+    : null;
+  const subIndustrySuffix = buildSubIndustrySuffix(jobSubIndustriesArr, 1);
+
+  const industryScene = deriveBusinessIndustryScene(effectiveIndustry, sceneIdx);
+  const nicheBaseScene = industryScene
+    ? industryScene
+    : (() => {
+        if (!nicheSceneCache.has(nicheCompositeKey)) {
+          nicheSceneCache.set(nicheCompositeKey, deriveNicheScene(job.nicheContextShort, sceneIdx));
+        }
+        return nicheSceneCache.get(nicheCompositeKey) ?? null;
+      })();
+
+  const settingScene = nicheBaseScene || baseScene;
+
+  if (captionTopic) {
+    const bodyCtx = captionBody ? ` Content context: "${captionBody}".` : '';
+
+    nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopic}".${bodyCtx}
 
 BUSINESS VISUAL RULES:
 - The image MUST show real business activity in progress.
@@ -4930,93 +4937,26 @@ BUSINESS VISUAL RULES:
 - The scene must match the business profile, industry, subindustries, audience, and location.
 
 SETTING:
-${solarBaseScene}${subIndustrySuffixSolar}
+${settingScene}${subIndustrySuffix}
 
 Character reference: real business professional performing their job.
 `;
-          } else {
-            const nicheHintSolar = job.nicheContextShort?.trim().slice(0, 60);
+  } else {
+    const nicheHint = job.nicheContextShort?.trim().slice(0, 60);
 
-nicheSpecificScene = `BUSINESS VISUAL RULES:
+    nicheSpecificScene = `BUSINESS VISUAL RULES:
 - The image MUST show real business activity in progress.
-- Show people working, serving, installing, repairing, advising, operating, selling, preparing, delivering, inspecting, or maintaining.
-- Include tools, equipment, products, materials, or service activity relevant to this business.
-- Avoid generic lifestyle, family, picnic, posing, or decorative scenes.
+- Show workers, service delivery, tools, equipment, products, materials, workspace, or professional interaction relevant to this business.
+- Avoid generic lifestyle, family, picnic, posing, or decorative stock scenes.
 - The scene must match the business profile, industry, subindustries, audience, and location.
 
 SETTING:
-${solarBaseScene}${subIndustrySuffixSolar}${nicheHintSolar ? `. Post topic: "${nicheHintSolar}" — reflect this through real business activity.` : ''}
+${settingScene}${subIndustrySuffix}${nicheHint ? `. Post topic: "${nicheHint}" — reflect this through real business activity.` : ''}
 
 Character reference: real business professional performing their job.
 `;
-          }
-        } else {
-        // 1. Business industry takes priority — most reliable signal for correct scene
-        // Uses effectiveIndustry (jobIndustry if set, else name+description) for businesses
-        // without a selected industry — so e.g. "Panadería El Trigal" gets a bakery scene.
-        const industryScene = deriveBusinessIndustryScene(effectiveIndustry, sceneIdx);
-        if (industryScene) {
-          // 1b/1c. TOPIC-FIRST prompt construction (Regla 1 — Massive Post Generator):
-          // The post title + body are the PRIMARY directive for DALL-E.
-          // Industry scene provides character type and photographic style (SECONDARY context only).
-          // Root cause fix: previously the 100+ word industry scene came first → DALL-E followed it
-          // regardless of the post topic. Now the topic leads → images reflect what the post says.
-          const captionTopicHint1 = job.captionHook?.trim().slice(0, 100);
-          const captionBodyHint1 = job.caption
-            ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
-            : null;
-          const subIndustrySuffix1 = buildSubIndustrySuffix(jobSubIndustriesArr, 1);
-          if (captionTopicHint1) {
-            // Topic-FIRST: content drives the scene, industry provides visual style reference
-            const bodyCtx1 = captionBodyHint1
-              ? ` Content context: "${captionBodyHint1}".`
-              : '';
-            nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopicHint1}".${bodyCtx1} The image MUST visually depict this specific topic above all else. Character and setting reference (secondary context — use for photographic style and character type only): ${industryScene}${subIndustrySuffix1}.`;
-          } else {
-            // Fallback when no captionHook: original behavior — industry scene leads
-            if (jobSubIndustriesArr.length > 1) {
-              // Multi-specialty: append specialized context
-              const multiCtx = `. This business operates across multiple specialties: ${jobSubIndustriesArr.map(s => `"${s}"`).join(', ')} — adjust the scene to reflect this multi-faceted establishment.`;
-              nicheSpecificScene = `${industryScene}${multiCtx}`;
-            } else if (jobSubIndustry) {
-              nicheSpecificScene = `${industryScene}. Specifically, this is a "${jobSubIndustry}" business — adjust the scene accordingly to reflect this exact type of establishment, its typical products, and its visual identity.`;
-            } else {
-              nicheSpecificScene = industryScene;
-            }
-            const nicheHint1 = job.nicheContextShort?.trim().slice(0, 60);
-            if (nicheHint1) {
-              nicheSpecificScene = `${nicheSpecificScene}. Post topic: "${nicheHint1}" — visually reflect this theme.`;
-            }
-          }
-        } else {
-          // 2. Fallback: niche keyword whitelist (only when no industry match), with variant rotation
-          if (!nicheSceneCache.has(nicheCompositeKey)) {
-            nicheSceneCache.set(nicheCompositeKey, deriveNicheScene(job.nicheContextShort, sceneIdx));
-          }
-          const nicheBaseScene2 = nicheSceneCache.get(nicheCompositeKey) ?? null;
-          if (nicheBaseScene2) {
-            // 2b/2c. Topic-FIRST prompt construction — same rule as path 1c
-            const captionTopicHint2 = job.captionHook?.trim().slice(0, 100);
-            const captionBodyHint2 = job.caption
-              ? job.caption.replace(/\n+/g, ' ').trim().slice(0, 200)
-              : null;
-            const subIndustrySuffix2 = buildSubIndustrySuffix(jobSubIndustriesArr, 2);
-            if (captionTopicHint2) {
-              const bodyCtx2 = captionBodyHint2
-                ? ` Content context: "${captionBodyHint2}".`
-                : '';
-              nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopicHint2}".${bodyCtx2} The image MUST visually depict this specific topic. Character and setting reference (secondary context): ${nicheBaseScene2}${subIndustrySuffix2}.`;
-            } else {
-              nicheSpecificScene = `${nicheBaseScene2}${subIndustrySuffix2}`;
-              const nicheHint2 = job.nicheContextShort?.trim().slice(0, 60);
-              if (nicheHint2) {
-                nicheSpecificScene = `${nicheSpecificScene}. Post topic: "${nicheHint2}" — visually reflect this theme.`;
-              }
-            }
-          }
-        }
-        } // end else (non-solar path)
-      } // end outer if (!job.imageScene && !job.batchRefStyle)
+  }
+}
       // ── Visual variety modifier ─────────────────────────────────────────────────
       // When the same industry scene would be reused across a bulk batch, append a
       // lighting & framing modifier that rotates per job (via sceneIdx) so that each
