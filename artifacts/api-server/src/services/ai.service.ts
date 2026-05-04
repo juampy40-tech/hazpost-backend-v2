@@ -4946,7 +4946,7 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
             const bodyCtx1 = captionBodyHint1
               ? ` Content context: "${captionBodyHint1}".`
               : '';
-            nicheSpecificScene = `Visual topic (PRIMARY directive): "${captionTopicHint1}".${bodyCtx1} The image MUST visually depict this specific topic above all else. Character and setting reference (secondary context — use for photographic style and character type only): ${industryScene}${subIndustrySuffix1}.`;
+            nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopicHint1}".${bodyCtx1} The image MUST visually depict this specific topic above all else. Character and setting reference (secondary context — use for photographic style and character type only): ${industryScene}${subIndustrySuffix1}.`;
           } else {
             // Fallback when no captionHook: original behavior — industry scene leads
             if (jobSubIndustriesArr.length > 1) {
@@ -4980,7 +4980,7 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
               const bodyCtx2 = captionBodyHint2
                 ? ` Content context: "${captionBodyHint2}".`
                 : '';
-              nicheSpecificScene = `Visual topic (PRIMARY directive): "${captionTopicHint2}".${bodyCtx2} The image MUST visually depict this specific topic. Character and setting reference (secondary context): ${nicheBaseScene2}${subIndustrySuffix2}.`;
+              nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopicHint2}".${bodyCtx2} The image MUST visually depict this specific topic. Character and setting reference (secondary context): ${nicheBaseScene2}${subIndustrySuffix2}.`;
             } else {
               nicheSpecificScene = `${nicheBaseScene2}${subIndustrySuffix2}`;
               const nicheHint2 = job.nicheContextShort?.trim().slice(0, 60);
