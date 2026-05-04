@@ -7216,7 +7216,7 @@ export default function Approval() {
 
           {isScheduled ? (
             /* Scheduled post actions: 4 buttons — hidden on mobile (sticky bar handles actions) */
-            <div className="hidden sm:grid grid-cols-4 gap-2 shrink-0 mt-auto pt-4 border-t border-border/30">
+            <div className="hidden sm:grid grid-cols-5 gap-2 shrink-0 mt-auto pt-4 border-t border-border/30">
               <Button
                 size="lg"
                 variant="destructive"
