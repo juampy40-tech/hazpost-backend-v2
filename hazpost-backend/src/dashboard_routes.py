@@ -495,7 +495,66 @@ def set_default_social_account():
         "pageName": account.get("page_name"),
     })
 
+def _publish_to_instagram(user_id, caption, image_url, social_account_id=None):
+    account = _get_instagram_social_account(user_id, social_account_id)
 
+    if not account:
+        return {"success": False, "error": "No hay cuenta de Instagram conectada"}
+
+    access_token = account.get("page_access_token")
+    ig_user_id = account.get("instagram_business_account_id")
+
+    if not access_token or not ig_user_id:
+        return {"success": False, "error": "Cuenta inválida"}
+
+    try:
+        create_res = requests.post(
+            f"{META_GRAPH_BASE}/{ig_user_id}/media",
+            data={
+                "image_url": image_url,
+                "caption": caption,
+                "access_token": access_token,
+            },
+            timeout=30,
+        )
+
+        create_data = create_res.json()
+
+        if not create_res.ok:
+            return {
+                "success": False,
+                "stage": "create_media_container",
+                "error": create_data,
+            }
+
+        creation_id = create_data.get("id")
+
+        publish_res = requests.post(
+            f"{META_GRAPH_BASE}/{ig_user_id}/media_publish",
+            data={
+                "creation_id": creation_id,
+                "access_token": access_token,
+            },
+            timeout=30,
+        )
+
+        publish_data = publish_res.json()
+
+        if not publish_res.ok:
+            return {
+                "success": False,
+                "stage": "publish_media",
+                "error": publish_data,
+            }
+
+        return {
+            "success": True,
+            "instagramPostId": publish_data.get("id"),
+        }
+
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+        
 @dashboard_bp.route('/publish/instagram', methods=['POST', 'OPTIONS'])
 def publish_instagram_now():
     if request.method == 'OPTIONS':
