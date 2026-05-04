@@ -4962,10 +4962,12 @@ Character reference: real business professional performing their job.
         nicheSpecificScene = `${nicheSpecificScene} Lighting and framing: ${SCENE_MOODS[sceneIdx % SCENE_MOODS.length]}.`;
       }
 
-      // Skip CHARACTER_BANK when an explicit scene or niche-specific scene is used
-      const hasOverrideScene = Boolean(job.imageScene || nicheSpecificScene);
+      // Keep character/business context when nicheSpecificScene exists.
+      // Only skip them when the user provided an explicit custom image scene.
+      const hasOverrideScene = Boolean(job.imageScene);
       const effectiveCharacterDesc = hasOverrideScene ? undefined : characterDesc;
-      const effectiveBusinessContext = hasOverrideScene ? undefined : businessContext;
+      const effectiveBusinessContext = hasOverrideScene ? undefined : businessContext;      
+      
       const userRefStyle = refStyleByKey.get(jobKey);
       // Promote saved ref style to primary DALL-E directive (same level as batchRefStyle).
       // Priority: batchRefStyle (manual upload this run) > userRefStyle (saved in brand) > undefined.
