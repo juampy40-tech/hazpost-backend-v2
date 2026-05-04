@@ -7244,13 +7244,22 @@ const handlePublishNow = async () => {
                 Manual
               </Button>
               <Button
+               size="lg"
+               onClick={handlePublishNow}
+               disabled={publishingNow || updatePost.isPending || approvePost.isPending || rejectPost.isPending}
+               className="h-14 flex-col gap-0.5 text-xs bg-green-600/20 border border-green-500/50 text-green-300 hover:bg-green-600/30 hover:border-green-400/70 hover:text-green-200 transition-all"
+            >
+               {publishingNow ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Globe className="w-4 h-4" />}
+               {publishingNow ? "Publicando..." : "Publicar ahora"}
+             </Button>
+              <Button
                 size="lg"
                 onClick={handleApprove}
                 disabled={updatePost.isPending || (captionSpellResult?.hasErrors === true && !isCheckingCaptionSpell) || isOverIgCaptionLimit}
                 className={`h-14 flex-col gap-0.5 text-xs text-primary-foreground shadow-[0_0_20px_rgba(0,119,255,0.3)] transition-all ${(captionSpellResult?.hasErrors || isOverIgCaptionLimit) ? "bg-primary/30 opacity-50 cursor-not-allowed" : "bg-primary hover:bg-primary/90"}`}
               >
                 <Save className="w-4 h-4" />
-                Guardar
+                Aprobar
               </Button>
             </div>
           ) : (
