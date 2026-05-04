@@ -300,11 +300,11 @@ def update_post(post_id):
 
     # -------- GET (NUEVO) --------
     if request.method == 'GET':
-        posts = get_posts(user_id=user_id)
+    posts = get_posts(user_id=user_id, status=None)
 
-        for p in posts:
-            if int(p.get("id")) == int(post_id):
-                return jsonify(p)
+    for p in posts:
+        if int(p.get("id")) == int(post_id):
+            return jsonify(p)
 
         return jsonify({
             "success": False,
