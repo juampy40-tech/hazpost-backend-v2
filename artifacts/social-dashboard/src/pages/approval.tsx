@@ -2750,6 +2750,56 @@ export default function Approval() {
     }
   };
 
+const handlePublishNow = async () => {
+  if (!currentPost) return;
+
+  if (!window.confirm("¿Publicar ahora este post en las redes disponibles?")) return;
+
+  setPublishingNow(true);
+
+  try {
+    const res = await fetch(`${BASE}/api/posts/${currentPost.id}/publish-now`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok || data.success === false) {
+      toast({
+        title: "No se pudo publicar ahora",
+        description: data.error || "Intenta de nuevo.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const instagramOk = data.results?.instagram?.success === true;
+    const tiktokMsg = data.results?.tiktok?.error;
+
+    toast({
+      title: instagramOk ? "Publicado ahora" : "Publicación procesada",
+      description: tiktokMsg
+        ? `Instagram ${instagramOk ? "publicado" : "no publicado"}. TikTok: ${tiktokMsg}`
+        : "El post fue enviado a publicación.",
+    });
+
+    queryClient.invalidateQueries({ queryKey: getGetPostsQueryKey() });
+    queryClient.invalidateQueries({ queryKey: ["calendar-posts"] });
+
+    refreshCurrentPost(currentPost.id);
+    refetch();
+  } catch {
+    toast({
+      title: "Error de conexión",
+      description: "No se pudo contactar el backend.",
+      variant: "destructive",
+    });
+  } finally {
+    setPublishingNow(false);
+  }
+};
+  
   const handleMarkManualPublish = async () => {
     if (!currentPost) return;
     try {
