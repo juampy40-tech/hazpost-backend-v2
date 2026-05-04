@@ -350,6 +350,10 @@ def update_post_status(user_id, post_id, status, extra_updates=None):
 
     saved_post["id"] = updated.get("id")
     saved_post["status"] = updated.get("status")
+
+    # 🔢 IMPORTANTE
+    saved_post["postNumber"] = updated.get("post_number") or updated.get("id")
+
     saved_post["businessId"] = updated.get("business_id")
     saved_post["createdAt"] = updated.get("created_at").isoformat() if updated.get("created_at") else None
     saved_post["updatedAt"] = updated.get("updated_at").isoformat() if updated.get("updated_at") else None
@@ -429,6 +433,10 @@ def update_post_fields(user_id, post_id, updates):
 
     saved_post["id"] = updated.get("id")
     saved_post["status"] = updated.get("status")
+
+    # 🔢 IMPORTANTE
+    saved_post["postNumber"] = updated.get("post_number") or updated.get("id")
+    
     saved_post["businessId"] = updated.get("business_id")
     saved_post["createdAt"] = updated.get("created_at").isoformat() if updated.get("created_at") else None
     saved_post["updatedAt"] = updated.get("updated_at").isoformat() if updated.get("updated_at") else None
