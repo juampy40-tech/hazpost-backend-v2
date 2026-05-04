@@ -298,22 +298,43 @@ def posts():
 def update_post(post_id):
     user_id = _get_dashboard_user_id()
 
-    # -------- GET (NUEVO) --------
+    # -------- GET (FIX REAL DB) --------
     if request.method == 'GET':
-        posts = get_posts(user_id=user_id, status=None)
+        if not db_available():
+            return jsonify({
+                "success": False,
+                "error": "DB no disponible"
+            }), 500
 
-        for p in posts:
-            if int(p.get("id")) == int(post_id):
-                return jsonify(p)
+        with db_session() as db:
+            row = db.execute(text("""
+                SELECT id, post, status, business_id, created_at, updated_at
+                FROM posts
+                WHERE id = :post_id
+                  AND user_id = :user_id
+                LIMIT 1;
+            """), {
+                "post_id": int(post_id),
+                "user_id": str(user_id)
+            }).mappings().first()
+
+        if not row:
+            return jsonify({
+                "success": False,
+                "error": "Post no encontrado"
+            }), 404
+
+        post_data = row.get("post") or {}
 
         return jsonify({
-            "success": False,
-            "error": "Post no encontrado"
-        }), 404
+            "id": row.get("id"),
+            "status": row.get("status"),
+            "businessId": row.get("business_id"),
+            **post_data
+        })
 
     # -------- UPDATE --------
     data = request.get_json(silent=True) or {}
-
     allowed_fields = {
         "scheduledAt",
         "scheduled_at",
