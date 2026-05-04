@@ -4915,10 +4915,12 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         return nicheSceneCache.get(nicheCompositeKey) ?? null;
       })();
 
-      const settingScene = nicheBaseScene || baseScene;
+      const settingScene = [nicheBaseScene, baseScene]
+        .filter(Boolean)
+        .join(" | Additional setting variety: ");
 
-      if (captionTopic) {
-     const bodyCtx = captionBody ? ` Content context: "${captionBody}".` : '';
+        if (captionTopic) {
+      const bodyCtx = captionBody ? ` Content context: "${captionBody}".` : '';
 
     nicheSpecificScene = `Visual task (PRIMARY directive — MUST be visible in the image): "${captionTopic}".${bodyCtx}
 
