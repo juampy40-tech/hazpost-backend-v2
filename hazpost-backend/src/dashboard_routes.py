@@ -321,7 +321,10 @@ def update_post(post_id):
         if not row:
             return jsonify({
                 "success": False,
-                "error": "Post no encontrado"
+                "error": "Post no encontrado",
+                "debug": "direct_db_lookup_v2",
+                "postId": post_id,
+                "userId": user_id
             }), 404
 
         post_data = row.get("post") or {}
