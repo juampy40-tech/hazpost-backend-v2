@@ -873,40 +873,36 @@ export default function Calendar() {
   // Uses a ref guard so the user's manual selections are never overwritten.
   // Waits for bizContextLoaded so globalBizId is available before choosing the initial scope.
   // Restores the last selection from localStorage (keyed by user id) when available.
-  useEffect(() => {
-    if (scopeInitialized.current || userBusinesses.length === 0 || !user || !bizContextLoaded) return;
+ useEffect(() => {
+  if (scopeInitialized.current || !user || !bizContextLoaded) return;
 
-    const storageKey = `hz_cal_scope_${user.id}`;
-    const saved = localStorage.getItem(storageKey);
-
-    if (saved !== null) {
-      if (saved === "all") {
-        setCalendarBizScope("all");
-      } else {
-        const savedId = Number(saved);
-        if (!isNaN(savedId) && userBusinesses.some(b => b.id === savedId)) {
-          setCalendarBizScope(savedId);
-        } else {
-          // Saved business no longer exists — fall back to global active business
-          const defaultBiz = (globalBizId ? userBusinesses.find(b => b.id === globalBizId) : null) ?? userBusinesses.find(b => b.isDefault) ?? userBusinesses[0];
-          setCalendarBizScope(userBusinesses.length > 1 ? defaultBiz.id : "all");
-        }
-      }
-    } else {
-      // V-CAL: No saved preference — default to the global active business (not "all negocios").
-      // This prevents showing posts from multiple businesses mixed together on first load.
-      // The user can explicitly switch to "Todos" using the scope selector.
-      if (userBusinesses.length > 1) {
-        const defaultBiz = (globalBizId ? userBusinesses.find(b => b.id === globalBizId) : null) ?? userBusinesses.find(b => b.isDefault) ?? userBusinesses[0];
-        setCalendarBizScope(defaultBiz.id);
-      } else {
-        // Single-business accounts: "all" is semantically equivalent to their only business.
-        setCalendarBizScope("all");
-      }
-    }
-
+  // 🔥 Si no hay negocios → igual cargar algo
+  if (userBusinesses.length === 0) {
+    setCalendarBizScope(globalBizId ? Number(globalBizId) : "all");
     scopeInitialized.current = true;
-  }, [userBusinesses, user, bizContextLoaded, globalBizId]);
+    return;
+  }
+
+  const storageKey = `hz_cal_scope_${user.id}`;
+  const saved = localStorage.getItem(storageKey);
+
+  // 🔁 Si hay algo guardado en localStorage → usarlo
+  if (saved) {
+    setCalendarBizScope(saved === "all" ? "all" : Number(saved));
+    scopeInitialized.current = true;
+    return;
+  }
+
+  // 🧠 Si no hay guardado → usar negocio actual o primero
+  const defaultBiz =
+    globalBizId
+      ? Number(globalBizId)
+      : userBusinesses[0]?.id || "all";
+
+  setCalendarBizScope(defaultBiz);
+  scopeInitialized.current = true;
+
+}, [userBusinesses, user, bizContextLoaded, globalBizId]);
 
   // ── Persist the current scope selection to localStorage whenever it changes ──
   useEffect(() => {
