@@ -4861,36 +4861,6 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       const effectiveBusinessCtxBank = CHARACTER_BUSINESS_CONTEXT;
       const effectiveSceneBank = BACKGROUND_SCENES;
 
-      const businessActivityKeywords = [
-       "empresa",
-       "negocio",
-       "servicio",
-       "instal",
-       "técnic",
-       "tecnic",
-       "industrial",
-       "comercial",
-       "mantenimiento",
-       "proyecto",
-       "operación",
-       "operacion",
-       "asesoría",
-       "asesoria",
-       "consultoría",
-       "consultoria",
-     ];
-
-     const wantsBusinessActivity = businessActivityKeywords.some(k =>
-       effectiveIndustry.toLowerCase().includes(k)
-     );
-
-     const businessFocusedCharBank = effectiveCharBank.filter((_, idx) =>
-       effectiveBusinessCtxBank[idx] !== null
-     );
-
-     const finalCharBank = wantsBusinessActivity && businessFocusedCharBank.length > 0
-       ? businessFocusedCharBank
-       : effectiveCharBank;
       const characterDesc = finalCharBank[charIdx % finalCharBank.length];
 
       const isSolarSceneBusiness = isSolarIndustry(jobIndustry, jobName, jobDescription);
@@ -4901,7 +4871,7 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
 
       // If the job has a user-specified visual scene (from brief distillation), use it; otherwise pick from the filtered bank
       const baseScene = scenePool[sceneIdx % scenePool.length];
-      const businessContext = effectiveBusinessCtxBank[charIdx % effectiveBusinessCtxBank.length] ?? undefined;
+
       // Character usage was already stamped (recentCharHashes.unshift + recordCaptionHistory)
       // in the synchronous pre-assignment loop above — do NOT repeat it here.
 
@@ -4934,6 +4904,47 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         jobDescription,
         jobSubIndustriesArr.join(" "),
       ].filter(Boolean).join(" ").trim();
+
+      const businessActivityKeywords = [
+       "empresa",
+       "negocio",
+       "servicio",
+       "instal",
+       "técnic",
+       "tecnic",
+       "industrial",
+       "comercial",
+       "mantenimiento",
+       "proyecto",
+       "operación",
+       "operacion",
+       "asesoría",
+       "asesoria",
+       "consultoría",
+       "consultoria",
+     ];
+
+     const wantsBusinessActivity = businessActivityKeywords.some(k =>
+       effectiveIndustry.toLowerCase().includes(k)
+     );
+
+     const businessFocusedCharBank = effectiveCharBank.filter((_, idx) =>
+       effectiveBusinessCtxBank[idx] !== null
+     );
+
+      const businessFocusedBusinessCtxBank = effectiveBusinessCtxBank.filter(ctx => ctx !== null);
+
+     const finalCharBank = wantsBusinessActivity && businessFocusedCharBank.length > 0
+       ? businessFocusedCharBank
+       : effectiveCharBank;
+
+      const finalCharIdx = charIdx % finalCharBank.length;
+const characterDesc = finalCharBank[finalCharIdx];
+
+const businessContext = wantsBusinessActivity
+  ? businessFocusedBusinessCtxBank[finalCharIdx] ?? undefined
+  : effectiveBusinessCtxBank[charIdx % effectiveBusinessCtxBank.length] ?? undefined;
+
      
       if (!job.imageScene && !job.batchRefStyle) {
         const baseScene = scenePool[sceneIdx % scenePool.length];
