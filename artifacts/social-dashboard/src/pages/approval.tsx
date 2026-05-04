@@ -3366,13 +3366,17 @@ export default function Approval() {
           </div>
 
           {/* Download button — below phone frame */}
-          {activeImage?.imageData && (
+          {imageUrlFallback && (
             <div className="w-[320px] flex flex-col gap-2 mt-2">
               <Button
-                onClick={() => downloadImage(
-                  activeImage.imageData!,
-                  `eco-${currentPost.platform}-${currentPost.contentType}-${new Date().toISOString().slice(0,10)}.jpg`
-                )}
+                onClick={() => {
+                  const a = document.createElement("a");
+                  a.href = imageUrlFallback;
+                  a.download = `eco-${currentPost.platform}-${currentPost.contentType}-${new Date().toISOString().slice(0,10)}.jpg`;
+                  a.target = "_blank";
+                  a.rel = "noreferrer";
+                  a.click();
+                }}
                 className="w-full bg-secondary/10 text-secondary border border-secondary/30 hover:bg-secondary/20 gap-2"
                 variant="outline"
               >
