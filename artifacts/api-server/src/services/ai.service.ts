@@ -3119,7 +3119,7 @@ export async function generatePostImage(
     ? ` Brand: ${brandCtxImg.replace(/\n/g, " ").replace(/PERFIL DE MARCA DEL CLIENTE[^:]*:/i, "").trim()}.`
     : "";
 
-  const genericStylePrompt = `Premium lifestyle advertising photography, vibrant modern aesthetic, clean composition, cinematic depth of field. ${CLEAN_PHOTO_NOTE}`;
+  const genericStylePrompt = `Premium commercial business advertising photography. Real people actively performing business work in a real workplace, service location, store, office, workshop, rooftop, commercial building, field operation or industrial space. Avoid generic family lifestyle scenes, posing, relaxing, picnic scenes or decorative stock photography. Show tools, equipment, products, materials, professional interaction or service delivery when relevant. Clean composition, cinematic depth of field. ${CLEAN_PHOTO_NOTE}`;
   const prompt = customInstruction
     ? `SCENE (follow exactly): ${customInstruction}. Documentary-style social media photography. Realistic, authentic environments.${brandVisualNote} ${CLEAN_PHOTO_NOTE} ${aspectNote}`
     : `${genericStylePrompt}${slideNote} ${characterNote}${sceneNote}Context: ${nicheContext}.${brandVisualNote} ${aspectNote} Professional, high-impact social media advertising photography.`;
