@@ -4988,7 +4988,16 @@ Character reference: real business professional performing their job.
       let enrichedSceneDesc = (!effectiveBatchRefStyle && userRefStyle && !job.imageScene && !nicheSpecificScene)
         ? `${sceneDesc}. Estilo visual de referencia del usuario: ${userRefStyle.split("\n---\n")[0]?.slice(0, 300)}`
         : sceneDesc;
+    
+      // Inject real business/character context into the image scene.
+      if (effectiveBusinessContext) {
+        enrichedSceneDesc = `${enrichedSceneDesc}. Business context: ${effectiveBusinessContext}`;
+      }
 
+      if (effectiveCharacterDesc) {
+        enrichedSceneDesc = `${enrichedSceneDesc}. Human subject context: ${effectiveCharacterDesc}`;
+      }
+      
       // Append learned visual prefs when no other style directive is active (Task #368).
       // Extract only the scene/style lines (strip emoji header) for DALL-E compatibility.
       if (jobVisualPrefs) {
