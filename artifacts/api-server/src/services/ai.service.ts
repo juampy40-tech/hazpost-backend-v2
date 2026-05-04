@@ -4903,23 +4903,23 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       ].filter(Boolean).join(" ").trim();
 
       const businessActivityKeywords = [
-       "empresa",
-       "negocio",
-       "servicio",
-       "instal",
-       "técnic",
-       "tecnic",
-       "industrial",
-       "comercial",
-       "mantenimiento",
-       "proyecto",
-       "operación",
-       "operacion",
-       "asesoría",
-       "asesoria",
-       "consultoría",
-       "consultoria",
-     ];
+        "empresa",
+        "negocio",
+        "servicio",
+        "instal",
+        "técnic",
+        "tecnic",
+        "industrial",
+        "comercial",
+        "mantenimiento",
+        "proyecto",
+        "operación",
+        "operacion",
+        "asesoría",
+        "asesoria",
+        "consultoría",
+        "consultoria",
+      ];
 
      const wantsBusinessActivity = businessActivityKeywords.some(k =>
        effectiveIndustry.toLowerCase().includes(k)
