@@ -453,17 +453,17 @@ def publish_post_now(post_id):
     if not row:
         return jsonify({"success": False, "error": "Post no encontrado"}), 404
 
-    if row.get("status") == "published":
-        return jsonify({
-            "success": False,
-            "error": "Este post ya fue publicado"
-        }), 400
-
     post_data = row.get("post") or {}
 
     if isinstance(post_data, str):
         post_data = json.loads(post_data)
 
+    if post_data.get("instagramPostId"):
+        return jsonify({
+            "success": False,
+            "error": "Este post ya fue publicado en Instagram"
+        }), 400
+        
     caption = post_data.get("caption") or ""
     image_url = post_data.get("imageUrl") or post_data.get("image_url")
 
