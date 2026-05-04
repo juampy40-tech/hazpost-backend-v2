@@ -294,9 +294,24 @@ def posts():
 
     return jsonify(saved_post), 201
 
-@dashboard_bp.route('/posts/<int:post_id>', methods=['POST', 'PUT', 'PATCH'])
+@dashboard_bp.route('/posts/<int:post_id>', methods=['GET', 'POST', 'PUT', 'PATCH'])
 def update_post(post_id):
     user_id = _get_dashboard_user_id()
+
+    # -------- GET (NUEVO) --------
+    if request.method == 'GET':
+        posts = get_posts(user_id=user_id)
+
+        for p in posts:
+            if int(p.get("id")) == int(post_id):
+                return jsonify(p)
+
+        return jsonify({
+            "success": False,
+            "error": "Post no encontrado"
+        }), 404
+
+    # -------- UPDATE --------
     data = request.get_json(silent=True) or {}
 
     allowed_fields = {
@@ -313,6 +328,8 @@ def update_post(post_id):
         "instagramPostId",
         "tiktokPostId",
         "facebookPostId",
+        "imageUrl",
+        "image_url",
     }
 
     updates = {
