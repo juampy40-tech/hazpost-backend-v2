@@ -316,7 +316,7 @@ def update_post(post_id):
 
         with db_session() as db:
             row = db.execute(text("""
-                SELECT id, post, status, business_id, created_at, updated_at
+                SELECT id, post, status, business_id, post_number, created_at, updated_at
                 FROM posts
                 WHERE id = :post_id
                   AND user_id = :user_id
