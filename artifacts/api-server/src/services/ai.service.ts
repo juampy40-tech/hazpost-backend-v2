@@ -4869,10 +4869,7 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
         ? effectiveSceneBank
         : effectiveSceneBank.slice(0, 20);
 
-      // If the job has a user-specified visual scene (from brief distillation), use it; otherwise pick from the filtered bank
-      const baseScene = scenePool[sceneIdx % scenePool.length];
-
-      // Character usage was already stamped (recentCharHashes.unshift + recordCaptionHistory)
+       // Character usage was already stamped (recentCharHashes.unshift + recordCaptionHistory)
       // in the synchronous pre-assignment loop above — do NOT repeat it here.
 
       // Niche-specific scene: industry-first, then keyword whitelist.
