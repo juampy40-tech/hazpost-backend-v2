@@ -975,6 +975,7 @@ export default function Approval() {
   const captionSpellDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const captionJustCorrectedRef = useRef(false);
   const [captionSaved, setCaptionSaved] = useState(false);
+  const [publishingNow, setPublishingNow] = useState(false);
 
   // Carousel slide reorder state
   const [slideOrder, setSlideOrder] = useState<number[]>([]); // variant IDs in display order
