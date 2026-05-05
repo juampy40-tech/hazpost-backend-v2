@@ -2118,6 +2118,140 @@ Extra:
     app.register_blueprint(oauth_meta_bp)
     app.register_blueprint(image_generation_bp, url_prefix='/api')
     app.register_blueprint(dashboard_bp, url_prefix='/api')
+
+    # ============================================================
+    # TEXT BLOCKS — Bloques comerciales del usuario
+    # ============================================================
+    @app.route('/api/text-blocks', methods=['GET', 'POST'])
+    def text_blocks():
+        try:
+            store = _get_user_store()
+
+            if request.method == 'GET':
+                blocks = store.get("textBlocks", [])
+                return jsonify({
+                    "success": True,
+                    "items": blocks
+                })
+
+            data = request.get_json(silent=True) or {}
+
+            name = (data.get("name") or "").strip()
+            content = (data.get("content") or "").strip()
+
+            if not name or not content:
+                return jsonify({
+                    "success": False,
+                    "error": "Nombre y contenido son requeridos"
+                }), 400
+
+            keywords = data.get("keywords") or []
+            if isinstance(keywords, str):
+                keywords = [k.strip() for k in keywords.split(",") if k.strip()]
+
+            blocks = store.get("textBlocks", [])
+
+            new_block = {
+                "id": str(uuid.uuid4()),
+                "name": name,
+                "keywords": keywords,
+                "content": content,
+                "position": data.get("position") or "after",
+                "active": data.get("active", True),
+            }
+
+            blocks.append(new_block)
+            store["textBlocks"] = blocks
+
+            return jsonify({
+                "success": True,
+                "item": new_block,
+                "items": blocks
+            }), 201
+
+        except Exception as e:
+            logger.exception(f"TEXT BLOCKS ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Error interno"
+            }), 500
+
+
+    @app.route('/api/text-blocks/<block_id>', methods=['PUT', 'DELETE'])
+    def text_block_detail(block_id):
+        try:
+            store = _get_user_store()
+            blocks = store.get("textBlocks", [])
+
+            index = next(
+                (i for i, b in enumerate(blocks) if b.get("id") == block_id),
+                None
+            )
+
+            if index is None:
+                return jsonify({
+                    "success": False,
+                    "error": "Bloque no encontrado"
+                }), 404
+
+            if request.method == 'DELETE':
+                deleted = blocks.pop(index)
+                store["textBlocks"] = blocks
+
+                return jsonify({
+                    "success": True,
+                    "item": deleted,
+                    "items": blocks
+                })
+
+            data = request.get_json(silent=True) or {}
+
+            keywords = data.get("keywords")
+            if keywords is None:
+                keywords = blocks[index].get("keywords", [])
+            elif isinstance(keywords, str):
+                keywords = [k.strip() for k in keywords.split(",") if k.strip()]
+
+            updated = {
+                **blocks[index],
+                "name": (data.get("name") or "").strip() or blocks[index]["name"],
+                "content": (data.get("content") or "").strip() or blocks[index]["content"],
+                "keywords": keywords,
+                "position": data.get("position") or blocks[index].get("position", "after"),
+                "active": data.get("active", blocks[index].get("active", True)),
+            }
+
+            blocks[index] = updated
+            store["textBlocks"] = blocks
+
+            return jsonify({
+                "success": True,
+                "item": updated,
+                "items": blocks
+            })
+
+        except Exception as e:
+            logger.exception(f"TEXT BLOCK DETAIL ERROR: {e}")
+            return jsonify({
+                "success": False,
+                "error": "Error interno"
+            }), 500
+
+    # ============================================================
+    # FALLBACK API — evita 405 en endpoints no implementados
+    # ============================================================
+    @app.route('/api/<path:unknown_path>', methods=['GET'])
+    def api_fallback_get(unknown_path):
+        logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
+        return jsonify([])
+
+    @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
+    def api_fallback_mutation(unknown_path):
+        logger.warning(f"[FALLBACK MUTATION] Endpoint no implementado: /api/{unknown_path}")
+        return jsonify({
+            "success": True,
+            "message": f"Endpoint /api/{unknown_path} recibido en modo fallback"
+        }), 200
     
     # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
