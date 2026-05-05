@@ -1770,7 +1770,7 @@ def create_app():
                     elif post_type == "image":
                         extra_instruction = "El contenido debe ser para una sola imagen: claro, directo y visual."
                     else:
-                        extra_instruction = "Elige el mejor formato automáticamente según el negocio."
+extra_instruction = "Elige el mejor formato automáticamente según el negocio."
 
 sub_industries_raw = profile.get("subIndustries") or []
 
@@ -1779,7 +1779,7 @@ if isinstance(sub_industries_raw, list):
 else:
     sub_industries_text = str(sub_industries_raw or "")
     
-                    prompt = f"""
+prompt = f"""
 Eres un experto en marketing digital y copywriting.
 
 Tu objetivo es VENDER, no solo describir.
@@ -1899,7 +1899,7 @@ Datos:
 Empresa: {company_name}
 Industria: {industry}
 Sub-industria principal: {sub_industry}
-Sub-industrias disponibles: {profile.get("subIndustries")}
+Sub-industrias disponibles: {sub_industries_text}
 Tipo negocio: {business_type}
 Ubicación: {location}
 Tono: {tone}
