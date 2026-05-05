@@ -5152,13 +5152,21 @@ Prefer rooftops, commercial buildings, industrial zones, or real workplaces — 
       // 2. niche-specific scene (derived from nicheContextShort, industry-matched)
       // 3. effectiveBatchRefStyle: manual ref image (batchRefStyle) OR saved business ref images (userRefStyle)
       // 4. undefined — use character/scene bank template
-      const jobImageScene = job.imageScene
-        ? job.imageScene
-        : nicheSpecificScene
-        ? nicheSpecificScene
-        : effectiveBatchRefStyle
-        ? `${effectiveBatchRefStyle}. Aplica este estilo visual, paleta de colores e iluminación. Escena: ${enrichedSceneDesc}. Contexto de marca: ${job.nicheContextShort}.`
-        : undefined;
+const jobImageScene = job.imageScene
+  ? `${job.imageScene}
+
+REGLA VISUAL OBLIGATORIA:
+La imagen debe representar el negocio real descrito en el perfil de marca y en el caption.
+No asumir casa, familia o estilo residencial por defecto. Usar este tipo de escena únicamente cuando esté alineado con el tipo de negocio, su mercado principal o el enfoque del post.
+Elegir el escenario según el enfoque del post y el cliente objetivo: hogar, empresa, industria, campo, local comercial, oficina, taller, operación, instalación, servicio, producto o experiencia del cliente.
+Mostrar acción real, beneficio visible o resultado comercial.
+Usar escenas tipo lifestyle o con personas SOLO cuando estén claramente alineadas con el contexto del negocio y el beneficio del servicio.
+Caption/contexto del post: ${job.caption ?? job.nicheContextShort}`
+  : nicheSpecificScene
+    ? nicheSpecificScene
+    : effectiveBatchRefStyle
+      ? `${effectiveBatchRefStyle}. Aplica este estilo visual, paleta de colores e iluminación. Escena: ${enrichedSceneDesc}. Contexto de marca: ${job.nicheContextShort}.`
+      : undefined;
 
       if (job.contentType === "carousel") {
         const slideResults = await withTimeout(
