@@ -1772,6 +1772,13 @@ def create_app():
                     else:
                         extra_instruction = "Elige el mejor formato automáticamente según el negocio."
 
+sub_industries_raw = profile.get("subIndustries") or []
+
+if isinstance(sub_industries_raw, list):
+    sub_industries_text = ", ".join([str(x) for x in sub_industries_raw if x])
+else:
+    sub_industries_text = str(sub_industries_raw or "")
+    
                     prompt = f"""
 Eres un experto en marketing digital y copywriting.
 
