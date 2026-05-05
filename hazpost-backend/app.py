@@ -2044,9 +2044,11 @@ Extra:
             # 🔥 APPLY TEXT BLOCKS (BLOQUES COMERCIALES)
             # ============================================================
             try:
-                store = _get_user_store()
-                blocks = store.get("textBlocks", [])
-
+                if db_available():
+                    blocks = get_text_blocks(user_id)
+                else:
+                    store = _get_user_store()
+                    blocks = store.get("textBlocks", [])
                 caption = result.get("caption") or ""
 
                 # 🔹 Normalizar texto para búsqueda
