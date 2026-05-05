@@ -2158,13 +2158,6 @@ Extra:
 
 
     # ============================================================
-    # BLUEPRINTS FINALES (CRÍTICO PARA DASHBOARD)
-    # ============================================================
-    app.register_blueprint(oauth_meta_bp)
-    app.register_blueprint(image_generation_bp, url_prefix='/api')
-    app.register_blueprint(dashboard_bp, url_prefix='/api')
-
-    # ============================================================
     # TEXT BLOCKS — Bloques comerciales del usuario
     # ============================================================
     @app.route('/api/text-blocks', methods=['GET', 'POST'])
@@ -2296,7 +2289,16 @@ Extra:
                 "success": False,
                 "error": "Error interno"
             }), 500
+            
 
+    # ============================================================
+    # BLUEPRINTS FINALES (CRÍTICO PARA DASHBOARD)
+    # ============================================================
+    app.register_blueprint(oauth_meta_bp)
+    app.register_blueprint(image_generation_bp, url_prefix='/api')
+    app.register_blueprint(dashboard_bp, url_prefix='/api')
+
+    
     # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
@@ -2312,8 +2314,8 @@ Extra:
             "success": True,
             "message": f"Endpoint /api/{unknown_path} recibido en modo fallback"
         }), 200
-    
-    
+        
+       
     # ============================================================
     # RETURN APP (FIN create_app)
     # ============================================================
