@@ -2174,6 +2174,7 @@ Extra:
     # TEXT BLOCKS — Bloques comerciales del usuario
     # ============================================================
     @app.route('/api/text-blocks', methods=['GET', 'POST'])
+    @app.route('/api/caption-addons', methods=['GET', 'POST'])
     def text_blocks():
         try:
             store = _get_user_store()
