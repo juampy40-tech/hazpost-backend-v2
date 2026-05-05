@@ -2176,6 +2176,12 @@ Extra:
                 print("STORE GET:", store)
                 print("BLOCKS GET:", blocks)
 
+                # Compatibilidad:
+                # /api/caption-addons lo usa el dashboard y espera una LISTA directa []
+                if request.path.endswith("/caption-addons"):
+                    return jsonify(blocks)
+
+                # /api/text-blocks usa formato nuevo con items
                 return jsonify({
                     "success": True,
                     "items": blocks
