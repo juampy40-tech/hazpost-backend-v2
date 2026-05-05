@@ -78,10 +78,7 @@ def _get_user_key():
         return "global"
 
     return str(user.get("email") or user.get("id") or "global")
-
-    # 🔥 SIEMPRE usar email como clave única
-    return str(user.get("email") or "anonymous")
-
+    
 def _get_user_store():
     user_key = _get_user_key()
     if user_key not in TEMP_USER_DATA:
