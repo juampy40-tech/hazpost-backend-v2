@@ -465,24 +465,49 @@ def update_post_fields(user_id, post_id, updates):
 # ================================
 
 def get_text_blocks(user_id):
+    if not user_id:
+        return []
+
     with db_session() as db:
         rows = db.execute(text("""
             SELECT data
             FROM text_blocks
             WHERE user_id = :user_id
+              AND COALESCE((data->>'active')::boolean, true) = true
             ORDER BY created_at ASC
-        """), {"user_id": user_id}).mappings().all()
+        """), {"user_id": str(user_id)}).mappings().all()
 
     return [r["data"] for r in rows]
 
 
 def save_text_block(user_id, block):
+    if not user_id:
+        raise ValueError("user_id es requerido")
+
+    if not isinstance(block, dict):
+        raise ValueError("block debe ser un diccionario")
+
+    block_id = block.get("id") or block.get("block_id")
+    if not block_id:
+        raise ValueError("block.id es requerido")
+
     with db_session() as db:
         db.execute(text("""
-            INSERT INTO text_blocks (user_id, block_id, data)
-            VALUES (:user_id, :block_id, :data)
+            DELETE FROM text_blocks
+            WHERE user_id = :user_id
+              AND block_id = :block_id;
         """), {
-            "user_id": user_id,
-            "block_id": block["id"],
-            "data": json.dumps(block)
+            "user_id": str(user_id),
+            "block_id": str(block_id),
         })
+
+        db.execute(text("""
+            INSERT INTO text_blocks (user_id, block_id, data)
+            VALUES (:user_id, :block_id, CAST(:data AS JSONB));
+        """), {
+            "user_id": str(user_id),
+            "block_id": str(block_id),
+            "data": json.dumps(block, ensure_ascii=False),
+        })
+
+    return block
