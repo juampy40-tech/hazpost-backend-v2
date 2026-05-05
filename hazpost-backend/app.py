@@ -1825,6 +1825,14 @@ Y elegir el escenario MÁS representativo del servicio real.
 
 REGLA DE VARIACIÓN OBLIGATORIA:
 
+Para ESTE post, el visualPlan debe usar el enfoque visual obligatorio indicado en Datos.
+
+Si el enfoque visual obligatorio es residencial, hogar o familia pueden aparecer.
+
+Si el enfoque visual obligatorio NO es residencial, no usar hogar, casa o familia como escena principal.
+
+Residencial sigue siendo válido para otros posts, pero no debe dominar todas las generaciones.
+
 El escenario puede ser residencial, comercial, industrial, agrícola o técnico según el negocio.
 
 Si el negocio tiene múltiples servicios o sub-industrias, NO repetir siempre el mismo tipo de escenario.
@@ -1904,6 +1912,7 @@ Empresa: {company_name}
 Industria: {industry}
 Sub-industria principal: {sub_industry}
 Sub-industrias disponibles: {sub_industries_text}
+Enfoque visual obligatorio para ESTE post: {selected_focus}
 Tipo negocio: {business_type}
 Ubicación: {location}
 Tono: {tone}
