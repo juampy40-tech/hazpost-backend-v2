@@ -1891,17 +1891,23 @@ El resultado debe ser una sola descripción completa, específica y lista para u
 Datos:
 Empresa: {company_name}
 Industria: {industry}
-Sub-industria: {sub_industry}
+Sub-industria principal: {sub_industry}
+Sub-industrias disponibles: {profile.get("subIndustries")}
 Tipo negocio: {business_type}
 Ubicación: {location}
 Tono: {tone}
 Audiencia: {audience}
 Descripción: {description}
 Slogan: {slogan}
+
 Contexto adicional del negocio (usar si está disponible):
 Website: {profile.get("website")}
 Colores de marca: {profile.get("primaryColor")}
 Imágenes de referencia: {profile.get("referenceImages")}
+
+IMPORTANTE:
+El negocio puede operar en múltiples contextos (residencial, comercial, industrial, agrícola, técnico).
+NO asumir un solo tipo de escenario. Usar TODA la información para decidir.
 
 Extra:
 - Usa beneficios reales del negocio
