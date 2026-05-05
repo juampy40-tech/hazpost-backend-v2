@@ -87,6 +87,7 @@ def _get_user_store():
             "brandProfile": {},
             "businesses": [],
             "posts": [],
+            "textBlocks": []  # 🔥 NUEVO
         }
     return TEMP_USER_DATA[user_key]
 
