@@ -2336,7 +2336,7 @@ Extra:
             return jsonify({
                 "success": True,
                 "item": updated,
-                "items": updated_blocks
+                "items": updated_blocks,
                 "data": updated_blocks,
                 "addons": updated_blocks
             })
