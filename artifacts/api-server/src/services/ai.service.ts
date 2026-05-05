@@ -5985,9 +5985,7 @@ export async function generateBulkPosts(
         }
 
         if (post) {
-          const nicheContextShort = niche.id === -1
-            ? niche.keywords
-            : `${niche.name} - ${niche.keywords}`;
+          const nicheContextShort = strategy.captionBrief;
           postIds.push(post.id);
           const costs = await getCreditCosts();
           actualCreditsUsed += creditCostOf(contentType, costs);
@@ -6002,7 +6000,7 @@ export async function generateBulkPosts(
             styleIdx: slotIdx,
             slideCount,
             platform: "both",
-            imageScene: niche.id === -1 ? bulkBriefImageScene : undefined,
+            imageScene: bulkBriefImageScene ?? strategy.imageScene,
           });
         }
         }  // closes for (contentType of feedCts)
