@@ -1893,6 +1893,22 @@ Debe incluir:
 - Estilo fotografía profesional tipo anuncio para redes sociales
 - Alta calidad, realista, iluminación natural o comercial, composición limpia
 
+REGLA DE CONTEXTO COMERCIAL:
+
+La imagen NO debe enfocarse solo en el detalle técnico.
+
+Debe mostrar el tipo de cliente o negocio donde ocurre el servicio.
+
+Ejemplos:
+- Restaurante → mostrar el local completo + paneles
+- Bodega → techo industrial visible
+- Fábrica → entorno industrial
+- Campo → cultivo + instalación solar
+- Oficina → edificio o espacio de trabajo
+- Hogar → solo si el enfoque es residencial
+
+La imagen debe permitir identificar claramente el tipo de negocio o entorno, no solo el panel o la instalación.
+
 IMPORTANTE:
 - NO generar escenas genéricas
 - NO inventar un negocio diferente
