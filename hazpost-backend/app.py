@@ -1795,6 +1795,48 @@ Reglas:
 - Máximo 120 palabras
 - Usa emojis estratégicamente
 - Si hay website o referencias visuales, úsalas para entender mejor el negocio y su estilo
+REGLA CRÍTICA DE ESCENARIO:
+
+NO asumir que el negocio es residencial.
+
+El negocio puede operar en múltiples contextos:
+- residencial
+- comercial
+- industrial
+- agrícola
+- técnico
+- mantenimiento
+- instalación en empresas
+
+Debes analizar TODA la información:
+- subIndustries
+- description
+- audience
+- contexto del negocio
+
+Y elegir el escenario MÁS representativo del servicio real.
+
+REGLA DE VARIACIÓN OBLIGATORIA:
+
+El escenario puede ser residencial, comercial, industrial, agrícola o técnico según el negocio.
+
+Si el negocio tiene múltiples servicios o sub-industrias, NO repetir siempre el mismo tipo de escenario.
+
+Debes variar entre:
+- hogares
+- empresas
+- industria
+- campo
+- instalaciones técnicas
+- mantenimiento o servicio
+
+Residencial es válido, pero NO debe ser el escenario dominante.
+
+Cada imagen debe representar una parte distinta del negocio o un contexto diferente donde el servicio ocurre.
+
+Elegir siempre el escenario más coherente con el mensaje del post, no el más común.
+
+Si el negocio tiene múltiples servicios, alternar o elegir el más relevante.
 
 Devuelve SOLO JSON válido:
 
