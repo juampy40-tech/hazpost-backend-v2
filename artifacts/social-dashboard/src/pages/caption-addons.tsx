@@ -25,7 +25,7 @@ interface CaptionAddon {
   createdAt: string;
   updatedAt: string;
 }
-// force deploy
+
 type FormData = {
   name: string;
   keywords: string;
