@@ -179,13 +179,14 @@ export function buildPostStrategy(input: StrategyInput): StrategyOutput {
     promptText;
 
   const imageScene =
-    `Fotografía publicitaria realista para un negocio de ${industry}${locationText}. ` +
-    `Mostrar una situación profesional relacionada con: ${marketFocus}. ` +
-    `La escena debe verse como actividad real del negocio: personas, espacio, herramientas, producto, servicio o interacción comercial según corresponda. ` +
-    `Evitar escenas genéricas de familia/casa si el enfoque elegido no es residencial. ` +
-    `Evitar fotos de stock vacías. Debe parecer una campaña premium de una agencia de marketing. ` +
-    `Sin texto, sin logos incrustados, sin marcas ajenas.` +
-    promptText;
+  `Fotografía publicitaria realista de ${businessName}, empresa del sector ${industry}${locationText}. ` +
+  `Escenario enfocado en: ${marketFocus}. ` +
+  `Mostrar actividad real del negocio: operación, instalación, servicio, interacción con cliente o uso del producto según el contexto. ` +
+  `Debe verse como una escena profesional creíble del mundo real, no como imagen de stock genérica. ` +
+  `Evitar escenas de familia o casas si el enfoque no es residencial. ` +
+  `Transmitir confianza, profesionalismo y resultado tangible del servicio.` +
+  ` Sin texto, sin logos incrustados, sin marcas ajenas.` +
+  promptText;
 
   return {
     marketFocus,
