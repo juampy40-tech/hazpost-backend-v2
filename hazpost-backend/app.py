@@ -2230,6 +2230,7 @@ Extra:
 
 
     @app.route('/api/text-blocks/<block_id>', methods=['PUT', 'DELETE'])
+    @app.route('/api/caption-addons/<block_id>', methods=['PUT', 'DELETE'])
     def text_block_detail(block_id):
         try:
             store = _get_user_store()
