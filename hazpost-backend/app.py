@@ -2337,6 +2337,8 @@ Extra:
                 "success": True,
                 "item": updated,
                 "items": updated_blocks
+                "data": updated_blocks,
+                "addons": updated_blocks
             })
 
         except Exception as e:
