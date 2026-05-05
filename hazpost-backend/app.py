@@ -2258,11 +2258,17 @@ Extra:
     @app.route('/api/caption-addons/<block_id>', methods=['PUT', 'DELETE'])
     def text_block_detail(block_id):
         try:
-            store = _get_user_store()
-            blocks = store.get("textBlocks", [])
+            user = session.get("user") or {}
+            user_id = str(user.get("email") or user.get("id") or "demo")
+
+            blocks = get_text_blocks(user_id)
+            normalized_blocks = []
+
+            for block in blocks:
+                normalized_blocks.append(block.get("data") or block)
 
             index = next(
-                (i for i, b in enumerate(blocks) if b.get("id") == block_id),
+                (i for i, b in enumerate(normalized_blocks) if b.get("id") == block_id),
                 None
             )
 
@@ -2273,39 +2279,42 @@ Extra:
                 }), 404
 
             if request.method == 'DELETE':
-                deleted = blocks.pop(index)
-                store["textBlocks"] = blocks
+                deleted = normalized_blocks[index]
+                deleted["active"] = False
+
+                save_text_block(user_id, deleted)
+                updated_blocks = get_text_blocks(user_id)
 
                 return jsonify({
                     "success": True,
                     "item": deleted,
-                    "items": blocks
+                    "items": updated_blocks
                 })
 
             data = request.get_json(silent=True) or {}
 
             keywords = data.get("keywords")
             if keywords is None:
-                keywords = blocks[index].get("keywords", [])
+                keywords = normalized_blocks[index].get("keywords", [])
             elif isinstance(keywords, str):
                 keywords = [k.strip() for k in keywords.split(",") if k.strip()]
 
             updated = {
-                **blocks[index],
-                "name": (data.get("name") or "").strip() or blocks[index]["name"],
-                "content": (data.get("content") or "").strip() or blocks[index]["content"],
+                **normalized_blocks[index],
+                "name": (data.get("name") or "").strip() or normalized_blocks[index].get("name", ""),
+                "content": (data.get("content") or "").strip() or normalized_blocks[index].get("content", ""),
                 "keywords": keywords,
-                "position": data.get("position") or blocks[index].get("position", "after"),
-                "active": data.get("active", blocks[index].get("active", True)),
+                "position": data.get("position") or normalized_blocks[index].get("position", "after"),
+                "active": data.get("active", normalized_blocks[index].get("active", True)),
             }
 
-            blocks[index] = updated
-            store["textBlocks"] = blocks
+            save_text_block(user_id, updated)
+            updated_blocks = get_text_blocks(user_id)
 
             return jsonify({
                 "success": True,
                 "item": updated,
-                "items": blocks
+                "items": updated_blocks
             })
 
         except Exception as e:
