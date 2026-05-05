@@ -2196,7 +2196,12 @@ Extra:
                 blocks = get_text_blocks(user_id)
 
                 if request.path.endswith("/caption-addons"):
-                    return jsonify(blocks)
+                    return jsonify({
+                        "success": True,
+                        "items": blocks,
+                        "data": blocks,
+                        "addons": blocks
+                    })
 
                 return jsonify({
                     "success": True,
