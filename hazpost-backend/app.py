@@ -1844,6 +1844,10 @@ Cada imagen debe representar una parte distinta del negocio o un contexto difere
 Elegir siempre el escenario más coherente con el mensaje del post, no el más común.
 
 Si el negocio tiene múltiples servicios, alternar o elegir el más relevante.
+REGLA ANTI-REPETICIÓN:
+Si ya existe una sub-industria principal, NO la uses como único enfoque.
+Para este post, elige una escena basada en cualquiera de las sub-industrias disponibles o en la descripción completa del negocio.
+El resultado visual NO debe depender solo de la sub-industria principal.
 
 Devuelve SOLO JSON válido:
 
