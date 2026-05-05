@@ -2180,24 +2180,15 @@ Extra:
     @app.route('/api/caption-addons', methods=['GET', 'POST'])
     def text_blocks():
         try:
-            store = _get_user_store()
-
-            print("TEXT BLOCKS METHOD:", request.method)
-            print("USER KEY:", _get_user_key())
-            print("STORE BEFORE:", TEMP_USER_DATA)
+            user = session.get("user") or {}
+            user_id = str(user.get("email") or user.get("id") or "demo")
 
             if request.method == 'GET':
-                blocks = store.get("textBlocks", [])
+                blocks = get_text_blocks(user_id)
 
-                print("STORE GET:", store)
-                print("BLOCKS GET:", blocks)
-
-                # Compatibilidad:
-                # /api/caption-addons lo usa el dashboard y espera una LISTA directa []
                 if request.path.endswith("/caption-addons"):
                     return jsonify(blocks)
 
-                # /api/text-blocks usa formato nuevo con items
                 return jsonify({
                     "success": True,
                     "items": blocks
@@ -2223,8 +2214,6 @@ Extra:
             if isinstance(keywords, str):
                 keywords = [k.strip() for k in keywords.split(",") if k.strip()]
 
-            blocks = store.get("textBlocks", [])
-
             new_block = {
                 "id": str(uuid.uuid4()),
                 "name": name,
@@ -2234,8 +2223,8 @@ Extra:
                 "active": data.get("active", True),
             }
 
-            blocks.append(new_block)
-            store["textBlocks"] = blocks
+            save_text_block(user_id, new_block)
+            blocks = get_text_blocks(user_id)
 
             return jsonify({
                 "success": True,
