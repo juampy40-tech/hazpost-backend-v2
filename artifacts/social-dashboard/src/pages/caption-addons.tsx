@@ -61,13 +61,23 @@ export default function CaptionAddons() {
 
       const items = Array.isArray(data) ? data : (data.items || []);
 
-      setAddons(items.map((item: any) => ({
-        ...item,
-        text: item.text || item.content || "",
-        keywords: Array.isArray(item.keywords)
-          ? item.keywords.join(", ")
-          : (item.keywords || ""),
-      })));
+      setAddons(items.map((item: any) => {
+        let keywordsValue = "";
+
+        if (Array.isArray(item.keywords)) {
+          keywordsValue = item.keywords.join(", ");
+        } else if (typeof item.keywords === "string") {
+          keywordsValue = item.keywords;
+        } else {
+          keywordsValue = "";
+        }
+
+        return {
+          ...item,
+          text: item.text || item.content || "",
+          keywords: keywordsValue,
+        };
+      }));
     } catch {
       toast({ title: "Error", description: "No se pudieron cargar los textos adicionales.", variant: "destructive" });
     } finally {
