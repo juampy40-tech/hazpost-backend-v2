@@ -7082,9 +7082,7 @@ export async function generateExtraPosts(
         }
 
         if (post) {
-          const nicheContextShort = niche.id === -1
-            ? niche.keywords
-            : `${niche.name} - ${niche.keywords}`;
+          const nicheContextShort = extraStrategy.captionBrief;
           postIds.push(post.id);
           const costs = await getCreditCosts();
           actualCreditsUsed += creditCostOf(contentType, costs);
@@ -7099,7 +7097,7 @@ export async function generateExtraPosts(
             styleIdx: feedSlot,
             slideCount,
             platform: currentPlatform,
-            imageScene: niche.id === -1 ? extraBriefImageScene : undefined,
+            imageScene: extraBriefImageScene ?? extraStrategy.imageScene,
           });
           // Registrar el tipo recién creado para bloquear duplicados en iteraciones siguientes
           if (!existingByType.has(contentType)) existingByType.set(contentType, new Set());
