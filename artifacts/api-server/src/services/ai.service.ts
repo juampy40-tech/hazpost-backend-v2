@@ -6756,6 +6756,13 @@ export async function generateExtraPosts(
       }
 
       // ── 2. Caption (AI call — no TX open) ────────────────────────────────
+      const strategy = buildPostStrategy({
+        prompt: customTopic || effectiveExtraCtx,
+        businessProfile: extraBusinessProfile,
+        tone: extraBusinessProfile?.brandTone ?? undefined,
+        index: extraBatchHooks.length
+      });
+
       const recentHooks = await getRecentHooks("instagram", userId, businessId);
       const allHooks    = [...recentHooks, ...extraBatchHooks];
       const extraHookStyleHint = contentType === "carousel"
@@ -6763,16 +6770,16 @@ export async function generateExtraPosts(
         : undefined;
       let captionResult: Awaited<ReturnType<typeof generateCaption>>;
       let hookDraft = "";
-      captionResult = await generateCaption(effectiveExtraCtx, "both", contentType, allHooks.slice(-15), userId, undefined, businessId, extraHookStyleHint, extraNicheAddonChars);
+      captionResult = await generateCaption(strategy.captionBrief, "both", contentType, allHooks.slice(-15), userId, undefined, businessId, extraHookStyleHint, extraNicheAddonChars);
       hookDraft = extractCaptionHook(captionResult.caption);
       if (isTooSimilar(hookDraft, allHooks)) {
         const avoidList = getMostSimilarHooks(hookDraft, allHooks, 8);
-        captionResult = await generateCaption(effectiveExtraCtx, "both", contentType, avoidList, userId, undefined, businessId, extraHookStyleHint, extraNicheAddonChars);
+        captionResult = await generateCaption(strategy.captionBrief, "both", contentType, avoidList, userId, undefined, businessId, extraHookStyleHint, extraNicheAddonChars);
         hookDraft = extractCaptionHook(captionResult.caption);
         if (isTooSimilar(hookDraft, allHooks)) {
           const allSim = getMostSimilarHooks(hookDraft, allHooks, 12);
           captionResult = await generateCaption(
-            `${effectiveExtraCtx} — usa un ÁNGULO COMPLETAMENTE DIFERENTE, perspectiva nueva`,
+            `${strategy.captionBrief} — usa un ÁNGULO COMPLETAMENTE DIFERENTE, perspectiva nueva`,
             "both", contentType, allSim, userId, undefined, businessId, extraHookStyleHint, extraNicheAddonChars
           );
           hookDraft = extractCaptionHook(captionResult.caption);
