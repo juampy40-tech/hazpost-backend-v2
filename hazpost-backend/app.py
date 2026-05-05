@@ -2041,6 +2041,57 @@ Extra:
             result["hashtags"] = hashtags
 
             # ============================================================
+            # 🔥 APPLY TEXT BLOCKS (BLOQUES COMERCIALES)
+            # ============================================================
+            try:
+                store = _get_user_store()
+                blocks = store.get("textBlocks", [])
+
+                caption = result.get("caption") or ""
+
+                # 🔹 Normalizar texto para búsqueda
+                caption_lower = caption.lower()
+
+                selected_blocks = []
+
+                for block in blocks:
+                    if not block.get("active", True):
+                        continue
+
+                    keywords = block.get("keywords") or []
+
+                    # Si no tiene keywords → aplica a todos
+                    if not keywords:
+                        selected_blocks.append(block)
+                        continue
+
+                    # Si tiene keywords → buscar match
+                    for kw in keywords:
+                        if kw.lower() in caption_lower:
+                            selected_blocks.append(block)
+                            break
+
+                # 🔥 Limitar a máximo 2 bloques (evitar spam)
+                selected_blocks = selected_blocks[:2]
+
+                # 🔥 Aplicar bloques
+                for block in selected_blocks:
+                    content = (block.get("content") or "").strip()
+
+                    if not content:
+                        continue
+
+                    if block.get("position") == "before":
+                        caption = content + "\n\n" + caption
+                    else:
+                        caption = caption + "\n\n" + content
+
+                result["caption"] = caption
+
+            except Exception as e:
+                logger.warning(f"TEXT BLOCK APPLY ERROR: {e}")
+
+            # ============================================================
             # 💾 GUARDAR EN DB (POSTGRESQL)
             # ============================================================
             user = session.get("user") or {}
