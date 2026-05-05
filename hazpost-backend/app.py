@@ -1778,6 +1778,14 @@ def create_app():
                         sub_industries_text = ", ".join([str(x) for x in sub_industries_raw if x])
                     else:
                         sub_industries_text = str(sub_industries_raw or "")
+
+                    # 🔥 SELECCIÓN INTELIGENTE DE ENFOQUE (CRÍTICO)
+                    import random
+
+                    if isinstance(sub_industries_raw, list) and sub_industries_raw:
+                        selected_focus = random.choice(sub_industries_raw)
+                    else:
+                        selected_focus = sub_industry or industry or "servicio general"
     
                     prompt = f"""
 Eres un experto en marketing digital y copywriting.
