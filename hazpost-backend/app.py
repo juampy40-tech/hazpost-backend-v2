@@ -2305,6 +2305,8 @@ Extra:
                     "success": True,
                     "item": deleted,
                     "items": updated_blocks
+                    "data": updated_blocks,
+                    "addons": updated_blocks
                 })
 
             data = request.get_json(silent=True) or {}
