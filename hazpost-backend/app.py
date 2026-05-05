@@ -2098,10 +2098,7 @@ Extra:
                         caption = caption + "\n\n" + content
 
                 result["caption"] = caption
-
-                print("BLOCKS EN GENERACIÓN:", blocks)
-                print("CAPTION FINAL:", caption)
-
+                
             except Exception as e:
                 logger.warning(f"TEXT BLOCK APPLY ERROR: {e}")
 
