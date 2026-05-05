@@ -2067,10 +2067,11 @@ Extra:
 
                     # Si tiene keywords → buscar match
                     for kw in keywords:
-                        if kw.lower() in caption_lower:
+                        kw_text = str(kw or "").strip().lower()
+                        if kw_text and kw_text in caption_lower:
                             selected_blocks.append(block)
                             break
-
+                            
                 # 🔥 Limitar a máximo 2 bloques (evitar spam)
                 selected_blocks = selected_blocks[:2]
 
