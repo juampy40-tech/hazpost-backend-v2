@@ -55,7 +55,7 @@ export default function CaptionAddons() {
   const fetchAddons = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${BASE}/api/caption-addons`, { credentials: "include" });
+      const res = await fetch(`${BASE}/api/text-blocks`, { credentials: "include" });
       if (!res.ok) throw new Error("Error al cargar");
       const data = await res.json();
       setAddons(Array.isArray(data) ? data : []);
