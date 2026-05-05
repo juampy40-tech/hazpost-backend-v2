@@ -2184,6 +2184,10 @@ Extra:
 
             if request.method == 'GET':
                 blocks = store.get("textBlocks", [])
+
+                print("STORE GET:", store)
+                print("BLOCKS GET:", blocks)
+
                 return jsonify({
                     "success": True,
                     "items": blocks
