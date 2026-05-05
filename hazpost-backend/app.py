@@ -1770,7 +1770,7 @@ def create_app():
                     elif post_type == "image":
                         extra_instruction = "El contenido debe ser para una sola imagen: claro, directo y visual."
                     else:
-extra_instruction = "Elige el mejor formato automáticamente según el negocio."
+                        extra_instruction = "Elige el mejor formato automáticamente según el negocio."
 
 sub_industries_raw = profile.get("subIndustries") or []
 
