@@ -32,7 +32,15 @@ from src.catalogs.industries import get_industries_response
 from src.dashboard_routes import dashboard_bp
 from src.oauth_meta_routes import oauth_meta_bp
 from src.image_generation_routes import image_generation_bp
-from src.db import init_db, db_available, get_brand_profile, save_brand_profile, save_post
+from src.db import (
+    init_db,
+    db_available,
+    get_brand_profile,
+    save_brand_profile,
+    save_post,
+    get_text_blocks,
+    save_text_block,
+)
 
 R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
 R2_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
