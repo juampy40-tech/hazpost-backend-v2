@@ -1950,9 +1950,7 @@ Extra:
 
                         bad_prompt = (
                             not visual_prompt
-                            or "producto o servicio real" in visual_prompt
-                            or "contexto real del negocio" in visual_prompt
-                            or "productos y servicios" in visual_prompt
+                            or len(visual_prompt) < 50
                             or "[" in visual_prompt
                             or "]" in visual_prompt
                         )
