@@ -2046,9 +2046,17 @@ Extra:
             # 🔥 APPLY TEXT BLOCKS (BLOQUES COMERCIALES)
             # ============================================================
             try:
-                store = _get_user_store()
-                blocks = store.get("textBlocks", [])
-                caption = result.get("caption") or ""
+                user = session.get("user") or {}
+                user_id = str(
+                    user.get("email")
+                    or user.get("id")
+                    or session.get("user_id")
+                    or session.get("userId")
+                    or "demo"
+               )
+
+               blocks = get_text_blocks(user_id)
+               caption = result.get("caption") or ""
 
                 # 🔹 Normalizar texto para búsqueda
                 caption_lower = caption.lower()
