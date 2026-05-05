@@ -2053,10 +2053,10 @@ Extra:
                     or session.get("user_id")
                     or session.get("userId")
                     or "demo"
-               )
+                )
 
-               blocks = get_text_blocks(user_id)
-               caption = result.get("caption") or ""
+                blocks = get_text_blocks(user_id)
+                caption = result.get("caption") or ""
 
                 # 🔹 Normalizar texto para búsqueda
                 caption_lower = caption.lower()
