@@ -86,8 +86,8 @@ export default function CaptionAddons() {
     setSaving(true);
     try {
       const url = editingAddon
-        ? `${BASE}/api/caption-addons/${editingAddon.id}`
-        : `${BASE}/api/caption-addons`;
+        ? `${BASE}/api/text-blocks/${editingAddon.id}`
+        : `${BASE}/api/text-blocks`;
       const method = editingAddon ? "PUT" : "POST";
       const res = await fetch(url, {
         method,
