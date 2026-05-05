@@ -2305,8 +2305,10 @@ Extra:
     @app.route('/api/<path:unknown_path>', methods=['GET'])
     def api_fallback_get(unknown_path):
         logger.warning(f"[FALLBACK GET] Endpoint no implementado: /api/{unknown_path}")
-        return jsonify([])
-
+        return jsonify({
+            "error": "Endpoint no existe",
+            "path": unknown_path
+        }), 404
     @app.route('/api/<path:unknown_path>', methods=['POST', 'PUT', 'PATCH', 'DELETE'])
     def api_fallback_mutation(unknown_path):
         logger.warning(f"[FALLBACK MUTATION] Endpoint no implementado: /api/{unknown_path}")
