@@ -2189,7 +2189,12 @@ Extra:
             data = request.get_json(silent=True) or {}
 
             name = (data.get("name") or "").strip()
-            content = (data.get("content") or "").strip()
+            content = (
+                data.get("content")
+                or data.get("text")
+                or data.get("caption")
+                or ""
+            ).strip()
 
             if not name or not content:
                 return jsonify({
