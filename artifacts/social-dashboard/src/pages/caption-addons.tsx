@@ -149,7 +149,13 @@ export default function CaptionAddons() {
     }
   };
 
-  const isUniversal = (addon: CaptionAddon) => !addon.keywords.trim();
+  const isUniversal = (addon: CaptionAddon) => {
+    if (Array.isArray(addon.keywords)) {
+      return addon.keywords.length === 0;
+    }
+
+    return !String(addon.keywords || "").trim();
+  };
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-4xl">
