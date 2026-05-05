@@ -2191,14 +2191,7 @@ Extra:
         try:
             user = session.get("user") or {}
             user_id = str(user.get("email") or user.get("id") or "demo")
-            print("=== TEXT BLOCKS DEBUG ===")
-            print("PATH:", request.path)
-            print("SESSION USER:", session.get("user"))
-            print("USER OBJ:", user)
-            print("USER_ID:", user_id)
-            print("DB BLOCKS:", get_text_blocks(user_id))
-            print("=========================")
-            
+                        
             if request.method == 'GET':
                 blocks = get_text_blocks(user_id)
 
