@@ -93,7 +93,13 @@ export default function CaptionAddons() {
         method,
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          name: form.name,
+          content: form.text,   // 🔥 ESTE ES EL FIX
+          keywords: form.keywords,
+          position: form.position,
+          active: form.active,
+        }),
       });
       if (!res.ok) throw new Error("Error al guardar");
       toast({ title: editingAddon ? "Texto actualizado" : "Texto creado", description: "Cambios guardados exitosamente." });
