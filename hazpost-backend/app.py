@@ -1910,7 +1910,6 @@ El resultado debe ser una sola descripción completa, específica y lista para u
 Datos:
 Empresa: {company_name}
 Industria: {industry}
-Sub-industria principal: {sub_industry}
 Sub-industrias disponibles: {sub_industries_text}
 Enfoque visual obligatorio para ESTE post: {selected_focus}
 Tipo negocio: {business_type}
