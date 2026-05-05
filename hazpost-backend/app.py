@@ -2245,13 +2245,18 @@ Extra:
 
             save_text_block(user_id, new_block)
             blocks = get_text_blocks(user_id)
+            normalized_blocks = [
+                b.get("data") if isinstance(b, dict) and "data" in b else b
+                for b in blocks
+            ]
 
             return jsonify({
                 "success": True,
                 "item": new_block,
-                "items": blocks
+                "items": normalized_blocks,
+                "data": normalized_blocks,
+                "addons": normalized_blocks
             }), 201
-
         except Exception as e:
             logger.exception(f"TEXT BLOCKS ERROR: {e}")
             return jsonify({
