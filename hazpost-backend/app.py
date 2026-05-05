@@ -2047,13 +2047,7 @@ Extra:
             # ============================================================
             try:
                 user = session.get("user") or {}
-                user_id = str(
-                    user.get("email")
-                    or user.get("id")
-                    or session.get("user_id")
-                    or session.get("userId")
-                    or "demo"
-                )
+                user_id = str(user.get("email") or "anonymous")
 
                 blocks = get_text_blocks(user_id)
                 caption = result.get("caption") or ""
