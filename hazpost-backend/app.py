@@ -75,7 +75,9 @@ def _get_user_key():
     user = session.get("user")
 
     if not user or not isinstance(user, dict):
-        return "anonymous"
+        return "global"
+
+    return str(user.get("email") or user.get("id") or "global")
 
     # 🔥 SIEMPRE usar email como clave única
     return str(user.get("email") or "anonymous")
