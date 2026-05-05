@@ -2064,6 +2064,7 @@ Extra:
                 selected_blocks = []
 
                 for block in blocks:
+                    block = block.get("data") or block
                     if not block.get("active", True):
                         continue
 
