@@ -2326,7 +2326,11 @@ Extra:
 
             save_text_block(user_id, updated)
             updated_blocks = get_text_blocks(user_id)
-
+            updated_blocks = [
+                b.get("data") if isinstance(b, dict) and "data" in b else b
+                for b in updated_blocks
+            ]
+            
             return jsonify({
                 "success": True,
                 "item": updated,
