@@ -72,13 +72,8 @@ def _get_user_role(email: str) -> str:
     return "user"
     
 def _get_user_key():
-    user = session.get("user")
-
-    if not user or not isinstance(user, dict):
-        return "global"
-
-    return str(user.get("email") or user.get("id") or "global")
-    
+    return "global"
+ 
 def _get_user_store():
     user_key = _get_user_key()
     if user_key not in TEMP_USER_DATA:
