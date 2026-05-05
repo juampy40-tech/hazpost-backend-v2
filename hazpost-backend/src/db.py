@@ -443,3 +443,30 @@ def update_post_fields(user_id, post_id, updates):
     saved_post["updatedAt"] = updated.get("updated_at").isoformat() if updated.get("updated_at") else None
 
     return saved_post
+
+# ================================
+# TEXT BLOCKS (NUEVO)
+# ================================
+
+def get_text_blocks(user_id):
+    with db_session() as db:
+        rows = db.execute(text("""
+            SELECT data
+            FROM text_blocks
+            WHERE user_id = :user_id
+            ORDER BY created_at ASC
+        """), {"user_id": user_id}).mappings().all()
+
+    return [r["data"] for r in rows]
+
+
+def save_text_block(user_id, block):
+    with db_session() as db:
+        db.execute(text("""
+            INSERT INTO text_blocks (user_id, block_id, data)
+            VALUES (:user_id, :block_id, :data)
+        """), {
+            "user_id": user_id,
+            "block_id": block["id"],
+            "data": json.dumps(block)
+        })
