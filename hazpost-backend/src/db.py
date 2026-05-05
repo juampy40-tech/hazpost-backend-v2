@@ -83,6 +83,22 @@ def init_db():
                 ON posts (business_id);
             """))
 
+            # 🟣 TEXT BLOCKS
+            db.execute(text("""
+                CREATE TABLE IF NOT EXISTS text_blocks (
+                    id SERIAL PRIMARY KEY,
+                    user_id TEXT NOT NULL,
+                    block_id TEXT NOT NULL,
+                    data JSONB NOT NULL,
+                    created_at TIMESTAMP DEFAULT NOW()
+                );
+            """))
+
+            db.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_text_blocks_user_id
+                ON text_blocks (user_id);
+            """))
+
         logger.info("Base de datos inicializada correctamente")
         return True
 
