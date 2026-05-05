@@ -10,7 +10,7 @@ from flask import Flask, render_template, request, make_response, jsonify, sessi
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
 from werkzeug.utils import secure_filename
-HJH
+
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s: %(message)s')
 logger = logging.getLogger(__name__)
