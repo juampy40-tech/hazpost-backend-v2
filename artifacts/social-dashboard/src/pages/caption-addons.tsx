@@ -58,7 +58,16 @@ export default function CaptionAddons() {
       const res = await fetch(`${BASE}/api/text-blocks`, { credentials: "include" });
       if (!res.ok) throw new Error("Error al cargar");
       const data = await res.json();
-      setAddons(Array.isArray(data) ? data : (data.items || []));
+
+      const items = Array.isArray(data) ? data : (data.items || []);
+
+      setAddons(items.map((item: any) => ({
+        ...item,
+        text: item.text || item.content || "",
+        keywords: Array.isArray(item.keywords)
+          ? item.keywords.join(", ")
+          : (item.keywords || ""),
+      })));
     } catch {
       toast({ title: "Error", description: "No se pudieron cargar los textos adicionales.", variant: "destructive" });
     } finally {
