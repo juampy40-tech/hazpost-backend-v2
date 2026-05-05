@@ -6964,32 +6964,88 @@ export async function generateExtraPosts(
         }
 
         // ── 2. Caption (AI call — no TX open) ────────────────────────────────
+        const extraStrategy = buildPostStrategy({
+          prompt: customTopic || effectiveExtraSpCtx,
+          businessProfile: extraBusinessProfile,
+          tone: extraBusinessProfile?.brandTone ?? undefined,
+          index: extraBatchHooks.length
+        });
+
         const extraRecentHooks = await getRecentHooks(currentPlatform, userId, businessId);
         const extraAllHooks = [...extraRecentHooks, ...extraBatchHooks];
         const extraSpHookStyleHint = contentType === "carousel"
           ? CAROUSEL_HOOK_STYLES[extraBatchHooks.length % CAROUSEL_HOOK_STYLES.length]
           : undefined;
+
         let extraCaptionResult: Awaited<ReturnType<typeof generateCaption>>;
         let extraHookDraft = "";
-        extraCaptionResult = await generateCaption(effectiveExtraSpCtx, currentPlatform, contentType, extraAllHooks.slice(-15), userId, undefined, businessId, extraSpHookStyleHint, extraSpAddonChars);
+
+        extraCaptionResult = await generateCaption(
+          extraStrategy.captionBrief,
+          currentPlatform,
+          contentType,
+          extraAllHooks.slice(-15),
+          userId,
+          undefined,
+          businessId,
+          extraSpHookStyleHint,
+          extraSpAddonChars
+        );
+
         extraHookDraft = extractCaptionHook(extraCaptionResult.caption);
+
         if (isTooSimilar(extraHookDraft, extraAllHooks)) {
           const avoidList = getMostSimilarHooks(extraHookDraft, extraAllHooks, 8);
-          extraCaptionResult = await generateCaption(effectiveExtraSpCtx, currentPlatform, contentType, avoidList, userId, undefined, businessId, extraSpHookStyleHint, extraSpAddonChars);
+
+          extraCaptionResult = await generateCaption(
+            extraStrategy.captionBrief,
+            currentPlatform,
+            contentType,
+            avoidList,
+            userId,
+            undefined,
+            businessId,
+            extraSpHookStyleHint,
+            extraSpAddonChars
+          );
+
           extraHookDraft = extractCaptionHook(extraCaptionResult.caption);
+
           if (isTooSimilar(extraHookDraft, extraAllHooks)) {
             const allSim = getMostSimilarHooks(extraHookDraft, extraAllHooks, 12);
+
             extraCaptionResult = await generateCaption(
-              `${effectiveExtraSpCtx} — usa un ÁNGULO COMPLETAMENTE DIFERENTE, perspectiva nueva`,
-              currentPlatform, contentType, allSim, userId, undefined, businessId, extraSpHookStyleHint, extraSpAddonChars
+              `${extraStrategy.captionBrief} — usa un ÁNGULO COMPLETAMENTE DIFERENTE, perspectiva nueva`,
+              currentPlatform,
+              contentType,
+              allSim,
+              userId,
+              undefined,
+              businessId,
+              extraSpHookStyleHint,
+              extraSpAddonChars
             );
+
             extraHookDraft = extractCaptionHook(extraCaptionResult.caption);
           }
         }
+
         extraBatchHooks.push(extraHookDraft);
         const extraTopicKey = isAutomatic ? niche.name : undefined;
-        void recordCaptionHistory(extraBatchId, currentPlatform, extraHookDraft, contentType, undefined, extraTopicKey, userId, businessId);
+
+        void recordCaptionHistory(
+          extraBatchId,
+          currentPlatform,
+          extraHookDraft,
+          contentType,
+          undefined,
+          extraTopicKey,
+          userId,
+          businessId
+        );
+
         if (isAutomatic) topicsUsedThisRun.add(niche.name);
+
         const { caption: aiCaptionExtraSp, hashtags, hashtagsTiktok } = extraCaptionResult;
         const caption = applyAddon(aiCaptionExtraSp, extraSpAddon);
 
