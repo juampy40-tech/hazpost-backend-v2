@@ -2178,6 +2178,10 @@ Extra:
         try:
             store = _get_user_store()
 
+            print("TEXT BLOCKS METHOD:", request.method)
+            print("USER KEY:", _get_user_key())
+            print("STORE BEFORE:", TEMP_USER_DATA)
+
             if request.method == 'GET':
                 blocks = store.get("textBlocks", [])
                 return jsonify({
