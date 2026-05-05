@@ -1962,10 +1962,10 @@ Extra:
                             result["visualPlan"] = {
                                 "format": "single_image",
                                 "prompt": (
-                                    f"Imagen publicitaria realista para {company_name}, negocio de {business_type} en {location}. "
-                                    f"Debe mostrar claramente el servicio principal del negocio: {description or business_type}. "
-                                    f"Escena real del servicio en acción, contexto coherente con la industria, clientes o equipo trabajando, "
-                                    f"fotografía profesional para redes sociales, alta calidad, luz natural, composición limpia, sin texto ni logos falsos."
+                                    f"Imagen publicitaria realista para {company_name}, negocio de {industry or business_type} en {location}. "
+                                    f"Debe mostrar claramente uno de los servicios reales del negocio según esta información: {description or sub_industries_text or business_type}. "
+                                    f"Escena real del servicio en acción, usando un contexto coherente con el perfil completo: residencial, comercial, industrial, agrícola, técnico o mantenimiento según corresponda. "
+                                    f"No usar siempre casa o familia por defecto. Fotografía profesional para redes sociales, alta calidad, luz natural, composición limpia, sin texto ni logos falsos."
                                 )
                             }
 
