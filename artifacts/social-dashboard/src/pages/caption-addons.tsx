@@ -114,7 +114,7 @@ export default function CaptionAddons() {
 
   const handleToggleActive = async (addon: CaptionAddon) => {
     try {
-      await fetch(`${BASE}//api/text-blocks/${addon.id}`, {
+      await fetch(`${BASE}/api/text-blocks/${addon.id}`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -130,7 +130,7 @@ export default function CaptionAddons() {
     if (!window.confirm(`¿Eliminar "${addon.name}"?`)) return;
     setDeleting(addon.id);
     try {
-      await fetch(`${BASE}//api/text-blocks/${addon.id}`, { method: "DELETE", credentials: "include" });
+      await fetch(`${BASE}/api/text-blocks/${addon.id}`, { method: "DELETE", credentials: "include" });
       toast({ title: "Texto eliminado" });
       fetchAddons();
     } catch {
