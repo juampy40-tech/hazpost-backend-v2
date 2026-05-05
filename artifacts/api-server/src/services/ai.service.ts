@@ -6493,9 +6493,28 @@ export async function generateExtraPosts(
 
   // Load business default location for niche context suffix
   let extraBizLocationSuffix = "";
+  let extraBusinessProfile: any = null;
+
   if (businessId != null) {
-    const biz = await db.select({ defaultLocation: businessesTable.defaultLocation })
-      .from(businessesTable).where(eq(businessesTable.id, businessId)).limit(1).then(r => r[0]);
+    const biz = await db.select({
+      name: businessesTable.name,
+      industry: businessesTable.industry,
+      subIndustry: businessesTable.subIndustry,
+      subIndustries: businessesTable.subIndustries,
+      description: businessesTable.description,
+      audienceDescription: businessesTable.audienceDescription,
+      defaultLocation: businessesTable.defaultLocation,
+      slogan: businessesTable.slogan,
+      brandTone: businessesTable.brandTone,
+      website: businessesTable.website,
+    })
+      .from(businessesTable)
+      .where(eq(businessesTable.id, businessId))
+      .limit(1)
+      .then(r => r[0]);
+
+    extraBusinessProfile = biz ?? null;
+
     if (biz?.defaultLocation) extraBizLocationSuffix = ` ${biz.defaultLocation}.`;
   }
 
