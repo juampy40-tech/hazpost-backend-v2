@@ -2786,8 +2786,7 @@ export default function Approval() {
           }
         }
 
-        // Carruseles:
-        // toda imagen nueva se agrega como nuevo slide al final
+        // Carruseles: toda imagen nueva se agrega como nuevo slide al final
         if (currentPost?.contentType === "carousel" && newVariant?.id) {
           setSlideOrder(prev => [...prev, newVariant.id]);
         }
