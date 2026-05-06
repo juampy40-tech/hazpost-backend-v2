@@ -2202,7 +2202,13 @@ Extra:
     def text_blocks():
         try:
             user = session.get("user") or {}
-            user_id = str(user.get("email") or "anonymous")
+
+            user_id = str(
+                user.get("email")
+                or user.get("id")
+                or user.get("userId")
+                or "anonymous"
+            )
                         
             if request.method == 'GET':
                 blocks = get_text_blocks(user_id)
