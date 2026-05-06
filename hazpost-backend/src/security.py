@@ -4,7 +4,7 @@ import os
 import time
 import logging
 from functools import wraps
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, session
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import src.rate_limit_storage  # noqa: F401 — registers "filesystem://" scheme with limits
