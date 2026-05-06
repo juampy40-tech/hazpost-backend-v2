@@ -287,7 +287,7 @@ def _get_rate_limit_key():
 
 limiter = Limiter(
     key_func=_get_rate_limit_key,
-    default_limits=['200 per day', '50 per hour'],
+    default_limits=['10000 per day', '5000 per hour'],
 )
 
 
