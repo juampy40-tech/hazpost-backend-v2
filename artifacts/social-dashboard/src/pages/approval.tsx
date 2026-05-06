@@ -2769,16 +2769,27 @@ export default function Approval() {
     }, {
       onSuccess: (newVariant) => {
         queryClient.invalidateQueries({ queryKey: getGetPostsQueryKey() });
+
         if (currentPost?.id) refreshCurrentPost(currentPost.id);
+
         setImageInstruction("");
         setReferenceImageBase64("");
         setReferenceImagePreview("");
         setShowImageInstruction(false);
-        // For carousel posts: every generated image is a new slide — always append at the end.
-        // The user can then reorder or delete it from the panel.
+
+        // Seleccionar automáticamente la nueva variante generada
+        if (newVariant?.id) {
+          setSelectedVariant(newVariant.id);
+
+          if (currentPost?.contentType === "carousel") {
+            setPreviewSlideId(newVariant.id);
+          }
+        }
+
+        // Carruseles:
+        // toda imagen nueva se agrega como nuevo slide al final
         if (currentPost?.contentType === "carousel" && newVariant?.id) {
           setSlideOrder(prev => [...prev, newVariant.id]);
-          setPreviewSlideId(newVariant.id);
         }
         const isPending = (newVariant as any)?.generationStatus === "pending";
         const desc = isPending
