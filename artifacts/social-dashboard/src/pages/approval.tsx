@@ -2267,7 +2267,7 @@ export default function Approval() {
           setPollCount(c => c + 1);
         }
       } catch { setPollCount(c => c + 1); }
-    }, 8000);
+    }, 15000);
     return () => clearInterval(interval);
   }, [currentHasNoImages, currentPost?.id, refetch]);
 
@@ -2292,7 +2292,7 @@ export default function Approval() {
           setPendingPollCount(c => c + 1);
         }
       } catch { setPendingPollCount(c => c + 1); }
-    }, 3000);
+    }, 12000);
     return () => clearInterval(interval);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPendingVariants, currentPost?.id]);
