@@ -643,12 +643,28 @@ export default function Approval() {
   });
 
   // Re-fetches a single post's full data and updates currentPostFull — called after image mutations
-  const refreshCurrentPost = useCallback((postId: number) => {
-    fetch(`${BASE}/api/posts/${postId}`)
-      .then(r => r.json())
-      .then(data => setCurrentPostFull(data))
-      .catch(() => {});
-  }, []);
+  const refreshCurrentPost = useCallback((postId: number, force = false) => {
+  if (!postId) return;
+
+  if (!force && postFetchInFlightRef.current === postId) return;
+
+  postFetchInFlightRef.current = postId;
+
+  fetch(`${BASE}/api/posts/${postId}`, {
+    credentials: "include",
+  })
+    .then(r => r.json())
+    .then(data => {
+      setCurrentPostFull(data);
+      lastFullPostLoadedRef.current = postId;
+    })
+    .catch(() => {})
+    .finally(() => {
+      if (postFetchInFlightRef.current === postId) {
+        postFetchInFlightRef.current = null;
+      }
+    });
+}, []);
   const { toast } = useToast();
 
   const updatePost = useUpdatePost();
