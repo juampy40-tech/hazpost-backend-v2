@@ -291,6 +291,7 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
     next_index = len(variants)
 
     rendered_image = None
+    rendered_base64 = ""
 
     try:
         downloaded_image = _download_image_from_url(base_image)
@@ -300,20 +301,19 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
             overlay_params=overlay_params,
         )
 
-    except Exception as render_error:
-        logger.exception(
-            "Error renderizando overlay variant post_id=%s: %s",
-            post_id,
-            render_error,
-        )
         rendered_bytes = _image_to_jpeg_bytes(rendered_image)
 
         if rendered_bytes:
             rendered_base64 = base64.b64encode(
                 rendered_bytes.getvalue()
             ).decode("utf-8")
-        else:
-            rendered_base64 = ""
+
+    except Exception as render_error:
+        logger.exception(
+            "Error renderizando overlay variant post_id=%s: %s",
+            post_id,
+            render_error,
+        )
     
     new_variant = {
         "id": str(uuid.uuid4()),
