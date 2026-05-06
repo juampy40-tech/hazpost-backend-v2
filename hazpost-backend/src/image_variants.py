@@ -244,7 +244,7 @@ def _render_basic_overlay(image, overlay_params=None):
     steps = max(1, band_bottom - band_top)
     for i in range(steps):
         ratio = i / steps
-        alpha = int(40 + (185 * ratio)) if text_position == "bottom" else 150
+        alpha = int(18 + (120 * ratio)) if text_position == "bottom" else 150
         y = band_top + i
         draw.line([(0, y), (width, y)], fill=(0, 0, 0, alpha))
 
