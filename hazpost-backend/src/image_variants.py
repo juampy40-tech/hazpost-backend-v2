@@ -269,7 +269,7 @@ def _render_basic_overlay(image, overlay_params=None):
         ratio = i / steps
         alpha = int(18 + (120 * ratio)) if text_position == "bottom" else 150
         y = band_top + i
-        overlay_draw.line([(0, y), (width, y)], fill=(0, 0, 0, alpha))
+        draw.line([(0, y), (width, y)], fill=(0, 0, 0, alpha))
 
     padding_x = int(width * 0.07)
 
