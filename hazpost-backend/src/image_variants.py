@@ -306,6 +306,14 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
             post_id,
             render_error,
         )
+        rendered_bytes = _image_to_jpeg_bytes(rendered_image)
+
+        if rendered_bytes:
+            rendered_base64 = base64.b64encode(
+                rendered_bytes.getvalue()
+            ).decode("utf-8")
+        else:
+            rendered_base64 = ""
     
     new_variant = {
         "id": str(uuid.uuid4()),
