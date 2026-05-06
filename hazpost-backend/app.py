@@ -2421,7 +2421,8 @@ Extra:
         logger.warning(f"[FALLBACK MUTATION] Endpoint no implementado: /api/{unknown_path}")
         return jsonify({
             "success": False,
-            "message": f"Endpoint /api/{unknown_path} recibido en modo fallback"
+            "error": "Endpoint no existe",
+            "path": unknown_path
         }), 404
         
        
