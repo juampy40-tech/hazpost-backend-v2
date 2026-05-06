@@ -175,6 +175,68 @@ def find_variant(post_data, variant_id, post_id=None):
 
     return None, variants, post_data
 
+def _safe_headline_text(text, max_length=120):
+    if not isinstance(text, str):
+        return ""
+
+    text = text.strip()
+
+    if not text:
+        return ""
+
+    text = " ".join(text.split())
+
+    return text[:max_length]
+
+
+def _load_default_font(size=42):
+    try:
+        return ImageFont.truetype("DejaVuSans-Bold.ttf", size=size)
+    except Exception:
+        return ImageFont.load_default()
+
+
+def _render_basic_overlay(image, overlay_params=None):
+    overlay_params = overlay_params or {}
+
+    headline = _safe_headline_text(
+        overlay_params.get("headline")
+        or overlay_params.get("title")
+        or ""
+    )
+
+    if not headline:
+        return image
+
+    canvas = image.copy().convert("RGBA")
+
+    width, height = canvas.size
+
+    overlay = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+
+    gradient_height = int(height * 0.28)
+
+    draw.rectangle(
+        [(0, height - gradient_height), (width, height)],
+        fill=(0, 0, 0, 150),
+    )
+
+    font = _load_default_font(
+        max(28, int(width * 0.045))
+    )
+
+    text_x = int(width * 0.06)
+    text_y = height - gradient_height + int(height * 0.05)
+
+    draw.text(
+        (text_x, text_y),
+        headline,
+        font=font,
+        fill=(255, 255, 255, 255),
+    )
+
+    return Image.alpha_composite(canvas, overlay)
 
 def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_params=None):
     overlay_params = overlay_params or {}
