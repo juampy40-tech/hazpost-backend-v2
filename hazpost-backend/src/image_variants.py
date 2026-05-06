@@ -216,6 +216,7 @@ def _load_default_font(size=42):
     logger.warning("No se pudo cargar fuente TTF. Usando fallback básico.")
     return ImageFont.load_default()
 
+
 def _render_basic_overlay(image, overlay_params=None):
     overlay_params = overlay_params or {}
 
