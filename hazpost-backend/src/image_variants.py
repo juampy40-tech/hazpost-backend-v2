@@ -1,6 +1,90 @@
 import json
+import os
 import time
 import uuid
+import logging
+from io import BytesIO
+from urllib.parse import urlparse
+
+import requests
+from PIL import Image, ImageDraw, ImageFont, ImageOps, UnidentifiedImageError
+
+
+logger = logging.getLogger(__name__)
+
+ALLOWED_IMAGE_HOSTS = {
+    "pub-86d30a989fe64bc1b60fd7511bd1a5f2.r2.dev",
+}
+
+ALLOWED_IMAGE_SCHEMES = {"https"}
+
+MAX_IMAGE_DOWNLOAD_BYTES = 12 * 1024 * 1024  # 12 MB
+IMAGE_DOWNLOAD_TIMEOUT = 12
+OUTPUT_IMAGE_QUALITY = 92
+
+def _is_allowed_image_url(url):
+    if not isinstance(url, str) or not url.strip():
+        return False
+
+    try:
+        parsed = urlparse(url.strip())
+    except Exception:
+        return False
+
+    if parsed.scheme not in ALLOWED_IMAGE_SCHEMES:
+        return False
+
+    if parsed.hostname not in ALLOWED_IMAGE_HOSTS:
+        return False
+
+    return True
+
+
+def _download_image_from_url(url):
+    if not _is_allowed_image_url(url):
+        raise ValueError("URL de imagen no permitida para render visual")
+
+    response = requests.get(
+        url,
+        timeout=IMAGE_DOWNLOAD_TIMEOUT,
+        stream=True,
+        headers={"User-Agent": "HazPost-ImageRenderer/1.0"},
+    )
+    response.raise_for_status()
+
+    content_type = (response.headers.get("Content-Type") or "").lower()
+    if not content_type.startswith("image/"):
+        raise ValueError("La URL no devuelve una imagen válida")
+
+    content_length = response.headers.get("Content-Length")
+    if content_length and int(content_length) > MAX_IMAGE_DOWNLOAD_BYTES:
+        raise ValueError("Imagen demasiado grande para render visual")
+
+    buffer = BytesIO()
+    downloaded = 0
+
+    for chunk in response.iter_content(chunk_size=8192):
+        if not chunk:
+            continue
+
+        downloaded += len(chunk)
+        if downloaded > MAX_IMAGE_DOWNLOAD_BYTES:
+            raise ValueError("Imagen excede el límite permitido")
+
+        buffer.write(chunk)
+
+    buffer.seek(0)
+
+    try:
+        image = Image.open(buffer)
+        image.verify()
+    except UnidentifiedImageError:
+        raise ValueError("Formato de imagen no reconocido")
+
+    buffer.seek(0)
+    image = Image.open(buffer).convert("RGBA")
+
+    return ImageOps.exif_transpose(image)
 
 
 def normalize_post_data(post_data):
