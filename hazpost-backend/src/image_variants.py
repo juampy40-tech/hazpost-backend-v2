@@ -238,7 +238,7 @@ def _render_basic_overlay(image, overlay_params=None):
     draw = ImageDraw.Draw(overlay)
 
     # Área visual comercial
-    band_height = max(int(height * 0.42), 420)
+    band_height = max(int(height * 0.55), 560)
 
     if text_position == "top":
         band_top = 0
