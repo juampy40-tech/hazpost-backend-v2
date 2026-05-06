@@ -277,12 +277,36 @@ def _load_state(path: str):
 
 
 def _get_rate_limit_key():
+    """
+    Rate limit SaaS-safe:
+    1. Usuario autenticado en sesión Flask.
+    2. X-User-ID solo como fallback legacy.
+    3. IP solo para usuarios anónimos.
+    """
+    try:
+        user = session.get("user") or {}
+
+        user_id = (
+            user.get("email")
+            or user.get("id")
+            or user.get("userId")
+            or user.get("sub")
+        )
+
+        if user_id:
+            safe = ''.join(c for c in str(user_id).lower() if c.isalnum() or c in '-_@.')
+            if safe:
+                return f'user:{safe}'
+    except Exception:
+        pass
+
     user_id = request.headers.get('X-User-ID')
     if user_id:
-        safe = ''.join(c for c in str(user_id) if c.isalnum() or c in '-_')
+        safe = ''.join(c for c in str(user_id).lower() if c.isalnum() or c in '-_@.')
         if safe:
             return f'user:{safe}'
-    return get_remote_address()
+
+    return f'ip:{get_remote_address()}'
 
 
 limiter = Limiter(
