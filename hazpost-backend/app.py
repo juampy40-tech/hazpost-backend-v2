@@ -1700,7 +1700,13 @@ def create_app():
             profile = store.get("brandProfile") or session.get("brandProfile")
             
             user = session.get("user") or {}
-            user_id = str(user.get("email") or "anonymous")
+
+            user_id = str(
+                user.get("email")
+                or user.get("id")
+                or user.get("userId")
+                or "anonymous"
+            )
             
             if db_available() and user_id != "anonymous":
                 db_profile = get_brand_profile(user_id)
