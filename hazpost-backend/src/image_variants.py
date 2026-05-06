@@ -405,8 +405,6 @@ def _render_basic_overlay(image, overlay_params=None):
             fill=blue,
         )
 
-    canvas = Image.alpha_composite(canvas, overlay)
-
     return canvas
 
 
