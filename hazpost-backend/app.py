@@ -2118,7 +2118,13 @@ Extra:
             # 💾 GUARDAR EN DB (POSTGRESQL)
             # ============================================================
             user = session.get("user") or {}
-            user_id = str(user.get("email") or "anonymous")
+
+            user_id = str(
+                user.get("email")
+                or user.get("id")
+                or user.get("userId")
+                or "anonymous"
+            )
 
             new_post = {
                 "businessId": "1",
