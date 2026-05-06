@@ -240,6 +240,25 @@ def _render_basic_overlay(image, overlay_params=None):
     return Image.alpha_composite(canvas, overlay)
 
 
+def _image_to_jpeg_bytes(image):
+    if image is None:
+        return None
+
+    output = BytesIO()
+
+    rgb_image = image.convert("RGB")
+
+    rgb_image.save(
+        output,
+        format="JPEG",
+        quality=OUTPUT_IMAGE_QUALITY,
+        optimize=True,
+    )
+
+    output.seek(0)
+    return output
+
+
 def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_params=None):
     overlay_params = overlay_params or {}
 
