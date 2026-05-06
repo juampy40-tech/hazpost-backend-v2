@@ -2127,21 +2127,47 @@ export default function Approval() {
 
   // Load full image data for the currently viewed post (with imageData) — only one post at a time
   useEffect(() => {
-    if (!currentPost?.id) { setCurrentPostFull(null); return; }
-    // Clear stale data IMMEDIATELY so rawVariants becomes [] during the transition.
-    // This prevents the carousel slideOrder from being initialized with the wrong post's
-    // variants (race condition: currentPost changes before currentPostFull is updated).
+  if (!currentPost?.id) {
     setCurrentPostFull(null);
-    setHeadlineSuggestions([]);
-    setUseDeepElementAiApproval(false);
-    setIsLoadingFull(true);
-    fetch(`${BASE}/api/posts/${currentPost.id}`, {
-      credentials: "include",
+    lastFullPostLoadedRef.current = null;
+    postFetchInFlightRef.current = null;
+    return;
+  }
+
+  if (
+    currentPostFull?.id === currentPost.id &&
+    lastFullPostLoadedRef.current === currentPost.id
+  ) {
+    return;
+  }
+
+  if (postFetchInFlightRef.current === currentPost.id) {
+    return;
+  }
+
+  setCurrentPostFull(null);
+  setHeadlineSuggestions([]);
+  setUseDeepElementAiApproval(false);
+  setIsLoadingFull(true);
+
+  postFetchInFlightRef.current = currentPost.id;
+
+  fetch(`${BASE}/api/posts/${currentPost.id}`, {
+    credentials: "include",
+  })
+    .then(r => r.json())
+    .then(data => {
+      setCurrentPostFull(data);
+      lastFullPostLoadedRef.current = currentPost.id;
     })
-      .then(r => r.json())
-      .then(data => { setCurrentPostFull(data); setIsLoadingFull(false); })
-      .catch(() => setIsLoadingFull(false));
-  }, [currentPost?.id]);
+    .catch(() => {})
+    .finally(() => {
+      setIsLoadingFull(false);
+      if (postFetchInFlightRef.current === currentPost.id) {
+        postFetchInFlightRef.current = null;
+      }
+    });
+}, [currentPost?.id]);
 
   // Carousel slide order: initialize/re-init based on currentPostFull changes.
   // Depending on currentPostFull (not rawVariants.length) prevents the stale-data race where
