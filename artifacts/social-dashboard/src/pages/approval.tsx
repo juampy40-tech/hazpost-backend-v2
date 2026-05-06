@@ -2299,9 +2299,9 @@ export default function Approval() {
 
   // IMAGE_STUCK_THRESHOLD: 30 polls × 15s = ~7.5 min with no image → show retry UI
   const IMAGE_STUCK_POLLS    = 30;
-  // PENDING_STUCK_THRESHOLD: 160 polls × 12s = ~32 min with pending variant → show retry UI
+  /// PENDING_STUCK_THRESHOLD: 40 polls × 12s = ~8 min with pending variant → show retry UI
   // Images are generated serially; with many posts the last ones can wait 10-30+ min.
-  const PENDING_STUCK_POLLS  = 160;
+  const PENDING_STUCK_POLLS  = 40;
 
   // Also detect stuck based on variant/post creation time (catches stuck posts on page load,
   // without waiting 8 min of polls)
