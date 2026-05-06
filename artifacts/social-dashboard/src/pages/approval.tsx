@@ -7041,7 +7041,7 @@ export default function Approval() {
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {[...fullVariants]
+                  {[...(fullVariants.length > 0 ? fullVariants : activeImage ? [activeImage] : [])]
                     .sort((a: any, b: any) => (a.variantIndex ?? 0) - (b.variantIndex ?? 0))
                     .map((variant: any) => {
                       const imgSrc = variant.imageData
