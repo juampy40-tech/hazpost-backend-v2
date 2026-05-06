@@ -16,3 +16,4 @@ openai>=1.0.0
 replicate>=0.25.0
 
 boto3==1.34.162
+Pillow==10.4.0
