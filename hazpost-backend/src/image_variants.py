@@ -204,6 +204,8 @@ def _render_basic_overlay(image, overlay_params=None):
     headline = _safe_headline_text(
         overlay_params.get("headline")
         or overlay_params.get("title")
+        or overlay_params.get("customHeadline")
+        or overlay_params.get("customTitle")
         or ""
     )
 
