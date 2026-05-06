@@ -337,11 +337,50 @@ def update_post(post_id):
 
         post_data = row.get("post") or {}
 
+        if isinstance(post_data, str):
+            try:
+                post_data = json.loads(post_data)
+            except Exception:
+                post_data = {}
+
+        if not isinstance(post_data, dict):
+            post_data = {}
+
+        image_url = (
+            post_data.get("imageUrl")
+            or post_data.get("image_url")
+            or ""
+        )
+
+        image_variants = post_data.get("imageVariants") or post_data.get("image_variants") or []
+
+        if not isinstance(image_variants, list):
+            image_variants = []
+
+        if not image_variants and image_url:
+            image_variants = [{
+                "id": row.get("id"),
+                "postId": row.get("id"),
+                "imageUrl": image_url,
+                "imageData": "",
+                "rawBackground": image_url,
+                "rawBackgroundUrl": image_url,
+                "generationStatus": "completed",
+                "style": "default",
+                "variantIndex": 0,
+                "overlayParams": post_data.get("overlayParams") or {},
+            }]
+
+        post_data["imageVariants"] = image_variants
+
         return jsonify({
+            "success": True,
             "id": row.get("id"),
             "status": row.get("status"),
             "businessId": row.get("business_id"),
             "postNumber": row.get("post_number") or row.get("id"),
+            "createdAt": row.get("created_at").isoformat() if row.get("created_at") else None,
+            "updatedAt": row.get("updated_at").isoformat() if row.get("updated_at") else None,
             **post_data
         })
 
