@@ -624,6 +624,8 @@ export default function Approval() {
   // Full image data for the currently viewed post — loaded individually so we never download all images at once
   const [currentPostFull, setCurrentPostFull] = useState<any>(null);
   const [_isLoadingFull, setIsLoadingFull] = useState(false);
+  const postFetchInFlightRef = useRef<number | null>(null);
+  const lastFullPostLoadedRef = useRef<number | null>(null);
   const queryClient = useQueryClient();
 
   // Plan capabilities — used to show lock icon on "IA integra el elemento" when plan doesn't include it
