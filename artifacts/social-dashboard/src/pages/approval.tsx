@@ -2203,17 +2203,28 @@ export default function Approval() {
     }
   }, [currentPostFull]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Auto-refresh every 8s while the current post has no images — polls single post only (not all)
-  const currentHasNoImages = currentPost && (!currentPost.imageVariants || currentPost.imageVariants.length === 0);
-  // Poll every 3s if any variant is in "pending" generationStatus (async DALL-E in progress)
-  const hasPendingVariants = (currentPostFull?.imageVariants ?? []).some((v: any) => v.generationStatus === "pending");
-  // Detect when ALL variants ended up in "error" (e.g. server restart killed generation mid-flight)
-  // In that case, show the retry button immediately instead of waiting 8+ min for "stuck" detection
-  const currentActiveImages = (currentPostFull?.imageVariants ?? []).filter((v: any) => v.imageData);
+    // Auto-refresh control — only use full post data that belongs to the current post.
+  // This avoids polling from stale/slim data and prevents repeated /api/posts/:id loops.
+  const currentFullBelongsToPost = !!currentPost?.id && currentPostFull?.id === currentPost.id;
+  const safeFullVariants = currentFullBelongsToPost ? (currentPostFull?.imageVariants ?? []) : [];
+
+  const currentHasNoImages =
+    !!currentPost?.id &&
+    currentFullBelongsToPost &&
+    safeFullVariants.length === 0;
+
+  const hasPendingVariants =
+    !!currentPost?.id &&
+    currentFullBelongsToPost &&
+    safeFullVariants.some((v: any) => v.generationStatus === "pending");
+
+  const currentActiveImages = safeFullVariants.filter((v: any) => v.imageData);
+
   const hasOnlyErrorVariants =
-    (currentPostFull?.imageVariants ?? []).length > 0 &&
+    safeFullVariants.length > 0 &&
     currentActiveImages.length === 0 &&
-    (currentPostFull?.imageVariants ?? []).every((v: any) => v.generationStatus === "error");
+    safeFullVariants.every((v: any) => v.generationStatus === "error");
+
   const [pollCount, setPollCount]               = useState(0);
   const [pendingPollCount, setPendingPollCount] = useState(0);
   const [retryingImages, setRetryingImages]     = useState(false);
