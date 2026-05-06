@@ -6917,7 +6917,7 @@ export default function Approval() {
               )}
 
               {/* Variants grid — pick which image to use */}
-              {fullVariants.length > 0 && (
+              {currentFullBelongsToPost && (fullVariants.length > 0 || activeImageSrc) && (
                 <div>
                   <p className="text-xs text-muted-foreground mb-2">
                     {currentPost.contentType === "carousel"
@@ -7027,7 +7027,7 @@ export default function Approval() {
           </Card>
 
                     {/* ── Imágenes generadas del post ── */}
-          {fullVariants.length > 0 && (
+          {currentFullBelongsToPost && (fullVariants.length > 0 || activeImageSrc) && (
             <Card className="glass-card shrink-0">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
