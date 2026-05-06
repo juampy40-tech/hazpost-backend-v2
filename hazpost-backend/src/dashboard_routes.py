@@ -438,6 +438,100 @@ def update_post(post_id):
         "post": updated
     })
 
+@dashboard_bp.route('/posts/<int:post_id>/generate-image-variant', methods=['POST'])
+def generate_image_variant(post_id):
+    user_id = _get_dashboard_user_id()
+
+    if not user_id:
+        return jsonify({
+            "success": False,
+            "error": "Usuario no autenticado"
+        }), 401
+
+    data = request.get_json(silent=True) or {}
+
+    if not db_available():
+        return jsonify({
+            "success": False,
+            "error": "DB no disponible"
+        }), 500
+
+    with db_session() as db:
+        row = db.execute(text("""
+            SELECT id, post
+            FROM posts
+            WHERE id = :post_id
+              AND user_id = :user_id
+            LIMIT 1;
+        """), {
+            "post_id": int(post_id),
+            "user_id": str(user_id)
+        }).mappings().first()
+
+        if not row:
+            return jsonify({
+                "success": False,
+                "error": "Post no encontrado"
+            }), 404
+
+        post_data = row.get("post") or {}
+
+        reuse_variant_id = (
+            data.get("reuseVariantId")
+            or data.get("variantId")
+            or post_id
+        )
+
+        overlay_params = {
+            "customHeadline": data.get("customHeadline"),
+            "customLogoUrl": data.get("customLogoUrl"),
+            "logoColor": data.get("logoColor"),
+            "logoPosition": data.get("logoPosition"),
+            "overlayFont": data.get("overlayFont"),
+            "showSignature": data.get("showSignature"),
+            "signatureText": data.get("signatureText"),
+            "style": data.get("style"),
+            "textPosition": data.get("textPosition"),
+            "textSize": data.get("textSize"),
+            "textStyle": data.get("textStyle"),
+            "titleColor1": data.get("titleColor1"),
+            "titleColor2": data.get("titleColor2"),
+        }
+
+        try:
+            new_variant, updated_post = create_overlay_variant(
+                post_data=post_data,
+                post_id=post_id,
+                source_variant_id=reuse_variant_id,
+                overlay_params=overlay_params,
+            )
+        except Exception as e:
+            return jsonify({
+                "success": False,
+                "error": str(e)
+            }), 400
+
+        db.execute(text("""
+            UPDATE posts
+            SET
+                post = :post,
+                updated_at = NOW()
+            WHERE id = :post_id
+              AND user_id = :user_id;
+        """), {
+            "post": json.dumps(updated_post),
+            "post_id": int(post_id),
+            "user_id": str(user_id)
+        })
+
+    return jsonify({
+        "success": True,
+        "message": "Nueva variante creada",
+        "variant": new_variant,
+        "imageVariants": updated_post.get("imageVariants") or [],
+        "selectedImageVariant": updated_post.get("selectedImageVariant"),
+    }), 201
+    
 # ------------------ APPROVE POST ------------------
 
 @dashboard_bp.route('/posts/<int:post_id>/approve', methods=['POST'])
