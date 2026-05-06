@@ -228,7 +228,7 @@ def _render_basic_overlay(image, overlay_params=None):
     draw = ImageDraw.Draw(overlay)
 
     # Área visual comercial
-    band_height = max(int(height * 0.34), 300)
+    band_height = max(int(height * 0.42), 420)
 
     if text_position == "top":
         band_top = 0
@@ -250,8 +250,8 @@ def _render_basic_overlay(image, overlay_params=None):
 
     padding_x = int(width * 0.07)
 
-    headline_font = _load_default_font(max(92, int(width * 0.105)))
-    accent_font = _load_default_font(max(96, int(width * 0.112)))
+    headline_font = _load_default_font(max(120, int(width * 0.14)))
+    accent_font = _load_default_font(max(132, int(width * 0.15)))
     signature_font = _load_default_font(max(34, int(width * 0.043)))
 
     white = (255, 255, 255, 255)
