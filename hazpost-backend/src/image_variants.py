@@ -175,6 +175,7 @@ def find_variant(post_data, variant_id, post_id=None):
 
     return None, variants, post_data
 
+
 def _safe_headline_text(text, max_length=120):
     if not isinstance(text, str):
         return ""
