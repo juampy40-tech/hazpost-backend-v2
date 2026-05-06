@@ -7026,6 +7026,117 @@ export default function Approval() {
             </CardContent>
           </Card>
 
+                    {/* ── Imágenes generadas del post ── */}
+          {fullVariants.length > 0 && (
+            <Card className="glass-card shrink-0">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <Label className="text-lg font-display text-primary flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4" />
+                    Imágenes generadas
+                  </Label>
+                  <span className="text-[10px] text-muted-foreground">
+                    Toca una imagen para editarla
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {[...fullVariants]
+                    .sort((a: any, b: any) => (a.variantIndex ?? 0) - (b.variantIndex ?? 0))
+                    .map((variant: any) => {
+                      const imgSrc = variant.imageData
+                        ? variant.imageData.startsWith("data:")
+                          ? variant.imageData
+                          : `data:image/jpeg;base64,${variant.imageData}`
+                        : "";
+
+                      if (!imgSrc) return null;
+
+                      const isSelected = selectedVariant === variant.id;
+                      const styleColor = STYLE_COLORS[variant.style] ?? "#00C2FF";
+
+                      return (
+                        <div key={variant.id} className="space-y-1.5">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedVariant(variant.id);
+                              if (currentPost.contentType === "carousel") {
+                                setPreviewSlideId(variant.id);
+                              }
+                            }}
+                            className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all bg-black ${
+                              isSelected
+                                ? "border-primary ring-2 ring-primary/40"
+                                : "border-border/40 hover:border-primary/50"
+                            }`}
+                          >
+                            <img
+                              src={imgSrc}
+                              alt={`Variante ${(variant.variantIndex ?? 0) + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+
+                            {isSelected && (
+                              <div className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                <Check className="w-3.5 h-3.5 text-white" />
+                              </div>
+                            )}
+
+                            {variant.imageData && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  downloadImage(
+                                    variant.imageData.startsWith("data:")
+                                      ? variant.imageData.split(",")[1]
+                                      : variant.imageData,
+                                    `hazpost-variante-${(variant.variantIndex ?? 0) + 1}.jpg`
+                                  );
+                                }}
+                                className="absolute top-1.5 left-1.5 w-6 h-6 bg-black/70 hover:bg-secondary/80 rounded-full flex items-center justify-center transition-colors"
+                                title="Descargar esta imagen"
+                              >
+                                <Download className="w-3 h-3 text-white" />
+                              </button>
+                            )}
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (confirm("¿Eliminar esta imagen?")) {
+                                  deleteVariant.mutate({ postId: currentPost.id, variantId: variant.id });
+                                }
+                              }}
+                              disabled={deleteVariant.isPending}
+                              className="absolute bottom-1.5 right-1.5 w-6 h-6 bg-black/70 hover:bg-red-600/90 rounded-full flex items-center justify-center transition-colors disabled:opacity-50"
+                              title="Eliminar esta imagen"
+                            >
+                              <Trash2 className="w-3 h-3 text-white" />
+                            </button>
+                          </button>
+
+                          <div className="flex items-center justify-between gap-1 px-0.5">
+                            <div className="flex items-center gap-1 min-w-0">
+                              <span className="w-2 h-2 rounded-full shrink-0" style={{ background: styleColor }} />
+                              <span className="text-[9px] uppercase tracking-widest truncate" style={{ color: styleColor }}>
+                                {variant.style ?? "imagen"}
+                              </span>
+                            </div>
+                            <span className="text-[9px] text-muted-foreground">
+                              #{(variant.variantIndex ?? 0) + 1}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           {/* ── Galería de Medios Reales ── */}
           <Card className="glass-card shrink-0">
             <CardContent className="p-6">
