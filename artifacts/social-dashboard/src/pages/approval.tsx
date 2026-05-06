@@ -7060,8 +7060,7 @@ export default function Approval() {
                         ? variant.imageData.startsWith("data:")
                           ? variant.imageData
                           : `data:image/jpeg;base64,${variant.imageData}`
-                        : "";
-
+                        : variant.imageUrl || "";
                       if (!imgSrc) return null;
 
                       const isSelected = selectedVariant === variant.id;
