@@ -3,6 +3,7 @@ import os
 import time
 import uuid
 import logging
+import base64
 from io import BytesIO
 from urllib.parse import urlparse
 
