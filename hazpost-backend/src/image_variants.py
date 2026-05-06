@@ -270,6 +270,23 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
 
     next_index = len(variants)
 
+    rendered_image = None
+
+    try:
+        downloaded_image = _download_image_from_url(base_image)
+
+        rendered_image = _render_basic_overlay(
+            downloaded_image,
+            overlay_params=overlay_params,
+        )
+
+    except Exception as render_error:
+        logger.exception(
+            "Error renderizando overlay variant post_id=%s: %s",
+            post_id,
+            render_error,
+        )
+    
     new_variant = {
         "id": str(uuid.uuid4()),
         "postId": post_id,
