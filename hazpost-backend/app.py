@@ -625,7 +625,13 @@ def create_app():
     def brand_profile():
         try:
             user = session.get("user") or {}
-            user_id = str(user.get("email") or "anonymous")
+
+            user_id = str(
+                user.get("email")
+                or user.get("id")
+                or user.get("userId")
+                or "anonymous"
+            )
 
             # ============================
             # GET
