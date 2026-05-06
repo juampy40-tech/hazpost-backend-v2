@@ -293,7 +293,7 @@ def _render_basic_overlay(image, overlay_params=None):
     lines = _fit_lines(
         headline.upper(),
         headline_font,
-        width - (padding_x * 2),
+        int(width * 0.72),
         max_lines=3,
     )
 
