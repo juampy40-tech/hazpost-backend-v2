@@ -3423,6 +3423,19 @@ export default function Approval() {
                       }
                   </button>
               </div>
+            ) : activeImageSrc ? (
+              <img
+                src={activeImageSrc}
+                alt="Post visual"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  display: "block",
+                  maxWidth: "100%",
+                  maxHeight: "100%"
+                }}
+              />
             ) : imageUrlFallback ? (
               <img
                 src={imageUrlFallback}
