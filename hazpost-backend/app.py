@@ -2361,6 +2361,51 @@ Extra:
 
     
     # ============================================================
+    # POSTS NEXT SLOT — Compatibilidad Approval UI
+    # ============================================================
+    @app.route('/api/posts/next-slot', methods=['GET'])
+    @app.route('/api/posts/next-slot-per-platform', methods=['GET'])
+    def posts_next_slot():
+        try:
+            from datetime import datetime, timedelta
+
+            platform = (
+                request.args.get("platform")
+                or request.args.get("platformType")
+                or "instagram"
+            )
+
+            exclude_id = request.args.get("excludeId")
+
+            # 🔥 MVP inteligente:
+            # siguiente slot = ahora + 1 hora
+            # luego podremos reemplazar por lógica IA real
+
+            next_time = datetime.utcnow() + timedelta(hours=1)
+
+            iso_time = next_time.isoformat() + "Z"
+
+            return jsonify({
+                "success": True,
+                "platform": platform,
+                "excludeId": exclude_id,
+                "scheduledAt": iso_time,
+                "nextSlot": iso_time,
+                "data": {
+                    "scheduledAt": iso_time
+                }
+            })
+
+        except Exception as e:
+            logger.exception(f"NEXT SLOT ERROR: {e}")
+
+            return jsonify({
+                "success": False,
+                "error": "Error obteniendo siguiente horario"
+            }), 500
+
+    
+    # ============================================================
     # FALLBACK API — evita 405 en endpoints no implementados
     # ============================================================
     @app.route('/api/<path:unknown_path>', methods=['GET'])
