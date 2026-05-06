@@ -192,21 +192,29 @@ def _safe_headline_text(text, max_length=120):
 
 
 def _load_default_font(size=42):
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    backend_dir = os.path.dirname(current_dir)
+    repo_dir = os.path.dirname(backend_dir)
+
     font_candidates = [
-        "Montserrat-ExtraBold.ttf",
-        "Oswald-Bold.ttf",
-        "PlayfairDisplay-Bold.ttf",
+        os.path.join(repo_dir, "Montserrat-ExtraBold.ttf"),
+        os.path.join(repo_dir, "Oswald-Bold.ttf"),
+        os.path.join(repo_dir, "PlayfairDisplay-Bold.ttf"),
+        os.path.join(backend_dir, "Montserrat-ExtraBold.ttf"),
+        os.path.join(backend_dir, "Oswald-Bold.ttf"),
+        os.path.join(current_dir, "Montserrat-ExtraBold.ttf"),
         "DejaVuSans-Bold.ttf",
     ]
 
-    for font_name in font_candidates:
+    for font_path in font_candidates:
         try:
-            return ImageFont.truetype(font_name, size=size)
+            if os.path.exists(font_path) or font_path == "DejaVuSans-Bold.ttf":
+                return ImageFont.truetype(font_path, size=size)
         except Exception:
             continue
 
+    logger.warning("No se pudo cargar fuente TTF. Usando fallback básico.")
     return ImageFont.load_default()
-
 
 def _render_basic_overlay(image, overlay_params=None):
     overlay_params = overlay_params or {}
