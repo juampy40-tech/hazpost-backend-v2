@@ -2417,9 +2417,50 @@ export default function Approval() {
   const fetchAddons = useCallback(async () => {
     try {
       setAddonsLoading(true);
-      const res = await fetch(`${BASE}/api/caption-addons`, { credentials: "include" });
-      if (res.ok) setAddonsList(await res.json());
-    } catch { /* silent */ } finally { setAddonsLoading(false); }
+
+      const res = await fetch(`${BASE}/api/caption-addons`, {
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        setAddonsList([]);
+        return;
+      }
+
+      const raw = await res.json();
+
+      const items = Array.isArray(raw)
+        ? raw
+        : Array.isArray(raw.items)
+          ? raw.items
+          : Array.isArray(raw.data)
+            ? raw.data
+            : Array.isArray(raw.addons)
+              ? raw.addons
+              : [];
+
+      const normalized = items.map((item: any) => {
+        let keywordsValue = "";
+
+        if (Array.isArray(item.keywords)) {
+          keywordsValue = item.keywords.join(", ");
+        } else if (typeof item.keywords === "string") {
+          keywordsValue = item.keywords;
+        }
+
+        return {
+          ...item,
+          text: item.text || item.content || "",
+          keywords: keywordsValue,
+        };
+      });
+
+      setAddonsList(normalized);
+    } catch {
+      setAddonsList([]);
+    } finally {
+      setAddonsLoading(false);
+    }
   }, []);
 
   useEffect(() => { fetchAddons(); }, [fetchAddons]);
