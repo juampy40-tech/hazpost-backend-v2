@@ -209,36 +209,106 @@ def _render_basic_overlay(image, overlay_params=None):
         or ""
     )
 
-    if not headline:
+    signature_text = _safe_headline_text(
+        overlay_params.get("signatureText") or "",
+        max_length=60
+    )
+
+    show_signature = overlay_params.get("showSignature", True)
+    text_position = overlay_params.get("textPosition") or "bottom"
+
+    if not headline and not signature_text:
         return image
 
     canvas = image.copy().convert("RGBA")
-
     width, height = canvas.size
 
     overlay = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
 
-    gradient_height = int(height * 0.28)
+    band_height = max(int(height * 0.26), 220)
+
+    if text_position == "top":
+        band_top = 0
+        band_bottom = band_height
+    elif text_position == "center":
+        band_top = max(0, int((height - band_height) / 2))
+        band_bottom = min(height, band_top + band_height)
+    else:
+        band_bottom = height
+        band_top = max(0, height - band_height)
 
     draw.rectangle(
-        [(0, height - gradient_height), (width, height)],
-        fill=(0, 0, 0, 150),
+        [(0, band_top), (width, band_bottom)],
+        fill=(0, 0, 0, 175),
     )
 
-    font = _load_default_font(
-        max(28, int(width * 0.045))
-    )
+    headline_font = _load_default_font(max(34, int(width * 0.058)))
+    signature_font = _load_default_font(max(22, int(width * 0.032)))
 
-    text_x = int(width * 0.06)
-    text_y = height - gradient_height + int(height * 0.05)
+    padding_x = int(width * 0.06)
+    current_y = band_top + int(band_height * 0.18)
 
-    draw.text(
-        (text_x, text_y),
-        headline,
-        font=font,
-        fill=(255, 255, 255, 255),
-    )
+    if headline:
+        words = headline.split()
+        lines = []
+        current_line = ""
+
+        max_text_width = width - (padding_x * 2)
+
+        for word in words:
+            test_line = f"{current_line} {word}".strip()
+            bbox = draw.textbbox((0, 0), test_line, font=headline_font)
+            test_width = bbox[2] - bbox[0]
+
+            if test_width <= max_text_width:
+                current_line = test_line
+            else:
+                if current_line:
+                    lines.append(current_line)
+                current_line = word
+
+        if current_line:
+            lines.append(current_line)
+
+        lines = lines[:3]
+
+        for line in lines:
+            draw.text(
+                (padding_x, current_y),
+                line,
+                font=headline_font,
+                fill=(255, 255, 255, 255),
+            )
+            bbox = draw.textbbox((0, 0), line, font=headline_font)
+            current_y += (bbox[3] - bbox[1]) + int(height * 0.018)
+
+    if show_signature and signature_text:
+        badge_padding_x = int(width * 0.025)
+        badge_padding_y = int(height * 0.012)
+
+        bbox = draw.textbbox((0, 0), signature_text, font=signature_font)
+        text_w = bbox[2] - bbox[0]
+        text_h = bbox[3] - bbox[1]
+
+        badge_w = text_w + badge_padding_x * 2
+        badge_h = text_h + badge_padding_y * 2
+
+        badge_x = padding_x
+        badge_y = min(band_bottom - badge_h - int(height * 0.04), current_y + int(height * 0.015))
+
+        draw.rounded_rectangle(
+            [(badge_x, badge_y), (badge_x + badge_w, badge_y + badge_h)],
+            radius=max(12, int(width * 0.018)),
+            fill=(0, 119, 255, 230),
+        )
+
+        draw.text(
+            (badge_x + badge_padding_x, badge_y + badge_padding_y),
+            signature_text,
+            font=signature_font,
+            fill=(255, 255, 255, 255),
+        )
 
     return Image.alpha_composite(canvas, overlay)
 
