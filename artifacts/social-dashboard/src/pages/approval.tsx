@@ -1190,6 +1190,13 @@ export default function Approval() {
       ?? fullVariants.find((v: any) => !!v.imageData);
   })();
 
+    const activeImageSrc =
+      activeImage?.imageData
+        ? activeImage.imageData.startsWith("data:")
+          ? activeImage.imageData
+          : `data:image/jpeg;base64,${activeImage.imageData}`
+        : "";
+
   // Auto-fetch reel URL when the active variant already has a saved reel.
   // This ensures the video preview and "listo" badge appear when navigating
   // to a post that was generated in a previous session.
