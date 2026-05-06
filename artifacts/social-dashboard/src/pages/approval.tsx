@@ -1170,7 +1170,19 @@ export default function Approval() {
   const allPendingPosts = requestedPost ? [requestedPost] : pendingQueue;
   let currentPost = allPendingPosts[currentIndex];
   // Use full post data (with imageData) for image rendering; slim list only has variant ids
-  const fullVariants = currentPostFull?.imageVariants ?? [];
+  const fullVariants =
+  currentPostFull?.imageVariants?.length
+    ? currentPostFull.imageVariants
+    : currentPostFull?.imageUrl
+      ? [{
+          id: currentPostFull.id || "fallback-image",
+          imageUrl: currentPostFull.imageUrl,
+          imageData: "",
+          generationStatus: "completed",
+          style: "default",
+          variantIndex: 0
+        }]
+      : [];
   const imageUrlFallback =
   currentPostFull?.imageUrl ||
   currentPostFull?.image_url ||
