@@ -393,13 +393,13 @@ def _render_basic_overlay(image, overlay_params=None):
         line_w = int(width * 0.16)
         line_h = max(4, int(height * 0.006))
 
-        overlay_draw.rounded_rectangle(
+        draw.rounded_rectangle(
             [(padding_x, line_y), (padding_x + line_w, line_y + line_h)],
             radius=line_h,
             fill=blue,
         )
 
-        overlay_draw.rounded_rectangle(
+        draw.rounded_rectangle(
             [(width - padding_x - line_w, line_y), (width - padding_x, line_y + line_h)],
             radius=line_h,
             fill=blue,
