@@ -243,8 +243,8 @@ def _render_basic_overlay(image, overlay_params=None):
         fill=(0, 0, 0, 175),
     )
 
-    headline_font = _load_default_font(max(34, int(width * 0.058)))
-    signature_font = _load_default_font(max(22, int(width * 0.032)))
+    headline_font = _load_default_font(max(72, int(width * 0.105)))
+    signature_font = _load_default_font(max(34, int(width * 0.045)))
 
     padding_x = int(width * 0.06)
     current_y = band_top + int(band_height * 0.18)
