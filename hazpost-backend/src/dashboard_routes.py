@@ -15,6 +15,14 @@ from src.db import (
     update_post_status
 )
 
+from src.image_variants import (
+    normalize_variants,
+    create_overlay_variant,
+    select_variant,
+    delete_variant,
+    reorder_variants,
+)
+
 dashboard_bp = Blueprint('dashboard', __name__)
 
 
