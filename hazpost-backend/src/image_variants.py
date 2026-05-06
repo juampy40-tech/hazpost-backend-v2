@@ -192,10 +192,20 @@ def _safe_headline_text(text, max_length=120):
 
 
 def _load_default_font(size=42):
-    try:
-        return ImageFont.truetype("DejaVuSans-Bold.ttf", size=size)
-    except Exception:
-        return ImageFont.load_default()
+    font_candidates = [
+        "Montserrat-ExtraBold.ttf",
+        "Oswald-Bold.ttf",
+        "PlayfairDisplay-Bold.ttf",
+        "DejaVuSans-Bold.ttf",
+    ]
+
+    for font_name in font_candidates:
+        try:
+            return ImageFont.truetype(font_name, size=size)
+        except Exception:
+            continue
+
+    return ImageFont.load_default()
 
 
 def _render_basic_overlay(image, overlay_params=None):
