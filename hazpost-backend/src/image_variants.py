@@ -235,8 +235,12 @@ def _render_basic_overlay(image, overlay_params=None):
     width, height = canvas.size
 
     overlay = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
-    draw = ImageDraw.Draw(overlay)
 
+    # draw para overlay/transparencias
+    overlay_draw = ImageDraw.Draw(overlay)
+
+    # draw REAL para texto comercial
+    draw = ImageDraw.Draw(canvas)
     # Área visual comercial
     band_height = max(int(height * 0.55), 560)
 
