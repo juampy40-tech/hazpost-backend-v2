@@ -319,7 +319,7 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
         "id": str(uuid.uuid4()),
         "postId": post_id,
         "imageUrl": base_image,
-        "imageData": "",
+        "imageData": rendered_base64 if rendered_image else "",
         "rawBackground": base_image,
         "rawBackgroundUrl": base_image,
         "generationStatus": "completed",
