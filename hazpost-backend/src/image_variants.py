@@ -206,12 +206,13 @@ def _render_basic_overlay(image, overlay_params=None):
         or overlay_params.get("title")
         or overlay_params.get("customHeadline")
         or overlay_params.get("customTitle")
-        or ""
+        or "",
+        max_length=140,
     )
 
     signature_text = _safe_headline_text(
         overlay_params.get("signatureText") or "",
-        max_length=60
+        max_length=70,
     )
 
     show_signature = overlay_params.get("showSignature", True)
@@ -226,11 +227,12 @@ def _render_basic_overlay(image, overlay_params=None):
     overlay = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
 
-    band_height = max(int(height * 0.26), 220)
+    # Área visual comercial
+    band_height = max(int(height * 0.34), 300)
 
     if text_position == "top":
         band_top = 0
-        band_bottom = band_height
+        band_bottom = min(height, band_height)
     elif text_position == "center":
         band_top = max(0, int((height - band_height) / 2))
         band_bottom = min(height, band_top + band_height)
@@ -238,76 +240,143 @@ def _render_basic_overlay(image, overlay_params=None):
         band_bottom = height
         band_top = max(0, height - band_height)
 
-    draw.rectangle(
-        [(0, band_top), (width, band_bottom)],
-        fill=(0, 0, 0, 175),
-    )
+    # Degradado oscuro fuerte pero elegante
+    steps = max(1, band_bottom - band_top)
+    for i in range(steps):
+        ratio = i / steps
+        alpha = int(40 + (185 * ratio)) if text_position == "bottom" else 150
+        y = band_top + i
+        draw.line([(0, y), (width, y)], fill=(0, 0, 0, alpha))
 
-    headline_font = _load_default_font(max(72, int(width * 0.105)))
-    signature_font = _load_default_font(max(34, int(width * 0.045)))
+    padding_x = int(width * 0.07)
 
-    padding_x = int(width * 0.06)
-    current_y = band_top + int(band_height * 0.18)
+    headline_font = _load_default_font(max(92, int(width * 0.105)))
+    accent_font = _load_default_font(max(96, int(width * 0.112)))
+    signature_font = _load_default_font(max(34, int(width * 0.043)))
 
-    if headline:
-        words = headline.split()
+    white = (255, 255, 255, 255)
+    blue = (0, 198, 255, 255)
+    shadow = (0, 0, 0, 230)
+
+    def _fit_lines(text, font, max_width, max_lines=3):
+        words = text.split()
         lines = []
-        current_line = ""
-
-        max_text_width = width - (padding_x * 2)
+        current = ""
 
         for word in words:
-            test_line = f"{current_line} {word}".strip()
-            bbox = draw.textbbox((0, 0), test_line, font=headline_font)
+            test = f"{current} {word}".strip()
+            bbox = draw.textbbox((0, 0), test, font=font)
             test_width = bbox[2] - bbox[0]
 
-            if test_width <= max_text_width:
-                current_line = test_line
+            if test_width <= max_width:
+                current = test
             else:
-                if current_line:
-                    lines.append(current_line)
-                current_line = word
+                if current:
+                    lines.append(current)
+                current = word
 
-        if current_line:
-            lines.append(current_line)
+        if current:
+            lines.append(current)
 
-        lines = lines[:3]
+        return lines[:max_lines]
 
-        for line in lines:
-            draw.text(
-                (padding_x, current_y),
-                line,
-                font=headline_font,
-                fill=(255, 255, 255, 255),
-            )
-            bbox = draw.textbbox((0, 0), line, font=headline_font)
-            current_y += (bbox[3] - bbox[1]) + int(height * 0.018)
+    lines = _fit_lines(
+        headline.upper(),
+        headline_font,
+        width - (padding_x * 2),
+        max_lines=3,
+    )
+
+    # Si hay 2+ líneas, destacamos la última en azul
+    normal_lines = lines[:-1] if len(lines) > 1 else lines
+    accent_line = lines[-1] if len(lines) > 1 else ""
+
+    line_gap = int(height * 0.018)
+    signature_gap = int(height * 0.028)
+
+    total_text_height = 0
+    for line in normal_lines:
+        bbox = draw.textbbox((0, 0), line, font=headline_font)
+        total_text_height += (bbox[3] - bbox[1]) + line_gap
+
+    if accent_line:
+        bbox = draw.textbbox((0, 0), accent_line, font=accent_font)
+        total_text_height += (bbox[3] - bbox[1]) + line_gap
 
     if show_signature and signature_text:
-        badge_padding_x = int(width * 0.025)
-        badge_padding_y = int(height * 0.012)
+        bbox = draw.textbbox((0, 0), signature_text.upper(), font=signature_font)
+        total_text_height += signature_gap + (bbox[3] - bbox[1])
 
-        bbox = draw.textbbox((0, 0), signature_text, font=signature_font)
+    current_y = band_top + max(20, int((band_height - total_text_height) / 2))
+
+    def _center_x(text, font):
+        bbox = draw.textbbox((0, 0), text, font=font)
         text_w = bbox[2] - bbox[0]
-        text_h = bbox[3] - bbox[1]
+        return int((width - text_w) / 2)
 
-        badge_w = text_w + badge_padding_x * 2
-        badge_h = text_h + badge_padding_y * 2
+    def _draw_pro_text(text, font, y, fill):
+        x = _center_x(text, font)
 
-        badge_x = padding_x
-        badge_y = min(band_bottom - badge_h - int(height * 0.04), current_y + int(height * 0.015))
+        # sombra grande
+        draw.text((x + 5, y + 5), text, font=font, fill=shadow)
 
-        draw.rounded_rectangle(
-            [(badge_x, badge_y), (badge_x + badge_w, badge_y + badge_h)],
-            radius=max(12, int(width * 0.018)),
-            fill=(0, 119, 255, 230),
+        # stroke / borde
+        stroke_w = max(3, int(width * 0.004))
+        draw.text(
+            (x, y),
+            text,
+            font=font,
+            fill=fill,
+            stroke_width=stroke_w,
+            stroke_fill=(0, 0, 0, 210),
+        )
+
+        bbox = draw.textbbox((0, 0), text, font=font)
+        return y + (bbox[3] - bbox[1]) + line_gap
+
+    for line in normal_lines:
+        current_y = _draw_pro_text(line, headline_font, current_y, white)
+
+    if accent_line:
+        current_y = _draw_pro_text(accent_line, accent_font, current_y, blue)
+
+    if show_signature and signature_text:
+        current_y += signature_gap
+
+        sig = signature_text.upper()
+        sig_x = _center_x(sig, signature_font)
+
+        draw.text(
+            (sig_x + 3, current_y + 3),
+            sig,
+            font=signature_font,
+            fill=(0, 0, 0, 230),
         )
 
         draw.text(
-            (badge_x + badge_padding_x, badge_y + badge_padding_y),
-            signature_text,
+            (sig_x, current_y),
+            sig,
             font=signature_font,
-            fill=(255, 255, 255, 255),
+            fill=white,
+            stroke_width=max(2, int(width * 0.0025)),
+            stroke_fill=(0, 0, 0, 210),
+        )
+
+        # líneas decorativas tipo anuncio
+        line_y = current_y + int(height * 0.022)
+        line_w = int(width * 0.16)
+        line_h = max(4, int(height * 0.006))
+
+        draw.rounded_rectangle(
+            [(padding_x, line_y), (padding_x + line_w, line_y + line_h)],
+            radius=line_h,
+            fill=blue,
+        )
+
+        draw.rounded_rectangle(
+            [(width - padding_x - line_w, line_y), (width - padding_x, line_y + line_h)],
+            radius=line_h,
+            fill=blue,
         )
 
     return Image.alpha_composite(canvas, overlay)
