@@ -328,7 +328,7 @@ def _render_basic_overlay(image, overlay_params=None):
         x = _center_x(text, font)
 
         # sombra grande
-        draw.text((x + 5, y + 5), text, font=font, fill=shadow)
+        draw.text((x + 2, y + 2), text, font=font, fill=shadow)
 
         # stroke / borde
         stroke_w = max(1, int(width * 0.0015))
@@ -357,7 +357,7 @@ def _render_basic_overlay(image, overlay_params=None):
         sig_x = _center_x(sig, signature_font)
 
         draw.text(
-            (sig_x + 3, current_y + 3),
+            (sig_x + 1, current_y + 1),
             sig,
             font=signature_font,
             fill=(0, 0, 0, 230),
