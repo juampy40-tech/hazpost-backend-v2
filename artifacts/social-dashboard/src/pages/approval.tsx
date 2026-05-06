@@ -6917,7 +6917,7 @@ export default function Approval() {
               )}
 
               {/* Variants grid — pick which image to use */}
-              {currentFullBelongsToPost && (fullVariants.length > 0 || activeImageSrc) && (
+              {false && (
                 <div>
                   <p className="text-xs text-muted-foreground mb-2">
                     {currentPost.contentType === "carousel"
