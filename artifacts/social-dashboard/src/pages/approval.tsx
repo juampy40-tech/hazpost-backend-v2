@@ -7027,7 +7027,7 @@ export default function Approval() {
           </Card>
 
                     {/* ── Imágenes generadas del post ── */}
-          {currentFullBelongsToPost && (fullVariants.length > 0 || activeImageSrc) && (
+                    {(fullVariants.length > 0 || activeImageSrc) && (
             <Card className="glass-card shrink-0">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
