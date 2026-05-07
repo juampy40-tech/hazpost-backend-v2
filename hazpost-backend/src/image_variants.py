@@ -4,6 +4,9 @@ import time
 import uuid
 import logging
 import base64
+import boto3
+from werkzeug.utils
+import secure_filename
 from io import BytesIO
 from urllib.parse import urlparse
 
@@ -22,6 +25,71 @@ ALLOWED_IMAGE_SCHEMES = {"https"}
 MAX_IMAGE_DOWNLOAD_BYTES = 12 * 1024 * 1024  # 12 MB
 IMAGE_DOWNLOAD_TIMEOUT = 12
 OUTPUT_IMAGE_QUALITY = 92
+
+# ============================================================
+# R2 STORAGE
+# ============================================================
+
+R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
+R2_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
+R2_ENDPOINT_URL = os.getenv("R2_ENDPOINT_URL")
+R2_BUCKET_NAME = os.getenv("R2_BUCKET_NAME")
+R2_PUBLIC_URL = os.getenv("R2_PUBLIC_URL")
+
+
+def _r2_ready():
+    return all([
+        R2_ACCESS_KEY_ID,
+        R2_SECRET_ACCESS_KEY,
+        R2_ENDPOINT_URL,
+        R2_BUCKET_NAME,
+        R2_PUBLIC_URL,
+    ])
+
+
+def _r2_public_url(object_key: str) -> str:
+    return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
+
+
+def _get_user_key():
+    return "overlay-variants"
+
+
+def _upload_rendered_variant_to_r2(rendered_bytes):
+    if not rendered_bytes or not _r2_ready():
+        return None
+
+    try:
+        r2 = boto3.client(
+            "s3",
+            endpoint_url=R2_ENDPOINT_URL,
+            aws_access_key_id=R2_ACCESS_KEY_ID,
+            aws_secret_access_key=R2_SECRET_ACCESS_KEY,
+        )
+
+        file_id = str(uuid.uuid4())
+        filename = f"{file_id}.jpg"
+
+        user_key = _get_user_key()
+
+        object_key = f"overlay-variants/{user_key}/{filename}"
+
+        r2.put_object(
+            Bucket=R2_BUCKET_NAME,
+            Key=object_key,
+            Body=rendered_bytes.getvalue(),
+            ContentType="image/jpeg",
+        )
+
+        public_url = _r2_public_url(object_key)
+
+        logger.info(f"✅ Overlay variant subida a R2: {public_url}")
+
+        return public_url
+
+    except Exception as e:
+        logger.exception(f"❌ Error subiendo overlay variant a R2: {e}")
+        return None
 
 # ============================================================
 # VISUAL ENGINE PRO — Fuentes, tamaños y colores seguros
