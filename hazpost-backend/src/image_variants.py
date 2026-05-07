@@ -249,7 +249,7 @@ def _render_basic_overlay(image, overlay_params=None):
     # draw REAL para texto comercial
     draw = ImageDraw.Draw(canvas)
     # Área visual comercial
-    band_height = int(height * 0.32)
+    band_height = int(height * 0.28)
 
     if text_position == "top":
         band_top = 0
