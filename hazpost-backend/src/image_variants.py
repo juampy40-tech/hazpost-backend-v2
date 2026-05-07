@@ -69,7 +69,7 @@ def _get_user_key(post_data=None):
         return "anonymous"
 
 
-def _upload_rendered_variant_to_r2(rendered_bytes):
+def _upload_rendered_variant_to_r2(rendered_bytes, post_data=None):
     if not rendered_bytes or not _r2_ready():
         return None
 
