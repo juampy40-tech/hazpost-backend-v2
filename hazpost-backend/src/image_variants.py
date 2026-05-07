@@ -379,6 +379,32 @@ def _render_basic_overlay(image, overlay_params=None):
 
     shadow = (0, 0, 0, 190)
 
+    selected_style = str(
+        overlay_params.get("textStyle")
+        or "classic"
+    ).strip().lower()
+
+    style_config = STYLE_PRESETS.get(
+        selected_style,
+        STYLE_PRESETS["classic"],
+    )
+
+    shadow_opacity = style_config["shadow_opacity"]
+
+    overlay_alpha = style_config["overlay_alpha"]
+
+    stroke_scale = style_config["stroke_scale"]
+
+    text_spacing_scale = style_config["text_spacing"]
+
+    signature_spacing_scale = style_config["signature_spacing"]
+
+    line_style = style_config["line_style"]
+
+    line_thickness = style_config["line_thickness"]
+
+    shadow = (0, 0, 0, shadow_opacity)
+
     def _fit_lines(text, font, max_width, max_lines=3):
         words = text.split()
         lines = []
