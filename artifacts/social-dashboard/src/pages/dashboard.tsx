@@ -657,7 +657,7 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
  <div className="flex flex-wrap gap-2 pt-1">
 
   <Link
-    href="/approval"
+    href={firstPost?.id ? `/approval?post=${firstPost.id}` : "/approval"}
     className="inline-flex items-center gap-2 rounded-lg border border-border bg-white/[0.03] px-4 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-white/[0.06]"
   >
     Editar
