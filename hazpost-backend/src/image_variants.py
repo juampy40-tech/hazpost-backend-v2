@@ -193,18 +193,24 @@ def _safe_headline_text(text, max_length=120):
 
 def _load_default_font(size=42):
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    backend_dir = os.path.dirname(current_dir)
-    repo_dir = os.path.dirname(backend_dir)
 
     font_candidates = [
-        os.path.join(repo_dir, "Montserrat-ExtraBold.ttf"),
-        os.path.join(repo_dir, "Oswald-Bold.ttf"),
-        os.path.join(repo_dir, "PlayfairDisplay-Bold.ttf"),
-        os.path.join(backend_dir, "Montserrat-ExtraBold.ttf"),
-        os.path.join(backend_dir, "Oswald-Bold.ttf"),
-        os.path.join(current_dir, "Montserrat-ExtraBold.ttf"),
+        os.path.join(current_dir, "assets", "fonts", "Montserrat-Bold.ttf"),
+        os.path.join(current_dir, "assets", "fonts", "Montserrat-VariableFont_wght.ttf"),
         "DejaVuSans-Bold.ttf",
     ]
+
+    for font_path in font_candidates:
+        try:
+            if os.path.exists(font_path) or font_path == "DejaVuSans-Bold.ttf":
+                logger.info(f"✅ Fuente cargada: {font_path}")
+                return ImageFont.truetype(font_path, size=size)
+        except Exception as e:
+            logger.warning(f"⚠️ Error cargando fuente {font_path}: {e}")
+            continue
+
+    logger.warning("❌ No se pudo cargar ninguna fuente TTF.")
+    return ImageFont.load_default()
 
     for font_path in font_candidates:
         try:
