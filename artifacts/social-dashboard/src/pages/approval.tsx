@@ -6982,7 +6982,7 @@ export default function Approval() {
                   </p>
                   <div className="grid grid-cols-3 gap-3">
                     {fullVariants.map((variant: any) => {
-                      const isSelected = selectedVariant === variant.id;
+                      const isSelected = effectiveSelectedVariant === variant.id;
                       const isCarouselSlide = currentPost.contentType === "carousel" && slideOrder.includes(variant.id);
                       const isActiveSlide = currentPost.contentType === "carousel" && previewSlideId === variant.id;
                       const styleColor = STYLE_COLORS[variant.style ?? ''] ?? '#0077FF';
