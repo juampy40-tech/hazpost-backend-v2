@@ -905,7 +905,8 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
         "id": str(uuid.uuid4()),
         "postId": post_id,
         "imageUrl": (
-            f"data:image/jpeg;base64,{rendered_base64}"
+            rendered_public_url
+            or f"data:image/jpeg;base64,{rendered_base64}"
             if rendered_base64
             else base_image
         ),
