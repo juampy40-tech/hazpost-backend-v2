@@ -1636,6 +1636,109 @@ def me_alias():
     user = session.get("user")
     return jsonify(user or {})
 
+# ------------------ COMPAT ROUTES WITH IDS ------------------
+
+@dashboard_bp.route('/caption-addons/<addon_id>', methods=['PUT', 'PATCH', 'DELETE', 'OPTIONS'])
+def caption_addon_by_id(addon_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    addons = _as_list(session.get("caption_addons", []))
+
+    # -------- DELETE --------
+    if request.method == 'DELETE':
+        addons = [
+            addon for addon in addons
+            if str(addon.get("id")) != str(addon_id)
+        ]
+
+        session["caption_addons"] = addons
+        session.permanent = True
+
+        return jsonify({
+            "success": True,
+            "items": addons
+        })
+
+    # -------- UPDATE --------
+    data = request.get_json(silent=True) or {}
+
+    updated = None
+
+    for addon in addons:
+        if str(addon.get("id")) == str(addon_id):
+            addon["name"] = _safe_text(
+                data.get("name", addon.get("name")),
+                120
+            )
+
+            addon["text"] = _safe_text(
+                data.get("text", addon.get("text")),
+                1000
+            )
+
+            addon["enabled"] = bool(
+                data.get("enabled", addon.get("enabled", True))
+            )
+
+            updated = addon
+            break
+
+    session["caption_addons"] = addons
+    session.permanent = True
+
+    if not updated:
+        return jsonify({
+            "success": False,
+            "error": "Addon no encontrado"
+        }), 404
+
+    return jsonify({
+        "success": True,
+        "item": updated,
+        "items": addons
+    })
+
+
+@dashboard_bp.route('/media/<media_id>', methods=['DELETE', 'OPTIONS'])
+def media_by_id(media_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    media_items = _as_list(session.get("media_items", []))
+
+    media_items = [
+        item for item in media_items
+        if str(item.get("id")) != str(media_id)
+    ]
+
+    session["media_items"] = media_items
+    session.permanent = True
+
+    return jsonify({
+        "success": True,
+        "items": media_items
+    })
+
+
+@dashboard_bp.route('/fonts/upload', methods=['POST', 'OPTIONS'])
+def upload_font():
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    data = request.get_json(silent=True) or {}
+
+    font = {
+        "id": str(uuid.uuid4()),
+        "name": _safe_text(data.get("name") or "Custom Font", 120),
+        "family": _safe_text(data.get("family") or "sans-serif", 120),
+        "category": _safe_text(data.get("category") or "custom", 120),
+    }
+
+    return jsonify({
+        "ok": True,
+        "font": font
+    }), 201
 
 # ------------------ ALERTS ------------------
 
