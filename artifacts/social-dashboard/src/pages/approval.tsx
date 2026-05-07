@@ -2049,8 +2049,16 @@ export default function Approval() {
           .catch(() => {});
       }
       // Use variant.id (unique) — never variantIndex which can repeat after deletions
-      const firstId = currentPost.imageVariants?.[0]?.id ?? 0;
+      const firstId =
+        currentPostFull?.imageVariants?.[0]?.id
+        ?? currentPost.imageVariants?.[0]?.id
+        ?? 0;
+
       setSelectedVariant(currentPost.selectedImageVariant ?? firstId);
+
+      if (currentPost.contentType === "carousel") {
+        setPreviewSlideId(firstId || null);
+      }
       setEditedPlatform("both");  // Always default to publish on all platforms
       setCaptionEval(null); // Reset AI analysis when switching posts
       // Auto-suggest music genre based on caption tone (only if no track is selected yet).
