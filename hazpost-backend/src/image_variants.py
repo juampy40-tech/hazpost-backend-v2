@@ -219,10 +219,16 @@ def _safe_headline_text(text, max_length=120):
     return text[:max_length]
 
 
-def _load_default_font(size=42):
+def _load_default_font(size=42, font_key=None):
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
+    selected_font = FONT_MAP.get(
+        str(font_key or DEFAULT_FONT_KEY).lower(),
+        FONT_MAP[DEFAULT_FONT_KEY],
+    )
+
     font_candidates = [
+        os.path.join(current_dir, "assets", "fonts", selected_font),
         os.path.join(current_dir, "assets", "fonts", "Montserrat-Bold.ttf"),
         os.path.join(current_dir, "assets", "fonts", "Montserrat-VariableFont_wght.ttf"),
         "DejaVuSans-Bold.ttf",
