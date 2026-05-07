@@ -568,7 +568,30 @@ def _render_basic_overlay(image, overlay_params=None):
         total_text_height += signature_gap + (bbox[3] - bbox[1])
 
     # 🔥 posición más premium y menos pegada abajo
-    current_y = band_top + int(height * 0.045)
+    # ============================================================
+    # LAYOUT ENGINE — Dirección creativa visual
+    # ============================================================
+
+    if layout_mode == "hero":
+        current_y = band_top + int(height * 0.06)
+
+    elif layout_mode == "cinema":
+        current_y = band_top + int(height * 0.11)
+
+    elif layout_mode == "editorial":
+        current_y = band_top + int(height * 0.04)
+
+    elif layout_mode == "split":
+        current_y = band_top + int(height * 0.08)
+
+    elif layout_mode == "magazine":
+        current_y = band_top + int(height * 0.14)
+
+    elif layout_mode == "impact":
+        current_y = band_top + int(height * 0.16)
+
+    else:
+        current_y = band_top + int(height * 0.045)
 
     def _center_x(text, font):
         bbox = draw.textbbox((0, 0), text, font=font)
