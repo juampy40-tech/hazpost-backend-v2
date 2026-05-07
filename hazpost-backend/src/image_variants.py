@@ -627,29 +627,24 @@ def _render_basic_overlay(image, overlay_params=None):
 
     # 🔥 posición más premium y menos pegada abajo
     # ============================================================
-    # LAYOUT ENGINE — Dirección creativa visual
+    # POSITION ENGINE — Arriba / Centro / Abajo REAL
     # ============================================================
 
-    if layout_mode == "hero":
-        current_y = band_top + int(height * 0.06)
+    if text_position == "top":
+        current_y = band_top + int(height * 0.035)
 
-    elif layout_mode == "cinema":
-        current_y = band_top + int(height * 0.11)
-
-    elif layout_mode == "editorial":
-        current_y = band_top + int(height * 0.04)
-
-    elif layout_mode == "split":
-        current_y = band_top + int(height * 0.08)
-
-    elif layout_mode == "magazine":
-        current_y = band_top + int(height * 0.14)
-
-    elif layout_mode == "impact":
-        current_y = band_top + int(height * 0.16)
+    elif text_position == "center":
+        current_y = int(
+            ((band_top + band_bottom) / 2)
+            - (total_text_height / 2)
+        )
 
     else:
-        current_y = band_top + int(height * 0.045)
+        current_y = (
+            band_bottom
+            - total_text_height
+            - int(height * 0.035)
+        )
 
     # ============================================================
     # SAFE ZONES APPLY
