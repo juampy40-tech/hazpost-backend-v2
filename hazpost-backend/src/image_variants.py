@@ -597,7 +597,9 @@ def _render_basic_overlay(image, overlay_params=None):
     # 3 líneas = principal + acento + principal
     line_color_plan = []
 
-    if len(lines) == 1:
+    if len(lines) == 0:
+        line_color_plan = []
+    elif len(lines) == 1:
         line_color_plan = [(lines[0], accent_text_color)]
     elif len(lines) == 2:
         line_color_plan = [
@@ -610,7 +612,7 @@ def _render_basic_overlay(image, overlay_params=None):
             (lines[1], accent_text_color),
             (lines[2], primary_text_color),
         ]
-
+        
     line_gap = int(height * text_spacing_scale)
     signature_gap = int(height * signature_spacing_scale)
 
