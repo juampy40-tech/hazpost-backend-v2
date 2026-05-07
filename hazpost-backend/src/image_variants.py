@@ -911,7 +911,8 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
             ).decode("utf-8")
 
             rendered_public_url = _upload_rendered_variant_to_r2(
-                rendered_bytes
+                rendered_bytes,
+                post_data=post_data
             )
 
     except Exception as render_error:
