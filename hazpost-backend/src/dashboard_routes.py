@@ -305,9 +305,12 @@ def posts():
 
     return jsonify(saved_post), 201
 
-@dashboard_bp.route('/posts/<int:post_id>', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+@dashboard_bp.route('/posts/<int:post_id>', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'])
 def update_post(post_id):
     user_id = _get_dashboard_user_id()
+
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
 
     if not user_id:
         return jsonify({
