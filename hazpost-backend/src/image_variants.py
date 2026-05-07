@@ -269,8 +269,8 @@ def _render_basic_overlay(image, overlay_params=None):
 
     padding_x = int(width * 0.07)
 
-    headline_font = _load_default_font(max(110, int(width * 0.13)))
-    accent_font = _load_default_font(max(140, int(width * 0.16)))
+    headline_font = _load_default_font(max(72, int(width * 0.085)))
+    accent_font = _load_default_font(max(88, int(width * 0.10)))
     signature_font = _load_default_font(max(42, int(width * 0.05)))
 
     white = (255, 255, 255, 255)
