@@ -1190,24 +1190,48 @@ export default function Approval() {
   currentPostFull?.post?.image_url ||
   "";
   // selectedVariant stores variant.id (unique PK) — never variantIndex which can repeat
+  const effectiveSelectedVariant =
+    selectedVariant
+    || currentPost?.selectedImageVariant
+    || fullVariants?.[0]?.id
+    || currentPost?.imageVariants?.[0]?.id
+    || 0;
+
   const activeImage = (() => {
     if (currentPost?.contentType === "carousel") {
-      const previewId = previewSlideId ?? slideOrder[0] ?? null;
+      const previewId =
+        previewSlideId
+        ?? slideOrder[0]
+        ?? effectiveSelectedVariant
+        ?? null;
+
       if (previewId) {
-        const found = fullVariants.find((v: any) => v.id === previewId);
-        if (found) return found;
+        const found = fullVariants.find(
+          (v: any) => v.id === previewId
+        );
+
+        if (found) {
+          return found;
+        }
       }
     }
-    return fullVariants.find((v: any) => v.id === selectedVariant)
-      ?? fullVariants.find((v: any) => !!v.imageData);
+
+    return (
+      fullVariants.find(
+        (v: any) => v.id === effectiveSelectedVariant
+      )
+      ?? fullVariants[0]
+      ?? fullVariants.find((v: any) => !!v.imageData)
+      ?? null
+    );
   })();
 
-    const activeImageSrc =
-      activeImage?.imageData
-        ? activeImage.imageData.startsWith("data:")
-          ? activeImage.imageData
-          : `data:image/jpeg;base64,${activeImage.imageData}`
-        : "";
+  const activeImageSrc =
+    activeImage?.imageData
+      ? activeImage.imageData.startsWith("data:")
+        ? activeImage.imageData
+        : `data:image/jpeg;base64,${activeImage.imageData}`
+      : "";
 
   // Auto-fetch reel URL when the active variant already has a saved reel.
   // This ensures the video preview and "listo" badge appear when navigating
