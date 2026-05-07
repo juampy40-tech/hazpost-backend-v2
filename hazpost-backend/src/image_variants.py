@@ -300,10 +300,26 @@ def _render_basic_overlay(image, overlay_params=None):
 
     padding_x = int(width * 0.07)
 
-    headline_font = _load_default_font(max(72, int(width * 0.11)))
-    accent_font = _load_default_font(max(84, int(width * 0.13)))
-    signature_font = _load_default_font(max(42, int(width * 0.05)))
+    selected_font_key = str(
+        overlay_params.get("overlayFont")
+        or overlay_params.get("fontFamily")
+        or DEFAULT_FONT_KEY
+    ).strip().lower()
 
+    selected_text_size = str(
+        overlay_params.get("textSize")
+        or DEFAULT_TEXT_SIZE
+    ).strip().lower()
+
+    size_ratio = SIZE_SCALE.get(selected_text_size, SIZE_SCALE[DEFAULT_TEXT_SIZE])
+
+    headline_font_size = max(42, int(width * size_ratio))
+    accent_font_size = max(46, int(width * (size_ratio * 1.08)))
+    signature_font_size = max(24, int(width * (size_ratio * 0.42)))
+
+    headline_font = _load_default_font(headline_font_size)
+    accent_font = _load_default_font(accent_font_size)
+    signature_font = _load_default_font(signature_font_size)
     def _hex_to_rgba(value, fallback=(255, 255, 255, 255)):
         if not isinstance(value, str):
             return fallback
