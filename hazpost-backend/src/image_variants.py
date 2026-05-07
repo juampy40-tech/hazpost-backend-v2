@@ -322,10 +322,21 @@ def _render_basic_overlay(image, overlay_params=None):
     headline_font_size = max(42, int(width * size_ratio))
     accent_font_size = max(46, int(width * (size_ratio * 1.08)))
     signature_font_size = max(24, int(width * (size_ratio * 0.42)))
+    headline_font = _load_default_font(
+        headline_font_size,
+        font_key=selected_font_key,
+    )
 
-    headline_font = _load_default_font(headline_font_size)
-    accent_font = _load_default_font(accent_font_size)
-    signature_font = _load_default_font(signature_font_size)
+    accent_font = _load_default_font(
+        accent_font_size,
+        font_key=selected_font_key,
+    )
+
+    signature_font = _load_default_font(
+        signature_font_size,
+        font_key=selected_font_key,
+    )
+    
     def _hex_to_rgba(value, fallback=(255, 255, 255, 255)):
         if not isinstance(value, str):
             return fallback
