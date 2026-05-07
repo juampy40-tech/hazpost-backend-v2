@@ -7106,7 +7106,7 @@ export default function Approval() {
                         : variant.imageUrl || "";
                       if (!imgSrc) return null;
 
-                      const isSelected = selectedVariant === variant.id;
+                      const isSelected = effectiveSelectedVariant === variant.id;
                       const styleColor = STYLE_COLORS[variant.style] ?? "#00C2FF";
 
                       return (
