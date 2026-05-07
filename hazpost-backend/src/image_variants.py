@@ -326,10 +326,8 @@ def _render_basic_overlay(image, overlay_params=None):
         bbox = draw.textbbox((0, 0), signature_text.upper(), font=signature_font)
         total_text_height += signature_gap + (bbox[3] - bbox[1])
 
-    current_y = band_top + max(
-        int(height * 0.05),
-        int((band_height - total_text_height) / 2)
-    )
+    # 🔥 posición más premium y menos pegada abajo
+    current_y = band_top + int(height * 0.05)
 
     def _center_x(text, font):
         bbox = draw.textbbox((0, 0), text, font=font)
