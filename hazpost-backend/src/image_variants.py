@@ -84,7 +84,7 @@ def _upload_rendered_variant_to_r2(rendered_bytes):
         file_id = str(uuid.uuid4())
         filename = f"{file_id}.jpg"
 
-        user_key = _get_user_key()
+        user_key = _get_user_key(post_data)
 
         object_key = f"overlay-variants/{user_key}/{filename}"
 
