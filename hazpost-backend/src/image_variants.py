@@ -469,7 +469,7 @@ def _render_basic_overlay(image, overlay_params=None):
         draw.text((x + 2, y + 2), text, font=font, fill=shadow)
 
         # stroke / borde
-        stroke_w = max(1, int(width * 0.0015))
+        stroke_w = max(1, int(width * stroke_scale))
         draw.text(
             (x, y),
             text,
