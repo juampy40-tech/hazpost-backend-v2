@@ -90,11 +90,10 @@ DEFAULT_TEXT_SIZE = "medium"
 # SAFE ZONES — Protección visual universal
 # ============================================================
 
-TEXT_SAFE_TOP_RATIO = 0.08
-TEXT_SAFE_BOTTOM_RATIO = 0.84
+TEXT_SAFE_TOP_RATIO = 0.05
+TEXT_SAFE_BOTTOM_RATIO = 0.94
 
-FOOTER_RESERVED_RATIO = 0.10
-
+FOOTER_RESERVED_RATIO = 0.035
 # ============================================================
 # STYLE ENGINE — Presets visuales inteligentes
 # ============================================================
