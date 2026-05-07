@@ -212,17 +212,7 @@ def _load_default_font(size=42):
     logger.warning("❌ No se pudo cargar ninguna fuente TTF.")
     return ImageFont.load_default()
 
-    for font_path in font_candidates:
-        try:
-            if os.path.exists(font_path) or font_path == "DejaVuSans-Bold.ttf":
-                return ImageFont.truetype(font_path, size=size)
-        except Exception:
-            continue
-
-    logger.warning("No se pudo cargar fuente TTF. Usando fallback básico.")
-    return ImageFont.load_default()
-
-
+    
 def _render_basic_overlay(image, overlay_params=None):
     overlay_params = overlay_params or {}
 
