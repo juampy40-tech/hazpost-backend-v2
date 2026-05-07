@@ -345,10 +345,12 @@ def _safe_headline_text(text, max_length=120):
 def _load_default_font(size=42, font_key=None):
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
-    selected_font = FONT_MAP.get(
+    font_config = FONT_CATALOG.get(
         str(font_key or DEFAULT_FONT_KEY).lower(),
-        FONT_MAP[DEFAULT_FONT_KEY],
+        FONT_CATALOG[DEFAULT_FONT_KEY],
     )
+
+selected_font = font_config["file"]
 
     font_candidates = [
         os.path.join(current_dir, "assets", "fonts", selected_font),
