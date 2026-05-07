@@ -770,6 +770,435 @@ def schedule():
 
     return jsonify(schedule_list), 201
 
+# ------------------ APPROVAL UI COMPATIBILITY — FIX 404/405 SEGURO ------------------
+
+def _load_user_post_for_dashboard(user_id, post_id):
+    if not user_id:
+        return None, None
+
+    if not db_available():
+        return None, None
+
+    with db_session() as db:
+        row = db.execute(text("""
+            SELECT id, post, status, business_id, post_number, created_at, updated_at
+            FROM posts
+            WHERE id = :post_id
+              AND user_id = :user_id
+            LIMIT 1;
+        """), {
+            "post_id": int(post_id),
+            "user_id": str(user_id),
+        }).mappings().first()
+
+    if not row:
+        return None, None
+
+    post_data = row.get("post") or {}
+
+    if isinstance(post_data, str):
+        try:
+            post_data = json.loads(post_data)
+        except Exception:
+            post_data = {}
+
+    if not isinstance(post_data, dict):
+        post_data = {}
+
+    variants = post_data.get("imageVariants") or post_data.get("image_variants") or []
+    if not isinstance(variants, list):
+        variants = []
+
+    post_data["imageVariants"] = variants
+
+    return row, post_data
+
+
+def _save_user_post_json(user_id, post_id, post_data):
+    if not db_available():
+        return False
+
+    with db_session() as db:
+        db.execute(text("""
+            UPDATE posts
+            SET post = :post,
+                updated_at = NOW()
+            WHERE id = :post_id
+              AND user_id = :user_id;
+        """), {
+            "post": json.dumps(post_data),
+            "post_id": int(post_id),
+            "user_id": str(user_id),
+        })
+
+    return True
+
+
+def _safe_text(value, max_len=5000):
+    if value is None:
+        return ""
+
+    text_value = str(value).strip()
+
+    # Seguridad básica anti-XSS / anti payload visual.
+    text_value = (
+        text_value
+        .replace("<script", "")
+        .replace("</script", "")
+        .replace("javascript:", "")
+        .replace("data:text/html", "")
+    )
+
+    return text_value[:max_len]
+
+
+def _simple_spanish_spellcheck(text_value):
+    clean = _safe_text(text_value, 3000)
+
+    if not clean:
+        return {
+            "hasErrors": False,
+            "corrected": "",
+            "explanation": ""
+        }
+
+    replacements = {
+        " energia ": " energía ",
+        " publicacion ": " publicación ",
+        " promocion ": " promoción ",
+        " solucion ": " solución ",
+        " informacion ": " información ",
+        " atencion ": " atención ",
+        " mas ": " más ",
+        " tu negocio ": " tu negocio ",
+    }
+
+    corrected = f" {clean} "
+    for wrong, fixed in replacements.items():
+        corrected = corrected.replace(wrong, fixed)
+
+    corrected = corrected.strip()
+
+    return {
+        "hasErrors": corrected != clean,
+        "corrected": corrected,
+        "explanation": "Revisión básica activa. La revisión IA avanzada se conectará después."
+    }
+
+
+@dashboard_bp.route('/posts/check-headline', methods=['POST', 'OPTIONS'])
+def check_headline_flask():
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    data = request.get_json(silent=True) or {}
+    text_value = data.get("text") or ""
+
+    return jsonify(_simple_spanish_spellcheck(text_value))
+
+
+@dashboard_bp.route('/posts/check-caption', methods=['POST', 'OPTIONS'])
+def check_caption_flask():
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    data = request.get_json(silent=True) or {}
+    text_value = data.get("text") or ""
+
+    return jsonify(_simple_spanish_spellcheck(text_value))
+
+
+@dashboard_bp.route('/posts/<int:post_id>/variants/<variant_id>/overlay-params', methods=['PATCH', 'OPTIONS'])
+def save_variant_overlay_params_flask(post_id, variant_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    user_id = _get_dashboard_user_id()
+
+    if not user_id:
+        return jsonify({"success": False, "error": "Usuario no autenticado"}), 401
+
+    row, post_data = _load_user_post_for_dashboard(user_id, post_id)
+
+    if not row:
+        return jsonify({"success": False, "error": "Post no encontrado"}), 404
+
+    data = request.get_json(silent=True) or {}
+
+    allowed = {
+        "titleColor1",
+        "titleColor2",
+        "signatureText",
+        "showSignature",
+        "customLogoUrl",
+        "overlayTitleColor1",
+        "overlayTitleColor2",
+        "overlaySignatureText",
+        "overlayShowSignature",
+        "overlayCustomLogoUrl",
+    }
+
+    clean_data = {k: data.get(k) for k in allowed if k in data}
+
+    variants = post_data.get("imageVariants") or []
+    target_id = str(variant_id)
+
+    found = False
+
+    for variant in variants:
+        if str(variant.get("id")) == target_id:
+            found = True
+
+            # Mantener compatibilidad con nombres Express y nombres Flask.
+            if "titleColor1" in clean_data:
+                variant["overlayTitleColor1"] = _safe_text(clean_data.get("titleColor1"), 40)
+
+            if "titleColor2" in clean_data:
+                variant["overlayTitleColor2"] = _safe_text(clean_data.get("titleColor2"), 40)
+
+            if "signatureText" in clean_data:
+                variant["overlaySignatureText"] = _safe_text(clean_data.get("signatureText"), 120)
+
+            if "showSignature" in clean_data:
+                variant["overlayShowSignature"] = bool(clean_data.get("showSignature"))
+
+            if "customLogoUrl" in clean_data:
+                logo_url = clean_data.get("customLogoUrl")
+                variant["overlayCustomLogoUrl"] = _safe_text(logo_url, 1000) if logo_url else None
+
+            variant.setdefault("overlayParams", {})
+            variant["overlayParams"].update({
+                "titleColor1": variant.get("overlayTitleColor1"),
+                "titleColor2": variant.get("overlayTitleColor2"),
+                "signatureText": variant.get("overlaySignatureText"),
+                "showSignature": variant.get("overlayShowSignature"),
+                "customLogoUrl": variant.get("overlayCustomLogoUrl"),
+            })
+
+            break
+
+    if not found:
+        return jsonify({"success": False, "error": "Variante no encontrada"}), 404
+
+    _save_user_post_json(user_id, post_id, post_data)
+
+    return jsonify({
+        "success": True,
+        "ok": True,
+        "imageVariants": variants,
+    })
+
+
+@dashboard_bp.route('/posts/<int:post_id>/variants/<variant_id>', methods=['DELETE', 'OPTIONS'])
+def delete_variant_flask(post_id, variant_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    user_id = _get_dashboard_user_id()
+
+    if not user_id:
+        return jsonify({"success": False, "error": "Usuario no autenticado"}), 401
+
+    row, post_data = _load_user_post_for_dashboard(user_id, post_id)
+
+    if not row:
+        return jsonify({"success": False, "error": "Post no encontrado"}), 404
+
+    variants = post_data.get("imageVariants") or []
+    before = len(variants)
+
+    variants = [
+        variant for variant in variants
+        if str(variant.get("id")) != str(variant_id)
+    ]
+
+    if len(variants) == before:
+        return jsonify({"success": False, "error": "Variante no encontrada"}), 404
+
+    for idx, variant in enumerate(variants):
+        variant["variantIndex"] = idx
+
+    post_data["imageVariants"] = variants
+
+    if str(post_data.get("selectedImageVariant")) == str(variant_id):
+        post_data["selectedImageVariant"] = variants[0].get("id") if variants else None
+
+    _save_user_post_json(user_id, post_id, post_data)
+
+    return jsonify({
+        "success": True,
+        "ok": True,
+        "imageVariants": variants,
+        "selectedImageVariant": post_data.get("selectedImageVariant"),
+    })
+
+
+@dashboard_bp.route('/posts/<int:post_id>/reorder-slides', methods=['POST', 'OPTIONS'])
+def reorder_slides_flask(post_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    user_id = _get_dashboard_user_id()
+
+    if not user_id:
+        return jsonify({"success": False, "error": "Usuario no autenticado"}), 401
+
+    row, post_data = _load_user_post_for_dashboard(user_id, post_id)
+
+    if not row:
+        return jsonify({"success": False, "error": "Post no encontrado"}), 404
+
+    data = request.get_json(silent=True) or {}
+    variant_ids = data.get("variantIds") or []
+
+    if not isinstance(variant_ids, list) or not variant_ids:
+        return jsonify({
+            "success": False,
+            "error": "variantIds debe ser una lista no vacía"
+        }), 400
+
+    safe_order = [str(v) for v in variant_ids]
+    variants = post_data.get("imageVariants") or []
+
+    by_id = {str(v.get("id")): v for v in variants}
+    ordered = []
+
+    for variant_id in safe_order:
+        if variant_id in by_id:
+            ordered.append(by_id[variant_id])
+
+    # Mantener variantes no incluidas al final para no perder datos.
+    for variant in variants:
+        if str(variant.get("id")) not in safe_order:
+            ordered.append(variant)
+
+    for idx, variant in enumerate(ordered):
+        variant["variantIndex"] = idx
+
+    post_data["imageVariants"] = ordered
+
+    _save_user_post_json(user_id, post_id, post_data)
+
+    return jsonify({
+        "success": True,
+        "id": post_id,
+        **post_data
+    })
+
+
+@dashboard_bp.route('/posts/<int:post_id>/retry-image', methods=['POST', 'OPTIONS'])
+def retry_image_flask(post_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    user_id = _get_dashboard_user_id()
+
+    if not user_id:
+        return jsonify({"success": False, "error": "Usuario no autenticado"}), 401
+
+    row, post_data = _load_user_post_for_dashboard(user_id, post_id)
+
+    if not row:
+        return jsonify({"success": False, "error": "Post no encontrado"}), 404
+
+    variants = post_data.get("imageVariants") or []
+
+    for variant in variants:
+        if variant.get("generationStatus") in ["error", "failed", "pending"]:
+            variant["generationStatus"] = "pending"
+            variant["generationError"] = None
+
+    post_data["imageVariants"] = variants
+    post_data["imageRetryRequested"] = True
+
+    _save_user_post_json(user_id, post_id, post_data)
+
+    return jsonify({
+        "success": True,
+        "retrying": True,
+        "message": "Reintento registrado. Si la imagen no aparece, genera una nueva variante.",
+        "post": post_data,
+    })
+
+
+@dashboard_bp.route('/posts/<int:post_id>/regenerate-hashtags', methods=['POST', 'OPTIONS'])
+def regenerate_hashtags_flask(post_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    user_id = _get_dashboard_user_id()
+
+    if not user_id:
+        return jsonify({"success": False, "error": "Usuario no autenticado"}), 401
+
+    row, post_data = _load_user_post_for_dashboard(user_id, post_id)
+
+    if not row:
+        return jsonify({"success": False, "error": "Post no encontrado"}), 404
+
+    company = _safe_text(post_data.get("companyName") or post_data.get("businessName") or "HazPost", 40)
+    industry = _safe_text(post_data.get("industry") or post_data.get("businessType") or "NegocioLocal", 40)
+    location = _safe_text(post_data.get("locationName") or post_data.get("location") or "", 40)
+
+    def tagify(value):
+        clean = "".join(ch for ch in str(value) if ch.isalnum())
+        return clean[:40]
+
+    tags = [
+        f"#{tagify(company)}",
+        f"#{tagify(industry)}",
+        "#NegocioLocal",
+        "#MarketingDigital",
+        "#HazPost",
+    ]
+
+    if location:
+        tags.insert(2, f"#{tagify(location)}")
+
+    hashtags = " ".join([tag for tag in tags if len(tag) > 1])
+    hashtags_tiktok = f"{hashtags} #ParaTi #TikTokColombia"
+
+    post_data["hashtags"] = hashtags
+    post_data["hashtagsTiktok"] = hashtags_tiktok
+
+    _save_user_post_json(user_id, post_id, post_data)
+
+    return jsonify({
+        "success": True,
+        "hashtags": hashtags,
+        "hashtagsTiktok": hashtags_tiktok,
+    })
+
+
+@dashboard_bp.route('/posts/<int:post_id>/mark-manual', methods=['POST', 'OPTIONS'])
+def mark_manual_flask(post_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    user_id = _get_dashboard_user_id()
+
+    if not user_id:
+        return jsonify({"success": False, "error": "Usuario no autenticado"}), 401
+
+    updated = update_post_status(
+        user_id=user_id,
+        post_id=post_id,
+        status="published",
+        extra_updates={
+            "publishedManually": True,
+            "manualPublishedAt": None,
+        }
+    )
+
+    if not updated:
+        return jsonify({"success": False, "error": "Post no encontrado"}), 404
+
+    return jsonify({
+        "success": True,
+        "ok": True,
+        "post": updated,
+    })
+
 # ------------------ INSTAGRAM PUBLISH ------------------
 
 @dashboard_bp.route('/social-accounts/default', methods=['POST', 'OPTIONS'])
