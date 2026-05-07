@@ -859,6 +859,7 @@ def create_app():
                 "brandTone": business.get("brandTone") or business.get("tone") or current_brand_profile.get("brandTone"),
                 "logoUrl": business.get("logoUrl") or current_brand_profile.get("logoUrl"),
                 "primaryColor": business.get("primaryColor") or current_brand_profile.get("primaryColor"),
+                "secondaryColor": business.get("secondaryColor") or current_brand_profile.get("secondaryColor"),
                 "website": business.get("website") or current_brand_profile.get("website"),
             }
 
