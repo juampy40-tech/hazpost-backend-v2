@@ -1445,27 +1445,191 @@ def support_unread():
     return jsonify(unread_list)
 
 
-# ------------------ NUEVOS ENDPOINTS (FIX 405) ------------------
+# ------------------ NUEVOS ENDPOINTS (FIX 405 + COMPAT FRONTEND) ------------------
 
-@dashboard_bp.route('/caption-addons', methods=['GET'])
+@dashboard_bp.route('/caption-addons', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'])
 def caption_addons():
-    return jsonify([])
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    addons = _as_list(session.get("caption_addons", []))
+
+    # -------- GET --------
+    if request.method == 'GET':
+        return jsonify(addons)
+
+    # -------- DELETE --------
+    if request.method == 'DELETE':
+        data = request.get_json(silent=True) or {}
+        addon_id = data.get("id")
+
+        if addon_id:
+            addons = [
+                addon for addon in addons
+                if str(addon.get("id")) != str(addon_id)
+            ]
+        else:
+            addons = []
+
+        session["caption_addons"] = addons
+        session.permanent = True
+
+        return jsonify({
+            "success": True,
+            "items": addons
+        })
+
+    # -------- CREATE / UPDATE --------
+    data = request.get_json(silent=True) or {}
+
+    addon = {
+        "id": data.get("id") or str(uuid.uuid4()),
+        "name": _safe_text(data.get("name") or "Addon", 120),
+        "text": _safe_text(data.get("text") or data.get("value") or "", 1000),
+        "enabled": bool(data.get("enabled", True)),
+    }
+
+    existing_index = next(
+        (
+            index for index, item in enumerate(addons)
+            if str(item.get("id")) == str(addon["id"])
+        ),
+        None
+    )
+
+    if existing_index is not None:
+        addons[existing_index] = {
+            **addons[existing_index],
+            **addon
+        }
+    else:
+        addons.append(addon)
+
+    session["caption_addons"] = addons
+    session.permanent = True
+
+    return jsonify({
+        "success": True,
+        "items": addons
+    })
 
 
-@dashboard_bp.route('/media', methods=['GET'])
+@dashboard_bp.route('/media', methods=['GET', 'POST', 'DELETE', 'OPTIONS'])
 def media():
-    return jsonify([])
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    media_items = _as_list(session.get("media_items", []))
+
+    # -------- GET --------
+    if request.method == 'GET':
+        return jsonify(media_items)
+
+    # -------- DELETE --------
+    if request.method == 'DELETE':
+        data = request.get_json(silent=True) or {}
+        media_id = data.get("id")
+
+        media_items = [
+            item for item in media_items
+            if str(item.get("id")) != str(media_id)
+        ]
+
+        session["media_items"] = media_items
+        session.permanent = True
+
+        return jsonify({
+            "success": True,
+            "items": media_items
+        })
+
+    # -------- CREATE --------
+    data = request.get_json(silent=True) or {}
+
+    media_item = {
+        "id": str(uuid.uuid4()),
+        "url": _safe_text(data.get("url") or data.get("imageUrl") or "", 2000),
+        "type": _safe_text(data.get("type") or "image", 40),
+        "name": _safe_text(data.get("name") or "Media", 120),
+    }
+
+    media_items.append(media_item)
+
+    session["media_items"] = media_items
+    session.permanent = True
+
+    return jsonify({
+        "success": True,
+        "item": media_item,
+        "items": media_items
+    }), 201
 
 
-@dashboard_bp.route('/music', methods=['GET'])
+@dashboard_bp.route('/music', methods=['GET', 'POST', 'OPTIONS'])
+@dashboard_bp.route('/music/upload', methods=['POST', 'OPTIONS'])
+@dashboard_bp.route('/music/sync', methods=['POST', 'OPTIONS'])
 def music():
-    return jsonify([])
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
+
+    music_items = _as_list(session.get("music_items", []))
+
+    # -------- GET --------
+    if request.method == 'GET':
+        return jsonify(music_items)
+
+    # -------- CREATE / MOCK UPLOAD --------
+    data = request.get_json(silent=True) or {}
+
+    item = {
+        "id": str(uuid.uuid4()),
+        "name": _safe_text(data.get("name") or "Audio", 120),
+        "url": _safe_text(data.get("url") or "", 2000),
+        "provider": _safe_text(data.get("provider") or "manual", 80),
+        "status": "ready",
+    }
+
+    music_items.append(item)
+
+    session["music_items"] = music_items
+    session.permanent = True
+
+    return jsonify({
+        "success": True,
+        "item": item,
+        "items": music_items
+    })
 
 
-@dashboard_bp.route('/fonts', methods=['GET'])
+@dashboard_bp.route('/fonts', methods=['GET', 'POST', 'OPTIONS'])
 def fonts():
-    return jsonify([])
+    if request.method == 'OPTIONS':
+        return jsonify({"success": True})
 
+    fonts_list = [
+        {
+            "id": "montserrat",
+            "name": "Montserrat",
+            "category": "sans-serif"
+        },
+        {
+            "id": "poppins",
+            "name": "Poppins",
+            "category": "sans-serif"
+        },
+        {
+            "id": "bebas-neue",
+            "name": "Bebas Neue",
+            "category": "display"
+        },
+        {
+            "id": "playfair",
+            "name": "Playfair Display",
+            "category": "serif"
+        }
+    ]
+
+    return jsonify(fonts_list)
 
 @dashboard_bp.route('/me', methods=['GET'])
 def me_alias():
