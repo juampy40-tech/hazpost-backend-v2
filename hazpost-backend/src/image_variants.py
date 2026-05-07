@@ -73,14 +73,14 @@ FONT_CATALOG = {
 }
 
 SIZE_SCALE = {
-    "small": 0.065,
-    "s": 0.065,
-    "sm": 0.075,
-    "medium": 0.085,
-    "m": 0.085,
-    "large": 0.098,
-    "l": 0.098,
-    "xl": 0.11,
+    "small": 0.052,
+    "s": 0.052,
+    "sm": 0.065,
+    "medium": 0.080,
+    "m": 0.080,
+    "large": 0.105,
+    "l": 0.105,
+    "xl": 0.125,
 }
 
 DEFAULT_FONT_KEY = "montserrat"
