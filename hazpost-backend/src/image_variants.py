@@ -27,15 +27,49 @@ OUTPUT_IMAGE_QUALITY = 92
 # VISUAL ENGINE PRO — Fuentes, tamaños y colores seguros
 # ============================================================
 
-FONT_MAP = {
-    "montserrat": "Montserrat-Bold.ttf",
-    "montserrat-bold": "Montserrat-Bold.ttf",
-    "montserrat-extrabold": "Montserrat-ExtraBold.ttf",
-    "montserrat-black": "Montserrat-Black.ttf",
-
-    "bebas": "BebasNeue-Regular.ttf",
-    "bungee": "Bungee-Regular.ttf",
-    "anton": "Anton-Regular.ttf",
+FONT_CATALOG = {
+    "montserrat": {
+        "file": "Montserrat-Bold.ttf",
+        "scale": 1.0,
+        "label": "Montserrat",
+        "category": "clean",
+    },
+    "montserrat-bold": {
+        "file": "Montserrat-Bold.ttf",
+        "scale": 1.0,
+        "label": "Montserrat Bold",
+        "category": "clean",
+    },
+    "montserrat-extrabold": {
+        "file": "Montserrat-ExtraBold.ttf",
+        "scale": 0.96,
+        "label": "Montserrat ExtraBold",
+        "category": "bold",
+    },
+    "montserrat-black": {
+        "file": "Montserrat-Black.ttf",
+        "scale": 0.92,
+        "label": "Montserrat Black",
+        "category": "bold",
+    },
+    "bebas": {
+        "file": "BebasNeue-Regular.ttf",
+        "scale": 1.0,
+        "label": "Bebas Neue",
+        "category": "cinematic",
+    },
+    "bungee": {
+        "file": "Bungee-Regular.ttf",
+        "scale": 0.80,
+        "label": "Bungee",
+        "category": "viral",
+    },
+    "anton": {
+        "file": "Anton-Regular.ttf",
+        "scale": 0.82,
+        "label": "Anton",
+        "category": "impact",
+    },
 }
 
 SIZE_SCALE = {
@@ -60,24 +94,6 @@ TEXT_SAFE_TOP_RATIO = 0.08
 TEXT_SAFE_BOTTOM_RATIO = 0.84
 
 FOOTER_RESERVED_RATIO = 0.10
-
-
-# ============================================================
-# FONT VISUAL NORMALIZATION
-# Ajusta fuentes visualmente grandes
-# ============================================================
-
-FONT_SIZE_ADJUSTMENTS = {
-    "montserrat": 1.0,
-    "montserrat-bold": 1.0,
-    "montserrat-extrabold": 0.96,
-    "montserrat-black": 0.92,
-
-    "bebas": 1.0,
-
-    "anton": 0.82,
-    "bungee": 0.80,
-}
 
 # ============================================================
 # STYLE ENGINE — Presets visuales inteligentes
