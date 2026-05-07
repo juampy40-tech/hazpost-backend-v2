@@ -304,9 +304,47 @@ def _render_basic_overlay(image, overlay_params=None):
     accent_font = _load_default_font(max(84, int(width * 0.13)))
     signature_font = _load_default_font(max(42, int(width * 0.05)))
 
-    white = (255, 255, 255, 255)
-    blue = (0, 198, 255, 255)
-    shadow = (0, 0, 0, 230)
+    def _hex_to_rgba(value, fallback=(255, 255, 255, 255)):
+        if not isinstance(value, str):
+            return fallback
+
+        value = value.strip()
+
+        if not value.startswith("#"):
+            return fallback
+
+        value = value.lstrip("#")
+
+        if len(value) == 3:
+            value = "".join([char * 2 for char in value])
+
+        if len(value) != 6:
+            return fallback
+
+        try:
+            r = int(value[0:2], 16)
+            g = int(value[2:4], 16)
+            b = int(value[4:6], 16)
+            return (r, g, b, 255)
+        except Exception:
+            return fallback
+
+    primary_text_color = _hex_to_rgba(
+        overlay_params.get("titleColor2"),
+        fallback=(255, 255, 255, 255),
+    )
+
+    accent_text_color = _hex_to_rgba(
+        overlay_params.get("titleColor1"),
+        fallback=(0, 198, 255, 255),
+    )
+
+    signature_color = _hex_to_rgba(
+        overlay_params.get("signatureColor") or overlay_params.get("titleColor2"),
+        fallback=(255, 255, 255, 255),
+    )
+
+    shadow = (0, 0, 0, 190)
 
     def _fit_lines(text, font, max_width, max_lines=3):
         words = text.split()
