@@ -32,9 +32,10 @@ FONT_MAP = {
     "montserrat-bold": "Montserrat-Bold.ttf",
     "montserrat-extrabold": "Montserrat-ExtraBold.ttf",
     "montserrat-black": "Montserrat-Black.ttf",
-    "bebas": "Montserrat-ExtraBold.ttf",
-    "bungee": "Montserrat-Black.ttf",
-    "anton": "Montserrat-Black.ttf",
+
+    "bebas": "BebasNeue-Regular.ttf",
+    "bungee": "Bungee-Regular.ttf",
+    "anton": "Anton-Regular.ttf",
 }
 
 SIZE_SCALE = {
