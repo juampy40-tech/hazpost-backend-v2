@@ -23,6 +23,34 @@ MAX_IMAGE_DOWNLOAD_BYTES = 12 * 1024 * 1024  # 12 MB
 IMAGE_DOWNLOAD_TIMEOUT = 12
 OUTPUT_IMAGE_QUALITY = 92
 
+# ============================================================
+# VISUAL ENGINE PRO — Fuentes, tamaños y colores seguros
+# ============================================================
+
+FONT_MAP = {
+    "montserrat": "Montserrat-Bold.ttf",
+    "montserrat-bold": "Montserrat-Bold.ttf",
+    "montserrat-extrabold": "Montserrat-ExtraBold.ttf",
+    "montserrat-black": "Montserrat-Black.ttf",
+    "bebas": "Montserrat-ExtraBold.ttf",
+    "bungee": "Montserrat-Black.ttf",
+    "anton": "Montserrat-Black.ttf",
+}
+
+SIZE_SCALE = {
+    "small": 0.065,
+    "s": 0.065,
+    "sm": 0.075,
+    "medium": 0.085,
+    "m": 0.085,
+    "large": 0.098,
+    "l": 0.098,
+    "xl": 0.11,
+}
+
+DEFAULT_FONT_KEY = "montserrat"
+DEFAULT_TEXT_SIZE = "medium"
+
 def _is_allowed_image_url(url):
     if not isinstance(url, str) or not url.strip():
         return False
