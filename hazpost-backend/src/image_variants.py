@@ -53,6 +53,33 @@ DEFAULT_FONT_KEY = "montserrat"
 DEFAULT_TEXT_SIZE = "medium"
 
 # ============================================================
+# SAFE ZONES — Protección visual universal
+# ============================================================
+
+TEXT_SAFE_TOP_RATIO = 0.08
+TEXT_SAFE_BOTTOM_RATIO = 0.84
+
+FOOTER_RESERVED_RATIO = 0.10
+
+
+# ============================================================
+# FONT VISUAL NORMALIZATION
+# Ajusta fuentes visualmente grandes
+# ============================================================
+
+FONT_SIZE_ADJUSTMENTS = {
+    "montserrat": 1.0,
+    "montserrat-bold": 1.0,
+    "montserrat-extrabold": 0.96,
+    "montserrat-black": 0.92,
+
+    "bebas": 1.0,
+
+    "anton": 0.82,
+    "bungee": 0.80,
+}
+
+# ============================================================
 # STYLE ENGINE — Presets visuales inteligentes
 # ============================================================
 
