@@ -44,7 +44,7 @@ const BASE_FONT_KEYS = [
 
 // Human-readable label overrides (replaces FONT_CATALOG entry.family for display)
 const FONT_DISPLAY_LABELS: Record<string, string> = {
-  montserrat: "Eco ★",
+  montserrat: "Montserrat",
   inter: "Inter",
 };
 
