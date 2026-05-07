@@ -451,8 +451,8 @@ def _render_basic_overlay(image, overlay_params=None):
 
     font_scale = font_config.get("scale", 1.0)
 
-    headline_font_size = max(
-        42,
+    accent_font_size = max(
+        46,
         int(width * size_ratio * font_scale)
     )
 
