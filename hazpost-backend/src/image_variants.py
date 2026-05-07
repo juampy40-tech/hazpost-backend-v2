@@ -424,10 +424,10 @@ def _render_basic_overlay(image, overlay_params=None):
         return y + (bbox[3] - bbox[1]) + line_gap
 
     for line in normal_lines:
-        current_y = _draw_pro_text(line, headline_font, current_y, white)
+        current_y = _draw_pro_text(line, headline_font, current_y, primary_text_color)
 
     if accent_line:
-        current_y = _draw_pro_text(accent_line, accent_font, current_y, blue)
+        current_y = _draw_pro_text(accent_line, accent_font, current_y, accent_text_color)
 
     if show_signature and signature_text:
         current_y += signature_gap
