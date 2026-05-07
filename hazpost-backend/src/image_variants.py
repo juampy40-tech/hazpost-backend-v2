@@ -724,23 +724,41 @@ def _render_basic_overlay(image, overlay_params=None):
             stroke_fill=(0, 0, 0, 210),
         )
 
-        # líneas decorativas tipo anuncio
-        line_y = current_y + int(height * 0.022)
-        line_w = int(width * 0.16)
-        line_h = max(4, int(height * 0.006))
+        # líneas decorativas inteligentes:
+        # respetan firma, margen y color de acento
+        sig_bbox = draw.textbbox((0, 0), sig, font=signature_font)
+        sig_w = sig_bbox[2] - sig_bbox[0]
+        sig_h = sig_bbox[3] - sig_bbox[1]
 
-        draw.rounded_rectangle(
-            [(padding_x, line_y), (padding_x + line_w, line_y + line_h)],
-            radius=line_h,
-            fill=accent_text_color,
-        )
+        line_h = max(3, int(height * 0.004))
+        line_gap_x = int(width * 0.035)
+        min_line_w = int(width * 0.06)
+        max_line_w = int(width * 0.16)
 
-        draw.rounded_rectangle(
-            [(width - padding_x - line_w, line_y), (width - padding_x, line_y + line_h)],
-            radius=line_h,
-            fill=accent_text_color,
-        )
+        line_y = current_y + int(sig_h * 0.52)
 
+        left_line_end = sig_x - line_gap_x
+        left_line_start = max(padding_x, left_line_end - max_line_w)
+
+        right_line_start = sig_x + sig_w + line_gap_x
+        right_line_end = min(width - padding_x, right_line_start + max_line_w)
+
+        left_line_w = left_line_end - left_line_start
+        right_line_w = right_line_end - right_line_start
+
+        if left_line_w >= min_line_w:
+            draw.rounded_rectangle(
+                [(left_line_start, line_y), (left_line_end, line_y + line_h)],
+                radius=line_h,
+                fill=accent_text_color,
+            )
+
+        if right_line_w >= min_line_w:
+            draw.rounded_rectangle(
+                [(right_line_start, line_y), (right_line_end, line_y + line_h)],
+                radius=line_h,
+                fill=accent_text_color,
+            )
     canvas = Image.alpha_composite(canvas, overlay)
 
     return canvas
