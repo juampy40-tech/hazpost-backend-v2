@@ -883,6 +883,161 @@ def create_app():
                 "error": "Error interno"
             }), 500
 
+    @app.route('/api/businesses/<int:business_id>/set-active', methods=['POST', 'OPTIONS'])
+    def set_active_business(business_id):
+        try:
+            if request.method == 'OPTIONS':
+                return jsonify({"success": True})
+
+            user = session.get("user") or {}
+
+            user_id = str(
+                user.get("email")
+                or user.get("id")
+                or user.get("userId")
+                or "anonymous"
+            )
+
+            store = _get_user_store()
+            businesses_list = store.get("businesses") or session.get("businesses", [])
+
+            if not isinstance(businesses_list, list):
+                businesses_list = []
+
+            target_business = None
+            updated_businesses = []
+
+            for business in businesses_list:
+                if int(business.get("id", 0)) == int(business_id):
+                    business["isDefault"] = True
+                    target_business = business
+                else:
+                    business["isDefault"] = False
+
+                updated_businesses.append(business)
+
+            if not target_business:
+                return jsonify({
+                    "success": False,
+                    "error": "Negocio no encontrado"
+                }), 404
+
+            store["businesses"] = updated_businesses
+            session["businesses"] = updated_businesses
+            session["activeBusinessId"] = business_id
+            session.permanent = True
+            session.modified = True
+
+            current_brand_profile = (
+                store.get("brandProfile")
+                or session.get("brandProfile")
+                or {}
+            )
+
+            if not isinstance(current_brand_profile, dict):
+                current_brand_profile = {}
+
+            synced_brand_profile = {
+                **current_brand_profile,
+                "id": target_business.get("id"),
+                "companyName": (
+                    target_business.get("companyName")
+                    or target_business.get("name")
+                    or current_brand_profile.get("companyName")
+                ),
+                "name": (
+                    target_business.get("name")
+                    or target_business.get("companyName")
+                    or current_brand_profile.get("name")
+                ),
+                "industry": (
+                    target_business.get("industry")
+                    or current_brand_profile.get("industry")
+                ),
+                "subIndustry": (
+                    target_business.get("subIndustry")
+                    or current_brand_profile.get("subIndustry")
+                ),
+                "city": (
+                    target_business.get("city")
+                    or current_brand_profile.get("city")
+                ),
+                "country": (
+                    target_business.get("country")
+                    or current_brand_profile.get("country")
+                ),
+                "slogan": (
+                    target_business.get("slogan")
+                    or current_brand_profile.get("slogan")
+                ),
+                "businessDescription": (
+                    target_business.get("businessDescription")
+                    or target_business.get("description")
+                    or current_brand_profile.get("businessDescription")
+                ),
+                "description": (
+                    target_business.get("description")
+                    or target_business.get("businessDescription")
+                    or current_brand_profile.get("description")
+                ),
+                "audience": (
+                    target_business.get("audience")
+                    or current_brand_profile.get("audience")
+                ),
+                "brandTone": (
+                    target_business.get("brandTone")
+                    or target_business.get("tone")
+                    or current_brand_profile.get("brandTone")
+                ),
+                "tone": (
+                    target_business.get("tone")
+                    or target_business.get("brandTone")
+                    or current_brand_profile.get("tone")
+                ),
+                "logoUrl": (
+                    target_business.get("logoUrl")
+                    or current_brand_profile.get("logoUrl")
+                ),
+                "logoUrls": (
+                    target_business.get("logoUrls")
+                    or current_brand_profile.get("logoUrls")
+                ),
+                "primaryColor": (
+                    target_business.get("primaryColor")
+                    or current_brand_profile.get("primaryColor")
+                ),
+                "secondaryColor": (
+                    target_business.get("secondaryColor")
+                    or current_brand_profile.get("secondaryColor")
+                ),
+                "website": (
+                    target_business.get("website")
+                    or current_brand_profile.get("website")
+                ),
+            }
+
+            store["brandProfile"] = synced_brand_profile
+            session["brandProfile"] = synced_brand_profile
+
+            if db_available():
+                save_brand_profile(user_id, synced_brand_profile)
+
+            return jsonify({
+                "success": True,
+                "activeBusinessId": business_id,
+                "business": target_business,
+                "businesses": updated_businesses,
+                "brandProfile": synced_brand_profile,
+            })
+
+        except Exception as e:
+            logger.exception(f"SET ACTIVE BUSINESS ERROR: {e}")
+
+            return jsonify({
+                "success": False,
+                "error": "Error interno"
+            }), 500
+
 
     # ============================================================
     # BUSINESS DETAIL — Editar / leer / borrar negocio por ID
