@@ -2074,11 +2074,12 @@ export default function Approval() {
       }
       // Use variant.id (unique) — never variantIndex which can repeat after deletions
       const firstId =
-        currentPostFull?.imageVariants?.[0]?.id
+        currentPost.selectedImageVariant
+        ?? currentPostFull?.imageVariants?.[0]?.id
         ?? currentPost.imageVariants?.[0]?.id
         ?? 0;
 
-      setSelectedVariant(currentPost.selectedImageVariant ?? firstId);
+      setSelectedVariant(firstId);
 
       if (currentPost.contentType === "carousel") {
         setPreviewSlideId(firstId || null);
