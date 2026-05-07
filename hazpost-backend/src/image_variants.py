@@ -459,13 +459,13 @@ def _render_basic_overlay(image, overlay_params=None):
         draw.rounded_rectangle(
             [(padding_x, line_y), (padding_x + line_w, line_y + line_h)],
             radius=line_h,
-            fill=blue,
+            fill=accent_text_color,
         )
 
         draw.rounded_rectangle(
             [(width - padding_x - line_w, line_y), (width - padding_x, line_y + line_h)],
             radius=line_h,
-            fill=blue,
+            fill=accent_text_color,
         )
 
     canvas = Image.alpha_composite(canvas, overlay)
