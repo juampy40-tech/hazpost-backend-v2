@@ -486,6 +486,9 @@ def _render_basic_overlay(image, overlay_params=None):
     # draw para overlay/transparencias
     overlay_draw = ImageDraw.Draw(overlay)
 
+    # primero aplicamos overlay al canvas
+    canvas = Image.alpha_composite(canvas, overlay)
+
     # draw REAL para texto comercial
     draw = ImageDraw.Draw(canvas)
 
