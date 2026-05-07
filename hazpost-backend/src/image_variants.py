@@ -611,19 +611,13 @@ def _render_basic_overlay(image, overlay_params=None):
             (lines[2], primary_text_color),
         ]
 
-    normal_lines = []
-    accent_line = ""
-
     line_gap = int(height * text_spacing_scale)
     signature_gap = int(height * signature_spacing_scale)
 
     total_text_height = 0
-    for line in normal_lines:
-        bbox = draw.textbbox((0, 0), line, font=headline_font)
-        total_text_height += (bbox[3] - bbox[1]) + line_gap
 
-    if accent_line:
-        bbox = draw.textbbox((0, 0), accent_line, font=accent_font)
+    for line, _line_color in line_color_plan:
+        bbox = draw.textbbox((0, 0), line, font=headline_font)
         total_text_height += (bbox[3] - bbox[1]) + line_gap
 
     if show_signature and signature_text:
