@@ -746,6 +746,12 @@ def _render_basic_overlay(image, overlay_params=None):
     current_y = max(current_y, TEXT_SAFE_TOP)
     current_y = min(current_y, max_allowed_y)
 
+    # aplicar overlay YA pintado, antes de dibujar texto
+    canvas = Image.alpha_composite(canvas, overlay)
+
+    # draw REAL para texto comercial
+    draw = ImageDraw.Draw(canvas)
+
     def _center_x(text, font):
         bbox = draw.textbbox((0, 0), text, font=font)
         text_w = bbox[2] - bbox[0]
