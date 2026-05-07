@@ -51,6 +51,85 @@ SIZE_SCALE = {
 DEFAULT_FONT_KEY = "montserrat"
 DEFAULT_TEXT_SIZE = "medium"
 
+# ============================================================
+# STYLE ENGINE — Presets visuales inteligentes
+# ============================================================
+
+STYLE_PRESETS = {
+    "classic": {
+        "shadow_opacity": 150,
+        "stroke_scale": 0.0011,
+        "overlay_alpha": 115,
+        "line_style": "none",
+        "line_thickness": 0.003,
+        "text_spacing": 0.016,
+        "signature_spacing": 0.026,
+    },
+    "cinema": {
+        "shadow_opacity": 210,
+        "stroke_scale": 0.0017,
+        "overlay_alpha": 160,
+        "line_style": "elegant",
+        "line_thickness": 0.004,
+        "text_spacing": 0.020,
+        "signature_spacing": 0.034,
+    },
+    "editorial": {
+        "shadow_opacity": 100,
+        "stroke_scale": 0.0008,
+        "overlay_alpha": 90,
+        "line_style": "minimal",
+        "line_thickness": 0.002,
+        "text_spacing": 0.024,
+        "signature_spacing": 0.038,
+    },
+    "neon": {
+        "shadow_opacity": 255,
+        "stroke_scale": 0.0015,
+        "overlay_alpha": 145,
+        "line_style": "glow",
+        "line_thickness": 0.004,
+        "text_spacing": 0.019,
+        "signature_spacing": 0.032,
+    },
+    "block": {
+        "shadow_opacity": 230,
+        "stroke_scale": 0.0021,
+        "overlay_alpha": 175,
+        "line_style": "bold",
+        "line_thickness": 0.006,
+        "text_spacing": 0.015,
+        "signature_spacing": 0.026,
+    },
+    "viral": {
+        "shadow_opacity": 245,
+        "stroke_scale": 0.0024,
+        "overlay_alpha": 185,
+        "line_style": "bold",
+        "line_thickness": 0.006,
+        "text_spacing": 0.014,
+        "signature_spacing": 0.026,
+    },
+    "authority": {
+        "shadow_opacity": 130,
+        "stroke_scale": 0.0010,
+        "overlay_alpha": 105,
+        "line_style": "minimal",
+        "line_thickness": 0.002,
+        "text_spacing": 0.023,
+        "signature_spacing": 0.038,
+    },
+    "conversion": {
+        "shadow_opacity": 220,
+        "stroke_scale": 0.0019,
+        "overlay_alpha": 165,
+        "line_style": "elegant",
+        "line_thickness": 0.005,
+        "text_spacing": 0.017,
+        "signature_spacing": 0.030,
+    },
+}
+
 def _is_allowed_image_url(url):
     if not isinstance(url, str) or not url.strip():
         return False
