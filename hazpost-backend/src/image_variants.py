@@ -438,8 +438,8 @@ def _render_basic_overlay(image, overlay_params=None):
     normal_lines = lines[:-1] if len(lines) > 1 else lines
     accent_line = lines[-1] if len(lines) > 1 else ""
 
-    line_gap = int(height * 0.018)
-    signature_gap = int(height * 0.028)
+    line_gap = int(height * text_spacing_scale)
+    signature_gap = int(height * signature_spacing_scale)
 
     total_text_height = 0
     for line in normal_lines:
