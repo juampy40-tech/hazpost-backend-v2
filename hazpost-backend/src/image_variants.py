@@ -873,6 +873,7 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
 
     rendered_image = None
     rendered_base64 = ""
+    rendered_public_url = None
 
     try:
         downloaded_image = _download_image_from_url(base_image)
