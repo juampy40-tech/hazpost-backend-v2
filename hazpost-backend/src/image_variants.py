@@ -226,6 +226,8 @@ def _render_basic_overlay(image, overlay_params=None):
     )
 
     logger.info(f"🔥 overlay_params={overlay_params}")
+
+    signature_text = _safe_headline_text(
         overlay_params.get("signatureText") or "",
         max_length=70,
     )
