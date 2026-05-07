@@ -656,6 +656,24 @@ def _render_basic_overlay(image, overlay_params=None):
     else:
         current_y = band_top + int(height * 0.045)
 
+    # ============================================================
+    # SAFE ZONES APPLY
+    # ============================================================
+
+    TEXT_SAFE_TOP = int(height * TEXT_SAFE_TOP_RATIO)
+    TEXT_SAFE_BOTTOM = int(height * TEXT_SAFE_BOTTOM_RATIO)
+
+    footer_reserved_height = int(height * FOOTER_RESERVED_RATIO)
+
+    max_allowed_y = (
+        TEXT_SAFE_BOTTOM
+        - footer_reserved_height
+        - total_text_height
+    )
+
+    current_y = max(current_y, TEXT_SAFE_TOP)
+    current_y = min(current_y, max_allowed_y)
+
     def _center_x(text, font):
         bbox = draw.textbbox((0, 0), text, font=font)
         text_w = bbox[2] - bbox[0]
