@@ -926,9 +926,11 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
         "postId": post_id,
         "imageUrl": (
             rendered_public_url
-            or f"data:image/jpeg;base64,{rendered_base64}"
-            if rendered_base64
-            else base_image
+            or (
+                f"data:image/jpeg;base64,{rendered_base64}"
+                if rendered_base64
+                else base_image
+            )
         ),
         "imageData": rendered_base64 if rendered_image else "",
         "rawBackground": base_image,
