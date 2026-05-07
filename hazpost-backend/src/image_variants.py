@@ -50,8 +50,23 @@ def _r2_public_url(object_key: str) -> str:
     return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
 
 
-def _get_user_key():
-    return "overlay-variants"
+def _get_user_key(post_data=None):
+    try:
+        if isinstance(post_data, dict):
+            user_id = (
+                post_data.get("userId")
+                or post_data.get("user_id")
+                or post_data.get("ownerId")
+                or post_data.get("email")
+            )
+
+            if user_id:
+                return secure_filename(str(user_id))
+
+        return "anonymous"
+
+    except Exception:
+        return "anonymous"
 
 
 def _upload_rendered_variant_to_r2(rendered_bytes):
