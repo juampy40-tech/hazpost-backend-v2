@@ -464,6 +464,20 @@ def _render_basic_overlay(image, overlay_params=None):
         or "classic"
     ).strip().lower()
 
+    import random
+
+    layout_mode = overlay_params.get("layoutMode")
+
+    if not layout_mode:
+        layout_mode = random.choice([
+            "hero",
+            "cinema",
+            "editorial",
+            "split",
+            "magazine",
+            "impact",
+        ])
+
     style_config = STYLE_PRESETS.get(
         selected_style,
         STYLE_PRESETS["classic"],
