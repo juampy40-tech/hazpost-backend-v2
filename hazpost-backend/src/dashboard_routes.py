@@ -309,11 +309,36 @@ def posts():
 def update_post(post_id):
     user_id = _get_dashboard_user_id()
 
-    if not user_id:
+    # -------- DELETE --------
+    if request.method == 'DELETE':
+        if not db_available():
+            return jsonify({
+                "success": False,
+                "error": "DB no disponible"
+            }), 500
+
+        with db_session() as db:
+            result = db.execute(text("""
+                DELETE FROM posts
+                WHERE id = :post_id
+                  AND user_id = :user_id
+                RETURNING id;
+            """), {
+                "post_id": int(post_id),
+                "user_id": str(user_id)
+            }).mappings().first()
+
+        if not result:
+            return jsonify({
+                "success": False,
+                "error": "Post no encontrado"
+            }), 404
+
         return jsonify({
-            "success": False,
-            "error": "Usuario no autenticado"
-        }), 401
+            "success": True,
+            "deleted": True,
+            "id": post_id
+        })
 
     # -------- GET (FIX DEFINITIVO) --------
     if request.method == 'GET':
