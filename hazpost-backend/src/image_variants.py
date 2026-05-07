@@ -933,9 +933,12 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
 
     # Por ahora apunta a la nueva variante. Luego aquí irá la composición real.
     post_data["imageUrl"] = (
-        f"data:image/jpeg;base64,{rendered_base64}"
-        if rendered_base64
-        else new_variant["imageUrl"]
+        rendered_public_url
+        or (
+            f"data:image/jpeg;base64,{rendered_base64}"
+            if rendered_base64
+            else new_variant["imageUrl"]
+        )
     )
 
     return new_variant, post_data
