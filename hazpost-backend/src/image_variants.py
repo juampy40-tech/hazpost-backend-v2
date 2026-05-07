@@ -964,6 +964,8 @@ def select_variant(post_data, variant_id, post_id=None):
     if not variant:
         raise ValueError("Variante no encontrada")
 
+    post_data["selectedImageVariant"] = variant.get("id")
+
     post_data["imageUrl"] = (
         variant.get("imageUrl")
         or (
@@ -972,6 +974,7 @@ def select_variant(post_data, variant_id, post_id=None):
             else post_data.get("imageUrl")
         )
     )
+
     return variant, post_data
 
 
