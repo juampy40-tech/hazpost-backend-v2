@@ -246,8 +246,6 @@ def _render_basic_overlay(image, overlay_params=None):
     # draw para overlay/transparencias
     overlay_draw = ImageDraw.Draw(overlay)
 
-    # draw REAL para texto comercial
-    draw = ImageDraw.Draw(canvas)
     # Área visual comercial
     band_height = int(height * 0.28)
 
