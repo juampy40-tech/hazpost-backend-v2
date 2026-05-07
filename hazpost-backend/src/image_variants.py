@@ -350,7 +350,7 @@ def _load_default_font(size=42, font_key=None):
         FONT_CATALOG[DEFAULT_FONT_KEY],
     )
 
-selected_font = font_config["file"]
+    selected_font = font_config["file"]
 
     font_candidates = [
         os.path.join(current_dir, "assets", "fonts", selected_font),
