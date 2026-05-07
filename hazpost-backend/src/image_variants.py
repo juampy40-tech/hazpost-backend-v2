@@ -5,8 +5,7 @@ import uuid
 import logging
 import base64
 import boto3
-from werkzeug.utils
-import secure_filename
+from werkzeug.utils import secure_filename
 from io import BytesIO
 from urllib.parse import urlparse
 
