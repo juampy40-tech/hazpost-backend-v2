@@ -446,7 +446,7 @@ def _render_basic_overlay(image, overlay_params=None):
             (sig_x, current_y),
             sig,
             font=signature_font,
-            fill=white,
+            fill=signature_color,
             stroke_width=max(2, int(width * 0.0025)),
             stroke_fill=(0, 0, 0, 210),
         )
