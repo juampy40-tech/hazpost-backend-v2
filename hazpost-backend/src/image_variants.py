@@ -835,7 +835,11 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
     new_variant = {
         "id": str(uuid.uuid4()),
         "postId": post_id,
-        "imageUrl": base_image,
+        "imageUrl": (
+            f"data:image/jpeg;base64,{rendered_base64}"
+            if rendered_base64
+            else base_image
+        ),
         "imageData": rendered_base64 if rendered_image else "",
         "rawBackground": base_image,
         "rawBackgroundUrl": base_image,
