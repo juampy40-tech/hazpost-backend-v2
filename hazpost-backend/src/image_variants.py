@@ -837,7 +837,6 @@ def _render_basic_overlay(image, overlay_params=None):
                 radius=line_h,
                 fill=accent_text_color,
             )
-    canvas = Image.alpha_composite(canvas, overlay)
 
     return canvas
 
