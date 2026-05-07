@@ -444,6 +444,27 @@ def _render_basic_overlay(image, overlay_params=None):
 
     size_ratio = SIZE_SCALE.get(selected_text_size, SIZE_SCALE[DEFAULT_TEXT_SIZE])
 
+    font_config = FONT_CATALOG.get(
+        selected_font_key,
+        FONT_CATALOG[DEFAULT_FONT_KEY],
+    )
+
+    font_scale = font_config.get("scale", 1.0)
+
+    headline_font_size = max(
+        42,
+        int(width * size_ratio * font_scale)
+    )
+
+    accent_font_size = max(
+        46,
+        int(width * (size_ratio * 1.08) * font_scale)
+    )
+
+    signature_font_size = max(
+        24,
+        int(width * (size_ratio * 0.42))
+    )
     headline_font = _load_default_font(
         headline_font_size,
         font_key=selected_font_key,
