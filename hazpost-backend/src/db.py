@@ -83,6 +83,43 @@ def init_db():
                 ON posts (business_id);
             """))
 
+            # 🏢 BUSINESSES — Fuente única de verdad multi-negocio
+            db.execute(text("""
+                CREATE TABLE IF NOT EXISTS businesses (
+                    id SERIAL PRIMARY KEY,
+                    user_id TEXT NOT NULL,
+                    name TEXT NOT NULL DEFAULT 'Mi negocio',
+                    industry TEXT,
+                    sub_industry TEXT,
+                    city TEXT,
+                    country TEXT,
+                    slogan TEXT,
+                    description TEXT,
+                    audience TEXT,
+                    tone TEXT,
+                    logo_url TEXT,
+                    logo_urls JSONB NOT NULL DEFAULT '[]'::jsonb,
+                    primary_color TEXT,
+                    secondary_color TEXT,
+                    website TEXT,
+                    is_default BOOLEAN NOT NULL DEFAULT FALSE,
+                    data JSONB NOT NULL DEFAULT '{}'::jsonb,
+                    created_at TIMESTAMP DEFAULT NOW(),
+                    updated_at TIMESTAMP DEFAULT NOW()
+                );
+            """))
+
+            db.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_businesses_user_id
+                ON businesses (user_id);
+            """))
+
+            db.execute(text("""
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_businesses_one_default_per_user
+                ON businesses (user_id)
+                WHERE is_default = TRUE;
+            """))
+
             # 🟣 TEXT BLOCKS
             db.execute(text("""
                 CREATE TABLE IF NOT EXISTS text_blocks (
