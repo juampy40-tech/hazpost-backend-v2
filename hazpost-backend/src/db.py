@@ -239,7 +239,7 @@ def migrate_anonymous_brand_profile(target_user_id):
     return get_brand_profile(target_user_id)
 
 # ================================
-# BUSINESSES — Fuente única de verdad
+# BUSINESSES — Fuente única de verdad 
 # ================================
 
 def _business_from_profile(profile):
