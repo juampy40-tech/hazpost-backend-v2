@@ -452,6 +452,96 @@ def _load_default_font(size=42, font_key=None):
     logger.warning("❌ No se pudo cargar ninguna fuente TTF.")
     return ImageFont.load_default()
 
+def _safe_logo_position(value):
+    allowed = {
+        "top-left",
+        "top-right",
+        "bottom-left",
+        "bottom-right",
+        "center",
+    }
+
+    value = str(value or "").strip().lower()
+
+    if value in allowed:
+        return value
+
+    return "bottom-right"
+
+
+def _render_brand_logo(canvas, overlay_params=None):
+    overlay_params = overlay_params or {}
+
+    logo_url = (
+        overlay_params.get("customLogoUrl")
+        or overlay_params.get("overlayCustomLogoUrl")
+        or overlay_params.get("logoUrl")
+        or ""
+    )
+
+    if not isinstance(logo_url, str) or not logo_url.strip():
+        return canvas
+
+    try:
+        logo = _download_image_from_url(logo_url.strip()).convert("RGBA")
+    except Exception as e:
+        logger.warning(f"⚠️ Logo no renderizado: {e}")
+        return canvas
+
+    try:
+        canvas = canvas.convert("RGBA")
+        width, height = canvas.size
+
+        max_logo_width = int(width * 0.16)
+        max_logo_height = int(height * 0.10)
+
+        logo.thumbnail((max_logo_width, max_logo_height), Image.LANCZOS)
+
+        logo_w, logo_h = logo.size
+
+        margin_x = int(width * 0.045)
+        margin_y = int(height * 0.045)
+
+        position = _safe_logo_position(
+            overlay_params.get("logoPosition")
+            or overlay_params.get("brandLogoPosition")
+            or "bottom-right"
+        )
+
+        if position == "top-left":
+            x = margin_x
+            y = margin_y
+        elif position == "top-right":
+            x = width - logo_w - margin_x
+            y = margin_y
+        elif position == "bottom-left":
+            x = margin_x
+            y = height - logo_h - margin_y
+        elif position == "center":
+            x = int((width - logo_w) / 2)
+            y = int((height - logo_h) / 2)
+        else:
+            x = width - logo_w - margin_x
+            y = height - logo_h - margin_y
+
+        # Sombra suave para que el logo se lea en fondos claros/oscuros
+        shadow = Image.new("RGBA", logo.size, (0, 0, 0, 0))
+        shadow_draw = ImageDraw.Draw(shadow)
+        shadow_draw.rounded_rectangle(
+            [(0, 0), (logo_w, logo_h)],
+            radius=max(6, int(min(logo_w, logo_h) * 0.12)),
+            fill=(0, 0, 0, 65),
+        )
+
+        canvas.alpha_composite(shadow, (x + 2, y + 2))
+        canvas.alpha_composite(logo, (x, y))
+
+        return canvas
+
+    except Exception as e:
+        logger.warning(f"⚠️ Error aplicando logo al canvas: {e}")
+        return canvas
+
     
 def _render_basic_overlay(image, overlay_params=None):
     overlay_params = overlay_params or {}
