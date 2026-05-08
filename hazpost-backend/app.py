@@ -2149,7 +2149,7 @@ Extra:
             )
 
             new_post = {
-                "businessId": "1",
+                "businessId": str(active_business.get("id")) if active_business else None,
                 "caption": result.get("caption"),
                 "hashtags": result.get("hashtags"),
                 "visualIdea": result.get("visualIdea"),
