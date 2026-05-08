@@ -520,8 +520,8 @@ def _render_brand_logo(canvas, overlay_params=None):
         canvas = canvas.convert("RGBA")
         width, height = canvas.size
 
-        max_logo_width = int(width * 0.16)
-        max_logo_height = int(height * 0.10)
+        max_logo_width = int(width * 0.22)
+        max_logo_height = int(height * 0.14)
 
         logo.thumbnail((max_logo_width, max_logo_height), Image.LANCZOS)
 
