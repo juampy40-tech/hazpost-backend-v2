@@ -498,7 +498,8 @@ def _render_brand_logo(canvas, overlay_params=None):
         return canvas
 
     try:
-        logo = _download_image_from_url(logo_url.strip()).convert("RGBA")
+        logo_url = _normalize_r2_image_url(logo_url)
+        logo = _download_image_from_url(logo_url).convert("RGBA")
     except Exception as e:
         logger.warning(f"⚠️ Logo no renderizado: {e}")
         return canvas
