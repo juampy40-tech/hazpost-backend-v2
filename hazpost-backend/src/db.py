@@ -75,6 +75,12 @@ def init_db():
             """))
 
             db.execute(text("""
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_posts_user_post_number
+                ON posts (user_id, post_number)
+                WHERE post_number IS NOT NULL;
+            """))
+
+            db.execute(text("""
                 CREATE INDEX IF NOT EXISTS idx_posts_status
                 ON posts (status);
             """))
