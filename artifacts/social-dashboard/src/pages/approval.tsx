@@ -36,6 +36,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { IG_CAPTION_LIMIT, IG_CAPTION_WARN_THRESHOLD, TIKTOK_CAPTION_LIMIT, TIKTOK_CAPTION_WARN_THRESHOLD } from "@/lib/socialLimits";
 import { useActiveBusiness } from "@/contexts/ActiveBusinessContext";
+import { resolveStorageObjectUrl } from "../lib/resolveStorageObjectUrl";
 
 type SpellResult = { hasErrors: boolean; corrected: string; explanation: string } | null;
 
@@ -713,9 +714,8 @@ export default function Approval() {
               ];
               setBusinessLogoStoragePaths(slots);
               const all = slots.filter(Boolean) as string[];
-              const browserUrls = all.map(u => u.startsWith("/objects/")
-                ? `${BASE}/api/storage/objects/${u.slice("/objects/".length)}`
-                : u
+              const browserUrls = all.map((u) =>
+                resolveStorageObjectUrl(u)
               );
               setBusinessLogoOptions(browserUrls);
             } catch {
