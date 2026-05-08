@@ -917,55 +917,29 @@ def create_app():
             }), 500
 
     # ============================================================
-    # BUSINESS DETAIL — Editar / leer / borrar negocio por ID
+    # BUSINESS DETAIL — PostgreSQL real
     # ============================================================
     @app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
     def business_detail(business_id):
         try:
-            store = _get_user_store()
+            user = session.get("user") or {}
 
-            businesses_list = store.get("businesses") or session.get("businesses", [])
-            if not isinstance(businesses_list, list):
-                businesses_list = []
-
-            # Fallback seguro: si businesses está vacío, reconstruir desde brandProfile
-            if not businesses_list:
-                brand_profile = (
-                    store.get("brandProfile")
-                    or session.get("brandProfile")
-                    or session.get("brand_profile")
-                    or {}
-                )
-
-                if isinstance(brand_profile, dict) and brand_profile:
-                    businesses_list = [{
-                        **brand_profile,
-                        "id": int(brand_profile.get("id") or business_id),
-                        "name": (
-                            brand_profile.get("name")
-                            or brand_profile.get("companyName")
-                            or "Mi negocio"
-                        ),
-                        "companyName": (
-                            brand_profile.get("companyName")
-                            or brand_profile.get("name")
-                            or "Mi negocio"
-                        ),
-                        "isDefault": True,
-                    }]
-
-                    store["businesses"] = businesses_list
-                    session["businesses"] = businesses_list
-                    session.permanent = True
-                    session.modified = True
-
-            index = next(
-                (i for i, business in enumerate(businesses_list)
-                 if int(business.get("id", 0)) == business_id),
-                None
+            user_id = str(
+                user.get("email")
+                or user.get("id")
+                or user.get("userId")
+                or "anonymous"
             )
 
-            if index is None:
+            if not db_available():
+                return jsonify({
+                    "success": False,
+                    "error": "Base de datos no disponible"
+                }), 503
+
+            business = get_business(user_id, business_id)
+
+            if not business:
                 return jsonify({
                     "success": False,
                     "error": "Negocio no encontrado"
@@ -977,21 +951,32 @@ def create_app():
             if request.method == 'GET':
                 return jsonify({
                     "success": True,
-                    "business": businesses_list[index]
+                    "business": business
                 })
 
             # ============================
             # DELETE
             # ============================
             if request.method == 'DELETE':
-                deleted = businesses_list.pop(index)
-                session["businesses"] = businesses_list
+                deleted = delete_business(user_id, business_id)
+
+                businesses_list = get_businesses(user_id)
+                default_business = get_default_business(user_id)
+
+                if default_business:
+                    save_brand_profile(user_id, default_business)
+
+                    session["brandProfile"] = default_business
+                    session["activeBusinessId"] = default_business.get("id")
+
                 session.permanent = True
                 session.modified = True
 
                 return jsonify({
                     "success": True,
-                    "business": deleted
+                    "business": deleted,
+                    "businesses": businesses_list,
+                    "brandProfile": default_business,
                 })
 
             # ============================
@@ -999,58 +984,43 @@ def create_app():
             # ============================
             data = request.get_json(silent=True) or {}
 
-            updated_business = {
-                **businesses_list[index],
-                **data,
-                "id": business_id,
-            }
+            updated_business = update_business(
+                user_id=user_id,
+                business_id=business_id,
+                data=data
+            )
 
-            businesses_list[index] = updated_business
-            session["businesses"] = businesses_list
+            businesses_list = get_businesses(user_id)
 
-            # 🔥 Sync con brand profile
-            current_brand_profile = session.get("brandProfile", {})
-            if not isinstance(current_brand_profile, dict):
-                current_brand_profile = {}
+            if updated_business.get("isDefault"):
+                save_brand_profile(user_id, updated_business)
 
-            synced_brand_profile = {
-                **current_brand_profile,
-                "id": updated_business.get("id"),
-                "companyName": updated_business.get("companyName") or updated_business.get("name") or current_brand_profile.get("companyName"),
-                "industry": updated_business.get("industry") or current_brand_profile.get("industry"),
-                "subIndustry": updated_business.get("subIndustry") or current_brand_profile.get("subIndustry"),
-                "city": updated_business.get("city") or current_brand_profile.get("city"),
-                "country": updated_business.get("country") or current_brand_profile.get("country"),
-                "slogan": updated_business.get("slogan") or current_brand_profile.get("slogan"),
-                "businessDescription": (
-                    updated_business.get("businessDescription")
-                    or updated_business.get("description")
-                    or current_brand_profile.get("businessDescription")
-                ),
-                "audience": updated_business.get("audience") or current_brand_profile.get("audience"),
-                "brandTone": updated_business.get("brandTone") or updated_business.get("tone") or current_brand_profile.get("brandTone"),
-                "logoUrl": updated_business.get("logoUrl") or current_brand_profile.get("logoUrl"),
-                "primaryColor": updated_business.get("primaryColor") or current_brand_profile.get("primaryColor"),
-                "website": updated_business.get("website") or current_brand_profile.get("website"),
-            }
+                session["brandProfile"] = updated_business
+                session["activeBusinessId"] = updated_business.get("id")
 
-            session["brandProfile"] = synced_brand_profile
             session.permanent = True
             session.modified = True
 
             return jsonify({
                 "success": True,
                 "business": updated_business,
-                "brandProfile": synced_brand_profile,
+                "businesses": businesses_list,
+                "brandProfile": updated_business if updated_business.get("isDefault") else None,
             })
+
+        except ValueError as e:
+            return jsonify({
+                "success": False,
+                "error": str(e)
+            }), 400
 
         except Exception as e:
             logger.exception(f"BUSINESS DETAIL ERROR: {e}")
+
             return jsonify({
                 "success": False,
                 "error": "Error interno"
             }), 500
-
     # ============================================================
     # ROOT + HEALTH
     # ============================================================
