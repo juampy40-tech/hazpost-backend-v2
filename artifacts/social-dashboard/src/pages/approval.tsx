@@ -3006,7 +3006,7 @@ export default function Approval() {
           <Check className="w-7 h-7 text-primary drop-shadow-[0_0_8px_rgba(0,201,83,0.8)]" />
         </div>
         <div>
-          <h2 className="text-xl font-display font-bold text-foreground leading-tight mb-1">Cola Vacía</h2>
+          <h2 className="text-xl font-display font-bold text-foreground leading-tight mb-1">Cola Vacía 🚀</h2>
           <p className="text-sm text-muted-foreground">Todo el contenido ha sido revisado.</p>
         </div>
         <button
