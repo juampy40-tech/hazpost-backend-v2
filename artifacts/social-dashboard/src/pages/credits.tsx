@@ -7,4 +7,4 @@ export default function Credits() {
     setLocation("/billing");
   }, [setLocation]);
   return null;
-}a
+}
