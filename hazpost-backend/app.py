@@ -667,6 +667,19 @@ def create_app():
                 if db_available():
                     brand_profile_data = get_brand_profile(user_id)
 
+                    # 🔥 Migración automática anonymous → usuario real
+                    if (
+                        not brand_profile_data
+                        and user_id != "anonymous"
+                    ):
+                        migrated = migrate_anonymous_brand_profile(user_id)
+
+                        if migrated:
+                            logger.info(
+                                f"BRAND PROFILE MIGRADO AUTOMÁTICAMENTE → {user_id}"
+                            )
+                            brand_profile_data = migrated
+
                 # 2. Fallback a anonymous + migración automática
                 if not brand_profile_data and user_id != "anonymous":
                     anonymous_profile = {}
