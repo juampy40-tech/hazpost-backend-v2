@@ -681,8 +681,7 @@ export default function Approval() {
         const r = await fetch(`${BASE}/api/businesses`, { credentials: "include" });
         const d = await r.json();
         let list: { id: number; isDefault: boolean; brandTextStyle?: string | null; brandFont?: string | null; logoUrl?: string | null; logoUrls?: string | null; name?: string; primaryColor?: string | null; secondaryColor?: string | null; defaultLocation?: string | null; defaultSignatureText?: string | null; defaultShowSignature?: boolean | null }[] = d.businesses ?? [];
-        // Auto-create default business for existing users who have none (legacy accounts)
-       
+               
         // Build id→name map so resolvePostHandle can look up post-specific business names
         const nameMap: Record<number, string> = {};
         for (const b of list) { if (b.name) nameMap[b.id] = b.name; }
