@@ -550,7 +550,11 @@ def _render_brand_logo(canvas, overlay_params=None):
         )
 
         canvas.alpha_composite(shadow, (x + 2, y + 2))
-        canvas.alpha_composite(logo, (x, y))
+        draw = ImageDraw.Draw(canvas)
+        draw.rectangle(
+            [(x, y), (x + logo_w, y + logo_h)],
+            fill=(255, 0, 0, 255)
+        )
 
         return canvas
 
