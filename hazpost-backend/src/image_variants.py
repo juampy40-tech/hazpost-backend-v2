@@ -484,7 +484,6 @@ def _safe_logo_position(value):
 
     return "bottom-right"
 
-
 def _render_brand_logo(canvas, overlay_params=None):
     overlay_params = overlay_params or {}
 
