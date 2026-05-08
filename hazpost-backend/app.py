@@ -1726,16 +1726,20 @@ def create_app():
                 or "anonymous"
             )
             
-            if db_available() and user_id != "anonymous":
-                db_profile = get_brand_profile(user_id)
-                if isinstance(db_profile, dict) and db_profile:
-                    profile = db_profile
-            if not profile:
-                profile = body.get("brandProfile") or body
+            active_business = None
 
-            if not isinstance(profile, dict):
-                profile = {}
-            print("PROFILE FINAL:", profile)
+            if db_available() and user_id != "anonymous":
+                active_business = get_default_business(user_id)
+
+                if not active_business:
+                    active_business = ensure_default_business_from_brand_profile(user_id)
+
+                if isinstance(active_business, dict) and active_business:
+                    profile = active_business
+                else:
+                    db_profile = get_brand_profile(user_id)
+                    if isinstance(db_profile, dict) and db_profile:
+                        profile = db_profile
             
             company_name = (profile.get("companyName") or "Tu negocio").strip()
             industry = (profile.get("industry") or "").strip()
