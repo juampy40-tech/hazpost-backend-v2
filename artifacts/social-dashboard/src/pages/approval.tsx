@@ -682,20 +682,7 @@ export default function Approval() {
         const d = await r.json();
         let list: { id: number; isDefault: boolean; brandTextStyle?: string | null; brandFont?: string | null; logoUrl?: string | null; logoUrls?: string | null; name?: string; primaryColor?: string | null; secondaryColor?: string | null; defaultLocation?: string | null; defaultSignatureText?: string | null; defaultShowSignature?: boolean | null }[] = d.businesses ?? [];
         // Auto-create default business for existing users who have none (legacy accounts)
-        if (list.length === 0) {
-          try {
-            const createRes = await fetch(`${BASE}/api/businesses`, {
-              method: "POST",
-              credentials: "include",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ name: "Mi negocio" }),
-            });
-            if (createRes.ok) {
-              const { business } = await createRes.json() as { business: { id: number; isDefault: boolean } };
-              list = [business];
-            }
-          } catch (_e) { /* non-fatal */ }
-        }
+       
         // Build id→name map so resolvePostHandle can look up post-specific business names
         const nameMap: Record<number, string> = {};
         for (const b of list) { if (b.name) nameMap[b.id] = b.name; }
