@@ -5607,11 +5607,11 @@ export default function Approval() {
                 </div>
               </div>
 
-              {/* ── Logo del negocio — 3 ranuras fijas con auto-guardado ── */}
+              {/* ── Logo del negocio — 4 assets de marca con auto-guardado ── */}
               <div className="space-y-2 rounded-xl border border-border/40 p-3 bg-white/[0.02]">
                 <p className="text-xs font-semibold text-foreground/80">Logos del negocio</p>
-                <div className="grid grid-cols-3 gap-2">
-                  {([0, 1, 2] as const).map((slotIdx) => {
+                <div className="grid grid-cols-4 gap-2">
+                  {([0, 1, 2, 3] as const).map((slotIdx) => {
                     const storagePath = businessLogoStoragePaths[slotIdx] ?? null;
                     const browserUrl = storagePath
                       ? (storagePath.startsWith("/objects/")
