@@ -1071,7 +1071,7 @@ export default function Approval() {
   const [customFontError, setCustomFontError] = useState<string | null>(null);
   const [customFonts, setCustomFonts] = useState<{ id: string; name: string; family: string }[]>([]);
   const [customFontInput, setCustomFontInput] = useState<string>("");
-  const [businessLogoStoragePaths, setBusinessLogoStoragePaths] = useState<(string | null)[]>([null, null, null]);
+  const [businessLogoStoragePaths, setBusinessLogoStoragePaths] = useState<(string | null)[]>([null, null, null, null]);
   const [isUploadingCustomMusic, setIsUploadingCustomMusic] = useState(false);
   const [customMusicError, setCustomMusicError] = useState<string | null>(null);
   // Thumbnail cache: id → base64 data string (loaded on hover)
