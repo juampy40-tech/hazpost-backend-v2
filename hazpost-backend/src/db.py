@@ -54,12 +54,13 @@ def init_db():
                 );
             """))
 
-            # 🔴 NUEVA TABLA POSTS (CLAVE)
+            # 🔴 POSTS — Persistencia real + numeración por usuario
             db.execute(text("""
                 CREATE TABLE IF NOT EXISTS posts (
                     id SERIAL PRIMARY KEY,
                     user_id TEXT NOT NULL,
                     business_id TEXT,
+                    post_number INTEGER,
                     post JSONB NOT NULL DEFAULT '{}'::jsonb,
                     status TEXT NOT NULL DEFAULT 'pending_approval',
                     created_at TIMESTAMP DEFAULT NOW(),
