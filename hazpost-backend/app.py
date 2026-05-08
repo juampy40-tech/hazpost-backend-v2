@@ -37,6 +37,7 @@ from src.db import (
     db_available,
     get_brand_profile,
     save_brand_profile,
+    migrate_anonymous_brand_profile,
     get_businesses,
     get_default_business,
     ensure_default_business_from_brand_profile,
