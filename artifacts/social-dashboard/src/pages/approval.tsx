@@ -695,9 +695,7 @@ export default function Approval() {
             setSavedTextStyle(active.brandTextStyle);
           }
           if (active.logoUrl) {
-            const resolved = active.logoUrl.startsWith("/objects/")
-              ? `${BASE}/api/storage/objects/${active.logoUrl.slice("/objects/".length)}`
-              : active.logoUrl;
+            const resolved = resolveStorageObjectUrl(active.logoUrl);
             setActiveBusinessLogoUrl(resolved);
             setActiveBusinessLogoPath(active.logoUrl);
             setOverlayLogoUrl(resolved);
