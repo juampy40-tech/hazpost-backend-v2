@@ -5651,9 +5651,8 @@ export default function Approval() {
                                   if (overlayLogoUrl === browserUrl) {
                                     const fallback = businessLogoStoragePaths.find((p, i) => i !== slotIdx && p);
                                     if (fallback) {
-                                      const fbUrl = fallback.startsWith("/objects/")
-                                        ? `${BASE}/api/storage/objects/${fallback.slice("/objects/".length)}`
-                                        : fallback;
+                                      const fbUrl = resolveStorageObjectUrl(fallback);
+
                                       setOverlayLogoUrl(fbUrl);
                                       setOverlayLogoPath(fallback);
                                     } else {
