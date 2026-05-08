@@ -706,11 +706,12 @@ export default function Approval() {
             try {
               // extras may contain "" sentinel for empty fixed slots
               const extras: string[] = JSON.parse(active.logoUrls ?? "[]");
-              // Slots: [primaryLogoUrl, extras[0], extras[1]] — "" = empty slot
+              // Slots: [primaryLogoUrl, insignia, claro, oscuro]
               const slots: (string | null)[] = [
                 active.logoUrl || null,
                 (extras[0] || null),
                 (extras[1] || null),
+                (extras[2] || null),
               ];
               setBusinessLogoStoragePaths(slots);
               const all = slots.filter(Boolean) as string[];
@@ -721,7 +722,7 @@ export default function Approval() {
               setBusinessLogoOptions(browserUrls);
             } catch {
               setBusinessLogoOptions([resolved]);
-              setBusinessLogoStoragePaths([active.logoUrl, null, null]);
+              setBusinessLogoStoragePaths([active.logoUrl, null, null, null]);
             }
           }
           if (active.name) setActiveBusinessName(active.name);
