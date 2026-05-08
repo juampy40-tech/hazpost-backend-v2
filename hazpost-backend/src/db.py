@@ -220,11 +220,18 @@ def migrate_anonymous_brand_profile(target_user_id):
 
     current = get_brand_profile(target_user_id)
 
-    if current and (
-        current.get("companyName")
-        or current.get("industry")
-        or current.get("businessDescription")
-    ):
+    current_is_valid = (
+        isinstance(current, dict)
+        and current.get("companyName") not in [None, "", "Mi negocio"]
+        and (
+            current.get("industry")
+            or current.get("businessDescription")
+            or current.get("logoUrl")
+            or current.get("website")
+        )
+    )
+
+    if current_is_valid:
         return current
 
     anonymous = get_brand_profile("anonymous")
