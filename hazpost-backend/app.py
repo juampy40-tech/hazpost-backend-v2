@@ -88,7 +88,22 @@ def _get_user_role(email: str) -> str:
     return "user"
     
 def _get_user_key():
-    return "global"
+    try:
+        user = session.get("user") or {}
+
+        user_key = (
+            user.get("email")
+            or user.get("id")
+            or user.get("userId")
+        )
+
+        if user_key:
+            return str(user_key).strip().lower()
+
+        return "anonymous"
+
+    except Exception:
+        return "anonymous"
  
 def _get_user_store():
     user_key = _get_user_key()
