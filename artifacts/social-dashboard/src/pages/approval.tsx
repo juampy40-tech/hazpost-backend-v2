@@ -1280,9 +1280,9 @@ export default function Approval() {
     // overlayLogoPath: if variant has a stored custom logo, rehydrate the editor state
     if (activeImage.overlayCustomLogoUrl) {
       const storedPath = activeImage.overlayCustomLogoUrl as string;
-      const browserUrl = storedPath.startsWith("/objects/")
-        ? `${BASE}/api/storage/objects/${storedPath.slice("/objects/".length)}`
-        : storedPath;
+
+      const browserUrl = resolveStorageObjectUrl(storedPath);
+
       setOverlayLogoUrl(browserUrl);
       setOverlayLogoPath(storedPath);
     } else {
