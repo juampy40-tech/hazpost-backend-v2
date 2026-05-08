@@ -552,16 +552,6 @@ def _render_brand_logo(canvas, overlay_params=None):
             x = width - logo_w - margin_x
             y = height - logo_h - margin_y
 
-        # Sombra suave para que el logo se lea en fondos claros/oscuros
-        shadow = Image.new("RGBA", logo.size, (0, 0, 0, 0))
-        shadow_draw = ImageDraw.Draw(shadow)
-        shadow_draw.rounded_rectangle(
-            [(0, 0), (logo_w, logo_h)],
-            radius=max(6, int(min(logo_w, logo_h) * 0.12)),
-            fill=(0, 0, 0, 65),
-        )
-
-        canvas.alpha_composite(shadow, (x + 2, y + 2))
         canvas.alpha_composite(logo, (x, y))
 
         return canvas
