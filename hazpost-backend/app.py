@@ -2183,7 +2183,7 @@ Extra:
             saved_post = save_post(
                 user_id=user_id,
                 post=new_post,
-                business_id="1",
+                business_id=str(active_business.get("id")) if active_business else None,
                 status="pending_approval"
             )
 
