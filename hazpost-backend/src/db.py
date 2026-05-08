@@ -205,6 +205,223 @@ def get_brand_profile(user_id):
 
     return profile if isinstance(profile, dict) else {}
 
+# ================================
+# BUSINESSES — Fuente única de verdad
+# ================================
+
+def _business_from_profile(profile):
+    if not isinstance(profile, dict):
+        profile = {}
+
+    name = (
+        profile.get("companyName")
+        or profile.get("name")
+        or "Mi negocio"
+    )
+
+    return {
+        "name": name,
+        "industry": profile.get("industry"),
+        "sub_industry": profile.get("subIndustry"),
+        "city": profile.get("city"),
+        "country": profile.get("country"),
+        "slogan": profile.get("slogan"),
+        "description": profile.get("businessDescription") or profile.get("description"),
+        "audience": profile.get("audience") or profile.get("targetAudience") or profile.get("audienceDescription"),
+        "tone": profile.get("brandTone") or profile.get("tone"),
+        "logo_url": profile.get("logoUrl"),
+        "logo_urls": profile.get("logoUrls") or [],
+        "primary_color": profile.get("primaryColor"),
+        "secondary_color": profile.get("secondaryColor"),
+        "website": profile.get("website"),
+        "data": profile,
+    }
+
+
+def _business_row_to_dict(row):
+    if not row:
+        return None
+
+    data = row.get("data") or {}
+    if isinstance(data, str):
+        try:
+            data = json.loads(data)
+        except Exception:
+            data = {}
+
+    business = {
+        "id": row.get("id"),
+        "userId": row.get("user_id"),
+        "name": row.get("name"),
+        "companyName": row.get("name"),
+        "industry": row.get("industry"),
+        "subIndustry": row.get("sub_industry"),
+        "city": row.get("city"),
+        "country": row.get("country"),
+        "slogan": row.get("slogan"),
+        "businessDescription": row.get("description"),
+        "description": row.get("description"),
+        "audience": row.get("audience"),
+        "brandTone": row.get("tone"),
+        "tone": row.get("tone"),
+        "logoUrl": row.get("logo_url"),
+        "logoUrls": row.get("logo_urls") or [],
+        "primaryColor": row.get("primary_color"),
+        "secondaryColor": row.get("secondary_color"),
+        "website": row.get("website"),
+        "isDefault": bool(row.get("is_default")),
+        "createdAt": row.get("created_at").isoformat() if row.get("created_at") else None,
+        "updatedAt": row.get("updated_at").isoformat() if row.get("updated_at") else None,
+    }
+
+    if isinstance(data, dict):
+        business = {**data, **business}
+
+    return business
+
+
+def get_businesses(user_id):
+    if not user_id:
+        return []
+
+    with db_session() as db:
+        rows = db.execute(text("""
+            SELECT *
+            FROM businesses
+            WHERE user_id = :user_id
+            ORDER BY is_default DESC, created_at ASC;
+        """), {"user_id": str(user_id)}).mappings().all()
+
+    return [_business_row_to_dict(row) for row in rows]
+
+
+def get_default_business(user_id):
+    if not user_id:
+        return None
+
+    with db_session() as db:
+        row = db.execute(text("""
+            SELECT *
+            FROM businesses
+            WHERE user_id = :user_id
+              AND is_default = TRUE
+            LIMIT 1;
+        """), {"user_id": str(user_id)}).mappings().first()
+
+    return _business_row_to_dict(row)
+
+
+def ensure_default_business_from_brand_profile(user_id):
+    if not user_id:
+        return None
+
+    existing = get_businesses(user_id)
+    if existing:
+        return existing[0]
+
+    profile = get_brand_profile(user_id)
+    if not profile:
+        return None
+
+    payload = _business_from_profile(profile)
+    return create_business(user_id, payload, is_default=True)
+
+
+def create_business(user_id, data, is_default=False):
+    if not user_id:
+        raise ValueError("user_id es requerido")
+
+    if not isinstance(data, dict):
+        data = {}
+
+    payload = _business_from_profile(data)
+
+    with db_session() as db:
+        if is_default:
+            db.execute(text("""
+                UPDATE businesses
+                SET is_default = FALSE,
+                    updated_at = NOW()
+                WHERE user_id = :user_id;
+            """), {"user_id": str(user_id)})
+
+        row = db.execute(text("""
+            INSERT INTO businesses (
+                user_id, name, industry, sub_industry, city, country,
+                slogan, description, audience, tone,
+                logo_url, logo_urls, primary_color, secondary_color,
+                website, is_default, data, updated_at
+            )
+            VALUES (
+                :user_id, :name, :industry, :sub_industry, :city, :country,
+                :slogan, :description, :audience, :tone,
+                :logo_url, CAST(:logo_urls AS JSONB), :primary_color, :secondary_color,
+                :website, :is_default, CAST(:data AS JSONB), NOW()
+            )
+            RETURNING *;
+        """), {
+            "user_id": str(user_id),
+            "name": payload["name"],
+            "industry": payload["industry"],
+            "sub_industry": payload["sub_industry"],
+            "city": payload["city"],
+            "country": payload["country"],
+            "slogan": payload["slogan"],
+            "description": payload["description"],
+            "audience": payload["audience"],
+            "tone": payload["tone"],
+            "logo_url": payload["logo_url"],
+            "logo_urls": json.dumps(payload["logo_urls"], ensure_ascii=False),
+            "primary_color": payload["primary_color"],
+            "secondary_color": payload["secondary_color"],
+            "website": payload["website"],
+            "is_default": bool(is_default),
+            "data": json.dumps(data, ensure_ascii=False),
+        }).mappings().first()
+
+    return _business_row_to_dict(row)
+
+
+def set_default_business(user_id, business_id):
+    if not user_id or not business_id:
+        return None
+
+    with db_session() as db:
+        target = db.execute(text("""
+            SELECT *
+            FROM businesses
+            WHERE user_id = :user_id
+              AND id = :business_id
+            LIMIT 1;
+        """), {
+            "user_id": str(user_id),
+            "business_id": int(business_id),
+        }).mappings().first()
+
+        if not target:
+            return None
+
+        db.execute(text("""
+            UPDATE businesses
+            SET is_default = FALSE,
+                updated_at = NOW()
+            WHERE user_id = :user_id;
+        """), {"user_id": str(user_id)})
+
+        row = db.execute(text("""
+            UPDATE businesses
+            SET is_default = TRUE,
+                updated_at = NOW()
+            WHERE user_id = :user_id
+              AND id = :business_id
+            RETURNING *;
+        """), {
+            "user_id": str(user_id),
+            "business_id": int(business_id),
+        }).mappings().first()
+
+    return _business_row_to_dict(row)
+
 
 # ================================
 # POSTS (NUEVO - PERSISTENCIA REAL)
