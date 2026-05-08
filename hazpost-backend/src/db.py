@@ -205,6 +205,39 @@ def get_brand_profile(user_id):
 
     return profile if isinstance(profile, dict) else {}
 
+def migrate_anonymous_brand_profile(target_user_id):
+    """
+    Migra brand profile anonymous → usuario real
+    SOLO si el usuario real todavía no tiene perfil válido.
+    """
+    if not target_user_id:
+        return None
+
+    target_user_id = str(target_user_id).strip().lower()
+
+    if target_user_id == "anonymous":
+        return None
+
+    current = get_brand_profile(target_user_id)
+
+    if current and (
+        current.get("companyName")
+        or current.get("industry")
+        or current.get("businessDescription")
+    ):
+        return current
+
+    anonymous = get_brand_profile("anonymous")
+
+    if not anonymous:
+        return None
+
+    logger.info(f"MIGRANDO BRAND PROFILE anonymous → {target_user_id}")
+
+    save_brand_profile(target_user_id, anonymous)
+
+    return get_brand_profile(target_user_id)
+
 # ================================
 # BUSINESSES — Fuente única de verdad
 # ================================
