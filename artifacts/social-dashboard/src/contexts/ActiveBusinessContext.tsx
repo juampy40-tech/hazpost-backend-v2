@@ -2,7 +2,12 @@ import { createContext, useContext, useEffect, useState, useCallback } from "rea
 
 const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
 
-type BusinessItem = { id: number; name: string; isDefault: boolean; industry?: string | null };
+type BusinessItem = {
+  id: number;
+  name: string;
+  isDefault: boolean;
+  industry?: string | null;
+};
 
 export interface ActiveBusiness {
   id: number | undefined;
