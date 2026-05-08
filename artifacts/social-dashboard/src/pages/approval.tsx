@@ -5619,7 +5619,11 @@ export default function Approval() {
                           : storagePath)
                       : null;
                     const isActive = overlayLogoUrl === browserUrl && !!browserUrl;
-                    const slotLabel = slotIdx === 0 ? "Variante 1 (predeterminada)" : `Variante ${slotIdx + 1}`;
+                    const slotLabel =
+                      slotIdx === 0 ? "Principal" :
+                      slotIdx === 1 ? "Insignia" :
+                      slotIdx === 2 ? "Claro" :
+                      "Oscuro";
                     return (
                       <div key={slotIdx} className="flex flex-col gap-1">
                         <span className="text-[9px] text-muted-foreground text-center">{slotLabel}</span>
