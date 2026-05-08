@@ -5694,10 +5694,10 @@ export default function Approval() {
                                   body: file,
                                 });
                                 if (!uploadRes.ok) throw new Error("upload");
-                                const newBrowserUrl = objectPath.startsWith("/objects/")
-                                  ? `${BASE}/api/storage/objects/${objectPath.slice("/objects/".length)}`
-                                  : objectPath;
+                                const newBrowserUrl = resolveStorageObjectUrl(objectPath);
+
                                 await saveLogoSlot(slotIdx, objectPath, newBrowserUrl);
+
                                 setOverlayLogoUrl(newBrowserUrl);
                                 setOverlayLogoPath(objectPath);
                               } catch {
