@@ -17,6 +17,10 @@ logger = logging.getLogger(__name__)
 
 ALLOWED_IMAGE_HOSTS = {
     "pub-86d30a989fe64bc1b60fd7511bd1a5f2.r2.dev",
+    "app.hazpost.app",
+    "hazpost.app",
+    "www.hazpost.app",
+    "api.hazpost.app",
 }
 
 ALLOWED_IMAGE_SCHEMES = {"https"}
