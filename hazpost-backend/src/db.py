@@ -422,6 +422,116 @@ def set_default_business(user_id, business_id):
 
     return _business_row_to_dict(row)
 
+def get_business(user_id, business_id):
+    if not user_id or not business_id:
+        return None
+
+    with db_session() as db:
+        row = db.execute(text("""
+            SELECT *
+            FROM businesses
+            WHERE user_id = :user_id
+              AND id = :business_id
+            LIMIT 1;
+        """), {
+            "user_id": str(user_id),
+            "business_id": int(business_id),
+        }).mappings().first()
+
+    return _business_row_to_dict(row)
+
+
+def update_business(user_id, business_id, data):
+    if not user_id:
+        raise ValueError("user_id es requerido")
+
+    if not business_id:
+        raise ValueError("business_id es requerido")
+
+    if not isinstance(data, dict):
+        data = {}
+
+    current = get_business(user_id, business_id)
+    if not current:
+        return None
+
+    merged = {**current, **data}
+    payload = _business_from_profile(merged)
+
+    with db_session() as db:
+        row = db.execute(text("""
+            UPDATE businesses
+            SET name = :name,
+                industry = :industry,
+                sub_industry = :sub_industry,
+                city = :city,
+                country = :country,
+                slogan = :slogan,
+                description = :description,
+                audience = :audience,
+                tone = :tone,
+                logo_url = :logo_url,
+                logo_urls = CAST(:logo_urls AS JSONB),
+                primary_color = :primary_color,
+                secondary_color = :secondary_color,
+                website = :website,
+                data = CAST(:data AS JSONB),
+                updated_at = NOW()
+            WHERE user_id = :user_id
+              AND id = :business_id
+            RETURNING *;
+        """), {
+            "user_id": str(user_id),
+            "business_id": int(business_id),
+            "name": payload["name"],
+            "industry": payload["industry"],
+            "sub_industry": payload["sub_industry"],
+            "city": payload["city"],
+            "country": payload["country"],
+            "slogan": payload["slogan"],
+            "description": payload["description"],
+            "audience": payload["audience"],
+            "tone": payload["tone"],
+            "logo_url": payload["logo_url"],
+            "logo_urls": json.dumps(payload["logo_urls"], ensure_ascii=False),
+            "primary_color": payload["primary_color"],
+            "secondary_color": payload["secondary_color"],
+            "website": payload["website"],
+            "data": json.dumps(merged, ensure_ascii=False),
+        }).mappings().first()
+
+    return _business_row_to_dict(row)
+
+
+def delete_business(user_id, business_id):
+    if not user_id or not business_id:
+        return None
+
+    businesses = get_businesses(user_id)
+    if len(businesses) <= 1:
+        raise ValueError("No puedes borrar el único negocio del usuario")
+
+    with db_session() as db:
+        row = db.execute(text("""
+            DELETE FROM businesses
+            WHERE user_id = :user_id
+              AND id = :business_id
+            RETURNING *;
+        """), {
+            "user_id": str(user_id),
+            "business_id": int(business_id),
+        }).mappings().first()
+
+    deleted = _business_row_to_dict(row)
+
+    remaining = get_businesses(user_id)
+    has_default = any(b.get("isDefault") for b in remaining)
+
+    if remaining and not has_default:
+        set_default_business(user_id, remaining[0]["id"])
+
+    return deleted
+
 
 # ================================
 # POSTS (NUEVO - PERSISTENCIA REAL)
