@@ -701,7 +701,7 @@ export default function Approval() {
         for (const b of list) { if (b.name) nameMap[b.id] = b.name; }
         setBusinessNameMap(nameMap);
 
-        const active = list.find(b => b.isDefault) ?? list[0];
+        const active = list.find(b => b.isDefault === true);
         if (active) {
           activeBusinessIdRef.current = active.id;
           if (active.brandTextStyle) {
