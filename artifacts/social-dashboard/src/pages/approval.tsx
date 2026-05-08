@@ -1600,24 +1600,29 @@ export default function Approval() {
     }
   };
 
-  // Save a specific logo slot (0=primary, 1=variant2, 2=variant3) to the backend
+  // Save a specific logo slot (0=principal, 1=insignia, 2=claro, 3=oscuro) to the backend
   const saveLogoSlot = async (slotIdx: number, newPath: string | null, newBrowserUrl: string | null) => {
     const bizId = activeBusinessIdRef.current;
     if (!bizId) return;
 
     const newPaths = [...businessLogoStoragePaths];
+    while (newPaths.length < 4) newPaths.push(null);
     newPaths[slotIdx] = newPath;
     setBusinessLogoStoragePaths(newPaths);
 
     const newUrls = [...businessLogoOptions];
-    while (newUrls.length < 3) newUrls.push("");
-    if (newBrowserUrl !== null) newUrls[slotIdx] = newBrowserUrl; else newUrls[slotIdx] = "";
+    while (newUrls.length < 4) newUrls.push("");
+    if (newBrowserUrl !== null) newUrls[slotIdx] = newBrowserUrl;
+    else newUrls[slotIdx] = "";
     setBusinessLogoOptions(newUrls.filter(Boolean));
 
-    // Slot 0 = primary logoUrl, slots 1+2 go into logoUrls JSON array
-    // Use empty string as sentinel for empty slots to preserve fixed slot positions
+    // Slot 0 = primary logoUrl, slots 1+2+3 go into logoUrls JSON array
     const primaryPath = newPaths[0] ?? null;
-    const extraPaths = [newPaths[1] ?? "", newPaths[2] ?? ""];
+    const extraPaths = [
+      newPaths[1] ?? "",
+      newPaths[2] ?? "",
+      newPaths[3] ?? "",
+    ];
 
     // If slot 0 changed, also update the active/default logo state
     if (slotIdx === 0) {
