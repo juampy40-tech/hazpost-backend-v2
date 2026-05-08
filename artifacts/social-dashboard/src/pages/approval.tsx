@@ -5612,9 +5612,7 @@ export default function Approval() {
                   {([0, 1, 2, 3] as const).map((slotIdx) => {
                     const storagePath = businessLogoStoragePaths[slotIdx] ?? null;
                     const browserUrl = storagePath
-                      ? (storagePath.startsWith("/objects/")
-                          ? `${BASE}/api/storage/objects/${storagePath.slice("/objects/".length)}`
-                          : storagePath)
+                      ? resolveStorageObjectUrl(storagePath)
                       : null;
                     const isActive = overlayLogoUrl === browserUrl && !!browserUrl;
                     const slotLabel =
