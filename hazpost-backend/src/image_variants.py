@@ -992,6 +992,11 @@ def create_overlay_variant(post_data, post_id, source_variant_id=None, overlay_p
             overlay_params=overlay_params,
         )
 
+        rendered_image = _render_brand_logo(
+            rendered_image,
+            overlay_params=overlay_params,
+        )
+
         rendered_bytes = _image_to_jpeg_bytes(rendered_image)
 
         if rendered_bytes:
