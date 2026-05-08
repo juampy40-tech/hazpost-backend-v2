@@ -668,8 +668,18 @@ def create_app():
                     brand_profile_data = get_brand_profile(user_id)
 
                     # 🔥 Migración automática anonymous → usuario real
-                    if (
+                    profile_is_empty_or_generic = (
                         not brand_profile_data
+                        or (
+                            brand_profile_data.get("companyName") in [None, "", "Mi negocio"]
+                            and not brand_profile_data.get("industry")
+                            and not brand_profile_data.get("businessDescription")
+                            and not brand_profile_data.get("logoUrl")
+                        )
+                    )
+
+                    if (
+                        profile_is_empty_or_generic
                         and user_id != "anonymous"
                     ):
                         migrated = migrate_anonymous_brand_profile(user_id)
