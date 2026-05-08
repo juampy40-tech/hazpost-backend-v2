@@ -452,6 +452,22 @@ def _load_default_font(size=42, font_key=None):
     logger.warning("❌ No se pudo cargar ninguna fuente TTF.")
     return ImageFont.load_default()
 
+def _normalize_r2_image_url(value):
+    if not isinstance(value, str) or not value.strip():
+        return ""
+
+    value = value.strip()
+
+    if value.startswith("/objects/"):
+        object_key = value[len("/objects/"):]
+        return _r2_public_url(object_key)
+
+    if value.startswith("objects/"):
+        object_key = value[len("objects/"):]
+        return _r2_public_url(object_key)
+
+    return value
+
 def _safe_logo_position(value):
     allowed = {
         "top-left",
