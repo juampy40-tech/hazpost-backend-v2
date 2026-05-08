@@ -43,11 +43,26 @@ export function ActiveBusinessProvider({ children }: { children: React.ReactNode
           return;
         }
         const list: BusinessItem[] = d.businesses ?? [];
-        const active = list.find(b => b.isDefault) ?? list[0];
+        const active = list.find(b => b.isDefault === true);
+
         if (active) {
-          setBusiness({ id: active.id, name: active.name, industry: active.industry ?? null, total: list.length, loaded: true, list });
+          setBusiness({
+            id: active.id,
+            name: active.name,
+            industry: active.industry ?? null,
+            total: list.length,
+            loaded: true,
+            list,
+          });
         } else {
-          setBusiness(prev => ({ ...prev, total: list.length, loaded: true, list }));
+          setBusiness({
+            id: undefined,
+            name: undefined,
+            industry: undefined,
+            total: list.length,
+            loaded: true,
+            list,
+          });
         }
       })
       .catch(() => {
