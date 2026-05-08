@@ -71,7 +71,7 @@ _SCHEDULER_LOCK_FILE = None
 
 
 # ============================================================
-# TEMP STORE — Persistencia temporal por usuario
+# TEMP STORE — Persistencia temporal por usuario 
 # ============================================================
 # CTO NOTE:
 # Esto reemplaza dependencia de session (que falla en Railway/Vercel)
