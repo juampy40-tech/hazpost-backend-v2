@@ -2785,7 +2785,7 @@ export default function Approval() {
         ...(mediaId != null ? { mediaId } : {}),
         ...(referenceImageBase64 ? { referenceImageBase64 } : {}),
         // Send null to clear stale override when user switched back to business default logo
-        customLogoUrl: (overlayLogoPath && overlayLogoPath !== activeBusinessLogoPath) ? overlayLogoPath : null,
+        customLogoUrl: overlayLogoPath || activeBusinessLogoPath || null,
         titleColor1,
         titleColor2,
         showSignature,
