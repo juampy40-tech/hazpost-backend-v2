@@ -803,82 +803,52 @@ def create_app():
                 "error": "Error interno"
             }), 500
     # ============================================================
-    # BUSINESSES — Guardado inicial del negocio
+    # BUSINESSES — Fuente real PostgreSQL
     # ============================================================
     @app.route('/api/businesses', methods=['GET', 'POST'])
     def businesses():
         try:
-            # ============================
-            # GET
-            # ============================
+            user = session.get("user") or {}
+            user_id = str(
+                user.get("email")
+                or user.get("id")
+                or user.get("userId")
+                or "anonymous"
+            )
+
+            if not db_available():
+                return jsonify({
+                    "success": False,
+                    "error": "Base de datos no disponible"
+                }), 503
+
             if request.method == 'GET':
-                store = _get_user_store()
-                businesses_list = store.get("businesses") or session.get("businesses", [])
+                businesses_list = get_businesses(user_id)
 
-                if not isinstance(businesses_list, list):
-                    businesses_list = []
+                if not businesses_list:
+                    migrated = ensure_default_business_from_brand_profile(user_id)
+                    businesses_list = [migrated] if migrated else []
 
-                return jsonify({"businesses": businesses_list})
+                return jsonify({
+                    "success": True,
+                    "businesses": businesses_list
+                })
 
-            # ============================
-            # POST
-            # ============================
             data = request.get_json(silent=True) or {}
+            existing = get_businesses(user_id)
 
-            store = _get_user_store()
+            business = create_business(
+                user_id=user_id,
+                data=data,
+                is_default=len(existing) == 0
+            )
 
-            businesses_list = store.get("businesses") or session.get("businesses", [])
-            if not isinstance(businesses_list, list):
-                businesses_list = []
-
-            business = {
-                "id": len(businesses_list) + 1,
-                **data,
-            }
-
-            businesses_list.append(business)
-
-            store["businesses"] = businesses_list
-            session["businesses"] = businesses_list
-
-            current_brand_profile = store.get("brandProfile") or session.get("brandProfile") or {}
-
-            if not isinstance(current_brand_profile, dict):
-                current_brand_profile = {}
-
-            synced_brand_profile = {
-                **current_brand_profile,
-                "id": business.get("id"),
-                "companyName": business.get("companyName") or business.get("name") or current_brand_profile.get("companyName"),
-                "industry": business.get("industry") or current_brand_profile.get("industry"),
-                "subIndustry": business.get("subIndustry") or current_brand_profile.get("subIndustry"),
-                "city": business.get("city") or current_brand_profile.get("city"),
-                "country": business.get("country") or current_brand_profile.get("country"),
-                "slogan": business.get("slogan") or current_brand_profile.get("slogan"),
-                "businessDescription": (
-                    business.get("businessDescription")
-                    or business.get("description")
-                    or current_brand_profile.get("businessDescription")
-                ),
-                "audience": business.get("audience") or current_brand_profile.get("audience"),
-                "brandTone": business.get("brandTone") or business.get("tone") or current_brand_profile.get("brandTone"),
-                "logoUrl": business.get("logoUrl") or current_brand_profile.get("logoUrl"),
-                "primaryColor": business.get("primaryColor") or current_brand_profile.get("primaryColor"),
-                "secondaryColor": business.get("secondaryColor") or current_brand_profile.get("secondaryColor"),
-                "website": business.get("website") or current_brand_profile.get("website"),
-            }
-
-            store["brandProfile"] = synced_brand_profile
-
-            session["brandProfile"] = synced_brand_profile
-            session.permanent = True
-            session.modified = True
+            businesses_list = get_businesses(user_id)
 
             return jsonify({
                 "success": True,
                 "business": business,
-                "businesses": businesses_list,
-                "brandProfile": synced_brand_profile,
+                "businesses": businesses_list
             }), 201
 
         except Exception as e:
