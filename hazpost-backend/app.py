@@ -1051,14 +1051,13 @@ def create_app():
     @app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
     def business_detail(business_id):
         try:
-            user = session.get("user") or {}
+            user_id = _require_authenticated_user_id()
 
-            user_id = str(
-                user.get("email")
-                or user.get("id")
-                or user.get("userId")
-                or "anonymous"
-            )
+            if not user_id:
+                return jsonify({
+                    "success": False,
+                    "error": "No autenticado"
+                }), 401
 
             if not db_available():
                 return jsonify({
