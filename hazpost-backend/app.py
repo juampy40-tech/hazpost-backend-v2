@@ -812,6 +812,7 @@ def create_app():
                 "subIndustries",
                 "city",
                 "country",
+                "timezone",
                 "slogan",
                 "businessDescription",
                 "description",
