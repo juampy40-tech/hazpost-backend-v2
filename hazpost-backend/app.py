@@ -925,6 +925,52 @@ def create_app():
             data = request.get_json(silent=True) or {}
             existing = get_businesses(user_id)
 
+            business_limit = _get_business_limit_for_current_user()
+
+            if len(existing) >= business_limit:
+                return jsonify({
+                    "success": False,
+                    "error": f"Tu plan permite hasta {business_limit} negocio(s).",
+                    "code": "BUSINESS_LIMIT_REACHED",
+                    "businessLimit": business_limit,
+                    "currentCount": len(existing),
+                }), 403
+
+            new_name = str(
+                data.get("companyName")
+                or data.get("name")
+                or "Mi negocio"
+            ).strip().lower()
+
+            new_website = str(data.get("website") or "").strip().lower().rstrip("/")
+
+            for item in existing:
+                item_name = str(
+                    item.get("companyName")
+                    or item.get("name")
+                    or ""
+                ).strip().lower()
+
+                item_website = str(item.get("website") or "").strip().lower().rstrip("/")
+
+                if item_name and item_name == new_name:
+                    return jsonify({
+                        "success": False,
+                        "error": "Ya existe un negocio con ese nombre.",
+                        "code": "DUPLICATE_BUSINESS_NAME",
+                        "business": item,
+                        "businesses": existing,
+                    }), 409
+
+                if new_website and item_website and item_website == new_website:
+                    return jsonify({
+                        "success": False,
+                        "error": "Ya existe un negocio con ese sitio web.",
+                        "code": "DUPLICATE_BUSINESS_WEBSITE",
+                        "business": item,
+                        "businesses": existing,
+                    }), 409
+
             business = create_business(
                 user_id=user_id,
                 data=data,
