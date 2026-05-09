@@ -1090,7 +1090,7 @@ export default function Calendar() {
     reschedule.mutate({ id: post.id, body });
   };
 
-  // Build a UTC Date from a local date string + hour in the user's timezone
+  // Build a UTC Date from a local date string + hour in SCHEDULING_TZ / Bogotá
   const bogotaToUtc = (dateStr: string, localHour: number): Date =>
     localHourToUtcFn(dateStr, localHour, SCHEDULING_TZ);
 
