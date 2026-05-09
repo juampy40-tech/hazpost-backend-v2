@@ -538,6 +538,7 @@ def update_business(user_id, business_id, data):
             "sub_industry": payload["sub_industry"],
             "city": payload["city"],
             "country": payload["country"],
+            "timezone": payload["timezone"],
             "slogan": payload["slogan"],
             "description": payload["description"],
             "audience": payload["audience"],
