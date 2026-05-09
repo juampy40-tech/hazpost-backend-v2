@@ -2214,9 +2214,11 @@ export default function Approval() {
               .catch(() => { /* keep empty */ });
 
             return () => { cancelled = true; };
-          }
         }
       }
+    }
+    return;
+  }, [currentPost?.id]);
 
   // Carousel slide order: initialize/re-init based on currentPostFull changes.
   // Depending on currentPostFull (not rawVariants.length) prevents the stale-data race where
