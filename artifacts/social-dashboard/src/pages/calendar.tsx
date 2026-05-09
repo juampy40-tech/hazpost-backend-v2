@@ -707,6 +707,28 @@ function formatHour12(h: number): string {
   return `${h12}:00 ${suffix}`;
 }
 
+function formatInTimeZone(
+  isoString: string,
+  tz: string,
+  long = false
+): string {
+  try {
+    const d = new Date(isoString);
+
+    return new Intl.DateTimeFormat("es-CO", {
+      timeZone: tz,
+      weekday: long ? "long" : "short",
+      day: "numeric",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(d);
+  } catch {
+    return isoString;
+  }
+}
+
 interface UserBusiness { id: number; name?: string | null; isDefault?: boolean; }
 // null = sin resolver (esperando cargar negocios); "all" = todos; number = negocio específico
 type CalendarBizScope = "all" | number | null;
