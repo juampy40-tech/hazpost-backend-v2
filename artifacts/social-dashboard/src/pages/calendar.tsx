@@ -1079,7 +1079,7 @@ export default function Calendar() {
   // ── Reschedule to today at next optimal hour (user's timezone) ──
   const handleRescheduleToday = (post: Post) => {
     const today = new Date();
-    const hour = nextOptimalHour(userTz);
+    const hour = nextOptimalHour(SCHEDULING_TZ);
     const target = localHourToUtcFn(
       format(today, 'yyyy-MM-dd'),
       hour,
