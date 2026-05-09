@@ -1083,7 +1083,7 @@ export default function Calendar() {
     const target = localHourToUtcFn(
       format(today, 'yyyy-MM-dd'),
       hour,
-      userTz,
+      SCHEDULING_TZ,
     );
     const iso = target.toISOString();
     const body: Record<string, unknown> = { scheduledAt: iso };
