@@ -601,7 +601,7 @@ def create_app():
                 "onboardingStep": 1,
                 "emailVerified": False,
                 "avatarUrl": None,
-                "timezone": "America/Bogota",
+                "timezone": data.get("timezone") or "UTC",
             }
 
             subscription = {
