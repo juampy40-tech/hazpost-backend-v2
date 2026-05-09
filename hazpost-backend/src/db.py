@@ -118,6 +118,11 @@ def init_db():
             """))
 
             db.execute(text("""
+                ALTER TABLE businesses
+                ADD COLUMN IF NOT EXISTS timezone TEXT;
+            """))            
+
+            db.execute(text("""
                 CREATE INDEX IF NOT EXISTS idx_businesses_user_id
                 ON businesses (user_id);
             """))
