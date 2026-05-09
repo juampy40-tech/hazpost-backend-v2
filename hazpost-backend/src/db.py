@@ -266,6 +266,7 @@ def _business_from_profile(profile):
         "sub_industry": profile.get("subIndustry"),
         "city": profile.get("city"),
         "country": profile.get("country"),
+        "timezone": profile.get("timezone"),
         "slogan": profile.get("slogan"),
         "description": profile.get("businessDescription") or profile.get("description"),
         "audience": profile.get("audience") or profile.get("targetAudience") or profile.get("audienceDescription"),
