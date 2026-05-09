@@ -2092,15 +2092,32 @@ export default function Approval() {
       setLocationDropdownOpen(false);
 
       if (currentPost.status === "scheduled") {
-        // Scheduled posts: show the already-confirmed date(s)
+        // Scheduled posts: show the already-confirmed date(s) in SCHEDULING_TZ / Bogotá
         const igDate = currentPost.scheduledAtInstagram;
         const tkDate = currentPost.scheduledAtTiktok;
-        // For "both" platform posts use per-platform fields, falling back to scheduledAt
-        setRescheduleIgDate(igDate ? toBogotaLocal(new Date(igDate))
-          : currentPost.scheduledAt ? toBogotaLocal(new Date(currentPost.scheduledAt)) : "");
-        setRescheduleTkDate(tkDate ? toBogotaLocal(new Date(tkDate))
-          : currentPost.scheduledAt ? toBogotaLocal(new Date(currentPost.scheduledAt)) : "");
-        setRescheduleDate(currentPost.scheduledAt ? toBogotaLocal(new Date(currentPost.scheduledAt)) : "");
+
+        setRescheduleIgDate(
+          igDate
+            ? toLocalDatetimeInput(new Date(igDate), SCHEDULING_TZ)
+            : currentPost.scheduledAt
+              ? toLocalDatetimeInput(new Date(currentPost.scheduledAt), SCHEDULING_TZ)
+              : ""
+        );
+
+        setRescheduleTkDate(
+          tkDate
+            ? toLocalDatetimeInput(new Date(tkDate), SCHEDULING_TZ)
+            : currentPost.scheduledAt
+              ? toLocalDatetimeInput(new Date(currentPost.scheduledAt), SCHEDULING_TZ)
+              : ""
+        );
+
+        setRescheduleDate(
+          currentPost.scheduledAt
+            ? toLocalDatetimeInput(new Date(currentPost.scheduledAt), SCHEDULING_TZ)
+            : ""
+        );
+
         return;
       } else {
         // Pending posts: prefill from already-assigned dates if present; only fetch next-slot
@@ -2113,100 +2130,93 @@ export default function Approval() {
           // Resolve each network independently: per-platform date ?? generic scheduledAt ?? fetch
           const igValue = preIgDate ?? currentPost.scheduledAt ?? null;
           const tkValue = preTkDate ?? currentPost.scheduledAt ?? null;
-          setRescheduleIgDate(igValue ? toBogotaLocal(new Date(igValue)) : "");
-          setRescheduleTkDate(tkValue ? toBogotaLocal(new Date(tkValue)) : "");
-          setRescheduleDate(igValue ? toBogotaLocal(new Date(igValue))
-            : tkValue ? toBogotaLocal(new Date(tkValue)) : "");
+
+          setRescheduleIgDate(
+            igValue ? toLocalDatetimeInput(new Date(igValue), SCHEDULING_TZ) : ""
+          );
+
+          setRescheduleTkDate(
+            tkValue ? toLocalDatetimeInput(new Date(tkValue), SCHEDULING_TZ) : ""
+          );
+
+          setRescheduleDate(
+            igValue
+              ? toLocalDatetimeInput(new Date(igValue), SCHEDULING_TZ)
+              : tkValue
+                ? toLocalDatetimeInput(new Date(tkValue), SCHEDULING_TZ)
+                : ""
+          );
+
           // Only fetch next-slot when at least one field has no date at all
           if (!igValue || !tkValue) {
             let cancelled = false;
             const ct = currentPost.contentType ?? "image";
+
             fetch(`${BASE}/api/posts/next-slot-per-platform?contentType=${encodeURIComponent(ct)}&excludeId=${currentPost.id}`)
               .then(r => r.json())
               .then((data: { instagram?: string; tiktok?: string }) => {
                 if (cancelled) return;
+
                 // Only fill fields that are still empty (user may have typed in the meantime)
                 if (!igValue && data.instagram) {
-                  setRescheduleIgDate(prev => prev === "" ? toBogotaLocal(new Date(data.instagram!)) : prev);
-                  setRescheduleDate(prev => prev === "" ? toBogotaLocal(new Date(data.instagram!)) : prev);
+                  setRescheduleIgDate(prev =>
+                    prev === ""
+                      ? toLocalDatetimeInput(new Date(data.instagram!), SCHEDULING_TZ)
+                      : prev
+                  );
+
+                  setRescheduleDate(prev =>
+                    prev === ""
+                      ? toLocalDatetimeInput(new Date(data.instagram!), SCHEDULING_TZ)
+                      : prev
+                  );
                 }
+
                 if (!tkValue && data.tiktok) {
-                  setRescheduleTkDate(prev => prev === "" ? toBogotaLocal(new Date(data.tiktok!)) : prev);
+                  setRescheduleTkDate(prev =>
+                    prev === ""
+                      ? toLocalDatetimeInput(new Date(data.tiktok!), SCHEDULING_TZ)
+                      : prev
+                  );
                 }
               })
               .catch(() => { /* keep prefilled values */ });
+
             return () => { cancelled = true; };
           }
+
           return;
         } else {
           // Single-platform: prefill from scheduledAt if present; fetch next-slot only if absent
           if (currentPost.scheduledAt) {
-            setRescheduleDate(toBogotaLocal(new Date(currentPost.scheduledAt)));
+            setRescheduleDate(
+              toLocalDatetimeInput(new Date(currentPost.scheduledAt), SCHEDULING_TZ)
+            );
             return;
           } else {
             setRescheduleDate("");
             let cancelled = false;
+
             fetch(`${BASE}/api/posts/next-slot?platform=${encodeURIComponent(platform)}&excludeId=${currentPost.id}`)
               .then(r => r.json())
               .then((data: { scheduledAt?: string }) => {
                 if (cancelled) return;
+
                 // Only fill if still empty (user may have typed before fetch resolved)
                 if (data.scheduledAt) {
-                  setRescheduleDate(prev => prev === "" ? toBogotaLocal(new Date(data.scheduledAt!)) : prev);
+                  setRescheduleDate(prev =>
+                    prev === ""
+                      ? toLocalDatetimeInput(new Date(data.scheduledAt!), SCHEDULING_TZ)
+                      : prev
+                  );
                 }
               })
               .catch(() => { /* keep empty */ });
+
             return () => { cancelled = true; };
           }
         }
       }
-    }
-    return;
-  }, [currentPost?.id]);
-
-  // Load full image data for the currently viewed post (with imageData) — only one post at a time
-  useEffect(() => {
-  if (!currentPost?.id) {
-    setCurrentPostFull(null);
-    lastFullPostLoadedRef.current = null;
-    postFetchInFlightRef.current = null;
-    return;
-  }
-
-  if (
-    currentPostFull?.id === currentPost.id &&
-    lastFullPostLoadedRef.current === currentPost.id
-  ) {
-    return;
-  }
-
-  if (postFetchInFlightRef.current === currentPost.id) {
-    return;
-  }
-
-  setCurrentPostFull(null);
-  setHeadlineSuggestions([]);
-  setUseDeepElementAiApproval(false);
-  setIsLoadingFull(true);
-
-  postFetchInFlightRef.current = currentPost.id;
-
-  fetch(`${BASE}/api/posts/${currentPost.id}`, {
-    credentials: "include",
-  })
-    .then(r => r.json())
-    .then(data => {
-      setCurrentPostFull(data);
-      lastFullPostLoadedRef.current = currentPost.id;
-    })
-    .catch(() => {})
-    .finally(() => {
-      setIsLoadingFull(false);
-      if (postFetchInFlightRef.current === currentPost.id) {
-        postFetchInFlightRef.current = null;
-      }
-    });
-}, [currentPost?.id]);
 
   // Carousel slide order: initialize/re-init based on currentPostFull changes.
   // Depending on currentPostFull (not rawVariants.length) prevents the stale-data race where
