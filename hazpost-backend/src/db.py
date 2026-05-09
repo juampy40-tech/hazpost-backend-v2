@@ -396,7 +396,7 @@ def create_business(user_id, data, is_default=False):
                 website, is_default, data, updated_at
             )
             VALUES (
-                :user_id, :name, :industry, :sub_industry, :city, :country,
+                :user_id, :name, :industry, :sub_industry, :city, :country, :timezone,
                 :slogan, :description, :audience, :tone,
                 :logo_url, CAST(:logo_urls AS JSONB), :primary_color, :secondary_color,
                 :website, :is_default, CAST(:data AS JSONB), NOW()
