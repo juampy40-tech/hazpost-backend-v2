@@ -1537,6 +1537,14 @@ def create_app():
     def storage_request_url():        
         try:
             data = request.get_json(silent=True) or {}
+            user_key = _get_storage_user_key()
+
+            if not user_key:
+                return jsonify({
+                    "success": False,
+                    "error": "No autenticado"
+                }), 401
+
             original_name = data.get("name") or "upload.bin"
             content_type = data.get("contentType") or "application/octet-stream"
             size = data.get("size")
@@ -1544,7 +1552,6 @@ def create_app():
             safe_name = secure_filename(original_name) or "upload.bin"
             file_id = str(uuid.uuid4())
             stored_name = f"{file_id}_{safe_name}"
-            user_key = _get_storage_user_key()
             object_key = f"uploads/{user_key}/{stored_name}"
 
             public_url = _r2_public_url(object_key)
