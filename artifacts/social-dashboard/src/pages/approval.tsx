@@ -2515,11 +2515,6 @@ export default function Approval() {
       : {};
   };
 
-    return rescheduleDate
-      ? { scheduledAt: bogotaLocalToUtc(rescheduleDate, userTz) }
-      : {};
-  };
-
   const buildFinalCaption = () => {
     const trimmed = localCustomText.trim();
     if (!trimmed) return editedCaption;
