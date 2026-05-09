@@ -100,6 +100,7 @@ def init_db():
                     sub_industry TEXT,
                     city TEXT,
                     country TEXT,
+                    timezone TEXT,
                     slogan TEXT,
                     description TEXT,
                     audience TEXT,
