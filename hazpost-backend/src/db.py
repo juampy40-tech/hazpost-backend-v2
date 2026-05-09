@@ -390,7 +390,7 @@ def create_business(user_id, data, is_default=False):
 
         row = db.execute(text("""
             INSERT INTO businesses (
-                user_id, name, industry, sub_industry, city, country,
+                user_id, name, industry, sub_industry, city, country, timezone,
                 slogan, description, audience, tone,
                 logo_url, logo_urls, primary_color, secondary_color,
                 website, is_default, data, updated_at
