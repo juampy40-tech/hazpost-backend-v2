@@ -2404,14 +2404,13 @@ Extra:
     @app.route('/api/caption-addons/<block_id>', methods=['PUT', 'DELETE'])
     def text_block_detail(block_id):
         try:
-            user = session.get("user") or {}
+            user_id = _require_authenticated_user_id()
 
-            user_id = str(
-                user.get("email")
-                or user.get("id")
-                or user.get("userId")
-                or "anonymous"
-            )
+            if not user_id:
+                return jsonify({
+                    "success": False,
+                    "error": "No autenticado"
+                }), 401
             blocks = get_text_blocks(user_id)
             normalized_blocks = []
 
