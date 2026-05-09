@@ -326,7 +326,6 @@ function SortableReelSlide({ id, index, imageData }: { id: number; index: number
 
 export default function Approval() {
   const { user } = useAuth();
-  const userTz = user?.timezone ?? FALLBACK_TZ;
   const { id: globalBizId, loaded: globalBizLoaded } = useActiveBusiness();
   const [location, navigate] = useLocation();
   const searchParams = new URLSearchParams(window.location.search);
