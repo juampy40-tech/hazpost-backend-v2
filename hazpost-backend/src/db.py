@@ -409,6 +409,7 @@ def create_business(user_id, data, is_default=False):
             "sub_industry": payload["sub_industry"],
             "city": payload["city"],
             "country": payload["country"],
+            "timezone": payload["timezone"],
             "slogan": payload["slogan"],
             "description": payload["description"],
             "audience": payload["audience"],
