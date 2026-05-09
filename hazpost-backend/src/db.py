@@ -300,6 +300,7 @@ def _business_row_to_dict(row):
         "subIndustry": row.get("sub_industry"),
         "city": row.get("city"),
         "country": row.get("country"),
+        "timezone": row.get("timezone"),
         "slogan": row.get("slogan"),
         "businessDescription": row.get("description"),
         "description": row.get("description"),
