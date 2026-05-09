@@ -2214,6 +2214,7 @@ export default function Approval() {
               .catch(() => { /* keep empty */ });
 
             return () => { cancelled = true; };
+          }
         }
       }
     }
