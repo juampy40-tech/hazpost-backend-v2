@@ -1094,7 +1094,7 @@ export default function Calendar() {
 
   // Build a UTC Date from a local date string + hour in the user's timezone
   const bogotaToUtc = (dateStr: string, localHour: number): Date =>
-    localHourToUtcFn(dateStr, localHour, userTz);
+    localHourToUtcFn(dateStr, localHour, SCHEDULING_TZ);
 
   // Reschedule to a specific date/hour (Bogotá time = UTC-5).
   // Uses the shared reschedule mutation so errors are handled and the calendar
