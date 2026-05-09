@@ -1524,20 +1524,12 @@ def create_app():
         return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
 
     def _get_storage_user_key():
-        data = request.get_json(silent=True) or {}
+        user_id = _require_authenticated_user_id()
 
-        raw_user_key = (
-            request.args.get("userId")
-            or request.headers.get("X-User-ID")
-            or data.get("userId")
-            or data.get("email")
-        )
+        if not user_id:
+            return None
 
-        if not raw_user_key:
-            user = session.get("user") or {}
-            raw_user_key = user.get("email") or user.get("id") or "anonymous"
-
-        return secure_filename(str(raw_user_key)) or "anonymous"    
+        return secure_filename(str(user_id))
 
 
     # 👇 FUERA DE LA FUNCIÓN (sin indentación extra)
