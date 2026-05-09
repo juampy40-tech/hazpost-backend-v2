@@ -1076,7 +1076,7 @@ export default function Calendar() {
     reschedule.mutate({ id: entry.id, body: dragBody });
   };
 
-  // ── Reschedule to today at next optimal hour (user's timezone) ──
+  // ── Reschedule to today at next optimal hour (SCHEDULING_TZ / Bogotá) ──
   const handleRescheduleToday = (post: Post) => {
     const today = new Date();
     const hour = nextOptimalHour(SCHEDULING_TZ);
