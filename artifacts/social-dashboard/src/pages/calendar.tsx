@@ -348,20 +348,20 @@ function PostPopup({ post, onClose, onRescheduleToday, onRescheduleToDate }: {
             {igDate && (
               <div className="flex items-center gap-2 text-xs text-muted-foreground bg-black/30 rounded-lg px-3 py-2">
                 <span className="text-[10px] font-bold text-[#E1306C]">IG</span>
-                <span>{format(parseISO(igDate), "EEE d MMM · HH:mm", { locale: es })}</span>
+                <span>{formatInTimeZone(igDate, SCHEDULING_TZ)}</span>
               </div>
             )}
             {tkDate && (
               <div className="flex items-center gap-2 text-xs text-muted-foreground bg-black/30 rounded-lg px-3 py-2">
                 <span className="text-[10px] font-bold text-[#69C9D0]">TK</span>
-                <span>{format(parseISO(tkDate), "EEE d MMM · HH:mm", { locale: es })}</span>
+                <span>{formatInTimeZone(tkDate, SCHEDULING_TZ)}</span>
               </div>
             )}
           </div>
-        ) : scheduledDate ? (
+        ) : post.scheduledAt ? (
           <div className="flex items-center gap-2 text-xs text-muted-foreground bg-black/30 rounded-lg px-3 py-2">
             <Clock className="w-3.5 h-3.5 text-secondary" />
-            <span>{format(scheduledDate, "EEEE d 'de' MMMM · HH:mm", { locale: es })}</span>
+            <span>{formatInTimeZone(post.scheduledAt, SCHEDULING_TZ, true)}</span>
           </div>
         ) : null}
 
