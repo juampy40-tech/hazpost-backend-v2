@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import {
-  FALLBACK_TZ,
   SCHEDULING_TZ,
   hourInTz,
   sameDayInTz,
