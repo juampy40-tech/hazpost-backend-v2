@@ -81,6 +81,52 @@ TEMP_USER_DATA = {}
 
 OWNER_ADMIN_EMAIL = "admin@hazpost.app"
 
+PLAN_BUSINESS_LIMITS = {
+    "free": 1,
+    "starter": 1,
+    "business": 1,
+    "agency": 5,
+}
+
+
+def _normalize_user_id(value):
+    if not value:
+        return None
+    return str(value).strip().lower()
+
+
+def _require_authenticated_user_id():
+    user = session.get("user")
+
+    if not isinstance(user, dict) or not user:
+        return None
+
+    user_id = (
+        user.get("email")
+        or user.get("userId")
+        or user.get("id")
+    )
+
+    return _normalize_user_id(user_id)
+
+
+def _get_current_plan():
+    user = session.get("user") or {}
+    subscription = session.get("subscription") or {}
+
+    plan = (
+        subscription.get("plan")
+        or user.get("plan")
+        or "free"
+    )
+
+    return str(plan).strip().lower()
+
+
+def _get_business_limit_for_current_user():
+    plan = _get_current_plan()
+    return PLAN_BUSINESS_LIMITS.get(plan, 1)
+
 
 def _get_user_role(email: str) -> str:
     clean_email = (email or "").strip().lower()
