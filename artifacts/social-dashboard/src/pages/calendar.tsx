@@ -723,7 +723,6 @@ export default function Calendar() {
   const lastUserId = useRef<number | null>(null);
 
   const { user } = useAuth();
-  const userTz = user?.timezone ?? FALLBACK_TZ;
   const { id: globalBizId, loaded: bizContextLoaded } = useActiveBusiness();
 
   const [socialAccounts, setSocialAccounts] = useState<Array<{ id: number; platform: string; username: string | null; businessId: number | null; connected?: string }>>([]);
