@@ -1604,6 +1604,11 @@ def create_app():
                 }), 400
 
             user_key = _get_storage_user_key()
+            if not user_key:
+                return jsonify({
+                    "success": False,
+                    "error": "No autenticado"
+                }), 401            
             object_key = f"uploads/{user_key}/{safe_name}"
 
             mime_map = {
