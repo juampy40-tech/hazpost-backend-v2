@@ -2,11 +2,9 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { FONT_CATALOG } from "@/lib/fonts";
 import {
-  FALLBACK_TZ,
+  SCHEDULING_TZ,
   toLocalDatetimeInput,
-  toBogotaLocal,
   localDatetimeInputToUtc,
-  bogotaLocalToUtc,
 } from "@/lib/timezone";
 import {
   DndContext, closestCenter, PointerSensor, KeyboardSensor,
