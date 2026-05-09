@@ -2490,8 +2490,13 @@ export default function Approval() {
     const isBoth = (editedPlatform || currentPost?.platform) === "both";
 
     if (isBoth && (rescheduleIgDate || rescheduleTkDate)) {
-      const igUtc = rescheduleIgDate ? bogotaLocalToUtc(rescheduleIgDate, userTz) : undefined;
-      const tkUtc = rescheduleTkDate ? bogotaLocalToUtc(rescheduleTkDate, userTz) : undefined;
+      const igUtc = rescheduleIgDate
+        ? localDatetimeInputToUtc(rescheduleIgDate, SCHEDULING_TZ)
+        : undefined;
+
+      const tkUtc = rescheduleTkDate
+        ? localDatetimeInputToUtc(rescheduleTkDate, SCHEDULING_TZ)
+        : undefined;
 
       const dates = [igUtc, tkUtc].filter((d): d is string => !!d);
       const canonical = dates.length
@@ -2504,6 +2509,11 @@ export default function Approval() {
         ...(tkUtc ? { scheduledAtTiktok: tkUtc } : {}),
       };
     }
+
+    return rescheduleDate
+      ? { scheduledAt: localDatetimeInputToUtc(rescheduleDate, SCHEDULING_TZ) }
+      : {};
+  };
 
     return rescheduleDate
       ? { scheduledAt: bogotaLocalToUtc(rescheduleDate, userTz) }
