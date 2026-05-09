@@ -444,12 +444,12 @@ def create_app():
                 "email": email,
                 "displayName": email.split("@")[0],
                 "role": _get_user_role(email),
-                "plan": "free",
-                "aiCredits": 40,
+                "plan": "agency" if _get_user_role(email) == "admin" else "free",
+                "aiCredits": 250 if _get_user_role(email) == "admin" else 40,
                 "onboardingStep": 1,
                 "emailVerified": True,
                 "avatarUrl": None,
-                "timezone": "America/Bogota",
+                "timezone": data.get("timezone") or "UTC",
             }
 
             subscription = {
