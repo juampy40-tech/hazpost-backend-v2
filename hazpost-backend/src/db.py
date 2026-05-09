@@ -515,6 +515,7 @@ def update_business(user_id, business_id, data):
                 sub_industry = :sub_industry,
                 city = :city,
                 country = :country,
+                timezone = :timezone,
                 slogan = :slogan,
                 description = :description,
                 audience = :audience,
