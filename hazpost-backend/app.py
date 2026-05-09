@@ -737,12 +737,6 @@ def create_app():
             if db_available():
                 current = get_brand_profile(user_id)
 
-                if not current and user_id != "anonymous":
-                    anonymous_profile = get_brand_profile("anonymous")
-                    if anonymous_profile:
-                        logger.info(f"USANDO BRAND PROFILE anonymous como base para {user_id}")
-                        current = anonymous_profile
-
             if not current:
                 current = session.get("brandProfile", {})
 
