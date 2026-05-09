@@ -997,14 +997,13 @@ def create_app():
             if request.method == 'OPTIONS':
                 return jsonify({"success": True})
 
-            user = session.get("user") or {}
+            user_id = _require_authenticated_user_id()
 
-            user_id = str(
-                user.get("email")
-                or user.get("id")
-                or user.get("userId")
-                or "anonymous"
-            )
+            if not user_id:
+                return jsonify({
+                    "success": False,
+                    "error": "No autenticado"
+                }), 401
 
             if not db_available():
                 return jsonify({
