@@ -1087,7 +1087,8 @@ async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
       {/* Plan IA de publicación */}
       <AIPostingSuggestionsPanel collapsible={false} />
 
-      {/* Brand Profile Card */}
+      {/*
+      Brand Profile Card
       <Card className="glass-card border-primary/20">
         <CardHeader>
           <CardTitle className="font-display text-xl text-primary flex items-center gap-2">
@@ -1182,7 +1183,8 @@ async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
           )}
         </CardContent>
       </Card>
-
+      */}
+        
       {/* Biblioteca de Elementos de Marca */}
       <Card className="glass-card border-primary/20">
         <CardHeader>
