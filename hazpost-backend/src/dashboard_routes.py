@@ -2,9 +2,12 @@ import uuid
 import os
 import json
 import time
+import logging
 import requests
 import boto3
 import replicate
+
+logger = logging.getLogger(__name__)
 
 from flask import Blueprint, jsonify, request, session
 from sqlalchemy import text
