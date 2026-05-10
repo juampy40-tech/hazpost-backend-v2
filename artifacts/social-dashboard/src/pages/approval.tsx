@@ -3394,15 +3394,17 @@ export default function Approval() {
             ) : (
               <div className="w-full h-full min-h-[280px] bg-neutral-900 flex flex-col items-center justify-center gap-2 px-4">
                 <div className="w-8 h-8 border-2 border-primary/60 border-t-primary rounded-full animate-spin" />
+
                 <span className="text-xs text-primary/70 font-medium text-center">
                   {hasPendingVariants
                     ? `Imagen en cola${pendingPollCount > 0 ? ` · ${Math.round(pendingPollCount * 3 / 60)}m` : "…"}`
-                    : `Generando imagen${pollCount > 0 ? ` · ${Math.round(pollCount * 8 / 60)}m` : "…"}`}
+                    : `Generando imagen${pollCount > 0 ? ` · ${Math.round(pollCount * 3 / 60)}m` : "…"}`}
                 </span>
+
                 <span className="text-[9px] text-white/30 text-center leading-tight max-w-[160px]">
                   {hasPendingVariants
-                    ? "Las imágenes se generan en cola — 1-2 min por imagen."
-                    : "Comunicándose con DALL-E…"}
+                    ? "Las imágenes normalmente tardan 30-90 segundos."
+                    : "Generando imagen IA…"}
                 </span>
               </div>
             )}
