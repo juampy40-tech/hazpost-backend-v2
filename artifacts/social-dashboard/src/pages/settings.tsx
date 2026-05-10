@@ -206,7 +206,8 @@ export default function Settings() {
       });
       const data = await res.json();
       if (res.ok) {
-        setBrandProfile(prev => prev ? { ...prev, defaultLocation: data.profile?.defaultLocation } : prev);
+        const profile = data.brandProfile ?? data.profile ?? {};
+        setBrandProfile(prev => prev ? { ...prev, defaultLocation: profile?.defaultLocation } : profile);
         toast({
           title: defaultLocationInput.trim() ? `✅ Ubicación guardada: ${defaultLocationInput.trim()}` : "✅ Ubicación eliminada",
           description: defaultLocationInput.trim()
