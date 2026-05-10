@@ -3373,7 +3373,7 @@ export default function Approval() {
   <div className="w-full h-full min-h-[280px] bg-neutral-900 flex flex-col items-center justify-center gap-3 p-4">
     <AlertTriangle className="w-8 h-8 text-amber-400" />
     <span className="text-xs text-amber-300 font-medium text-center">
-      {hasOnlyErrorVariants ? "Imagen interrumpida" : pendingIsStuck ? "Más de 8 min en cola" : "Imagen tardó más de lo esperado"}
+      hasOnlyErrorVariants ? "Imagen interrumpida" : pendingIsStuck ? "Más de 1 min en cola" : "Imagen tardó más de lo esperado"
     </span>
                 <span className="text-[10px] text-white/40 text-center px-2">
                   {hasOnlyErrorVariants
