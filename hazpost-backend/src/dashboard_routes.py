@@ -51,6 +51,116 @@ def _get_dashboard_user_id():
 META_GRAPH_VERSION = os.getenv("META_GRAPH_VERSION", "v25.0")
 META_GRAPH_BASE = f"https://graph.facebook.com/{META_GRAPH_VERSION}"
 
+REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
+if REPLICATE_API_TOKEN:
+    os.environ["REPLICATE_API_TOKEN"] = REPLICATE_API_TOKEN
+
+R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
+R2_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
+R2_ENDPOINT_URL = os.getenv("R2_ENDPOINT_URL")
+R2_BUCKET_NAME = os.getenv("R2_BUCKET_NAME")
+R2_PUBLIC_URL = os.getenv("R2_PUBLIC_URL")
+
+
+def _r2_ready_for_dashboard_images():
+    return all([
+        R2_ACCESS_KEY_ID,
+        R2_SECRET_ACCESS_KEY,
+        R2_ENDPOINT_URL,
+        R2_BUCKET_NAME,
+        R2_PUBLIC_URL,
+    ])
+
+
+def _r2_public_url_for_dashboard_images(object_key: str) -> str:
+    return f"{R2_PUBLIC_URL.rstrip('/')}/{object_key.lstrip('/')}"
+
+
+def _generate_and_attach_first_image_variant(user_id, post_id, post_data):
+    visual_plan = post_data.get("visualPlan") or {}
+    prompt = (
+        visual_plan.get("prompt")
+        or post_data.get("visualIdea")
+        or post_data.get("caption")
+        or ""
+    )
+
+    if not prompt:
+        raise ValueError("El post no tiene prompt visual para generar imagen")
+
+    if not REPLICATE_API_TOKEN:
+        raise ValueError("REPLICATE_API_TOKEN no configurado")
+
+    if not _r2_ready_for_dashboard_images():
+        raise ValueError("R2 no configurado")
+
+    output = replicate.run(
+        "black-forest-labs/flux-dev",
+        input={
+            "prompt": f"{prompt}, commercial photography, highly realistic, sharp focus, professional lighting, no text, no logos, no watermark",
+            "num_outputs": 1,
+            "aspect_ratio": "1:1",
+            "output_format": "jpg",
+            "guidance_scale": 3.5,
+        }
+    )
+
+    if not output:
+        raise ValueError("Replicate no devolvió imagen")
+
+    temp_image_url = output[0]
+    img_res = requests.get(temp_image_url, timeout=45)
+
+    if img_res.status_code != 200:
+        raise ValueError("Error descargando imagen generada")
+
+    r2 = boto3.client(
+        "s3",
+        endpoint_url=R2_ENDPOINT_URL,
+        aws_access_key_id=R2_ACCESS_KEY_ID,
+        aws_secret_access_key=R2_SECRET_ACCESS_KEY,
+    )
+
+    file_id = str(uuid.uuid4())
+    object_key = f"generated/{str(user_id).replace('@', '_')}/{file_id}.jpg"
+
+    r2.put_object(
+        Bucket=R2_BUCKET_NAME,
+        Key=object_key,
+        Body=img_res.content,
+        ContentType="image/jpeg",
+    )
+
+    public_url = _r2_public_url_for_dashboard_images(object_key)
+
+    variants = post_data.get("imageVariants") or []
+    if not isinstance(variants, list):
+        variants = []
+
+    new_variant = {
+        "id": str(uuid.uuid4()),
+        "postId": int(post_id),
+        "imageUrl": public_url,
+        "imageData": "",
+        "rawBackground": public_url,
+        "rawBackgroundUrl": public_url,
+        "generationStatus": "completed",
+        "style": "default",
+        "variantIndex": len(variants),
+        "overlayParams": {},
+        "createdAt": int(time.time() * 1000),
+    }
+
+    variants.append(new_variant)
+
+    post_data["imageVariants"] = variants
+    post_data["imageUrl"] = public_url
+    post_data["selectedImageVariant"] = new_variant["id"]
+    post_data["imageRetryRequested"] = False
+    post_data["imageGenerationError"] = None
+
+    return new_variant, post_data
+
 def _ensure_social_defaults_table():
     if not db_available():
         return False
