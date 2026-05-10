@@ -481,7 +481,7 @@ def create_app():
     # ============================================================
     # USER ME — Obtener y actualizar datos del usuario
     # ============================================================
-    @app.route('/api/user/me', methods=['GET', 'PUT'])
+    @app.route('/api/user/me', methods=['GET', 'PUT', 'PATCH'])
     def user_me():
         try:
             user = session.get("user")
