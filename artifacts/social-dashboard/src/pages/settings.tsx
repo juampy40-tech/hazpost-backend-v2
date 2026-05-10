@@ -1262,7 +1262,7 @@ async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
             Zona horaria
           </CardTitle>
           <CardDescription>
-            Configura dónde estás tú (para el calendario) y dónde opera el negocio. Útil si manejas redes sociales de negocios en otros países.
+            La hora usada en calendario, cola de aprobación y publicaciones automáticas.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
