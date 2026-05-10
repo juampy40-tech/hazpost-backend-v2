@@ -3532,7 +3532,7 @@ export default function Approval() {
                   <div style={{ width: "100%", height: "100%" }} className="bg-gradient-to-br from-neutral-900 to-neutral-800 flex flex-col items-center justify-center gap-3 px-4">
                     <AlertTriangle className="w-8 h-8 text-amber-400" />
                     <span className="text-[10px] text-amber-300 font-medium text-center">
-                      hasOnlyErrorVariants ? "Imagen interrumpida" : pendingIsStuck ? "Más de 1 min en cola" : "Imagen tardó más de lo esperado"
+                     {hasOnlyErrorVariants ? "Imagen interrumpida" : pendingIsStuck ? "Más de 1 min en cola" : "Imagen tardó más de lo esperado"}
                     </span>
                     <span className="text-[9px] text-white/40 text-center">
                       {hasOnlyErrorVariants
