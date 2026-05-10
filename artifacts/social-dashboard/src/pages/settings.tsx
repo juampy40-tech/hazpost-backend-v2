@@ -1201,7 +1201,7 @@ async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
             El país se usa para filtrar la Biblioteca de Fondos: solo verás fondos de negocios de tu misma industria en otros países.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+     /   <CardContent>
           <div className="space-y-3">
             <div className="flex gap-2 items-center">
               <select
@@ -1349,90 +1349,7 @@ async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
             )}
           </div>
 
-          <div className="border-t border-border/30" />
-
-          {/* Negocio */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-foreground/80">Zona horaria del negocio activo</Label>
-            <p className="text-xs text-muted-foreground">Útil si gestionas redes de un negocio en otro país (ej: tú en Colombia, negocio en Francia). Guardado por negocio. Déjalo en blanco para heredar tu zona.</p>
-            <div className="flex gap-2 items-center">
-              <select
-                value={bizTzInput}
-                onChange={e => setBizTzInput(e.target.value)}
-                className="flex h-9 w-full max-w-sm rounded-md border border-border/50 bg-black/50 px-3 py-1 text-sm text-foreground shadow-sm transition-colors focus:outline-none focus:ring-1 focus:ring-primary/50"
-              >
-                <option value="">-- Heredar del usuario --</option>
-                <optgroup label="Latinoamérica">
-                  <option value="America/Bogota">🇨🇴 Colombia (Bogotá)</option>
-                  <option value="America/Mexico_City">🇲🇽 México (Ciudad de México)</option>
-                  <option value="America/Argentina/Buenos_Aires">🇦🇷 Argentina (Buenos Aires)</option>
-                  <option value="America/Lima">🇵🇪 Perú (Lima)</option>
-                  <option value="America/Santiago">🇨🇱 Chile (Santiago)</option>
-                  <option value="America/Caracas">🇻🇪 Venezuela (Caracas)</option>
-                  <option value="America/Guayaquil">🇪🇨 Ecuador (Guayaquil)</option>
-                  <option value="America/La_Paz">🇧🇴 Bolivia (La Paz)</option>
-                  <option value="America/Asuncion">🇵🇾 Paraguay (Asunción)</option>
-                  <option value="America/Montevideo">🇺🇾 Uruguay (Montevideo)</option>
-                  <option value="America/Costa_Rica">🇨🇷 Costa Rica</option>
-                  <option value="America/Panama">🇵🇦 Panamá</option>
-                  <option value="America/Santo_Domingo">🇩🇴 Rep. Dominicana</option>
-                  <option value="America/Guatemala">🇬🇹 Guatemala</option>
-                  <option value="America/Tegucigalpa">🇭🇳 Honduras</option>
-                  <option value="America/El_Salvador">🇸🇻 El Salvador</option>
-                  <option value="America/Managua">🇳🇮 Nicaragua</option>
-                  <option value="America/Havana">🇨🇺 Cuba</option>
-                  <option value="America/Puerto_Rico">🇵🇷 Puerto Rico</option>
-                  <option value="America/Sao_Paulo">🇧🇷 Brasil (São Paulo)</option>
-                </optgroup>
-                <optgroup label="Europa">
-                  <option value="Europe/Madrid">🇪🇸 España (Madrid)</option>
-                  <option value="Europe/Paris">🇫🇷 Francia (París)</option>
-                  <option value="Europe/London">🇬🇧 Reino Unido (Londres)</option>
-                  <option value="Europe/Berlin">🇩🇪 Alemania (Berlín)</option>
-                  <option value="Europe/Rome">🇮🇹 Italia (Roma)</option>
-                  <option value="Europe/Amsterdam">🇳🇱 Países Bajos</option>
-                  <option value="Europe/Lisbon">🇵🇹 Portugal (Lisboa)</option>
-                  <option value="Europe/Moscow">🇷🇺 Rusia (Moscú)</option>
-                  <option value="Europe/Istanbul">🇹🇷 Turquía (Estambul)</option>
-                </optgroup>
-                <optgroup label="América del Norte">
-                  <option value="America/New_York">🇺🇸 EE.UU. (Nueva York, EST)</option>
-                  <option value="America/Chicago">🇺🇸 EE.UU. (Chicago, CST)</option>
-                  <option value="America/Denver">🇺🇸 EE.UU. (Denver, MST)</option>
-                  <option value="America/Los_Angeles">🇺🇸 EE.UU. (Los Ángeles, PST)</option>
-                  <option value="America/Toronto">🇨🇦 Canadá (Toronto)</option>
-                  <option value="America/Vancouver">🇨🇦 Canadá (Vancouver)</option>
-                </optgroup>
-                <optgroup label="Asia y Oceanía">
-                  <option value="Asia/Dubai">🇦🇪 Emiratos Árabes (Dubái)</option>
-                  <option value="Asia/Kolkata">🇮🇳 India (Kolkata)</option>
-                  <option value="Asia/Bangkok">🇹🇭 Tailandia (Bangkok)</option>
-                  <option value="Asia/Singapore">🇸🇬 Singapur</option>
-                  <option value="Asia/Tokyo">🇯🇵 Japón (Tokio)</option>
-                  <option value="Asia/Shanghai">🇨🇳 China (Shanghái)</option>
-                  <option value="Australia/Sydney">🇦🇺 Australia (Sídney)</option>
-                  <option value="Pacific/Auckland">🇳🇿 Nueva Zelanda (Auckland)</option>
-                </optgroup>
-                <optgroup label="Universal">
-                  <option value="UTC">UTC (Coordinado Universal)</option>
-                </optgroup>
-              </select>
-              <Button
-                onClick={saveBizTimezone}
-                disabled={savingBizTz || !globalBusinessId}
-                size="sm"
-                className="bg-primary/20 text-primary border border-primary/50 hover:bg-primary/30"
-              >
-                {savingBizTz ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
-                Guardar
-              </Button>
-            </div>
-            {bizTzInput ? (
-              <p className="text-xs text-primary/70">✅ Negocio en: <strong>{bizTzInput}</strong></p>
-            ) : (
-              <p className="text-xs text-muted-foreground">Sin zona específica — el negocio usa la zona del usuario.</p>
-            )}
-          </div>
+          <div className="border-t border-border/30" />    
         </CardContent>
       </Card>
 
