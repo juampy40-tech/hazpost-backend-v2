@@ -1268,7 +1268,7 @@ async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
         <CardContent className="space-y-6">
           {/* Usuario */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-foreground/80">Tu zona horaria (calendario y aprobación)</Label>
+            <Label className="text-sm font-medium text-foreground/80">Zona horaria de publicaciones</Label>
             <p className="text-xs text-muted-foreground">El calendario y la cola de aprobación mostrarán las horas en esta zona. Déjalo en blanco para usar el país de tu cuenta.</p>
             <div className="flex gap-2 items-center">
               <select
