@@ -3562,11 +3562,19 @@ export default function Approval() {
                 ) : (
                   <div style={{ width: "100%", height: "100%" }} className="bg-gradient-to-br from-neutral-900 to-neutral-800 flex flex-col items-center justify-center gap-2">
                     <div className="w-8 h-8 border-2 border-primary/60 border-t-primary rounded-full animate-spin" />
+
                     <span className="text-[10px] text-primary/70 font-medium text-center px-3">
                       {hasPendingVariants
                         ? `En cola${pendingPollCount > 0 ? ` · ${Math.round(pendingPollCount * 3 / 60)}m` : "…"}`
-                        : `Generando${pollCount > 0 ? ` · ${Math.round(pollCount * 8 / 60)}m` : "…"}`}
+                        : `Generando${pollCount > 0 ? ` · ${Math.round(pollCount * 3 / 60)}m` : "…"}`}
                     </span>
+
+                    <span className="text-[9px] text-white/30 text-center px-4 leading-tight">
+                      {hasPendingVariants
+                        ? "Las imágenes normalmente tardan 30-90 segundos."
+                        : "Generando imagen IA…"}
+                    </span>
+
                     <button
                       onClick={() => refetch()}
                       className="text-[9px] text-white/30 hover:text-white/60 transition-colors underline"
