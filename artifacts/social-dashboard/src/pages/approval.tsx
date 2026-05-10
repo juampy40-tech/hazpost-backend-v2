@@ -1208,28 +1208,6 @@ export default function Approval() {
     );
   })();
 
-  
-      if (previewId) {
-        const found = fullVariants.find(
-          (v: any) => v.id === previewId
-        );
-
-        if (found) {
-          return found;
-        }
-      }
-    }
-
-    return (
-      fullVariants.find(
-        (v: any) => v.id === effectiveSelectedVariant
-      )
-      ?? fullVariants[0]
-      ?? fullVariants.find((v: any) => !!v.imageData)
-      ?? null
-    );
-  })();
-
   useEffect(() => {
     if (!currentPost?.id) {
       setCurrentPostFull(null);
@@ -1241,7 +1219,7 @@ export default function Approval() {
     refreshCurrentPost(currentPost.id, true);
   }, [currentPost?.id, refreshCurrentPost]);
 
-   const activeImageSrc =
+  const activeImageSrc =
     activeImage?.imageData
       ? activeImage.imageData.startsWith("data:")
         ? activeImage.imageData
