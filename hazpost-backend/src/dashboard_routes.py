@@ -1248,25 +1248,59 @@ def retry_image_flask(post_id):
     if not row:
         return jsonify({"success": False, "error": "Post no encontrado"}), 404
 
-    variants = post_data.get("imageVariants") or []
+    try:
+        new_variant, updated_post = _generate_and_attach_first_image_variant(
+            user_id=user_id,
+            post_id=post_id,
+            post_data=post_data,
+        )
 
-    for variant in variants:
-        if variant.get("generationStatus") in ["error", "failed", "pending"]:
-            variant["generationStatus"] = "pending"
-            variant["generationError"] = None
+        _save_user_post_json(user_id, post_id, updated_post)
 
-    post_data["imageVariants"] = variants
-    post_data["imageRetryRequested"] = True
+        return jsonify({
+            "success": True,
+            "retrying": False,
+            "message": "Imagen regenerada correctamente.",
+            "variant": new_variant,
+            "imageVariants": updated_post.get("imageVariants") or [],
+            "post": updated_post,
+        })
 
-    _save_user_post_json(user_id, post_id, post_data)
+    except Exception as e:
+        variants = post_data.get("imageVariants") or []
 
-    return jsonify({
-        "success": True,
-        "retrying": True,
-        "message": "Reintento registrado. Si la imagen no aparece, genera una nueva variante.",
-        "post": post_data,
-    })
+        if not isinstance(variants, list):
+            variants = []
 
+        error_variant = {
+            "id": str(uuid.uuid4()),
+            "postId": int(post_id),
+            "imageUrl": "",
+            "imageData": "",
+            "rawBackground": "",
+            "rawBackgroundUrl": "",
+            "generationStatus": "error",
+            "generationError": str(e),
+            "style": "default",
+            "variantIndex": len(variants),
+            "overlayParams": {},
+            "createdAt": int(time.time() * 1000),
+        }
+
+        if not variants:
+            variants.append(error_variant)
+
+        post_data["imageVariants"] = variants
+        post_data["imageRetryRequested"] = False
+        post_data["imageGenerationError"] = str(e)
+
+        _save_user_post_json(user_id, post_id, post_data)
+
+        return jsonify({
+            "success": False,
+            "error": str(e),
+            "post": post_data,
+        }), 500
 
 @dashboard_bp.route('/posts/<int:post_id>/regenerate-hashtags', methods=['POST', 'OPTIONS'])
 def regenerate_hashtags_flask(post_id):
