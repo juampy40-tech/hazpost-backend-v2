@@ -2379,9 +2379,10 @@ export default function Approval() {
     try {
       const loc = locationStr.trim();
       const res = await fetch(`${BASE}/api/brand-profile`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ defaultLocation: loc || null }),
+            method: "PUT",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ defaultLocation: loc || null }),
       });
       if (res.ok) {
         setDefaultLocationFromProfile(loc);
