@@ -528,6 +528,13 @@ def create_app():
                 "email": user.get("email"),  # 🔒 no se toca
             }
 
+            if "timezone" in data:
+                updated_user["timezone"] = (
+                    data.get("timezone")
+                    or user.get("timezone")
+                    or "America/Bogota"
+                )
+
             session["user"] = updated_user
             session["subscription"] = subscription
             session.permanent = True
