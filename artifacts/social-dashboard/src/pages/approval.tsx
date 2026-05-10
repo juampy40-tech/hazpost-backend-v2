@@ -2382,8 +2382,8 @@ export default function Approval() {
     return Date.now() - new Date(ref).getTime();
   })();
 
-  const imageIsStuck  = currentHasNoImages && (pollCount >= IMAGE_STUCK_POLLS || oldestNoImageAge > 6 * 60 * 1000);
-  const pendingIsStuck = hasPendingVariants && (pendingPollCount >= PENDING_STUCK_POLLS || oldestPendingAge > 8 * 60 * 1000);
+  const imageIsStuck  = currentHasNoImages && (pollCount >= IMAGE_STUCK_POLLS || oldestNoImageAge > 60 * 1000);
+  const pendingIsStuck = hasPendingVariants && (pendingPollCount >= PENDING_STUCK_POLLS || oldestPendingAge > 60 * 1000);
 
   const handleSaveDefaultLocation = async (locationStr: string) => {
     try {
