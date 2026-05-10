@@ -1238,6 +1238,8 @@ def retry_image_flask(post_id):
     if request.method == 'OPTIONS':
         return jsonify({"success": True})
 
+    logger.info(f"SESSION DEBUG: {dict(session)}")
+
     user_id = _get_dashboard_user_id()
 
     if not user_id:
