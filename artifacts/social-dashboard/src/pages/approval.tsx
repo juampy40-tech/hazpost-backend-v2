@@ -2448,7 +2448,10 @@ export default function Approval() {
       const url = currentPost?.id
         ? `${BASE}/api/posts/${currentPost.id}/retry-image`
         : `${BASE}/api/posts/retry-missing-images`;
-      const res = await fetch(url, { method: "POST" });
+      const res = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+      });
       if (res.ok) {
         toast({ title: "Reintentando imágenes", description: "Generación reiniciada — espera 2-3 min." });
         setPollCount(0);
