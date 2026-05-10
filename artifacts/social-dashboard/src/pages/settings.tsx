@@ -1348,8 +1348,7 @@ async function handleDisconnectSocialAccount(platform: "instagram" | "tiktok") {
               <p className="text-xs text-muted-foreground">Automático — se detecta desde el país de tu cuenta.</p>
             )}
           </div>
-
-          <div className="border-t border-border/30" />    
+          
         </CardContent>
       </Card>
 
