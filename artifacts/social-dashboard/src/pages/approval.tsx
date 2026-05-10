@@ -1208,6 +1208,53 @@ export default function Approval() {
     );
   })();
 
+  
+      if (previewId) {
+        const found = fullVariants.find(
+          (v: any) => v.id === previewId
+        );
+
+        if (found) {
+          return found;
+        }
+      }
+    }
+
+    return (
+      fullVariants.find(
+        (v: any) => v.id === effectiveSelectedVariant
+      )
+      ?? fullVariants[0]
+      ?? fullVariants.find((v: any) => !!v.imageData)
+      ?? null
+    );
+  })();
+
+  useEffect(() => {
+    if (!currentPost?.id) {
+      setCurrentPostFull(null);
+      lastFullPostLoadedRef.current = null;
+      return;
+    }
+
+    setCurrentPostFull(null);
+    refreshCurrentPost(currentPost.id, true);
+  }, [currentPost?.id, refreshCurrentPost]);
+
+  const activeImageSrc =
+    activeImage?.imageData
+      ? activeImage.imageData.startsWith("data:")
+        ? activeImage.imageData
+        : `data:image/jpeg;base64,${activeImage.imageData}`
+      : "";
+
+  // Auto-fetch reel URL when the active variant already has a saved reel.
+  // This ensures the video preview and "listo" badge appear when navigating
+  // to a post that was generated in a previous session.
+  // We check the active variant first; if it has no reel, we scan all other
+  // variants of the post (Reel Studio saves to the first variant, not necessarily
+  // the currently selected one).
+
   const activeImageSrc =
     activeImage?.imageData
       ? activeImage.imageData.startsWith("data:")
