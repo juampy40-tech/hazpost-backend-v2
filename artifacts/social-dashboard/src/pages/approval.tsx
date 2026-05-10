@@ -1753,7 +1753,9 @@ export default function Approval() {
 
   // Fetch defaultLocation from brand profile once on mount
   useEffect(() => {
-    fetch(`${BASE}/api/brand-profile`)
+    fetch(`${BASE}/api/brand-profile`, {
+      credentials: "include",
+    })
       .then(r => r.ok ? r.json() : null)
       .then(data => {
         const loc = data?.defaultLocation ?? "";
