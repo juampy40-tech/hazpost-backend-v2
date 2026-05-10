@@ -88,8 +88,9 @@ export default function Settings() {
     fetch(`${BASE}/api/brand-profile`, { credentials: "include" })
       .then(r => r.json())
       .then(d => {
-        setBrandProfile(d.profile);
-        setDefaultLocationInput(d.profile?.defaultLocation ?? "");
+  const profile = d.brandProfile ?? d.profile ?? {};
+  setBrandProfile(profile);
+  setDefaultLocationInput(profile?.defaultLocation ?? "");
       })
       .catch(() => {});
   }, []);
