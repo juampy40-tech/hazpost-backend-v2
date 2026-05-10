@@ -2362,11 +2362,10 @@ export default function Approval() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPendingVariants, currentPost?.id]);
 
-  // IMAGE_STUCK_THRESHOLD: 30 polls × 15s = ~7.5 min with no image → show retry UI
-  const IMAGE_STUCK_POLLS    = 30;
-  // PENDING_STUCK_THRESHOLD: 40 polls × 12s = ~8 min with pending variant → show retry UI
-  // Images are generated serially; with many posts the last ones can wait 10-30+ min.
-  const PENDING_STUCK_POLLS  = 40;
+  // UX timeout: after ~60 seconds without image, show clear retry UI.
+  // Avoid infinite loaders and let the user recover without waiting forever.
+  const IMAGE_STUCK_POLLS    = 4; // 4 polls × 15s = ~60s
+  const PENDING_STUCK_POLLS  = 5; // 5 polls × 12s = ~60s
 
   // Also detect stuck based on variant/post creation time (catches stuck posts on page load,
   // without waiting 8 min of polls)
