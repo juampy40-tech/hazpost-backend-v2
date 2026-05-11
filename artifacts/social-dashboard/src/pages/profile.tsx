@@ -382,11 +382,13 @@ async function loadProfile() {
     const profileData = profileRes.ok ? await profileRes.json() : {};
 
     const profile =
-      profileData?.brandProfile && typeof profileData.brandProfile === "object"
-        ? profileData.brandProfile
-        : profileData && typeof profileData === "object"
-          ? profileData
-          : {};
+      profileData?.profile && typeof profileData.profile === "object"
+        ? profileData.profile
+        : profileData?.brandProfile && typeof profileData.brandProfile === "object"
+          ? profileData.brandProfile
+          : profileData && typeof profileData === "object"
+            ? profileData
+            : {};
 
     if (cancelled) return;
 
