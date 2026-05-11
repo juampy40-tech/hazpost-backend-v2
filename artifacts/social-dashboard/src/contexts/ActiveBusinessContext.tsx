@@ -94,10 +94,15 @@ export function ActiveBusinessProvider({ children }: { children: React.ReactNode
   }, [loadBusinesses]);
 
   const switchBusiness = useCallback(async (id: number) => {
-    await fetch(`${BASE}/api/businesses/${id}/set-active`, {
+    const response = await fetch(`${BASE}/api/businesses/${id}/set-active`, {
       method: "POST",
       credentials: "include",
     });
+
+    if (!response.ok) {
+      throw new Error("Error cambiando negocio activo");
+    }
+
     loadBusinesses();
   }, [loadBusinesses]);
 
