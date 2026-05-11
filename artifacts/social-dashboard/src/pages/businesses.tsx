@@ -11,6 +11,34 @@ import { DeleteBusinessModal } from "@/components/DeleteBusinessModal";
 
 const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
 
+const API_BASE = BASE;
+
+const resolveAssetUrl = (url: string | null | undefined): string => {
+  if (!url) return "";
+
+  if (url.startsWith("data:")) return url;
+
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+
+  const cleanPath = url.startsWith("/") ? url : `/${url}`;
+
+  if (cleanPath.startsWith("/storage/objects/")) {
+    return `${API_BASE}${cleanPath}`;
+  }
+
+  if (cleanPath.startsWith("/api/storage/objects/")) {
+    return `${API_BASE}${cleanPath}`;
+  }
+
+  if (cleanPath.startsWith("/objects/")) {
+    return `${API_BASE}/api/storage/objects/${cleanPath.slice("/objects/".length)}`;
+  }
+
+  return `${API_BASE}${cleanPath}`;
+};
+
 interface IndustryCatalogEntry {
   name: string;
   slug: string;
