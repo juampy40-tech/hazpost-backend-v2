@@ -27,8 +27,49 @@ const objectStorage = new ObjectStorageService();
  */
 router.get("/", requireAuth, async (req, res) => {
   const userId = req.user!.userId;
-  const [profile] = await db.select().from(brandProfilesTable).where(eq(brandProfilesTable.userId, userId)).limit(1);
-  return res.json({ profile: profile ?? null });
+
+  const [business] = await db
+    .select()
+    .from(businessesTable)
+    .where(and(eq(businessesTable.userId, userId), eq(businessesTable.isDefault, true)))
+    .limit(1);
+
+  const [legacyProfile] = await db
+    .select()
+    .from(brandProfilesTable)
+    .where(eq(brandProfilesTable.userId, userId))
+    .limit(1);
+
+  if (business) {
+    return res.json({
+      profile: {
+        ...(legacyProfile ?? {}),
+        companyName: business.name ?? legacyProfile?.companyName ?? null,
+        name: business.name ?? legacyProfile?.companyName ?? null,
+        industry: business.industry ?? legacyProfile?.industry ?? null,
+        subIndustry: business.subIndustry ?? legacyProfile?.subIndustry ?? null,
+        subIndustries: business.subIndustries ?? legacyProfile?.subIndustries ?? null,
+        slogan: business.slogan ?? legacyProfile?.slogan ?? null,
+        businessDescription: business.description ?? legacyProfile?.businessDescription ?? null,
+        description: business.description ?? legacyProfile?.businessDescription ?? null,
+        logoUrl: business.logoUrl ?? legacyProfile?.logoUrl ?? null,
+        logoUrls: business.logoUrls ?? legacyProfile?.logoUrls ?? null,
+        primaryColor: business.primaryColor ?? legacyProfile?.primaryColor ?? null,
+        secondaryColor: business.secondaryColor ?? legacyProfile?.secondaryColor ?? null,
+        defaultLocation: business.defaultLocation ?? legacyProfile?.defaultLocation ?? null,
+        city: business.defaultLocation ?? legacyProfile?.city ?? null,
+        website: business.website ?? legacyProfile?.website ?? null,
+        audienceDescription: business.audienceDescription ?? legacyProfile?.audienceDescription ?? null,
+        audience: business.audienceDescription ?? legacyProfile?.audienceDescription ?? null,
+        brandTone: business.brandTone ?? legacyProfile?.brandTone ?? null,
+        tone: business.brandTone ?? legacyProfile?.brandTone ?? null,
+        brandFont: business.brandFont ?? legacyProfile?.brandFont ?? null,
+        referenceImages: business.referenceImages ?? legacyProfile?.referenceImages ?? null,
+      },
+    });
+  }
+
+  return res.json({ profile: legacyProfile ?? null });
 });
 
 /**
