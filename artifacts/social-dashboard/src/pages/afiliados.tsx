@@ -92,7 +92,7 @@ export default function Afiliados() {
         body: JSON.stringify(form),
       });
       const d = await r.json();
-      if (!r.ok) throw new Error(d.error);
+      if (!r.ok) throw new Error(d?.error || "No se pudo enviar la solicitud");
       toast({ title: "¡Solicitud enviada! 🎉", description: "Te contactaremos en 48 horas." });
       setApplication({ id: 0, status: "pending", commission_pct: globalPct, affiliate_code: null, created_at: new Date().toISOString(), duration_months: globalMonths });
     } catch (err: unknown) {
