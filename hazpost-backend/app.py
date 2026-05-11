@@ -482,7 +482,10 @@ def create_app():
             }
 
             session.clear()
-            session["user"] = user
+            session["user"] = {
+                **user,
+                "authVersion": 2
+            }
             session["subscription"] = subscription
             session.permanent = True
             session.modified = True
