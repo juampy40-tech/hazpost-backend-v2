@@ -512,7 +512,10 @@ def create_app():
             user = session.get("user")
 
             # 🔒 VALIDACIÓN REAL (NO fallback falso)
-            if not isinstance(user, dict) or not user:
+            if not isinstance(user, dict) or not user or user.get("authVersion") != 2:
+                session.clear()
+                session.modified = True
+
                 return jsonify({
                     "success": False,
                     "error": "No autenticado"
