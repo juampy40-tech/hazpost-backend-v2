@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import ecoLogoWhite from "../assets/eco-logo-white.png";
 
-const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
+const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
