@@ -94,29 +94,39 @@ PLAN_BUSINESS_LIMITS = {
 def _normalize_user_id(value):
     if not value:
         return None
+
     return str(value).strip().lower()
 
 
 def _require_authenticated_user_id():
     user = session.get("user")
 
+    # 🔒 Sesión inválida
     if not isinstance(user, dict) or not user:
         return None
 
-    # 🔒 Bloquea sesiones viejas creadas por el login falso/mock
+    # 🔒 Bloquea sesiones viejas creadas por login mock/falso
     if user.get("authVersion") != 2:
         session.clear()
         session.modified = True
         return None
 
+    # 🔒 Obtener identificador real del usuario
     user_id = (
         user.get("email")
         or user.get("userId")
         or user.get("id")
     )
 
-    return _normalize_user_id(user_id)
+    normalized_user_id = _normalize_user_id(user_id)
 
+    # 🔒 Seguridad extra
+    if not normalized_user_id:
+        session.clear()
+        session.modified = True
+        return None
+
+    return normalized_user_id
 
 def _get_current_plan():
     user = session.get("user") or {}
