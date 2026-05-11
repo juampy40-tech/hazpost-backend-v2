@@ -43,7 +43,13 @@ export default function ResetPassword() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),
       });
-      const data = await resp.json();
+      let data: any = {};
+
+      try {
+        data = await resp.json();
+      } catch {
+        data = {};
+      }
       if (!resp.ok) {
         toast({ title: "Error", description: data.error || "No se pudo actualizar la contraseña.", variant: "destructive" });
         return;
