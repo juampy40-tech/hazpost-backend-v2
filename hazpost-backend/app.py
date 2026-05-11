@@ -103,6 +103,12 @@ def _require_authenticated_user_id():
     if not isinstance(user, dict) or not user:
         return None
 
+    # 🔒 Bloquea sesiones viejas creadas por el login falso/mock
+    if user.get("authVersion") != 2:
+        session.clear()
+        session.modified = True
+        return None
+
     user_id = (
         user.get("email")
         or user.get("userId")
