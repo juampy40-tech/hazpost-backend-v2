@@ -1217,7 +1217,13 @@ export default function Businesses() {
               name: editingBusiness.name,
               industry: editingBusiness.industry ?? "",
               subIndustry: editingBusiness.subIndustry ?? "",
-              subIndustries: (() => { try { return JSON.parse(editingBusiness.subIndustries ?? "[]"); } catch { return editingBusiness.subIndustry ? [editingBusiness.subIndustry] : []; } })(),
+              subIndustries: (() => {
+                const parsedSubs = splitSavedSubIndustries(editingBusiness.subIndustries);
+
+                return parsedSubs.length > 0
+                  ? parsedSubs
+                  : splitSavedSubIndustries(editingBusiness.subIndustry);
+              })(),
               description: editingBusiness.description ?? "",
               brandTone: editingBusiness.brandTone ?? "",
               audienceDescription: editingBusiness.audienceDescription ?? "",
