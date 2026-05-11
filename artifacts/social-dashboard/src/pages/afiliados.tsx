@@ -83,6 +83,13 @@ export default function Afiliados() {
       toast({ title: "Completa nombre y email", variant: "destructive" });
       return;
     }
+    if (!/\S+@\S+\.\S+/.test(form.email)) {
+      toast({
+        title: "Email inválido",
+        variant: "destructive",
+      });
+      return;
+    }    
     setSubmitting(true);
     try {
       const r = await fetch(`${BASE}/api/affiliates/apply`, {
