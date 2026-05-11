@@ -290,14 +290,7 @@ export default function Profile() {
       setBizName(active.name ?? "");
       setRawSavedIndustry(active.industry ?? "");
 
-     const loadedSubInds = (() => {
-      try {
-        if (Array.isArray(active.subIndustries)) return active.subIndustries as unknown as string[];
-        return JSON.parse(active.subIndustries ?? "[]") as string[];
-      } catch {
-      return [];
-      }
-    })();
+      const loadedSubInds = splitSavedSubIndustries(active.subIndustries);
   
       setBizSubIndustries(
         loadedSubInds.length > 0
