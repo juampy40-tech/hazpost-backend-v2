@@ -322,7 +322,11 @@ export default function Profile() {
     const applyProfileToForm = (profile: Record<string, unknown>) => {
       setBrandProfileExists(true);
 
-      const linkedBusinessId = Number(profile.businessId);
+      const linkedBusinessId = Number(
+        profile.businessId ||
+        profile.business_id ||
+        profile.id
+      );
 
       setBizId(
         Number.isFinite(linkedBusinessId) && linkedBusinessId > 0
