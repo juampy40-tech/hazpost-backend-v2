@@ -44,7 +44,14 @@ export function ActiveBusinessProvider({ children }: { children: React.ReactNode
       .then(r => (r.ok ? r.json() : null))
       .then(d => {
         if (!d) {
-          setBusiness(prev => ({ ...prev, loaded: true }));
+          setBusiness({
+            id: undefined,
+            name: undefined,
+            industry: undefined,
+            total: 0,
+            loaded: true,
+            list: [],
+          });
           return;
         }
         const list: BusinessItem[] = d.businesses ?? [];
