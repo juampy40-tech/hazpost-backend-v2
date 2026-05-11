@@ -891,7 +891,13 @@ function BusinessCard({
               <p className="text-xs text-muted-foreground mt-0.5">
                 {business.industry}
                 {(() => {
-                  const subs = (() => { try { return JSON.parse(business.subIndustries ?? "[]") as string[]; } catch { return business.subIndustry ? [business.subIndustry] : []; } })();
+                  const subs = (() => {
+                    const parsedSubs = splitSavedSubIndustries(business.subIndustries);
+
+                    return parsedSubs.length > 0
+                      ? parsedSubs
+                      : splitSavedSubIndustries(business.subIndustry);
+                  })();
                   return subs.length > 0 ? <span className="ml-1 opacity-70">· {subs.join(" · ")}</span> : null;
                 })()}
               </p>
