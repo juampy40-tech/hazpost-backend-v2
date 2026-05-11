@@ -230,6 +230,12 @@ function BusinessForm({
   const [customIndustry, setCustomIndustry] = useState(
     initial?.industry && !catalog.find(e => e.name === initial.industry) && initial.industry !== "" ? initial.industry : ""
   );
+  useEffect(() => {
+    setForm({
+      ...emptyForm(),
+      ...initial,
+    });
+  }, [initial]);
   const [customIndustryStatus, setCustomIndustryStatus] = useState<"idle" | "validating" | "ok" | "error">("idle");
   const [customIndustryMsg, setCustomIndustryMsg] = useState("");
   const [customSubIndustry, setCustomSubIndustry] = useState("");
