@@ -441,26 +441,27 @@ def create_app():
                     "error": "Email y contraseña requeridos"
                 }), 400
 
-            user = {
-                "id": 1,
-                "email": email,
-                "displayName": email.split("@")[0],
-                "role": _get_user_role(email),
-                "plan": "agency" if _get_user_role(email) == "admin" else "free",
-                "aiCredits": 250 if _get_user_role(email) == "admin" else 40,
-                "onboardingStep": 1,
-                "emailVerified": True,
-                "avatarUrl": None,
-                "timezone": data.get("timezone") or "UTC",
-            }
+            if not db_available():
+                return jsonify({
+                    "success": False,
+                    "error": "Base de datos no disponible"
+                }), 503
+
+            user = verify_user_password(email, password)
+
+            if not user:
+                return jsonify({
+                    "success": False,
+                    "error": "Email o contraseña incorrectos"
+                }), 401
 
             subscription = {
-                "id": 1,
+                "id": user["id"],
                 "userId": user["id"],
-                "plan": user["plan"],
+                "plan": user.get("plan", "free"),
                 "status": "active",
-                "creditsRemaining": user["aiCredits"],
-                "creditsTotal": user["aiCredits"],
+                "creditsRemaining": user.get("aiCredits", 40),
+                "creditsTotal": user.get("aiCredits", 40),
                 "periodEnd": None,
             }
 
@@ -468,7 +469,7 @@ def create_app():
             session["user"] = user
             session["subscription"] = subscription
             session.permanent = True
-            session.modified = True  # 🔥 IMPORTANTE
+            session.modified = True
 
             return jsonify({
                 "success": True,
@@ -478,7 +479,10 @@ def create_app():
 
         except Exception as e:
             logger.exception(f"LOGIN ERROR: {e}")
-            return jsonify({"error": "Error interno"}), 500
+            return jsonify({
+                "success": False,
+                "error": "Error interno"
+            }), 500
 
     # ============================================================
     # USER ME — Obtener y actualizar datos del usuario
