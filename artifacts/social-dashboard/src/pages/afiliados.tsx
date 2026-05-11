@@ -3,7 +3,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { Handshake, Star, DollarSign, TrendingUp, CheckCircle2, Clock, AlertCircle, Send } from "lucide-react";
 
-const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
+const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
 
 interface AffiliateApp {
   id: number;
