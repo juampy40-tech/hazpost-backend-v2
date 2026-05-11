@@ -146,15 +146,26 @@ export function toLocalDatetimeInput(d: Date, tz = ADMIN_TZ): string {
 export function localDatetimeInputToUtc(local: string, tz = ADMIN_TZ): string {
   const [datePart, timePart] = local.split("T");
   const [year, month, day] = (datePart ?? "").split("-").map(Number);
-  const [hours, minutes]   = (timePart ?? "").split(":").map(Number);
+  const [hours, minutes] = (timePart ?? "").split(":").map(Number);
+
   if (!year || !month || !day || hours == null || minutes == null) return local;
-  const naiveUTC = new Date(Date.UTC(year, month - 1, day, hours, minutes, 0));
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: tz, hour: "numeric", hour12: false,
-  }).formatToParts(naiveUTC);
-  const localH = parseInt(parts.find(p => p.type === "hour")?.value ?? String(hours), 10) % 24;
-  const offsetH = localH - hours;
-  return new Date(naiveUTC.getTime() - offsetH * 3_600_000).toISOString();
+
+  const targetLocal = `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+
+  let guess = new Date(Date.UTC(year, month - 1, day, hours, minutes, 0));
+
+  for (let i = 0; i < 3; i += 1) {
+    const rendered = toLocalDatetimeInput(guess, tz);
+    if (rendered === targetLocal) break;
+
+    const renderedDate = new Date(`${rendered}:00`);
+    const targetDate = new Date(`${targetLocal}:00`);
+    const diffMs = targetDate.getTime() - renderedDate.getTime();
+
+    guess = new Date(guess.getTime() + diffMs);
+  }
+
+  return guess.toISOString();
 }
 
 // ─── Aliases deprecados — mantener por retrocompatibilidad ───────────────────
