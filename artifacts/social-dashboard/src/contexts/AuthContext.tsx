@@ -136,6 +136,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [user?.id]);
 
   const login = useCallback(async (email: string, password: string) => {
+    queryClient.clear();
+
+    localStorage.removeItem("hz_pending_logo");
+    localStorage.removeItem("hz_pending_color");
+    localStorage.removeItem("hz_pending_website");
+
     const data = await apiFetch("/user/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
