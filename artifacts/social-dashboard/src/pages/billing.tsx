@@ -463,6 +463,61 @@ export default function Billing() {
           <p className="text-muted-foreground text-sm">Resumen de tu suscripción, créditos y negocios.</p>
         </div>
 
+        {/* ── Growth / Brand Readiness Hero ── */}
+        <div className="bg-gradient-to-br from-primary/15 via-card to-card border border-primary/25 rounded-2xl p-5 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                <Zap className="w-3.5 h-3.5" />
+                Tu IA está lista para ayudarte a vender más
+              </div>
+
+              <div>
+                <h2 className="text-xl font-bold text-foreground">
+                  Tu marca está lista para crecer 🚀
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
+                  HazPost ya tiene tu negocio, tu plan y tus créditos listos para generar contenido profesional en menos tiempo.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="rounded-xl border border-border/70 bg-background/40 p-3">
+                  <p className="text-xs text-muted-foreground">Negocios activos</p>
+                  <p className="text-lg font-bold text-foreground">{activeBusinesses.length}</p>
+                </div>
+                <div className="rounded-xl border border-border/70 bg-background/40 p-3">
+                  <p className="text-xs text-muted-foreground">Créditos disponibles</p>
+                  <p className="text-lg font-bold text-foreground">{creditsRemaining.toLocaleString()}</p>
+                </div>
+                <div className="rounded-xl border border-border/70 bg-background/40 p-3">
+                  <p className="text-xs text-muted-foreground">Plan actual</p>
+                  <p className="text-lg font-bold text-foreground">{displayPlanData?.name ?? currentPlanKey}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4 min-w-[240px]">
+              <p className="text-sm font-semibold text-foreground mb-3">
+                Estado de tu cuenta
+              </p>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Check className="w-4 h-4 text-green-400" />
+                  Negocio principal conectado
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Check className="w-4 h-4 text-green-400" />
+                  Créditos listos para generar
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Check className="w-4 h-4 text-green-400" />
+                  IA personalizada activa
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>        
         {/* Cart (sticky) */}
         {cartItems.length > 0 && (
           <div className="mb-6">
