@@ -55,6 +55,28 @@ def init_db():
                 );
             """))
 
+            # 🔐 USERS — Auth real HazPost
+            db.execute(text("""
+                CREATE TABLE IF NOT EXISTS users (
+                    id SERIAL PRIMARY KEY,
+                    email TEXT NOT NULL UNIQUE,
+                    password_hash TEXT NOT NULL,
+                    display_name TEXT,
+                    role TEXT NOT NULL DEFAULT 'user',
+                    plan TEXT NOT NULL DEFAULT 'free',
+                    ai_credits INTEGER NOT NULL DEFAULT 40,
+                    email_verified BOOLEAN NOT NULL DEFAULT FALSE,
+                    timezone TEXT NOT NULL DEFAULT 'America/Bogota',
+                    created_at TIMESTAMP DEFAULT NOW(),
+                    updated_at TIMESTAMP DEFAULT NOW()
+                );
+            """))
+
+            db.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_users_email
+                ON users (email);
+            """))
+
             # 🔴 POSTS — Persistencia real + numeración por usuario
             db.execute(text("""
                 CREATE TABLE IF NOT EXISTS posts (
