@@ -538,7 +538,7 @@ function BusinessForm({
         {form.logoUrl ? (
           <div className="flex items-center gap-3">
             <img
-              src={form.logoUrl}
+              src={resolveAssetUrl(form.logoUrl)}
               alt="Logo"
               className="w-14 h-14 object-contain rounded-lg border border-border bg-muted"
             />
