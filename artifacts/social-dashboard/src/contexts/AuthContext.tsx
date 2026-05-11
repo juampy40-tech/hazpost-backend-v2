@@ -197,6 +197,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch {}
 
     queryClient.clear();
+
+    localStorage.removeItem("hz_pending_logo");
+    localStorage.removeItem("hz_pending_color");
+    localStorage.removeItem("hz_pending_website");
+
     setUser(null);
     setSubscription(null);
   }, []);
