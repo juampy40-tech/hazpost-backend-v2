@@ -980,6 +980,7 @@ def _user_row_to_dict(row):
         "emailVerified": bool(row.get("email_verified")),
         "avatarUrl": None,
         "timezone": row.get("timezone") or "America/Bogota",
+        "authVersion": 2,
         "createdAt": row.get("created_at").isoformat() if row.get("created_at") else None,
         "updatedAt": row.get("updated_at").isoformat() if row.get("updated_at") else None,
     }
