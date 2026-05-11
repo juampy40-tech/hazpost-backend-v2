@@ -320,8 +320,15 @@ export default function Profile() {
     };
 
     const applyProfileToForm = (profile: Record<string, unknown>) => {
-  setBrandProfileExists(true);
-  setBizId(null);
+      setBrandProfileExists(true);
+
+      const linkedBusinessId = Number(profile.businessId);
+
+      setBizId(
+        Number.isFinite(linkedBusinessId) && linkedBusinessId > 0
+          ? linkedBusinessId
+          : null
+      );
 
   setBizName(
     String(
