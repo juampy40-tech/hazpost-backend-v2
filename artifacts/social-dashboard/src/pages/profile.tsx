@@ -873,10 +873,10 @@ async function loadProfile() {
         <div className="space-y-1">
           <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
             <Building2 className="w-4 h-4 text-primary" />
-            Tu negocio vive en “Mis Negocios”
+            Configura tu negocio para que la IA genere contenido que venda mejor
           </h2>
           <p className="text-sm text-muted-foreground">
-            Configura logo, slogan, colores, industria, audiencia y tono para que la IA genere contenido que venda mejor.
+            Logo, slogan, colores, audiencia, industria y tono de marca para crear contenido más profesional y convertir más clientes.
           </p>
         </div>
 
