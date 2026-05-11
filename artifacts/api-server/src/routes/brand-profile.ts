@@ -44,6 +44,7 @@ router.get("/", requireAuth, async (req, res) => {
     return res.json({
       profile: {
         ...(legacyProfile ?? {}),
+        businessId: business.id,
         companyName: business.name ?? legacyProfile?.companyName ?? null,
         name: business.name ?? legacyProfile?.companyName ?? null,
         industry: business.industry ?? legacyProfile?.industry ?? null,
