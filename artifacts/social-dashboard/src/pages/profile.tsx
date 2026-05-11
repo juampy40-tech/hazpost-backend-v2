@@ -869,6 +869,26 @@ async function loadProfile() {
       </Card>
 
       {/* ── Perfil de marca ──────────────────────────────── */}
+      <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-primary" />
+            Tu negocio vive en “Mis Negocios”
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Configura logo, slogan, colores, industria, audiencia y tono para que la IA genere contenido que venda mejor.
+          </p>
+        </div>
+
+        <Button
+          type="button"
+          className="shrink-0"
+          onClick={() => window.location.href = "/businesses"}
+        >
+          Administrar mi negocio →
+        </Button>
+      </div>      
+      {false && (
       <Card className="border-border/50 bg-card/50">
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-2 text-base">
@@ -1403,6 +1423,7 @@ async function loadProfile() {
           )}
         </CardContent>
       </Card>
+      )}
     </div>
   );
 }
