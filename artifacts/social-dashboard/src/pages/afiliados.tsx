@@ -38,44 +38,44 @@ export default function Afiliados() {
     }));
   }, [user]);
 
-useEffect(() => {
-  let cancelled = false;
+  useEffect(() => {
+    let cancelled = false;
 
-  Promise.all([
-    fetch(`${BASE}/api/affiliates/status`, {
-      credentials: "include",
-    }).then(r => r.json()),
+    Promise.all([
+      fetch(`${BASE}/api/affiliates/status`, {
+        credentials: "include",
+      }).then(r => r.json()),
 
-    fetch(`${BASE}/api/affiliates/settings`, {
-      credentials: "include",
-    }).then(r => r.json()),
-  ])
-    .then(([statusData, settingsData]) => {
-      if (cancelled) return;
+      fetch(`${BASE}/api/affiliates/settings`, {
+        credentials: "include",
+      }).then(r => r.json()),
+    ])
+      .then(([statusData, settingsData]) => {
+        if (cancelled) return;
 
-      setApplication(statusData.application ?? null);
+        setApplication(statusData.application ?? null);
 
-      if (settingsData.default_commission_pct) {
-        setGlobalPct(Number(settingsData.default_commission_pct));
-      }
+        if (settingsData.default_commission_pct) {
+          setGlobalPct(Number(settingsData.default_commission_pct));
+        }
 
-      if (settingsData.default_duration_months) {
-        setGlobalMonths(Number(settingsData.default_duration_months));
-      }
-    })
-    .catch((err) => {
-      console.error("Affiliate load error:", err);
-    })
-    .finally(() => {
-      if (!cancelled) {
-        setLoading(false);
-      }
-    });
+        if (settingsData.default_duration_months) {
+          setGlobalMonths(Number(settingsData.default_duration_months));
+        }
+      })
+      .catch((err) => {
+        console.error("Affiliate load error:", err);
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
 
-  return () => {
-    cancelled = true;
-  };
-}, []);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
