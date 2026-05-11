@@ -885,7 +885,7 @@ async function loadProfile() {
           className="shrink-0"
           onClick={() => window.location.href = "/businesses"}
         >
-          Administrar mi negocio →
+          Optimizar mi negocio →
         </Button>
       </div>      
       {false && (
