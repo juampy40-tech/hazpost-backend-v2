@@ -23,7 +23,7 @@ export default function ResetPassword() {
       toast({ title: "Enlace inválido", description: "Este enlace no tiene un token de recuperación.", variant: "destructive" });
     }
     setToken(t);
-  }, []);
+  }, [toast]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
