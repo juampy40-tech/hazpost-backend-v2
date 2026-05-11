@@ -594,9 +594,10 @@ def create_app():
             display_name = data.get("displayName") or data.get("name") or ""
             affiliate_code = data.get("affiliateCode")
             referral_code = data.get("referralCode")
-            selected_plan = data.get("selectedPlan")
+            selected_plan = data.get("selectedPlan") or "free"
             logo_url = data.get("logoUrl")
             primary_color = data.get("primaryColor")
+            timezone_value = data.get("timezone") or "America/Bogota"
 
             if not email or not password:
                 return jsonify({
@@ -604,26 +605,36 @@ def create_app():
                     "error": "Email y contraseña requeridos"
                 }), 400
 
-            user = {
-                "id": 1,
-                "email": email,
-                "displayName": display_name or email.split("@")[0],
-                "role": _get_user_role(email),
-                "plan": selected_plan or "free",
-                "aiCredits": 40,
-                "onboardingStep": 1,
-                "emailVerified": False,
-                "avatarUrl": None,
-                "timezone": data.get("timezone") or "UTC",
-            }
+            if len(password) < 8:
+                return jsonify({
+                    "success": False,
+                    "error": "La contraseña debe tener mínimo 8 caracteres"
+                }), 400
+
+            if not db_available():
+                return jsonify({
+                    "success": False,
+                    "error": "Base de datos no disponible"
+                }), 503
+
+            role = _get_user_role(email)
+
+            user = create_user(
+                email=email,
+                password=password,
+                display_name=display_name,
+                role=role,
+                plan="agency" if role == "admin" else selected_plan,
+                timezone=timezone_value,
+            )
 
             subscription = {
-                "id": 1,
+                "id": user["id"],
                 "userId": user["id"],
-                "plan": selected_plan or "free",
+                "plan": user.get("plan", "free"),
                 "status": "active",
-                "creditsRemaining": 40,
-                "creditsTotal": 40,
+                "creditsRemaining": user.get("aiCredits", 40),
+                "creditsTotal": user.get("aiCredits", 40),
                 "periodEnd": None,
             }
 
@@ -644,13 +655,18 @@ def create_app():
                 "primaryColor": primary_color,
             }), 201
 
+        except ValueError as e:
+            return jsonify({
+                "success": False,
+                "error": str(e)
+            }), 400
+
         except Exception as e:
             logger.exception(f"REGISTER ERROR: {e}")
             return jsonify({
                 "success": False,
                 "error": "Error interno"
             }), 500
-
 
     # ============================================================
     # INDUSTRIES — Dropdown onboarding
