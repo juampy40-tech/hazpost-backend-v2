@@ -78,7 +78,14 @@ export function ActiveBusinessProvider({ children }: { children: React.ReactNode
         }
       })
       .catch(() => {
-        setBusiness(prev => ({ ...prev, loaded: true }));
+        setBusiness({
+          id: undefined,
+          name: undefined,
+          industry: undefined,
+          total: 0,
+          loaded: true,
+          list: [],
+        });
       });
   }, []);
 
