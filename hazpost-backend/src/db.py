@@ -956,3 +956,128 @@ def save_text_block(user_id, block):
         })
 
     return block
+
+# ================================
+# USERS / AUTH REAL
+# ================================
+
+def _normalize_email(email):
+    return str(email or "").strip().lower()
+
+
+def _user_row_to_dict(row):
+    if not row:
+        return None
+
+    return {
+        "id": row.get("id"),
+        "email": row.get("email"),
+        "displayName": row.get("display_name") or str(row.get("email")).split("@")[0],
+        "role": row.get("role") or "user",
+        "plan": row.get("plan") or "free",
+        "aiCredits": row.get("ai_credits") or 40,
+        "onboardingStep": 1,
+        "emailVerified": bool(row.get("email_verified")),
+        "avatarUrl": None,
+        "timezone": row.get("timezone") or "America/Bogota",
+        "createdAt": row.get("created_at").isoformat() if row.get("created_at") else None,
+        "updatedAt": row.get("updated_at").isoformat() if row.get("updated_at") else None,
+    }
+
+
+def get_user_by_email(email):
+    clean_email = _normalize_email(email)
+
+    if not clean_email:
+        return None
+
+    with db_session() as db:
+        row = db.execute(text("""
+            SELECT *
+            FROM users
+            WHERE email = :email
+            LIMIT 1;
+        """), {
+            "email": clean_email,
+        }).mappings().first()
+
+    return row
+
+
+def create_user(email, password, display_name=None, role="user", plan="free", timezone="America/Bogota"):
+    clean_email = _normalize_email(email)
+    password = str(password or "")
+
+    if not clean_email:
+        raise ValueError("Email requerido")
+
+    if len(password) < 8:
+        raise ValueError("La contraseña debe tener mínimo 8 caracteres")
+
+    password_hash = generate_password_hash(password)
+
+    ai_credits = 250 if plan == "agency" or role == "admin" else 40
+
+    try:
+        with db_session() as db:
+            row = db.execute(text("""
+                INSERT INTO users (
+                    email,
+                    password_hash,
+                    display_name,
+                    role,
+                    plan,
+                    ai_credits,
+                    email_verified,
+                    timezone,
+                    updated_at
+                )
+                VALUES (
+                    :email,
+                    :password_hash,
+                    :display_name,
+                    :role,
+                    :plan,
+                    :ai_credits,
+                    FALSE,
+                    :timezone,
+                    NOW()
+                )
+                RETURNING *;
+            """), {
+                "email": clean_email,
+                "password_hash": password_hash,
+                "display_name": display_name or clean_email.split("@")[0],
+                "role": role or "user",
+                "plan": plan or "free",
+                "ai_credits": ai_credits,
+                "timezone": timezone or "America/Bogota",
+            }).mappings().first()
+
+    except IntegrityError:
+        raise ValueError("Ya existe una cuenta con ese email")
+
+    return _user_row_to_dict(row)
+
+
+def verify_user_password(email, password):
+    clean_email = _normalize_email(email)
+    password = str(password or "")
+
+    if not clean_email or not password:
+        return None
+
+    row = get_user_by_email(clean_email)
+
+    if not row:
+        return None
+
+    password_hash = row.get("password_hash")
+
+    if not password_hash:
+        return None
+
+    if not check_password_hash(password_hash, password):
+        return None
+
+    return _user_row_to_dict(row)
