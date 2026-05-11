@@ -38,6 +38,35 @@ const TONES = [
 
 const SELECT_CLS = "w-full h-9 rounded-md border border-input bg-background/60 px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring text-foreground";
 
+const splitSavedSubIndustries = (value: unknown): string[] => {
+  if (!value) return [];
+
+  if (Array.isArray(value)) {
+    return value.map(String).map(s => s.trim()).filter(Boolean);
+  }
+
+  if (typeof value === "string") {
+    const raw = value.trim();
+    if (!raw) return [];
+
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        return parsed.map(String).map(s => s.trim()).filter(Boolean);
+      }
+    } catch {
+      // Si no es JSON, seguimos con separación por comas.
+    }
+
+    return raw
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+};
+
 interface RefImage { base64: string; analysis: string; addedAt: string; }
 
 const GOOGLE_FONTS_50 = [
