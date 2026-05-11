@@ -79,7 +79,7 @@ export default function Afiliados() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.name || !form.email) {
+    if (!form.name.trim() || !form.email.trim()) {
       toast({ title: "Completa nombre y email", variant: "destructive" });
       return;
     }
