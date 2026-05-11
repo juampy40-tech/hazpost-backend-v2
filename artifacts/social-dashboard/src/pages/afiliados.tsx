@@ -31,6 +31,14 @@ export default function Afiliados() {
   });
 
   useEffect(() => {
+    setForm(prev => ({
+      ...prev,
+      name: user?.displayName ?? "",
+      email: user?.email ?? "",
+    }));
+  }, [user]);
+
+  useEffect(() => {
     Promise.all([
       fetch(`${BASE}/api/affiliates/status`, { credentials: "include" }).then(r => r.json()),
       fetch(`${BASE}/api/affiliates/settings`, { credentials: "include" }).then(r => r.json()),
