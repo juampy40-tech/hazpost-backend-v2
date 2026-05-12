@@ -341,24 +341,22 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </SidebarGroupContent>
             </SidebarGroup>
 
-            {/* Mis Negocios link — shown for agency plan or admin */}
-            {(user?.plan === "agency" || user?.role === "admin") && (
-              <SidebarGroup>
-                <SidebarGroupLabel className="text-xs font-semibold text-secondary/70 uppercase tracking-widest mb-2">Agencia</SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={location === "/businesses"} className={`relative overflow-hidden transition-all duration-300 ${location === "/businesses" ? "text-primary" : "text-muted-foreground hover:text-foreground hover:bg-white/5"}`}>
-                        <Link href="/businesses">
-                          <Building2 className="w-5 h-5 mr-3" />
-                          <span className="font-medium tracking-wide">Mis Negocios</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
-            )}
+            {/* Mis Negocios link — visible para todos los planes */}
+            <SidebarGroup>
+              <SidebarGroupLabel className="text-xs font-semibold text-secondary/70 uppercase tracking-widest mb-2">Negocio</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild isActive={location === "/businesses"} className={`relative overflow-hidden transition-all duration-300 ${location === "/businesses" ? "text-primary" : "text-muted-foreground hover:text-foreground hover:bg-white/5"}`}>
+                      <Link href="/businesses">
+                        <Building2 className="w-5 h-5 mr-3" />
+                        <span className="font-medium tracking-wide">Mis Negocios</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
 
             {/* Admin link */}
             {user?.role === "admin" && (
