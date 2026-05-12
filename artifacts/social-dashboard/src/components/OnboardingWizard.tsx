@@ -1592,6 +1592,7 @@ interface Props {
   initialData?: BrandProfile;
   editMode?: boolean;
   registrationMode?: boolean;
+  onSubmitProfile?: (data: BrandProfile) => Promise<void>;
 }
 
 export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialStep = 0, initialData = {}, editMode = false, registrationMode = false }: Props) {
