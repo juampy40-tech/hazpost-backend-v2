@@ -1250,7 +1250,6 @@ def create_app():
             # PUT / PATCH
             # ============================
             data = request.get_json(silent=True) or {}
-            context = data.get("context") or {}            
 
             updated_business = update_business(
                 user_id=user_id,
