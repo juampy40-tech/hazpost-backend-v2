@@ -232,6 +232,10 @@ export async function analyzeWebsite(
       .join("\n")
       .slice(0, 5000);
 
+console.log("===== CONTENT SUMMARY =====");
+console.log(contentSummary);
+console.log("===== END CONTENT SUMMARY =====");
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       max_tokens: 400,
