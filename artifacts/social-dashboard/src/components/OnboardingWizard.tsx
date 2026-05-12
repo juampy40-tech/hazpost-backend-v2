@@ -1870,8 +1870,14 @@ async function doNext() {
     if (ok) setStep(prevStep);
   }
 
- async function handleComplete() {
-  await saveProgress(4, true);
+  async function handleComplete() {
+    if (onSubmitProfile) {
+      await onSubmitProfile(data);
+      onComplete();
+      return;
+    }
+
+    await saveProgress(4, true);
 
   const finalDescription =
     data.businessDescription ||
