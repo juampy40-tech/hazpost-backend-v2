@@ -180,13 +180,8 @@ export async function analyzeWebsite(
       metaDesc ? `Meta descripción: ${metaDesc}` : "",
       h1 ? `H1: ${h1}` : "",
       h2s ? `Subtítulos: ${h2s}` : "",
-      navText ? `Categorías y navegación: ${navText}` : "",
-      productHints ? `Productos detectados: ${productHints}` : "",
       `Contenido principal: ${bodyText}`,
-    ]
-      .filter(Boolean)
-      .join("\n")
-      .slice(0, 4000);
+    ].filter(Boolean).join("\n").slice(0, 5000);
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
