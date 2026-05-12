@@ -191,7 +191,7 @@ export async function analyzeWebsite(
       $("main, [role='main'], section, header")
         .first()
         .text()
-    ).slice(0, 1200);
+    ).slice(0, 300);
 
     const primaryCtas = $("a, button")
       .slice(0, 20)
