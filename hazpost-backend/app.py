@@ -1075,10 +1075,11 @@ def create_app():
 
             website = (
                 data.get("website")
+                or data.get("url")
                 or business.get("website")
                 or ""
             ).strip()
-
+           
             if not website:
                 return jsonify({
                     "success": False,
