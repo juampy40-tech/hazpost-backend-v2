@@ -149,6 +149,17 @@ export async function analyzeWebsite(
 
   let html = "";
   try {
+    const response = await safeFetch(safeUrl);
+    clearTimeout(timeout);
+    if (!response.ok) return nullResult;
+    const raw = await response.text();
+    html = raw.slice(0, 200_000);
+  } catch {
+    clearTimeout(timeout);
+    return nullResult;
+  }
+
+  try {
     const $ = load(html);
 
     $("script, style, noscript, footer, aside, svg").remove();
