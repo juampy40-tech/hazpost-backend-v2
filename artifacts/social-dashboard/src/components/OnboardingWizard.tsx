@@ -1869,7 +1869,7 @@ async function doNext() {
   }
 
  async function handleComplete() {
-  await saveProgress(5, true);
+  await saveProgress(4, true);
 
   const finalDescription =
     data.businessDescription ||
