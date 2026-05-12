@@ -370,10 +370,17 @@ function BusinessForm({
 
     return {
       ...currentForm,
-      description:         !currentForm.description.trim()         && data.description  ? data.description  : currentForm.description,
-      audienceDescription: !currentForm.audienceDescription.trim() && data.audience     ? data.audience     : currentForm.audienceDescription,
-      brandTone:           !currentForm.brandTone                  && normalizedTone    ? normalizedTone    : currentForm.brandTone,
-      primaryColor:        currentForm.primaryColor === "#0077FF"  && data.primaryColor ? data.primaryColor : currentForm.primaryColor,
+      description:
+        data.description || currentForm.description,
+
+      audienceDescription:
+        data.audience || currentForm.audienceDescription,
+
+      brandTone:
+        normalizedTone || currentForm.brandTone,
+
+      primaryColor:
+        data.primaryColor || currentForm.primaryColor,
     };
   }
 
