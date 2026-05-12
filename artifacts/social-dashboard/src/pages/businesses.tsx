@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { OnboardingWizard } from "@/components/OnboardingWizard";
+import BusinessIdentityStep from "@/components/brand-profile/BusinessIdentityStep";
 import type { BrandProfile } from "@/types/brand";
 import { DeleteBusinessModal } from "@/components/DeleteBusinessModal";
 
