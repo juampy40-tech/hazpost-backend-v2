@@ -261,3 +261,5 @@ function Step1({
     </div>
   );
 }
+
+export default Step1;
