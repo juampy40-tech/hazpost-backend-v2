@@ -172,11 +172,21 @@ export async function analyzeWebsite(
       .replace(/\s+/g, " ")
       .trim()
       .slice(0, 1200);
+
     const navText = $("nav, header")
       .text()
       .replace(/\s+/g, " ")
       .trim()
       .slice(0, 800);
+
+    const productHints = $("a, button, span")
+      .map((_, el) => $(el).text().trim())
+      .get()
+      .filter(text =>
+        /reloj|smartwatch|camara|cámara|audifono|audífono|microfono|micrófono|comprar|carrito|tienda|precio/i.test(text)
+      )
+      .slice(0, 40)
+      .join(" | ");
     const themeColor = $("meta[name='theme-color']").attr("content") ?? null;
 
     const contentSummary = [
