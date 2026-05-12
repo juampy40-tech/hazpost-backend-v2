@@ -543,7 +543,9 @@ function BusinessForm({
     companyName: form.name,
     industry: form.industry,
     subIndustry: form.subIndustries.join(","),
-    city: form.defaultLocation,
+    city: form.city || form.defaultLocation,
+    country: form.country,
+    slogan: form.slogan,
     website: form.website,
   };
 
