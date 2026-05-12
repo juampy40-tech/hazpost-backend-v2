@@ -362,14 +362,13 @@ function BusinessForm({
       body: JSON.stringify({
         url: currentForm.website.trim(),
         context: {
-          context: {
-            companyName: currentForm.name,
-            slogan: currentForm.slogan || "",
-            industry: currentForm.industry,
-            subIndustry: currentForm.subIndustries?.join(", ") || currentForm.subIndustry,
-            city: currentForm.city || currentForm.defaultLocation || "",
-            country: currentForm.country || "",
-          },
+          companyName: currentForm.name,
+          slogan: currentForm.slogan || "",
+          industry: currentForm.industry,
+          subIndustry: currentForm.subIndustries?.join(", ") || currentForm.subIndustry,
+          city: currentForm.city || currentForm.defaultLocation || "",
+          country: currentForm.country || "",
+        },
       }),
     });
     const data = await res.json();
