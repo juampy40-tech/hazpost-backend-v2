@@ -462,6 +462,12 @@ function CountrySelect({
                 </div>
               )}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 // ── Upload helper ──────────────────────────────────────────────────────────────
 
