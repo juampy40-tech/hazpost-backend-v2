@@ -1079,7 +1079,7 @@ export default function Businesses() {
               subIndustry: editingBusiness.subIndustry || "",
               city: editingBusiness.defaultLocation || "",
               website: editingBusiness.website || "",
-              slogan: editingBusiness.slogan || "",
+              slogan: "",
               businessDescription: editingBusiness.description || "",
               audienceDescription: editingBusiness.audienceDescription || "",
               brandTone: editingBusiness.brandTone || "",
