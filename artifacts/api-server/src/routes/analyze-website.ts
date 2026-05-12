@@ -191,7 +191,7 @@ export async function analyzeWebsite(
       messages: [
         {
           role: "system",
-content: `Eres un experto en branding, marketing y análisis comercial para negocios reales.
+          content: `Eres un experto en branding, marketing y análisis comercial para negocios reales.
 
 Tu tarea es identificar el negocio REAL del usuario usando:
 1. Datos del formulario del usuario como fuente principal.
