@@ -228,6 +228,11 @@ REGLAS IMPORTANTES:
 - NO describas el negocio como academia si vende productos.
 - El slogan y subindustria tienen prioridad sobre textos secundarios del sitio.
 - Si la subindustria es "Relojería", enfoca la descripción en relojes y accesorios.
+- Si la información del formulario contradice el contenido del sitio web, SIEMPRE gana el formulario del usuario.
+- Usa el sitio web solo para complementar productos, estilo visual y contexto comercial.
+- NO redefinas el tipo de negocio basándote en blogs o textos secundarios.
+- Prioriza productos, catálogo y branding visible sobre artículos educativos.
+- Si existen relojes, accesorios, smartwatch, joyería o productos físicos visibles, enfoca la descripción en ecommerce y venta de productos.
 
 CONTENIDO DEL SITIO WEB:
 
