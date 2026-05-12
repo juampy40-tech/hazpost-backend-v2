@@ -341,7 +341,8 @@ function BusinessForm({
   async function runWebsiteAnalysis(currentForm: BusinessFormData): Promise<BusinessFormData> {
     const endpoint = businessId
       ? `${BASE}/api/businesses/${businessId}/analyze-website`
-      : `${BASE}/api/brand/analyze-website`;
+      : `${BASE}/api/analyze-website`;
+
     const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
