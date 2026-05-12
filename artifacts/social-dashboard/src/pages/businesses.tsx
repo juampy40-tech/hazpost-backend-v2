@@ -946,8 +946,8 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
     country: profile.country || "",
     slogan: profile.slogan || "",
 
-    primaryColor: profile.primaryColor || "#0077FF",
-    secondaryColor: profile.secondaryColor || "#00C2FF",
+    primaryColor: profile.primaryColor || "",
+    secondaryColor: profile.secondaryColor || "",
     website: profile.website || "",
     logoUrl: profile.logoUrl || "",
     brandFont: profile.brandFont || "poppins",
