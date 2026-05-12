@@ -1040,6 +1040,8 @@ def create_app():
                 "error": "Error interno"
             }), 500
 
+    from openai import OpenAI
+
     # ============================================================
     # BUSINESS DETAIL — PostgreSQL real
     # ============================================================
