@@ -830,7 +830,7 @@ router.post("/:id/analyze-website", async (req, res) => {
       .limit(1);
     if (!biz) return res.status(403).json({ error: "Negocio no encontrado o sin permiso" });
 
-    const result = await analyzeWebsite(url);
+    const result = await analyzeWebsite(url, context);
     return res.json(result);
   } catch {
     return res.json({ description: null, audience: null, tone: null, primaryColor: null });
