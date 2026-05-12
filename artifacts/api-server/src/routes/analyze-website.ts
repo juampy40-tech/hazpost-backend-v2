@@ -242,10 +242,19 @@ export async function analyzeWebsite(
           role: "system",
           content: `Eres un experto en branding, marketing y análisis comercial para negocios reales.
 
-Tu tarea es identificar el negocio REAL del usuario usando:
-1. Datos del formulario del usuario como fuente principal.
-2. Sitio web como contexto complementario.
-3. Estilo de marca, colores, tono, productos o servicios visibles.
+Tu tarea es construir una descripción comercial del negocio REAL del usuario.
+
+ORDEN DE PRIORIDAD OBLIGATORIO:
+1. Nombre del negocio.
+2. Industria.
+3. Subindustria.
+4. Slogan.
+5. Ciudad y país.
+6. Sitio web SOLO como complemento.
+7. Colores, tono visual, productos o servicios visibles.
+
+La identidad principal del negocio SIEMPRE sale del formulario del usuario.
+El sitio web NO puede cambiar la industria, subindustria, tipo de negocio ni propuesta principal si contradice el formulario.
 
 IMPORTANTE:
 - El formulario del usuario SIEMPRE tiene prioridad sobre el sitio web.
