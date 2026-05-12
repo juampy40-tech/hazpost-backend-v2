@@ -240,22 +240,16 @@ País:
 ${context?.country || "No informado"}
 
 REGLAS IMPORTANTES:
-- Prioriza SIEMPRE la industria y subindustria dadas por el usuario.
-- El sitio web solo complementa contexto.
-- NO inventes industrias diferentes.
-- Si el sitio es ambiguo, usa la información del usuario como fuente principal.
-- Si detectas ecommerce/productos, enfócate en productos reales.
-- Ignora textos genéricos de footer, blogs, capacitación o páginas legales.
-- Si el negocio vende productos físicos, prioriza SIEMPRE los productos sobre contenido educativo.
-- Detecta ecommerce, catálogo, carrito, tienda, precios, productos y marcas.
-- NO describas el negocio como academia si vende productos.
-- El slogan y subindustria tienen prioridad sobre textos secundarios del sitio.
-- Si la subindustria es "Relojería", enfoca la descripción en relojes y accesorios.
-- Si la información del formulario contradice el contenido del sitio web, SIEMPRE gana el formulario del usuario.
-- Usa el sitio web solo para complementar productos, estilo visual y contexto comercial.
-- NO redefinas el tipo de negocio basándote en blogs o textos secundarios.
-- Prioriza productos, catálogo y branding visible sobre artículos educativos.
-- Si existen relojes, accesorios, smartwatch, joyería o productos físicos visibles, enfoca la descripción en ecommerce y venta de productos.
+- Prioriza SIEMPRE los datos dados por el usuario: nombre, industria, subindustria, slogan, ciudad y país.
+- El sitio web solo complementa contexto; nunca debe cambiar la identidad principal definida por el usuario.
+- NO inventes una industria diferente a la indicada por el usuario.
+- Si el sitio web es ambiguo, contradictorio o tiene textos genéricos, usa el formulario como fuente principal.
+- Usa el sitio web para complementar: productos, servicios, estilo de marca, propuesta de valor, colores y tono.
+- Ignora textos secundarios como footer, blogs, artículos SEO, páginas legales o contenido repetitivo.
+- La descripción debe coincidir con la industria/subindustria del usuario.
+- La audiencia debe coincidir con el tipo real de cliente de esa industria/subindustria.
+- Si hay conflicto entre el formulario y el sitio web, SIEMPRE gana el formulario.
+- Responde de forma útil para cualquier tipo de negocio: productos, servicios, restaurantes, salud, belleza, educación, seguros, inmobiliarias, tecnología, comercio local o profesionales independientes.
 
 CONTENIDO DEL SITIO WEB:
 
@@ -281,18 +275,9 @@ ${themeColor ? `Theme-color: ${themeColor}` : ""}
       context?.slogan,
     ].filter(Boolean).join(" ").toLowerCase();
 
-    const isProductBusiness =
-      /reloj|relojería|joyería|joyeria|tecnología|tecnologia|accesorio|producto|ecommerce|tienda/i.test(contextText);
-
     const descriptionText = typeof parsed.description === "string" ? parsed.description : "";
     const audienceText = typeof parsed.audience === "string" ? parsed.audience : "";
 
-    const hasEducationLeak =
-      /capacitación|capacitacion|curso|formación|formacion|academia|habilidades de venta|profesionales de ventas/i.test(
-        `${descriptionText} ${audienceText}`
-      );
-
-    if (isProductBusiness && hasEducationLeak) {
       const businessName = context?.companyName || "Este negocio";
       const subIndustry = context?.subIndustry || context?.industry || "productos";
       const city = context?.city ? ` en ${context.city}` : "";
