@@ -1153,6 +1153,10 @@ def create_app():
 
             return jsonify({
                 "success": True,
+                "description": suggestions.get("description"),
+                "audience": suggestions.get("audienceDescription"),
+                "tone": suggestions.get("brandTone"),
+                "primaryColor": suggestions.get("primaryColor"),
                 "suggestions": suggestions
             })
 
