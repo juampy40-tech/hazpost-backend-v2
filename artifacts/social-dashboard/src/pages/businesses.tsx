@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import BusinessIdentityStep from "@/components/brand-profile/BusinessIdentityStep";
+import type { BrandProfile } from "@/types/brand";
 import { DeleteBusinessModal } from "@/components/DeleteBusinessModal";
 
 const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
