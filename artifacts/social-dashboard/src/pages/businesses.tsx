@@ -1115,7 +1115,7 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
             }}
             onDismiss={() => setEditingBusiness(null)}
             onSubmitProfile={async (profile) => {
-              await handleEdit(profile as any);
+              await handleEdit(mapBrandProfileToBusinessForm(profile));
             }}
           />
         </div>
