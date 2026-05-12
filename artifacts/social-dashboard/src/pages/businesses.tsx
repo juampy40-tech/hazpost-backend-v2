@@ -186,18 +186,23 @@ interface BusinessFormData {
   industry: string;
   subIndustry: string;
   subIndustries: string[];
+
   description: string;
   brandTone: string;
   audienceDescription: string;
+
   defaultLocation: string;
   city: string;
   country: string;
   slogan: string;
+
   primaryColor: string;
   secondaryColor: string;
+
   website: string;
   logoUrl: string;
   brandFont: string;
+
   referenceImages: RefImage[];
 }
 
@@ -206,21 +211,25 @@ const emptyForm = (): BusinessFormData => ({
   industry: "",
   subIndustry: "",
   subIndustries: [],
+
   description: "",
   brandTone: "",
   audienceDescription: "",
+
   defaultLocation: "",
   city: "",
   country: "",
   slogan: "",
-  primaryColor: "#0077FF",
-  secondaryColor: "#00C2FF",
+
+  primaryColor: "",
+  secondaryColor: "",
+
   website: "",
   logoUrl: "",
   brandFont: "poppins",
+
   referenceImages: [],
 });
-
 function BusinessForm({
   initial,
   businessId,
