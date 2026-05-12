@@ -167,7 +167,16 @@ export async function analyzeWebsite(
     const metaDesc = $("meta[name='description']").attr("content") ?? $("meta[property='og:description']").attr("content") ?? "";
     const h1 = $("h1").first().text().trim();
     const h2s = $("h2").slice(0, 5).map((_, el) => $(el).text().trim()).get().join(" | ");
-    const bodyText = $("body").text().replace(/\s+/g, " ").trim().slice(0, 4000);
+    const bodyText = $("main, section")
+      .text()
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 1200);
+    const navText = $("nav, header")
+      .text()
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 800);
     const themeColor = $("meta[name='theme-color']").attr("content") ?? null;
 
     const contentSummary = [
