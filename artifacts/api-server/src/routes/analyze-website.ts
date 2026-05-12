@@ -149,31 +149,66 @@ export async function analyzeWebsite(
 
   let html = "";
   try {
-    const response = await safeFetch(safeUrl);
-    clearTimeout(timeout);
-    if (!response.ok) return nullResult;
-    const raw = await response.text();
-    html = raw.slice(0, 200_000);
-  } catch {
-    clearTimeout(timeout);
-    return nullResult;
-  }
-
-  try {
     const $ = load(html);
-    $("script, style, noscript, nav, footer, header, aside, svg, img").remove();
 
-    const title = $("title").text().trim();
-    const metaDesc = $("meta[name='description']").attr("content") ?? $("meta[property='og:description']").attr("content") ?? "";
-    const h1 = $("h1").first().text().trim();
-    const h2s = $("h2").slice(0, 5).map((_, el) => $(el).text().trim()).get().join(" | ");
-    const bodyText = $("body")
-      .text()
-      .replace(/\s+/g, " ")
-      .trim()
-      .slice(0, 4000);
+    $("script, style, noscript, footer, aside, svg").remove();
 
-    const themeColor = $("meta[name='theme-color']").attr("content") ?? null;
+    const cleanText = (value: string) =>
+      value
+        .replace(/\s+/g, " ")
+        .replace(/[\t\n\r]+/g, " ")
+        .trim();
+
+    const title = cleanText($("title").text());
+
+    const metaDesc = cleanText(
+      $("meta[name='description']").attr("content") ??
+      $("meta[property='og:description']").attr("content") ??
+      ""
+    );
+
+    const h1 = cleanText($("h1").first().text());
+
+    const h2s = $("h2")
+      .slice(0, 4)
+      .map((_, el) => cleanText($(el).text()))
+      .get()
+      .filter(Boolean)
+      .join(" | ");
+
+    const heroText = cleanText(
+      $("main, [role='main'], section, header")
+        .first()
+        .text()
+    ).slice(0, 1200);
+
+    const primaryCtas = $("a, button")
+      .slice(0, 20)
+      .map((_, el) => cleanText($(el).text()))
+      .get()
+      .filter(Boolean)
+      .filter(text => text.length >= 3 && text.length <= 80)
+      .slice(0, 8)
+      .join(" | ");
+
+    const mainHeadings = $("h1, h2, h3")
+      .slice(0, 10)
+      .map((_, el) => cleanText($(el).text()))
+      .get()
+      .filter(Boolean)
+      .join(" | ");
+
+    const bodyText = [
+      heroText ? `Hero / primera sección: ${heroText}` : "",
+      primaryCtas ? `CTAs visibles: ${primaryCtas}` : "",
+      mainHeadings ? `Títulos principales: ${mainHeadings}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n")
+      .slice(0, 2500);
+
+    const themeColor =
+      $("meta[name='theme-color']").attr("content") ?? null;
 
     const contentSummary = [
       title ? `Título: ${title}` : "",
@@ -181,7 +216,10 @@ export async function analyzeWebsite(
       h1 ? `H1: ${h1}` : "",
       h2s ? `Subtítulos: ${h2s}` : "",
       `Contenido principal: ${bodyText}`,
-    ].filter(Boolean).join("\n").slice(0, 5000);
+    ]
+      .filter(Boolean)
+      .join("\n")
+      .slice(0, 5000);
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
