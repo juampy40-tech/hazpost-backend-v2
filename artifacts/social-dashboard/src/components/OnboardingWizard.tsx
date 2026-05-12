@@ -2026,7 +2026,7 @@ async function doNext() {
   }
 
   const isLastStep = step === 4;
-  const TOTAL_STEPS = 5;
+  const TOTAL_STEPS = 4;
 
   return (
     <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-center justify-center p-4">
