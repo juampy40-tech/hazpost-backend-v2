@@ -951,9 +951,20 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
     website: profile.website || "",
     logoUrl: profile.logoUrl || "",
     brandFont: profile.brandFont || "poppins",
-    referenceImages: Array.isArray(profile.referenceImages)
-      ? profile.referenceImages
-      : [],
+    referenceImages: (() => {
+      if (Array.isArray(profile.referenceImages)) return profile.referenceImages;
+
+      if (typeof profile.referenceImages === "string") {
+        try {
+          const parsed = JSON.parse(profile.referenceImages);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      }
+
+      return [];
+    })(),
   };
 }
   
