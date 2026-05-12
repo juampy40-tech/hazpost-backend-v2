@@ -1171,6 +1171,9 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
               primaryColor: editingBusiness.primaryColor || "",
               secondaryColor: editingBusiness.secondaryColor || "",
               logoUrl: editingBusiness.logoUrl || "",
+              referenceImages: typeof editingBusiness.referenceImages === "string"
+                ? editingBusiness.referenceImages
+                : JSON.stringify(editingBusiness.referenceImages ?? []),
             }}
             onComplete={() => {
               setEditingBusiness(null);
