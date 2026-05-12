@@ -1756,13 +1756,14 @@ def create_app():
                     "error": "Tipo de archivo no permitido"
                 }), 400
 
-            user_key = _get_storage_user_key()
+            user_key = _get_storage_user_key() or request.args.get("userId")
             if not user_key:
                 return jsonify({
                     "success": False,
                     "error": "No autenticado"
-                }), 401            
-            object_key = f"uploads/{user_key}/{safe_name}"
+                }), 401
+
+            object_key = f"uploads/{secure_filename(user_key)}/{safe_name}"
 
             mime_map = {
                 "png": "image/png",
