@@ -223,6 +223,11 @@ REGLAS IMPORTANTES:
 - Si el sitio es ambiguo, usa la información del usuario como fuente principal.
 - Si detectas ecommerce/productos, enfócate en productos reales.
 - Ignora textos genéricos de footer, blogs, capacitación o páginas legales.
+- Si el negocio vende productos físicos, prioriza SIEMPRE los productos sobre contenido educativo.
+- Detecta ecommerce, catálogo, carrito, tienda, precios, productos y marcas.
+- NO describas el negocio como academia si vende productos.
+- El slogan y subindustria tienen prioridad sobre textos secundarios del sitio.
+- Si la subindustria es "Relojería", enfoca la descripción en relojes y accesorios.
 
 CONTENIDO DEL SITIO WEB:
 
