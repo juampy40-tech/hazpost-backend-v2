@@ -227,7 +227,17 @@ Responde SOLO con un JSON con estos campos:
  * when the active business context is implied by the user session.
  */
 router.post("/", requireAuth, async (req, res) => {
-  const { url } = req.body as { url?: string };
+  const { url, context } = req.body as {
+    url?: string;
+    context?: {
+      companyName?: string;
+      slogan?: string;
+      industry?: string;
+      subIndustry?: string;
+      city?: string;
+      country?: string;
+    };
+  };
   if (!url || typeof url !== "string") {
     return res.status(400).json({ error: "URL requerida" });
   }
