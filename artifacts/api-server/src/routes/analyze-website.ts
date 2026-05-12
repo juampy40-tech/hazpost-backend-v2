@@ -275,6 +275,32 @@ ${themeColor ? `Theme-color: ${themeColor}` : ""}
       primaryColor: string | null;
     }>;
 
+    const contextText = [
+      context?.industry,
+      context?.subIndustry,
+      context?.slogan,
+    ].filter(Boolean).join(" ").toLowerCase();
+
+    const isProductBusiness =
+      /reloj|relojería|joyería|joyeria|tecnología|tecnologia|accesorio|producto|ecommerce|tienda/i.test(contextText);
+
+    const descriptionText = typeof parsed.description === "string" ? parsed.description : "";
+    const audienceText = typeof parsed.audience === "string" ? parsed.audience : "";
+
+    const hasEducationLeak =
+      /capacitación|capacitacion|curso|formación|formacion|academia|habilidades de venta|profesionales de ventas/i.test(
+        `${descriptionText} ${audienceText}`
+      );
+
+    if (isProductBusiness && hasEducationLeak) {
+      const businessName = context?.companyName || "Este negocio";
+      const subIndustry = context?.subIndustry || context?.industry || "productos";
+      const city = context?.city ? ` en ${context.city}` : "";
+
+      parsed.description = `${businessName} es una tienda de ${subIndustry}${city}, enfocada en productos, accesorios y soluciones prácticas para sus clientes.`;
+      parsed.audience = `Personas interesadas en comprar ${subIndustry.toLowerCase()}, accesorios y productos útiles con atención cercana y confiable.`;
+    }    
+
     return {
       description: typeof parsed.description === "string" ? parsed.description : null,
       audience: typeof parsed.audience === "string" ? parsed.audience : null,
