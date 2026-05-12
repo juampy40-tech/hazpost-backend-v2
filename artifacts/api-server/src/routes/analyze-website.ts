@@ -354,12 +354,23 @@ NO uses eso para definir el negocio si contradice la industria, subindustria o s
     }>;
 
     return {
-      description: "TEST BACKEND ANALYZE WEBSITE ACTIVO",
-      audience: typeof parsed.audience === "string" ? parsed.audience : null,
-      tone: typeof parsed.tone === "string" ? parsed.tone : null,
-      primaryColor: typeof parsed.primaryColor === "string" && /^#[0-9a-fA-F]{6}$/.test(parsed.primaryColor)
-        ? parsed.primaryColor
-        : null,
+      description:
+        typeof parsed.description === "string"
+          ? parsed.description
+          : null,
+      audience:
+        typeof parsed.audience === "string"
+          ? parsed.audience
+          : null,
+      tone:
+        typeof parsed.tone === "string"
+          ? parsed.tone
+          : null,
+      primaryColor:
+        typeof parsed.primaryColor === "string" &&
+        /^#[0-9a-fA-F]{6}$/.test(parsed.primaryColor)
+          ? parsed.primaryColor
+          : null,
     };
   } catch {
     return nullResult;
