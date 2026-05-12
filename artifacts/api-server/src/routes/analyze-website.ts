@@ -230,7 +230,7 @@ export async function analyzeWebsite(
     ]
       .filter(Boolean)
       .join("\n")
-      .slice(0, 5000);
+      .slice(0, 1500);
 
 console.log("===== CONTENT SUMMARY =====");
 console.log(contentSummary);
