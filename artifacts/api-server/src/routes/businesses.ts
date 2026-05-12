@@ -810,7 +810,17 @@ router.post("/:id/analyze-website", async (req, res) => {
     const id = Number(req.params.id);
     if (!id || isNaN(id)) return res.status(400).json({ error: "ID inválido" });
 
-    const { url } = req.body as { url?: string };
+    const { url, context } = req.body as {
+      url?: string;
+      context?: {
+        companyName?: string;
+        slogan?: string;
+        industry?: string;
+        subIndustry?: string;
+        city?: string;
+        country?: string;
+      };
+    };
     if (!url || typeof url !== "string") return res.status(400).json({ error: "URL requerida" });
 
     // Verify ownership — the business must belong to the authenticated user
