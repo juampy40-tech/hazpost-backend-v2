@@ -244,49 +244,23 @@ console.log("===== END CONTENT SUMMARY =====");
       messages: [
         {
           role: "system",
-          content: `Eres un experto en branding, marketing y análisis comercial para negocios reales.
+          content: `Eres un experto en branding y marketing para negocios reales.
 
-El usuario YA definió correctamente su negocio mediante el formulario.
+Genera una descripción comercial corta, clara y útil del negocio.
 
-Tu trabajo es enriquecer comercialmente esa identidad usando el sitio web solo como apoyo visual, contextual y de branding.
+Usa principalmente:
+- nombre del negocio
+- industria
+- subindustria
+- slogan
+- ciudad y país
 
-ORDEN DE PRIORIDAD OBLIGATORIO:
-1. Nombre del negocio.
-2. Industria.
-3. Subindustria.
-4. Slogan.
-5. Ciudad y país.
-6. Sitio web SOLO como complemento.
-7. Colores, tono visual, productos o servicios visibles.
+Usa el sitio web solo como apoyo para entender productos visibles, estilo de marca, colores y tono.
 
-La identidad principal del negocio SIEMPRE sale del formulario del usuario.
-El sitio web NO puede cambiar la industria, subindustria, tipo de negocio ni propuesta principal si contradice el formulario.
+No sobreinterpretes el sitio web.
+No conviertas el negocio en academia, formación o cursos salvo que el formulario lo diga claramente.
 
-REGLA CRÍTICA:
-Si el sitio web parece pertenecer a otra categoría, sector o actividad distinta,
-DEBES confiar primero en:
-- industria,
-- subindustria,
-- slogan,
-- nombre del negocio,
-en vez del contenido del sitio.
-
-El website puede contener blogs, SEO, textos educativos o contenido secundario incorrecto.
-
-El slogan del negocio tiene prioridad MUY ALTA para entender qué vende realmente la marca.
-
-NO describas el negocio como academia, plataforma educativa o formación
-a menos que el formulario del usuario lo indique explícitamente.
-
-IMPORTANTE:
-- El formulario del usuario SIEMPRE tiene prioridad sobre el sitio web.
-- NO inventes una industria diferente.
-- NO redefinas el negocio usando blogs, artículos SEO, textos legales o contenido repetitivo.
-- Usa el sitio web solo para complementar productos, servicios, propuesta de valor, estilo visual, colores y tono.
-- La descripción debe coincidir con la industria/subindustria indicada por el usuario.
-- La audiencia debe coincidir con el tipo real de cliente de esa industria/subindustria.
-- Sirve para cualquier tipo de negocio: productos, servicios, restaurantes, salud, belleza, educación, seguros, inmobiliarias, tecnología, comercio local o profesionales independientes.
-- Responde SOLO con JSON válido.
+Responde SOLO con JSON válido.
 
 Campos requeridos:
 - description
@@ -298,48 +272,17 @@ Campos requeridos:
         {
           role: "user",
           content: `
-DATOS DEL NEGOCIO DADOS POR EL USUARIO:
+DATOS DEL NEGOCIO:
+Nombre: ${context?.companyName || "No informado"}
+Slogan: ${context?.slogan || "No informado"}
+Industria: ${context?.industry || "No informado"}
+Subindustria: ${context?.subIndustry || "No informado"}
+Ciudad: ${context?.city || "No informado"}
+País: ${context?.country || "No informado"}
 
-Nombre:
-${context?.companyName || "No informado"}
-
-Slogan:
-${context?.slogan || "No informado"}
-
-Industria:
-${context?.industry || "No informado"}
-
-Subindustria:
-${context?.subIndustry || "No informado"}
-
-Ciudad:
-${context?.city || "No informado"}
-
-País:
-${context?.country || "No informado"}
-
-REGLAS IMPORTANTES:
-- Prioriza SIEMPRE los datos dados por el usuario: nombre, industria, subindustria, slogan, ciudad y país.
-- El sitio web solo complementa contexto; nunca debe cambiar la identidad principal definida por el usuario.
-- NO inventes una industria diferente a la indicada por el usuario.
-- Si el sitio web es ambiguo, contradictorio o tiene textos genéricos, usa el formulario como fuente principal.
-- Usa el sitio web para complementar: productos, servicios, estilo de marca, propuesta de valor, colores y tono.
-- Ignora textos secundarios como footer, blogs, artículos SEO, páginas legales o contenido repetitivo.
-- La descripción debe coincidir con la industria/subindustria del usuario.
-- La audiencia debe coincidir con el tipo real de cliente de esa industria/subindustria.
-- Si hay conflicto entre el formulario y el sitio web, SIEMPRE gana el formulario.
-- Responde de forma útil para cualquier tipo de negocio: productos, servicios, restaurantes, salud, belleza, educación, seguros, inmobiliarias, tecnología, comercio local o profesionales independientes.
-
-CONTEXTO DEL SITIO WEB — SOLO COMO APOYO, NO COMO IDENTIDAD:
-
-${themeColor ? `Color detectado del sitio: ${themeColor}` : ""}
-
-Resumen visual limitado:
+REFERENCIA DEL SITIO WEB:
+${themeColor ? `Color detectado: ${themeColor}` : ""}
 ${contentSummary}
-
-RECORDATORIO FINAL:
-Aunque el resumen del sitio mencione ventas, formación, recursos, cursos, blogs o contenido educativo,
-NO uses eso para definir el negocio si contradice la industria, subindustria o slogan del usuario.
 `,
         },
       ],
