@@ -2025,7 +2025,7 @@ async function doNext() {
     if (ok) setStep(target);
   }
 
-  const isLastStep = step === 4;
+  const isLastStep = step === 3;
   const TOTAL_STEPS = 4;
 
   return (
