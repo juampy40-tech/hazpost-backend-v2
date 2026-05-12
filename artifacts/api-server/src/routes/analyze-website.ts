@@ -231,7 +231,7 @@ router.post("/", requireAuth, async (req, res) => {
   if (!url || typeof url !== "string") {
     return res.status(400).json({ error: "URL requerida" });
   }
-  const result = await analyzeWebsite(url);
+  const result = await analyzeWebsite(url, context);
   return res.json(result);
 });
 
