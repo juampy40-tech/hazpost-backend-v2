@@ -512,6 +512,30 @@ function BusinessForm({
     f.label.toLowerCase().includes(fontSearch.toLowerCase())
   );
 
+  const sharedBrandProfile: BrandProfile = {
+    companyName: form.name,
+    industry: form.industry,
+    subIndustry: form.subIndustries.join(","),
+    city: form.defaultLocation,
+    website: form.website,
+  };
+
+  function patchSharedBrandProfile(patch: Partial<BrandProfile>) {
+    setForm(f => ({
+      ...f,
+      name: patch.companyName ?? f.name,
+      industry: patch.industry ?? f.industry,
+      subIndustries: patch.subIndustry
+        ? patch.subIndustry.split(",").map(s => s.trim()).filter(Boolean)
+        : f.subIndustries,
+      subIndustry: patch.subIndustry
+        ? patch.subIndustry.split(",").map(s => s.trim()).filter(Boolean)[0] ?? ""
+        : f.subIndustry,
+      defaultLocation: patch.city ?? f.defaultLocation,
+      website: patch.website ?? f.website,
+    }));
+  }
+  
   return (
     <div className="space-y-4">
       {/* Website analysis (available in create AND edit mode) */}
