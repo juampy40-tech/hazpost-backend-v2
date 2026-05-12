@@ -1072,6 +1072,7 @@ def create_app():
                 }), 404
 
             data = request.get_json(silent=True) or {}
+            context = data.get("context") or {}
 
             website = (
                 data.get("website")
