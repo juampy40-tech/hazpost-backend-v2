@@ -1595,7 +1595,16 @@ interface Props {
   onSubmitProfile?: (data: BrandProfile) => Promise<void>;
 }
 
-export function OnboardingWizard({ onComplete, onDismiss, onChooseFree, initialStep = 0, initialData = {}, editMode = false, registrationMode = false }: Props) {
+export function OnboardingWizard({
+  onComplete,
+  onDismiss,
+  onChooseFree,
+  initialStep = 0,
+  initialData = {},
+  editMode = false,
+  registrationMode = false,
+  onSubmitProfile,
+}: Props) {
   const { toast } = useToast();
   const { user } = useAuth();
   const [step, setStep] = useState(initialStep);
