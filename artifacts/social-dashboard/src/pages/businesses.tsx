@@ -538,32 +538,11 @@ function BusinessForm({
   
   return (
     <div className="space-y-4">
-      {/* Website analysis (available in create AND edit mode) */}
-      <div className="space-y-1.5">
-        <Label className="text-xs text-muted-foreground">Sitio web</Label>
-        <div className="flex gap-2">
-          <Input
-            value={form.website}
-            onChange={e => set("website", e.target.value)}
-            placeholder="https://minegocio.com"
-            className="bg-background/50"
-          />
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            onClick={handleAnalyzeWebsite}
-            disabled={analyzing || !form.website.trim()}
-            className="shrink-0 border-primary/40 text-primary hover:bg-primary/10"
-          >
-            {analyzing
-              ? <RefreshCw className="w-3.5 h-3.5 mr-1.5 animate-spin" />
-              : <Globe className="w-3.5 h-3.5 mr-1.5" />}
-            {analyzing ? "Analizando…" : "Analizar con IA"}
-          </Button>
-        </div>
-        <p className="text-[11px] text-muted-foreground">Pre-llena los campos vacíos analizando tu sitio web con IA.</p>
-      </div>
+
+      <BusinessIdentityStep
+        data={sharedBrandProfile}
+        onChange={patchSharedBrandProfile}
+      />
 
       {/* Logo upload */}
       <div className="space-y-1.5">
