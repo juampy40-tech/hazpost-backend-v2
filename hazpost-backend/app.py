@@ -1106,12 +1106,12 @@ def create_app():
                 El formulario del usuario tiene PRIORIDAD sobre el website.
 
                 DATOS DEL NEGOCIO:
-                - Nombre: {context.get("companyName") or business.get("companyName") or business.get("name") or ""}
-                - Industria: {context.get("industry") or business.get("industry") or ""}
-                - Subindustria: {context.get("subIndustry") or business.get("subIndustry") or ""}
-                - Slogan: {context.get("slogan") or business.get("slogan") or ""}
-                - Ciudad: {context.get("city") or business.get("city") or ""}
-                - País: {context.get("country") or business.get("country") or ""}
+                - Nombre: {context.get("companyName", business.get("companyName") or business.get("name") or "")}
+                - Industria: {context.get("industry", business.get("industry") or "")}
+                - Subindustria: {context.get("subIndustry", business.get("subIndustry") or "")}
+                - Slogan: {context.get("slogan", "")}
+                - Ciudad: {context.get("city", business.get("city") or "")}
+                - País: {context.get("country", business.get("country") or "")}
 
                 WEBSITE:
                 {website}
