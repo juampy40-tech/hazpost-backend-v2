@@ -1043,6 +1043,126 @@ def create_app():
     from openai import OpenAI
 
     # ============================================================
+    # ANALYZE BUSINESS WEBSITE — IA segura por negocio
+    # ============================================================
+    @app.route('/api/businesses/<int:business_id>/analyze-website', methods=['POST'])
+    def analyze_business_website(business_id):
+        try:
+            user_id = _require_authenticated_user_id()
+
+            if not user_id:
+                return jsonify({
+                    "success": False,
+                    "error": "No autenticado"
+                }), 401
+
+            if not db_available():
+                return jsonify({
+                    "success": False,
+                    "error": "Base de datos no disponible"
+                }), 503
+
+            business = get_business(user_id, business_id)
+
+            if not business:
+                return jsonify({
+                    "success": False,
+                    "error": "Negocio no encontrado"
+                }), 404
+
+            data = request.get_json(silent=True) or {}
+
+            website = (
+                data.get("website")
+                or business.get("website")
+                or ""
+            ).strip()
+
+            if not website:
+                return jsonify({
+                    "success": False,
+                    "error": "Website requerido"
+                }), 400
+
+            if not website.startswith("http"):
+                website = f"https://{website}"
+
+            suggestions = {
+                "description": None,
+                "audienceDescription": None,
+                "brandTone": None,
+                "primaryColor": None
+            }
+
+            try:
+                client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+                prompt = f"""
+                Analiza este negocio basado en su website:
+
+                Website:
+                {website}
+
+                Devuelve:
+                - descripción corta del negocio
+                - audiencia ideal
+                - tono recomendado (formal, cercano, técnico, divertido o inspiracional)
+                - color principal HEX aproximado
+
+                Responde SOLO JSON válido con:
+                {{
+                    "description": "...",
+                    "audienceDescription": "...",
+                    "brandTone": "...",
+                    "primaryColor": "#000000"
+                }}
+                """
+
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "Eres un experto en branding y marketing."
+                        },
+                        {
+                            "role": "user",
+                            "content": prompt
+                        }
+                    ],
+                    temperature=0.7,
+                    response_format={"type": "json_object"}
+                )
+
+                ai_content = response.choices[0].message.content
+
+                if ai_content:
+                    parsed = json.loads(ai_content)
+
+                    suggestions = {
+                        "description": parsed.get("description"),
+                        "audienceDescription": parsed.get("audienceDescription"),
+                        "brandTone": parsed.get("brandTone"),
+                        "primaryColor": parsed.get("primaryColor")
+                    }
+
+            except Exception as ai_error:
+                logger.exception("Analyze website AI error")
+
+            return jsonify({
+                "success": True,
+                "suggestions": suggestions
+            })
+
+        except Exception as e:
+            logger.exception("Analyze business website error")
+
+            return jsonify({
+                "success": False,
+                "error": str(e)
+            }), 500
+
+    # ============================================================
     # BUSINESS DETAIL — PostgreSQL real
     # ============================================================
     @app.route('/api/businesses/<int:business_id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
