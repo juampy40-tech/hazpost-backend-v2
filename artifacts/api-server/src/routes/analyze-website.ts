@@ -316,15 +316,6 @@ ${themeColor ? `Theme-color: ${themeColor}` : ""}
       tone: string | null;
       primaryColor: string | null;
     }>;
-    const businessName = context?.companyName?.trim() || "Este negocio";
-    const industry = context?.subIndustry?.trim() || context?.industry?.trim() || "";
-    const city = context?.city?.trim();
-
-    if (industry) {
-      parsed.description = `${businessName} es un negocio de ${industry}${city ? ` en ${city}` : ""}, enfocado en ofrecer soluciones confiables, útiles y alineadas con las necesidades de sus clientes.`;
-
-      parsed.audience = `Personas interesadas en ${industry.toLowerCase()} que buscan una opción confiable, cercana y profesional.`;
-    }
 
     return {
       description: typeof parsed.description === "string" ? parsed.description : null,
