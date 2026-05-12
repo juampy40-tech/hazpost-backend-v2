@@ -916,7 +916,12 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
     description: profile.businessDescription || "",
     brandTone: profile.brandTone || "",
     audienceDescription: profile.audienceDescription || "",
+
     defaultLocation: profile.city || "",
+    city: profile.city || "",
+    country: profile.country || "",
+    slogan: profile.slogan || "",
+
     primaryColor: profile.primaryColor || "#0077FF",
     secondaryColor: profile.secondaryColor || "#00C2FF",
     website: profile.website || "",
