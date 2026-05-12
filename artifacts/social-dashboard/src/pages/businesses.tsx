@@ -176,6 +176,9 @@ interface Business {
   isActive: boolean;
   sortOrder: number;
   createdAt: string;
+  city: string | null;
+  country: string | null;
+  slogan: string | null;
 }
 
 interface BusinessFormData {
@@ -187,6 +190,9 @@ interface BusinessFormData {
   brandTone: string;
   audienceDescription: string;
   defaultLocation: string;
+  city: string;
+  country: string;
+  slogan: string;
   primaryColor: string;
   secondaryColor: string;
   website: string;
