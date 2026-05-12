@@ -1743,12 +1743,15 @@ async function triggerAnalyze(url: string): Promise<void> {
       body: JSON.stringify({
         url,
         website: url,
-        companyName: data.companyName,
-        slogan: data.slogan,
-        industry: data.industry,
-        subIndustry: data.subIndustry,
-        country: data.country,
-        city: data.city,
+
+        context: {
+          companyName: data.companyName,
+          slogan: data.slogan,
+          industry: data.industry,
+          subIndustry: data.subIndustry,
+          country: data.country,
+          city: data.city,
+        },
       }),
     });
 
