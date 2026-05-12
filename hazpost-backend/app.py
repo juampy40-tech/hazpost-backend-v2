@@ -1100,18 +1100,34 @@ def create_app():
                 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
                 prompt = f"""
-                Analiza este negocio basado en su website:
+                Eres un experto en branding y marketing para negocios reales.
 
-                Website:
+                El formulario del usuario tiene PRIORIDAD sobre el website.
+
+                DATOS DEL NEGOCIO:
+                - Nombre: {business.get("companyName") or business.get("name") or ""}
+                - Industria: {business.get("industry") or ""}
+                - Subindustria: {business.get("subIndustry") or ""}
+                - Slogan: {business.get("slogan") or ""}
+                - Ciudad: {business.get("city") or ""}
+                - País: {business.get("country") or ""}
+
+                WEBSITE:
                 {website}
 
-                Devuelve:
-                - descripción corta del negocio
-                - audiencia ideal
-                - tono recomendado (formal, cercano, técnico, divertido o inspiracional)
-                - color principal HEX aproximado
+                INSTRUCCIONES:
+                - Usa el website SOLO como apoyo visual y comercial.
+                - NO redefinas el negocio usando blogs o textos secundarios.
+                - NO conviertas el negocio en academia o cursos salvo que el formulario lo indique.
+                - Prioriza industria, subindustria, slogan y nombre del negocio.
+                - Usa el website principalmente para:
+                  - colores
+                  - tono visual
+                  - productos visibles
+                  - estilo de marca
 
-                Responde SOLO JSON válido con:
+                Devuelve SOLO JSON válido:
+
                 {{
                     "description": "...",
                     "audienceDescription": "...",
