@@ -350,7 +350,17 @@ function BusinessForm({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ url: currentForm.website.trim() }),
+      body: JSON.stringify({
+        url: currentForm.website.trim(),
+        context: {
+          companyName: currentForm.name,
+          slogan: "",
+          industry: currentForm.industry,
+          subIndustry: currentForm.subIndustries?.join(", ") || currentForm.subIndustry,
+          city: currentForm.defaultLocation,
+          country: "",
+        },
+      }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error ?? "Error al analizar");
