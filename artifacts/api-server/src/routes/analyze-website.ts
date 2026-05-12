@@ -195,7 +195,8 @@ export async function analyzeWebsite(
       h1 ? `H1: ${h1}` : "",
       h2s ? `Subtítulos: ${h2s}` : "",
       navText ? `Categorías y navegación: ${navText}` : "",
-      `Contenido principal: ${bodyText}`,
+      productHints ? `Productos detectados: ${productHints}` : "",
+     `Contenido principal: ${bodyText}`,
     ]
       .filter(Boolean)
       .join("\n")
