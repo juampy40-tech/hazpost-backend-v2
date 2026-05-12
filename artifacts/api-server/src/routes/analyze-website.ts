@@ -328,11 +328,16 @@ REGLAS IMPORTANTES:
 - Si hay conflicto entre el formulario y el sitio web, SIEMPRE gana el formulario.
 - Responde de forma útil para cualquier tipo de negocio: productos, servicios, restaurantes, salud, belleza, educación, seguros, inmobiliarias, tecnología, comercio local o profesionales independientes.
 
-CONTENIDO DEL SITIO WEB:
+CONTEXTO DEL SITIO WEB — SOLO COMO APOYO, NO COMO IDENTIDAD:
 
+${themeColor ? `Color detectado del sitio: ${themeColor}` : ""}
+
+Resumen visual limitado:
 ${contentSummary}
 
-${themeColor ? `Theme-color: ${themeColor}` : ""}
+RECORDATORIO FINAL:
+Aunque el resumen del sitio mencione ventas, formación, recursos, cursos, blogs o contenido educativo,
+NO uses eso para definir el negocio si contradice la industria, subindustria o slogan del usuario.
 `,
         },
       ],
