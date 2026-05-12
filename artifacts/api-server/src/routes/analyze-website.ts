@@ -195,7 +195,41 @@ Responde SOLO con un JSON con estos campos:
         },
         {
           role: "user",
-          content: `${contentSummary}${themeColor ? `\nTheme-color: ${themeColor}` : ""}`,
+          content: `
+DATOS DEL NEGOCIO DADOS POR EL USUARIO:
+
+Nombre:
+${context?.companyName || "No informado"}
+
+Slogan:
+${context?.slogan || "No informado"}
+
+Industria:
+${context?.industry || "No informado"}
+
+Subindustria:
+${context?.subIndustry || "No informado"}
+
+Ciudad:
+${context?.city || "No informado"}
+
+País:
+${context?.country || "No informado"}
+
+REGLAS IMPORTANTES:
+- Prioriza SIEMPRE la industria y subindustria dadas por el usuario.
+- El sitio web solo complementa contexto.
+- NO inventes industrias diferentes.
+- Si el sitio es ambiguo, usa la información del usuario como fuente principal.
+- Si detectas ecommerce/productos, enfócate en productos reales.
+- Ignora textos genéricos de footer, blogs, capacitación o páginas legales.
+
+CONTENIDO DEL SITIO WEB:
+
+${contentSummary}
+
+${themeColor ? `Theme-color: ${themeColor}` : ""}
+`,
         },
       ],
     });
