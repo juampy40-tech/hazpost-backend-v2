@@ -885,6 +885,27 @@ export default function Businesses() {
       .catch(() => {});
   }, []);
 
+function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData {
+  return {
+    name: profile.companyName || "",
+    industry: profile.industry || "",
+    subIndustry: profile.subIndustry || "",
+    subIndustries: profile.subIndustry
+      ? profile.subIndustry.split(",").map(s => s.trim()).filter(Boolean)
+      : [],
+    description: profile.businessDescription || "",
+    brandTone: profile.brandTone || "",
+    audienceDescription: profile.audienceDescription || "",
+    defaultLocation: profile.city || "",
+    primaryColor: profile.primaryColor || "#0077FF",
+    secondaryColor: profile.secondaryColor || "#00C2FF",
+    website: profile.website || "",
+    logoUrl: profile.logoUrl || "",
+    brandFont: profile.brandFont || "poppins",
+    referenceImages: [],
+  };
+}
+  
   async function handleCreate(form: BusinessFormData) {
     setSaving(true);
     try {
