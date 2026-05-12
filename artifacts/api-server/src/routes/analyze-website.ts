@@ -269,23 +269,6 @@ ${themeColor ? `Theme-color: ${themeColor}` : ""}
       primaryColor: string | null;
     }>;
 
-    const contextText = [
-      context?.industry,
-      context?.subIndustry,
-      context?.slogan,
-    ].filter(Boolean).join(" ").toLowerCase();
-
-    const descriptionText = typeof parsed.description === "string" ? parsed.description : "";
-    const audienceText = typeof parsed.audience === "string" ? parsed.audience : "";
-
-      const businessName = context?.companyName || "Este negocio";
-      const subIndustry = context?.subIndustry || context?.industry || "productos";
-      const city = context?.city ? ` en ${context.city}` : "";
-
-      parsed.description = `${businessName} es una tienda de ${subIndustry}${city}, enfocada en productos, accesorios y soluciones prácticas para sus clientes.`;
-      parsed.audience = `Personas interesadas en comprar ${subIndustry.toLowerCase()}, accesorios y productos útiles con atención cercana y confiable.`;
-    }    
-
     return {
       description: typeof parsed.description === "string" ? parsed.description : null,
       audience: typeof parsed.audience === "string" ? parsed.audience : null,
