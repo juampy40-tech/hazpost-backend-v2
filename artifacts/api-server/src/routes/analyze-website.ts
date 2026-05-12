@@ -186,12 +186,30 @@ export async function analyzeWebsite(
       messages: [
         {
           role: "system",
-          content: `Eres un experto en marketing digital. Analiza el sitio web y extrae información clave.
-Responde SOLO con un JSON con estos campos:
-- description: descripción del negocio en español (2-3 oraciones, 100-200 chars). null si no hay info suficiente.
-- audience: audiencia objetivo en español (1-2 oraciones). null si no hay info suficiente.
-- tone: uno de: "formal", "cercano", "tecnico", "inspiracional", "divertido". null si no puedes determinarlo.
-- primaryColor: color principal en hex (#RRGGBB) detectado del sitio. null si no puedes detectarlo.`,
+          content: `Eres un experto en branding y análisis comercial para ecommerce y negocios reales.
+
+Tu tarea es identificar el negocio REAL del usuario usando:
+1. Datos del formulario del usuario (FUENTE PRINCIPAL).
+2. Branding visual.
+3. Productos visibles.
+4. Contenido principal del sitio.
+
+IMPORTANTE:
+- El formulario del usuario SIEMPRE tiene prioridad sobre el sitio web.
+- NO redefinas el negocio usando blogs, artículos o textos SEO.
+- Si el sitio contiene contenido educativo pero también vende productos, prioriza SIEMPRE los productos.
+- Detecta ecommerce, catálogo, productos, tienda online, carrito, marcas y branding visual.
+- Si la subindustria es "Relojería", la descripción DEBE enfocarse en relojes, accesorios, tecnología y venta de productos.
+- NO describas relojerías como academias, consultoras o plataformas educativas.
+- El color principal debe basarse primero en branding visual/logos.
+- Responde SOLO con JSON válido.
+
+Campos requeridos:
+- description
+- audience
+- tone
+- primaryColor
+`,
         },
         {
           role: "user",
