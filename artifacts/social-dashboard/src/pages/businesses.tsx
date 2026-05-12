@@ -1050,50 +1050,51 @@ export default function Businesses() {
       {/* Create form */}
       {showCreate && (
         <div className="bg-card border border-primary/30 rounded-xl p-5">
-          <h2 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
-            <Plus className="w-4 h-4 text-primary" />
-            Nuevo negocio
-          </h2>
-          <BusinessForm onSave={handleCreate} onCancel={() => setShowCreate(false)} saving={saving} />
+          <OnboardingWizard
+            registrationMode={false}
+            editMode={false}
+            initialStep={0}
+            onComplete={() => {
+              setShowCreate(false);
+              load();
+            }}
+            onDismiss={() => setShowCreate(false)}
+            onSubmitProfile={async (profile) => {
+              await handleCreate(profile as any);
+            }}
+          />
         </div>
       )}
 
       {/* Edit form */}
       {editingBusiness && (
         <div className="bg-card border border-primary/30 rounded-xl p-5">
-          <h2 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
-            <Edit2 className="w-4 h-4 text-primary" />
-            Editar: {editingBusiness.name}
-          </h2>
-          <BusinessForm
-            initial={{
-              name: editingBusiness.name,
-              industry: editingBusiness.industry ?? "",
-              subIndustry: editingBusiness.subIndustry ?? "",
-              subIndustries: (() => {
-                const parsedSubs = splitSavedSubIndustries(editingBusiness.subIndustries);
-
-                return parsedSubs.length > 0
-                  ? parsedSubs
-                  : splitSavedSubIndustries(editingBusiness.subIndustry);
-              })(),
-              description: editingBusiness.description ?? "",
-              brandTone: editingBusiness.brandTone ?? "",
-              audienceDescription: editingBusiness.audienceDescription ?? "",
-              defaultLocation: editingBusiness.defaultLocation ?? "",
-              primaryColor: editingBusiness.primaryColor ?? "#0077FF",
-              secondaryColor: editingBusiness.secondaryColor ?? "#00C2FF",
-              website: editingBusiness.website ?? "",
-              logoUrl: editingBusiness.logoUrl ?? "",
-              brandFont: editingBusiness.brandFont ?? "poppins",
-              referenceImages: (() => {
-                try { return JSON.parse(editingBusiness.referenceImages ?? "[]"); } catch { return []; }
-              })(),
+          <OnboardingWizard
+            registrationMode={false}
+            editMode={true}
+            initialStep={0}
+            initialData={{
+              companyName: editingBusiness.name || "",
+              industry: editingBusiness.industry || "",
+              subIndustry: editingBusiness.subIndustry || "",
+              city: editingBusiness.defaultLocation || "",
+              website: editingBusiness.website || "",
+              slogan: editingBusiness.slogan || "",
+              businessDescription: editingBusiness.description || "",
+              audienceDescription: editingBusiness.audienceDescription || "",
+              brandTone: editingBusiness.brandTone || "",
+              primaryColor: editingBusiness.primaryColor || "",
+              secondaryColor: editingBusiness.secondaryColor || "",
+              logoUrl: editingBusiness.logoUrl || "",
             }}
-            businessId={editingBusiness.id}
-            onSave={handleEdit}
-            onCancel={() => setEditingBusiness(null)}
-            saving={saving}
+            onComplete={() => {
+              setShowCreate(false);
+              load();
+            }}
+            onDismiss={() => setEditingBusiness(null)}
+            onSubmitProfile={async (profile) => {
+              await handleEdit(profile as any);
+            }}
           />
         </div>
       )}
