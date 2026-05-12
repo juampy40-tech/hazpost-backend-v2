@@ -81,15 +81,31 @@ export async function assertPublicHost(urlStr: string): Promise<void> {
  * Returns { description, audience, tone, primaryColor } — any field can be null.
  * Fails silently on fetch errors, timeout, or GPT failures.
  */
-export async function analyzeWebsite(url: string): Promise<{
+export async function analyzeWebsite(
+  url: string,
+  context?: {
+    companyName?: string;
+    slogan?: string;
+    industry?: string;
+    subIndustry?: string;
+    city?: string;
+    country?: string;
+  }
+): Promise<{
   description: string | null;
   audience: string | null;
   tone: string | null;
   primaryColor: string | null;
 }> {
-  const nullResult = { description: null, audience: null, tone: null, primaryColor: null };
+  const nullResult = {
+    description: null,
+    audience: null,
+    tone: null,
+    primaryColor: null,
+  };
 
   let safeUrl: string;
+
   try {
     safeUrl = normalizeSafeUrl(url);
     await assertPublicHost(safeUrl);
