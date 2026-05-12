@@ -5,7 +5,7 @@ import { Globe } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { CountrySelect } from "@/components/CountrySelect";
+import { CountrySelect } from "@/components/OnboardingWizard";
 
 import {
   fetchIndustryCatalog,
