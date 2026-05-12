@@ -1937,7 +1937,7 @@ async function doNext() {
     logoUrl: data.logoUrl || "",
     primaryColor: finalPrimaryColor,
     secondaryColor: data.secondaryColor || "",
-    onboardingStep: 5,
+    onboardingStep: 4,
     onboardingCompleted: true,
   };
 
