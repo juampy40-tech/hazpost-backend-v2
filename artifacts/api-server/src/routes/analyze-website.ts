@@ -366,11 +366,9 @@ NO uses eso para definir el negocio si contradice la industria, subindustria o s
         typeof parsed.tone === "string"
           ? parsed.tone
           : null,
-      primaryColor:
-        typeof parsed.primaryColor === "string" &&
-        /^#[0-9a-fA-F]{6}$/.test(parsed.primaryColor)
-          ? parsed.primaryColor
-          : null,
+      primaryColor: themeColor && /^#[0-9a-fA-F]{6}$/.test(themeColor)
+        ? themeColor
+        : null,
     };
   } catch {
     return nullResult;
