@@ -1126,7 +1126,7 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
               subIndustry: editingBusiness.subIndustry || "",
               city: editingBusiness.defaultLocation || "",
               website: editingBusiness.website || "",
-              slogan: "",
+              slogan: editingBusiness.slogan || "",
               businessDescription: editingBusiness.description || "",
               audienceDescription: editingBusiness.audienceDescription || "",
               brandTone: editingBusiness.brandTone || "",
