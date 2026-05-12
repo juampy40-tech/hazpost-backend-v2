@@ -554,13 +554,20 @@ function BusinessForm({
       ...f,
       name: patch.companyName ?? f.name,
       industry: patch.industry ?? f.industry,
+
       subIndustries: patch.subIndustry
         ? patch.subIndustry.split(",").map(s => s.trim()).filter(Boolean)
         : f.subIndustries,
+
       subIndustry: patch.subIndustry
         ? patch.subIndustry.split(",").map(s => s.trim()).filter(Boolean)[0] ?? ""
         : f.subIndustry,
+
+      city: patch.city ?? f.city,
       defaultLocation: patch.city ?? f.defaultLocation,
+      country: patch.country ?? f.country,
+      slogan: patch.slogan ?? f.slogan,
+
       website: patch.website ?? f.website,
     }));
   }
