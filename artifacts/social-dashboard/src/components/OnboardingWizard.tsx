@@ -2010,7 +2010,7 @@ async function doNext() {
 }
 
   async function handleSkip() {
-    if (step === 4) {
+    if (step === 3) {
       await handleComplete();
     } else if (isStepEmpty(step, data)) {
       setPendingAction("skip");
