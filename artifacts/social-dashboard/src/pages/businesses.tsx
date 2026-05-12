@@ -1088,7 +1088,7 @@ export default function Businesses() {
               logoUrl: editingBusiness.logoUrl || "",
             }}
             onComplete={() => {
-              setShowCreate(false);
+              setEditingBusiness(null);
               load();
             }}
             onDismiss={() => setEditingBusiness(null)}
