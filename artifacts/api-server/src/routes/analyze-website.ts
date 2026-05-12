@@ -161,7 +161,7 @@ export async function analyzeWebsite(
 
   try {
     const $ = load(html);
-    $("script, style, noscript, footer, aside, svg").remove();
+    $("script, style, noscript, nav, footer, header, aside, svg, img").remove();
 
     const title = $("title").text().trim();
     const metaDesc = $("meta[name='description']").attr("content") ?? $("meta[property='og:description']").attr("content") ?? "";
