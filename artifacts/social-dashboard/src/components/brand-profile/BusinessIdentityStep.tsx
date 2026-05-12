@@ -1,3 +1,21 @@
+import React, { useEffect, useState } from "react";
+
+import { Globe } from "lucide-react";
+
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+import { CountrySelect } from "@/components/CountrySelect";
+
+import {
+  fetchIndustryCatalog,
+} from "@/lib/industryCatalog";
+
+import type {
+  BrandProfile,
+  IndustryCatalogEntry,
+} from "@/types/brand";
+
 const OTRA_INDUSTRIA = "__otra__";
 
 function Step1({
