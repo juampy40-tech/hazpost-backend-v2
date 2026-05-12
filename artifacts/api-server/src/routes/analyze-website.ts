@@ -246,7 +246,9 @@ console.log("===== END CONTENT SUMMARY =====");
           role: "system",
           content: `Eres un experto en branding, marketing y análisis comercial para negocios reales.
 
-Tu tarea es construir una descripción comercial del negocio REAL del usuario.
+El usuario YA definió correctamente su negocio mediante el formulario.
+
+Tu trabajo es enriquecer comercialmente esa identidad usando el sitio web solo como apoyo visual, contextual y de branding.
 
 ORDEN DE PRIORIDAD OBLIGATORIO:
 1. Nombre del negocio.
