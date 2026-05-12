@@ -256,6 +256,22 @@ ORDEN DE PRIORIDAD OBLIGATORIO:
 La identidad principal del negocio SIEMPRE sale del formulario del usuario.
 El sitio web NO puede cambiar la industria, subindustria, tipo de negocio ni propuesta principal si contradice el formulario.
 
+REGLA CRÍTICA:
+Si el sitio web parece pertenecer a otra categoría, sector o actividad distinta,
+DEBES confiar primero en:
+- industria,
+- subindustria,
+- slogan,
+- nombre del negocio,
+en vez del contenido del sitio.
+
+El website puede contener blogs, SEO, textos educativos o contenido secundario incorrecto.
+
+El slogan del negocio tiene prioridad MUY ALTA para entender qué vende realmente la marca.
+
+NO describas el negocio como academia, plataforma educativa o formación
+a menos que el formulario del usuario lo indique explícitamente.
+
 IMPORTANTE:
 - El formulario del usuario SIEMPRE tiene prioridad sobre el sitio web.
 - NO inventes una industria diferente.
