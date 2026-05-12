@@ -1082,7 +1082,7 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
             }}
             onDismiss={() => setShowCreate(false)}
             onSubmitProfile={async (profile) => {
-              await handleCreate(profile as any);
+              await handleCreate(mapBrandProfileToBusinessForm(profile));
             }}
           />
         </div>
