@@ -42,6 +42,8 @@ interface IndustryCatalogEntry {
   };
 }
 
+type JsonStringArray = string;
+
 interface BrandProfile {
   companyName?: string;
   slogan?: string;
@@ -50,21 +52,27 @@ interface BrandProfile {
   country?: string;
   city?: string;
   website?: string;
+
   logoUrl?: string;
   logoUrls?: JsonStringArray;
   referenceImages?: JsonStringArray;
+
   primaryColor?: string;
   secondaryColor?: string;
+
   businessDescription?: string;
+
   brandFont?: string;
   brandFontUrl?: string;
+
   audienceDescription?: string;
   brandTone?: string;
+
   onboardingStep?: number;
   onboardingCompleted?: boolean | string;
+
   aiGenFrequency?: string;
 }
-type JsonStringArray = string;
 
 interface AiSuggestions {
   description?: string | null;
