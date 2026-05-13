@@ -160,6 +160,27 @@ function CountrySelect({
             </div>
 
             <div className="max-h-72 overflow-y-auto p-1">
+              {(!normalizedQuery || "global sin pais específico especifico".includes(normalizedQuery)) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onChange("");
+                    setQuery("");
+                    setOpen(false);
+                  }}
+                  className="mb-1 flex w-full items-center justify-between rounded-xl border border-primary/20 bg-primary/5 px-3 py-2 text-left text-sm text-primary transition-colors hover:bg-primary/10"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="text-lg leading-none">🌍</span>
+                    <span>Global / Sin país específico</span>
+                  </span>
+
+                  <span className="text-xs text-muted-foreground">
+                    GLOBAL
+                  </span>
+                </button>
+              )}
+
               {filteredCountries.length > 0 ? (
                 filteredCountries.map(country => {
                   const selected = country.name === value;
