@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import BusinessIdentityStep from "@/components/brand-profile/BusinessIdentityStep";
 import {
   ChevronRight,
   ChevronLeft,
@@ -1585,26 +1584,18 @@ export function OnboardingWizard({
   registrationMode = false,
   onSubmitProfile,
 }: Props) {
-const { toast } = useToast();
-const { user } = useAuth();
+  const { toast } = useToast();
+  const { user } = useAuth();
 
-const [step, setStep] = useState(initialStep);
-const [data, setData] = useState<BrandProfile>(initialData);
+  const [step, setStep] = useState(initialStep);
+  const [data, setData] = useState<BrandProfile>(initialData);
 
-useEffect(() => {
-  console.log("🔄 RESETTING DATA FROM INITIALDATA", initialData);
-
-  setData({ ...(initialData ?? {}) });
-}, [initialData]);
-
-useEffect(() => {
-  console.log("🔥 DATA STATE", data);
-}, [data]);
   const [saving, setSaving] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<AiSuggestions | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [activeBizId, setActiveBizId] = useState<number | null>(null);
   const [pendingAction, setPendingAction] = useState<"next" | "skip" | null>(null);
+
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -2155,7 +2146,12 @@ async function doNext() {
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.25 }}
             >
-              {step === 0 && <BusinessIdentityStep data={data} onChange={patchData} />}
+              {step === 0 && (
+                <Step1
+                  data={data}
+                  onChange={patchData}
+                />
+              )}
 
               {step === 1 && (
                 <Step2
