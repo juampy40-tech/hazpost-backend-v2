@@ -60,7 +60,6 @@ interface BrandProfile {
   brandFontUrl?: string;
   audienceDescription?: string;
   brandTone?: string;
-  referenceImages?: string;
   onboardingStep?: number;
   onboardingCompleted?: boolean | string;
   aiGenFrequency?: string;
