@@ -27,14 +27,20 @@ function isNeutralColor(r: number, g: number, b: number): boolean {
 
   const brightness = (r + g + b) / 3;
 
-  // Muy gris
-  if (saturation < 0.12) return true;
+  // Ignorar grises reales
+  if (saturation < 0.08) {
+    return true;
+  }
 
-  // Muy oscuro
-  if (brightness < 35) return true;
+  // Ignorar negro REAL
+  if (brightness < 18) {
+    return true;
+  }
 
-  // Muy claro/blanco
-  if (brightness > 240) return true;
+  // Ignorar blancos extremos
+  if (brightness > 245) {
+    return true;
+  }
 
   return false;
 }
