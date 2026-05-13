@@ -1899,7 +1899,7 @@ async function doNext() {
     logoUrl: data.logoUrl || "",
     primaryColor: finalPrimaryColor,
     secondaryColor: data.secondaryColor || "",
-    onboardingStep: 4,
+    onboardingStep: 3,
     onboardingCompleted: true,
   };
 
