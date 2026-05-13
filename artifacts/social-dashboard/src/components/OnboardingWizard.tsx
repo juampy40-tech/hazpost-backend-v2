@@ -51,7 +51,8 @@ interface BrandProfile {
   city?: string;
   website?: string;
   logoUrl?: string;
-  logoUrls?: string;
+  logoUrls?: JsonStringArray;
+  referenceImages?: JsonStringArray;
   primaryColor?: string;
   secondaryColor?: string;
   businessDescription?: string;
