@@ -1065,7 +1065,7 @@ function Step2({
       </div>
 
    {/* AI Suggestions Header */}
-{aiSuggestions?.primaryColor && (
+{aiSuggestions?.primaryColor && logos.length > 0 && (
   <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 mb-2">
     <p className="text-sm font-semibold text-primary flex items-center gap-2">
       <Sparkles className="w-4 h-4" />
@@ -1078,7 +1078,7 @@ function Step2({
 )}
 
 {/* AI primaryColor suggestion */}
-{aiSuggestions?.primaryColor && (
+{aiSuggestions?.primaryColor && logos.length > 0 && (
   <div className="flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 px-3 py-2">
     <div
       className="w-6 h-6 rounded-full border border-border shrink-0"
@@ -1646,10 +1646,6 @@ export function OnboardingWizard({
             patch.brandTone = s.tone;
           }
 
-          if (s.primaryColor && !prev.primaryColor?.trim()) {
-            patch.primaryColor = s.primaryColor;
-          }
-
           return Object.keys(patch).length > 0
             ? { ...prev, ...patch }
             : prev;
@@ -1695,10 +1691,6 @@ export function OnboardingWizard({
       brandTone:
         suggestions.tone ??
         prev.brandTone,
-
-      primaryColor:
-        suggestions.primaryColor ??
-        prev.primaryColor,
     }));
   }
 

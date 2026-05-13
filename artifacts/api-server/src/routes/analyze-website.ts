@@ -295,12 +295,11 @@ export async function analyzeWebsite(
     const themeColor =
       $("meta[name='theme-color']").attr("content") ?? null;
 
-        const logoUrl =
-      $("meta[property='og:logo']").attr("content") ||
-      $("meta[property='og:image']").attr("content") ||
-      $("link[rel='icon']").attr("href") ||
-      $("link[rel='shortcut icon']").attr("href") ||
-      null;
+      const logoUrl =
+        $("meta[property='og:logo']").attr("content") ||
+        $("img[src*='logo']").first().attr("src") ||
+        $("img[alt*='logo']").first().attr("src") ||
+        null;
 
     let detectedBrandColor: string | null = null;
 
