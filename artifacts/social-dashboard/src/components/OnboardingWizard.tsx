@@ -1585,17 +1585,21 @@ export function OnboardingWizard({
   registrationMode = false,
   onSubmitProfile,
 }: Props) {
-  const { toast } = useToast();
-  const { user } = useAuth();
-  const [step, setStep] = useState(initialStep);
-  const [data, setData] = useState<BrandProfile>(initialData);
-  
-  console.log("🔥 INITIAL DATA", initialData);
+const { toast } = useToast();
+const { user } = useAuth();
+
+const [step, setStep] = useState(initialStep);
+const [data, setData] = useState<BrandProfile>(initialData);
+
+useEffect(() => {
+  console.log("🔄 RESETTING DATA FROM INITIALDATA", initialData);
+
+  setData(initialData ?? {});
+}, [initialData]);
 
 useEffect(() => {
   console.log("🔥 DATA STATE", data);
 }, [data]);
-
   const [saving, setSaving] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<AiSuggestions | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
