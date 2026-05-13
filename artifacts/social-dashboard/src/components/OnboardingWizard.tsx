@@ -64,6 +64,7 @@ interface BrandProfile {
   onboardingCompleted?: boolean | string;
   aiGenFrequency?: string;
 }
+type JsonStringArray = string;
 
 interface AiSuggestions {
   description?: string | null;
