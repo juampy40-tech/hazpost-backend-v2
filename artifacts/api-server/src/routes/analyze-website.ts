@@ -309,9 +309,13 @@ ${contentSummary}
         typeof parsed.tone === "string"
           ? parsed.tone
           : null,
-      primaryColor: themeColor && /^#[0-9a-fA-F]{6}$/.test(themeColor)
-        ? themeColor
-        : null,
+      primaryColor:
+        typeof parsed.primaryColor === "string" &&
+        /^#[0-9a-fA-F]{6}$/.test(parsed.primaryColor)
+          ? parsed.primaryColor
+          : themeColor && /^#[0-9a-fA-F]{6}$/.test(themeColor)
+            ? themeColor
+            : null,
     };
   } catch {
     return nullResult;
