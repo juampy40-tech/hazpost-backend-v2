@@ -1112,6 +1112,11 @@ def create_app():
                 - Slogan: {context.get("slogan", "")}
                 - Ciudad: {context.get("city", business.get("city") or "")}
                 - País: {context.get("country", business.get("country") or "")}
+                - Logo principal: {business.get("logoUrl") or ""}
+                - Logos adicionales: {business.get("logoUrls") or []}
+                - Imágenes referencia: {business.get("referenceImages") or []}
+                - Color primario actual: {business.get("primaryColor") or ""}
+                - Color secundario actual: {business.get("secondaryColor") or ""}
 
                 WEBSITE:
                 {website}
