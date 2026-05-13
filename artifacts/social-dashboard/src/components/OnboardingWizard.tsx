@@ -9,9 +9,20 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import BusinessIdentityStep from "@/components/brand-profile/BusinessIdentityStep";
 import {
-  ChevronRight, ChevronLeft, Check, Building2, Palette, Type, Users, Share2,
-  ExternalLink, Upload, Loader2, X, Instagram, PlaySquare, Facebook, Search,
-  Globe, Sparkles, Scissors, Zap, Calendar, RefreshCw,
+  ChevronRight,
+  ChevronLeft,
+  Check,
+  Building2,
+  Palette,
+  Type,
+  Users,
+  Upload,
+  Loader2,
+  X,
+  Search,
+  Globe,
+  Sparkles,
+  Scissors,
 } from "lucide-react";
 
 
