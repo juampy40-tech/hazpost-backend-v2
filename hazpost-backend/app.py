@@ -1131,6 +1131,11 @@ def create_app():
                   - tono visual
                   - productos visibles
                   - estilo de marca
+                - Si existe logo o imágenes de referencia, tienen MÁS prioridad que el website para detectar colores y estilo visual.
+                - El logo es la fuente principal para detectar identidad visual.
+                - Usa el website principalmente para entender el negocio, no para reemplazar la identidad visual.
+                - Si el website usa colores distintos al logo, prioriza el logo.  
+                  
 
                 Devuelve SOLO JSON válido:
 
