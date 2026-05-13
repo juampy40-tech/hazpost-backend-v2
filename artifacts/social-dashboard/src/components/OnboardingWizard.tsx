@@ -1866,7 +1866,6 @@ async function doNext() {
   const finalTone =
     data.brandTone ||
     aiSuggestions?.tone ||
-    data.tone ||
     "cercano";
 
   const finalPrimaryColor =
