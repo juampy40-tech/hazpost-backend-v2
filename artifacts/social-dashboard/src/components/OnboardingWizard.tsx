@@ -1633,11 +1633,26 @@ export function OnboardingWizard({
         // Only fill empty fields — never overwrite existing user-entered values
         setData(prev => {
           const patch: Partial<BrandProfile> = {};
-          if (s.description && !prev.businessDescription?.trim()) patch.businessDescription = s.description;
-          if (s.audience && !prev.audienceDescription?.trim()) patch.audienceDescription = s.audience;
-          if (s.tone && !prev.brandTone?.trim()) patch.brandTone = s.tone;
-          if (s.primaryColor && !prev.primaryColor?.trim()) patch.primaryColor = s.primaryColor;
-          return Object.keys(patch).length > 0 ? { ...prev, ...patch } : prev;
+
+          if (s.description && !prev.businessDescription?.trim()) {
+            patch.businessDescription = s.description;
+          }
+
+          if (s.audience && !prev.audienceDescription?.trim()) {
+            patch.audienceDescription = s.audience;
+          }
+
+          if (s.tone && !prev.brandTone?.trim()) {
+            patch.brandTone = s.tone;
+          }
+
+          if (s.primaryColor && !prev.primaryColor?.trim()) {
+            patch.primaryColor = s.primaryColor;
+          }
+
+          return Object.keys(patch).length > 0
+            ? { ...prev, ...patch }
+            : prev;
         });
         localStorage.removeItem("hz_ai_suggestions");
       } catch { /* ignore */ }
@@ -1663,39 +1678,40 @@ export function OnboardingWizard({
     return `/api/analyze-website`;
   }
 
- function handleAiAnalysis(suggestions: AiSuggestions) {
-  setAiSuggestions(suggestions);
+  function handleAiAnalysis(suggestions: AiSuggestions) {
+    setAiSuggestions(suggestions);
 
-  // Only fill empty fields — never overwrite existing user-entered or pre-loaded values
-  setData(prev => {
-    const patch: Partial<BrandProfile> = {};
+    setData(prev => ({
+      ...prev,
 
-    if (suggestions.description && !prev.businessDescription?.trim()) {
-      patch.businessDescription = suggestions.description;
-    }
+      businessDescription:
+        suggestions.description ??
+        prev.businessDescription,
 
-    if (suggestions.audience && !prev.audienceDescription?.trim()) {
-      patch.audienceDescription = suggestions.audience;
-    }
+      audienceDescription:
+        suggestions.audience ??
+        prev.audienceDescription,
 
-    if (suggestions.tone && !prev.brandTone?.trim()) {
-      patch.brandTone = suggestions.tone;
-    }
+      brandTone:
+        suggestions.tone ??
+        prev.brandTone,
 
-    if (suggestions.primaryColor && !prev.primaryColor?.trim()) {
-      patch.primaryColor = suggestions.primaryColor;
-    }
+      primaryColor:
+        suggestions.primaryColor ??
+        prev.primaryColor,
+    }));
+  }
 
-    return Object.keys(patch).length > 0 ? { ...prev, ...patch } : prev;
-  });
-}
+  function dismissSuggestion(
+    field: "description" | "audience" | "tone" | "primaryColor"
+  ) {
+    setAiSuggestions(prev =>
+      prev ? { ...prev, [field]: null } : null
+    );
+  }
 
-function dismissSuggestion(field: "description" | "audience" | "tone" | "primaryColor") {
-  setAiSuggestions(prev => prev ? { ...prev, [field]: null } : null);
-}
-
-async function triggerAnalyze(url: string): Promise<void> {
-  console.log("🔥 ANALYZE TRIGGER", url);
+  async function triggerAnalyze(url: string): Promise<void> {
+    console.log("🔥 ANALYZE TRIGGER", url);
 
   if (!url || !url.trim()) {
     console.warn("⚠️ No hay URL para analizar");
@@ -2100,9 +2116,34 @@ async function doNext() {
               transition={{ duration: 0.25 }}
             >
               {step === 0 && <BusinessIdentityStep data={data} onChange={patchData} />}
-              {step === 1 && <Step2 data={data} onChange={patchData} aiSuggestions={aiSuggestions} onDismissSuggestion={dismissSuggestion} userId={user?.email || user?.id} />}
-              {step === 2 && <Step3 data={data} onChange={patchData} userId={user?.email || user?.id} />}
-              {step === 3 && <Step4 data={data} onChange={patchData} aiSuggestions={aiSuggestions} onDismissSuggestion={dismissSuggestion} userId={user?.email || user?.id} />}
+
+              {step === 1 && (
+                <Step2
+                  data={data}
+                  onChange={patchData}
+                  aiSuggestions={aiSuggestions}
+                  onDismissSuggestion={dismissSuggestion}
+                  userId={user?.email || String(user?.id)}
+                />
+              )}
+
+              {step === 2 && (
+                <Step3
+                  data={data}
+                  onChange={patchData}
+                  userId={user?.email || String(user?.id)}
+                />
+              )}
+
+              {step === 3 && (
+                <Step4
+                  data={data}
+                  onChange={patchData}
+                  aiSuggestions={aiSuggestions}
+                  onDismissSuggestion={dismissSuggestion}
+                  userId={user?.email || String(user?.id)}
+                />
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
