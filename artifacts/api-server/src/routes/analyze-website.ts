@@ -315,6 +315,9 @@ export async function analyzeWebsite(
     if (logoUrl) {
       try {
         const absoluteLogoUrl = new URL(logoUrl, url).href;
+        console.log("🟦 RAW logoUrl:", logoUrl);
+        console.log("🟩 ABSOLUTE logoUrl:", absoluteLogoUrl);
+        console.log("🟨 CONTEXT logoUrls:", context?.logoUrls);
 
         detectedBrandColor =
           await extractDominantLogoColor(absoluteLogoUrl);
@@ -331,6 +334,9 @@ export async function analyzeWebsite(
         ? themeColor
         : null) ||
       "#2563eb";
+
+    console.log("🧠 FINAL primaryColor:", finalPrimaryColor);
+    console.log("🧠 themeColor:", themeColor);
 
     const contentSummary = [
       title ? `Título: ${title}` : "",
