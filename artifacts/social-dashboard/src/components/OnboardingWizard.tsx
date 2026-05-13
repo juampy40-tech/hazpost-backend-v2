@@ -1675,7 +1675,14 @@ export function OnboardingWizard({
   }
 
   function handleAiAnalysis(suggestions: AiSuggestions) {
-    setAiSuggestions(suggestions);
+    setAiSuggestions({
+      ...suggestions,
+      primaryColor:
+        typeof suggestions.primaryColor === "string" &&
+        /^#[0-9a-fA-F]{6}$/.test(suggestions.primaryColor)
+          ? suggestions.primaryColor
+          : null,
+    });
 
     setData(prev => ({
       ...prev,
@@ -1749,7 +1756,10 @@ export function OnboardingWizard({
       suggestions.description ||
       suggestions.audience ||
       suggestions.tone ||
-      suggestions.primaryColor
+      (
+        suggestions.primaryColor &&
+        (data.logoUrl || data.logoUrls?.length)
+      )
     ) {
       handleAiAnalysis(suggestions);
     }
@@ -1889,9 +1899,7 @@ async function doNext() {
     "cercano";
 
   const finalPrimaryColor =
-    data.primaryColor ||
-    aiSuggestions?.primaryColor ||
-    "";
+    data.primaryColor || "";
 
   const businessPayload = {
     companyName: data.companyName || "",
