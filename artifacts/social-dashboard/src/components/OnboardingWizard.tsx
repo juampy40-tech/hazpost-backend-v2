@@ -1585,7 +1585,15 @@ export function OnboardingWizard({
       case 0:
         return !d.companyName?.trim() && !d.industry?.trim() && !d.subIndustry?.trim() && !d.country?.trim() && !d.website?.trim();
       case 1: {
-        const hasLogo = !!(d.logoUrl?.trim() || d.logoUrls);
+        const hasLogo =
+          !!d.logoUrl?.trim() ||
+          (() => {
+            try {
+              return JSON.parse(d.logoUrls ?? "[]").length > 0;
+            } catch {
+              return false;
+            }
+          })();
         const hasDesc = !!d.businessDescription?.trim();
         const hasCustomColor = !!(d.primaryColor?.trim() || d.secondaryColor?.trim());
         return !hasLogo && !hasDesc && !hasCustomColor;
