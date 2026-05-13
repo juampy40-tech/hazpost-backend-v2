@@ -323,7 +323,11 @@ export async function analyzeWebsite(
     }
 
     const finalPrimaryColor =
-      detectedBrandColor || themeColor || "#2563eb";  
+      detectedBrandColor ||
+      (!context?.logoUrl && !context?.logoUrls?.length
+        ? themeColor
+        : null) ||
+      "#2563eb";
 
     const contentSummary = [
       title ? `Título: ${title}` : "",
