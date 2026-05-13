@@ -255,7 +255,18 @@ Usa principalmente:
 - slogan
 - ciudad y país
 
-Usa el sitio web solo como apoyo para entender productos visibles, estilo de marca, colores y tono.
+Usa el sitio web solo como apoyo para entender:
+- productos visibles
+- estilo de marca
+- tono
+- propuesta comercial
+
+IMPORTANTE:
+Para detectar primaryColor:
+- prioriza el color dominante del logo principal
+- evita usar colores de fondos oscuros, overlays o gradients del sitio
+- evita usar colores accidentales del hero section
+- usa el color más representativo de la marca
 
 No sobreinterpretes el sitio web.
 No conviertas el negocio en academia, formación o cursos salvo que el formulario lo diga claramente.
