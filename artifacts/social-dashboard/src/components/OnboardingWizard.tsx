@@ -240,7 +240,6 @@ const STEPS = [
   { icon: Palette, label: "Marca" },
   { icon: Type, label: "Tipografía" },
   { icon: Users, label: "Audiencia" },
-  { icon: Share2, label: "Redes" },
 ];
 
 function StepIndicator({ current, total, onStepClick }: { current: number; total: number; onStepClick?: (i: number) => void }) {
