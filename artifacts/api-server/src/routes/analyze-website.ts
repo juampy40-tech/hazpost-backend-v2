@@ -376,7 +376,6 @@ Campos requeridos:
 - description
 - audience
 - tone
-- primaryColor
 `,
         },
         {
@@ -420,13 +419,10 @@ ${contentSummary}
           ? parsed.tone
           : null,
       primaryColor:
-        typeof parsed.primaryColor === "string" &&
-        /^#[0-9a-fA-F]{6}$/.test(parsed.primaryColor)
-          ? parsed.primaryColor
-          : finalPrimaryColor &&
-              /^#[0-9a-fA-F]{6}$/.test(finalPrimaryColor)
-            ? finalPrimaryColor
-            : null,
+        finalPrimaryColor &&
+        /^#[0-9a-fA-F]{6}$/.test(finalPrimaryColor)
+          ? finalPrimaryColor
+          : null,
     };
   } catch {
     return nullResult;
