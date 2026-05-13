@@ -2039,7 +2039,6 @@ def create_app():
     @app.route('/api/generate-first-post', methods=['POST'])
     def generate_first_post():
         try:
-            from openai import OpenAI
 
             # 🔥 LEER BODY SIEMPRE
             body = request.get_json(silent=True) or {}
