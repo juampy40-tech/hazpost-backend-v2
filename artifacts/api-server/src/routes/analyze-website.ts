@@ -236,7 +236,7 @@ export async function analyzeWebsite(
   try {
     const $ = load(html);
 
-    $("script, style, noscript, footer, aside, svg").remove();
+    $("script, style, noscript, footer, aside").remove();
 
     const cleanText = (value: string) =>
       value
