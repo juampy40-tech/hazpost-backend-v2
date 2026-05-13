@@ -1865,7 +1865,7 @@ async function doNext() {
     if (step === 0 && data.website?.trim()) {
       toast({
         title: "IA trabajando 🤖",
-        description: "Estamos analizando tu sitio web para ayudarte a completar tu marca.",
+        description: "Estamos analizando tu marca...",
       });
 
       triggerAnalyze(data.website.trim()).catch(() => {});
