@@ -1594,7 +1594,7 @@ const [data, setData] = useState<BrandProfile>(initialData);
 useEffect(() => {
   console.log("🔄 RESETTING DATA FROM INITIALDATA", initialData);
 
-  setData(initialData ?? {});
+  setData({ ...(initialData ?? {}) });
 }, [initialData]);
 
 useEffect(() => {
