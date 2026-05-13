@@ -956,7 +956,11 @@ function Step2({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <Label>Logos de la empresa</Label>
-          <span className="text-[11px] text-muted-foreground">{logos.length > 0 ? `${logos.length} logo${logos.length > 1 ? "s" : ""} · el primero será usado en publicaciones IA` : ""}</span>
+          <span className="text-[11px] text-muted-foreground">
+            {logos.length > 0
+              ? `${logos.length} logo${logos.length > 1 ? "s" : ""} · el primero se usará en tus publicaciones`
+              : ""}
+          </span>
         </div>
 
         {/* Logo grid */}
