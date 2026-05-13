@@ -1064,7 +1064,7 @@ function Step2({
     <div className="flex-1 min-w-0">
       <p className="text-xs text-foreground font-medium flex items-center gap-1.5">
         <Sparkles className="w-3 h-3 text-primary" />
-        Color detectado por IA:{" "}
+        HazPost encontró colores que coinciden con tu marca:{" "}
         <span className="font-mono text-primary">
           {aiSuggestions.primaryColor}
         </span>
