@@ -3,6 +3,7 @@ import uuid
 import fcntl
 import logging
 import json
+from datetime import datetime, timedelta
 
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
@@ -307,8 +308,10 @@ def create_app():
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
     app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_DOMAIN'] = ".hazpost.app"
+    app.config['SESSION_COOKIE_NAME'] = 'hazpost_app_session'
     app.config["SESSION_PERMANENT"] = True
-    app.config['PERMANENT_SESSION_LIFETIME'] = 60 * 60 * 24 * 7
+    app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 
     # ⚙️ CONFIG
     app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
@@ -855,6 +858,66 @@ def create_app():
 
             if cleaned.get("name") and not cleaned.get("companyName"):
                 cleaned["companyName"] = cleaned["name"]
+
+            # ============================================================
+            # 🔥 ANTI-CONTAMINATION HARDENING
+            # Si cambia identidad principal del negocio,
+            # limpiar branding incompatible viejo.
+            # ============================================================
+
+            identity_changed = False
+
+            current_name = str(
+                current.get("companyName")
+                or current.get("name")
+                or ""
+            ).strip().lower()
+
+            incoming_name = str(
+                cleaned.get("companyName")
+                or cleaned.get("name")
+                or ""
+            ).strip().lower()
+
+            # 🔥 Detectar cambio REAL de identidad
+            if incoming_name and current_name and incoming_name != current_name:
+                identity_changed = True
+
+            # 🔥 Limpiar campos contaminables
+            if identity_changed:
+                logger.warning(
+                    f"ANTI-CONTAMINATION RESET user_id={user_id} "
+                    f"old_name={current_name} new_name={incoming_name}"
+                )
+
+                contamination_keys = [
+                    "description",
+                    "businessDescription",
+                    "audience",
+                    "audienceDescription",
+                    "targetAudience",
+                    "subIndustry",
+                    "subIndustries",
+                    "primaryColor",
+                    "secondaryColor",
+                    "brandTone",
+                    "tone",
+                    "logoUrl",
+                    "logoUrls",
+                    "referenceImages",
+                ]
+
+                sanitized_current = {
+                    key: value
+                    for key, value in current.items()
+                    if key not in contamination_keys
+                }
+
+                current = sanitized_current
+
+                logger.info(
+                    f"ANTI-CONTAMINATION CLEANED KEYS user_id={user_id}: {contamination_keys}"
+                )
 
             profile = {
                 **current,
@@ -1773,8 +1836,15 @@ def create_app():
 
             filename = request.args.get("filename") or f"{uuid.uuid4()}_upload.bin"
             safe_name = secure_filename(filename) or f"{uuid.uuid4()}_upload.bin"
+            safe_name = safe_name[:120]
 
             allowed_extensions = {"png", "jpg", "jpeg", "gif", "webp"}
+            allowed_mime_types = {
+                "image/png",
+                "image/jpeg",
+                "image/webp",
+                "image/gif",
+            }
             extension = safe_name.rsplit(".", 1)[-1].lower() if "." in safe_name else ""
 
             if extension not in allowed_extensions:
@@ -1808,6 +1878,21 @@ def create_app():
 
             if 'file' in request.files:
                 uploaded_file = request.files['file']
+
+                if not uploaded_file.filename:
+                    return jsonify({
+                        "success": False,
+                        "error": "Archivo inválido"
+                    }), 400
+
+                uploaded_mime = (uploaded_file.content_type or "").lower()
+
+                if uploaded_mime not in allowed_mime_types:
+                    return jsonify({
+                        "success": False,
+                        "error": "MIME type no permitido"
+                    }), 400
+
                 uploaded_file.stream.seek(0)
 
                 r2.upload_fileobj(
@@ -1818,7 +1903,18 @@ def create_app():
                         "ContentType": content_type,
                     }
                 )
+
             else:
+                content_type_header = (
+                    request.headers.get("Content-Type") or ""
+                ).lower()
+
+                if content_type_header not in allowed_mime_types:
+                    return jsonify({
+                        "success": False,
+                        "error": "MIME type no permitido"
+                    }), 400
+
                 raw_file = request.get_data()
 
                 if not raw_file:
@@ -1833,7 +1929,6 @@ def create_app():
                     Body=raw_file,
                     ContentType=content_type,
                 )
-
             logger.info(f"UPLOAD OK: {object_key}")
 
             public_url = _r2_public_url(object_key)
@@ -1866,6 +1961,7 @@ def create_app():
     def storage_get_uploaded_object(filename):
         try:
             safe_name = secure_filename(filename)
+            safe_name = safe_name[:120]
 
             if not safe_name:
                 return jsonify({"error": "Archivo inválido"}), 400
@@ -1943,7 +2039,6 @@ def create_app():
     @app.route('/api/generate-first-post', methods=['POST'])
     def generate_first_post():
         try:
-            import json
             from openai import OpenAI
 
             # 🔥 LEER BODY SIEMPRE
@@ -2031,6 +2126,16 @@ def create_app():
                 result = fallback()
             else:
                 try:
+                    subscription = session.get("subscription") or {}
+
+                    credits_remaining = subscription.get("creditsRemaining", 0)
+
+                    if credits_remaining <= 0:
+                        return jsonify({
+                            "success": False,
+                            "error": "No tienes créditos disponibles"
+                        }), 403
+
                     client = OpenAI(api_key=api_key)
 
                     # 🔥 INSTRUCCIÓN SEGÚN TIPO DE POST
@@ -2623,7 +2728,6 @@ Extra:
     @app.route('/api/posts/next-slot-per-platform', methods=['GET'])
     def posts_next_slot():
         try:
-            from datetime import datetime, timedelta
 
             platform = (
                 request.args.get("platform")
