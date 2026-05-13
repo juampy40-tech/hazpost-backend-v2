@@ -1714,6 +1714,16 @@ export function OnboardingWizard({
       brandTone:
         suggestions.tone ??
         prev.brandTone,
+
+      primaryColor:
+        prev.primaryColor?.trim()
+          ? prev.primaryColor
+          : (
+              typeof suggestions.primaryColor === "string" &&
+              /^#[0-9a-fA-F]{6}$/.test(suggestions.primaryColor)
+            )
+              ? suggestions.primaryColor
+              : prev.primaryColor,
     }));
   }
 
