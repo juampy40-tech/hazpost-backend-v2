@@ -668,7 +668,7 @@ export default function Onboarding() {
                     {websiteStatus === "analyzing" && (
                       <div className="mt-1.5 flex items-center gap-1.5 text-xs text-blue-400">
                         <div className="w-3 h-3 rounded-full border border-blue-400 border-t-transparent animate-spin shrink-0" />
-                        <span>Analizando tu sitio web con IA…</span>
+                        <span>Estamos analizando tu marca...</span>
                       </div>
                     )}
                   </div>
