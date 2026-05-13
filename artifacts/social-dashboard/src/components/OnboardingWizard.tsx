@@ -1589,6 +1589,13 @@ export function OnboardingWizard({
   const { user } = useAuth();
   const [step, setStep] = useState(initialStep);
   const [data, setData] = useState<BrandProfile>(initialData);
+  
+  console.log("🔥 INITIAL DATA", initialData);
+
+useEffect(() => {
+  console.log("🔥 DATA STATE", data);
+}, [data]);
+
   const [saving, setSaving] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<AiSuggestions | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
