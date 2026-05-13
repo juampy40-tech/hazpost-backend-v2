@@ -1517,15 +1517,6 @@ function Step4({
   );
 }
 
-// ── Step 5: Activación comercial ───────────────────────────────────────────────
-
-const GEN_FREQ_OPTIONS = [
-  { value: "daily", label: "Diario", desc: "HazPost prepara contenido cada día", icon: "🔥", recommended: true },
-  { value: "3x", label: "3× semana", desc: "Buen ritmo para mantener presencia", icon: "⚡", recommended: false },
-  { value: "weekly", label: "Semanal", desc: "Un lote de contenido cada semana", icon: "📅", recommended: false },
-  { value: "none", label: "Manual", desc: "Yo genero cuando quiera", icon: "✋", recommended: false },
-];
-
 function Step5({ data, onChange }: { data: BrandProfile; onChange: (patch: Partial<BrandProfile>) => void }) {
   const freq = data.aiGenFrequency ?? "daily";
   const isManual = freq === "none";
