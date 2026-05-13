@@ -2135,7 +2135,7 @@ async function doNext() {
                 className="mb-4 flex items-center gap-2.5 rounded-lg border border-primary/25 bg-primary/10 px-4 py-2.5 text-sm text-primary"
               >
                 <Loader2 className="w-4 h-4 animate-spin shrink-0" />
-                <span>Analizando tu sitio web para pre-llenar los campos…</span>
+                <span>Estamos analizando tu marca...</span>
               </motion.div>
             )}
           </AnimatePresence>
