@@ -23,6 +23,14 @@
     "overrides": {
       "path-to-regexp": ">=8.4.0",
       "picomatch": ">=4.0.4"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "esbuild",
+      "ffmpeg-static",
+      "msw",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }

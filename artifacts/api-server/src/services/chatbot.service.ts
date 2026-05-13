@@ -97,33 +97,52 @@ async function buildSystemPrompt(): Promise<string> {
       .where(eq(appSettingsTable.key, "chatbot_knowledge"));
 
     const knowledge = knowledgeRow?.value?.trim();
-    const extraKnowledge = knowledge && knowledge.length > 5
-      ? `
+
+    const extraKnowledge =
+      knowledge && knowledge.length > 5
+        ? `
 
 ═══ INFORMACIÓN ADICIONAL DE LA EMPRESA ═══
 ${knowledge}`
-      : "";
+        : "";
 
     const companyName = profile?.companyName || "nuestra empresa";
-    const industry    = profile?.industry    || "";
-    const subIndustrySource = profile?.subIndustries || profile?.subIndustry || "";
-    const industryContext = buildEnhancedIndustryContext(industry, subIndustrySource) || industry;
-    const audience    = profile?.audienceDescription || "";
-    const location    = profile?.defaultLocation || "";
-    const tone        = profile?.brandTone   || "profesional y amigable";
+    const industry = profile?.industry || "";
+    const subIndustrySource =
+      profile?.subIndustries || profile?.subIndustry || "";
+
+    const industryContext =
+      buildEnhancedIndustryContext(industry, subIndustrySource) || industry;
+
+    const audience = profile?.audienceDescription || "";
+    const location = profile?.defaultLocation || "";
+    const tone = profile?.brandTone || "profesional y amigable";
 
     const brandLines = [
-      industryContext ? `Industria y especialidad: ${industryContext}` : "",
-      audience        ? `Público objetivo: ${audience}` : "",
-      location        ? `Ubicación: ${location}` : "",
-      tone            ? `Tono de comunicación: ${tone}` : "",
-    ].filter(Boolean).join("
-");
+      industryContext
+        ? `Industria y especialidad: ${industryContext}`
+        : "",
+      audience
+        ? `Público objetivo: ${audience}`
+        : "",
+      location
+        ? `Ubicación: ${location}`
+        : "",
+      tone
+        ? `Tono de comunicación: ${tone}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
 
-    return `Eres el asistente virtual de ${companyName}. Tu misión es responder preguntas de visitantes con claridad, honestidad y en el tono de la marca — y convertirlos en clientes potenciales calificados.
+    return `
+Eres el asistente virtual de ${companyName}. Tu misión es responder preguntas de visitantes con claridad, honestidad y en el tono de la marca.
 
 ${brandLines ? `CONTEXTO DE LA MARCA:
-${brandLines}` : ""}${extraKnowledge}
+${brandLines}
+` : ""}
+
+${extraKnowledge ?? ""}
 
 INSTRUCCIONES:
 • Sé cálido, directo y útil — nunca genérico ni robótico
@@ -133,7 +152,7 @@ INSTRUCCIONES:
 • Si muestran interés real en comprar o contratar, anima a dar el siguiente paso (contacto, visita, demo)
 • Responde siempre en el idioma en que te hablen`;
   } catch {
-    return "Eres un asistente virtual útil y amigable. Responde preguntas de visitantes con claridad y honestidad. Sé conciso (máximo 3 párrafos) y sugiere contactar a la empresa si no sabes algo.";
+    return `Eres un asistente virtual útil y amigable. Responde preguntas de visitantes con claridad y honestidad. Sé conciso (máximo 3 párrafos) y sugiere contactar a la empresa si no sabes algo.`;
   }
 }
 
@@ -175,9 +194,7 @@ export async function processChat(
       ...history.map(h => `${h.role === "user" ? "👤 Visitante" : "🤖 Chatbot IA"}: ${h.content}`),
       `👤 Visitante: ${userMessage}`,
       `🤖 Chatbot IA: ${reply}`,
-    ].join("
-
-");
+    ].join("\n");
 
     await notifyChatLeadHot(conversationId, visitorName ?? "Visitante anónimo", conversationText).catch(() => {});
   }

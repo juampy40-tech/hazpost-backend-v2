@@ -4862,7 +4862,8 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
       const effectiveBusinessCtxBank = CHARACTER_BUSINESS_CONTEXT;
       const effectiveSceneBank = BACKGROUND_SCENES;
 
-      const characterDesc = finalCharBank[charIdx % finalCharBank.length];
+      const activeCharacterDesc =
+        effectiveCharBank[charIdx % effectiveCharBank.length];
 
       const isSolarSceneBusiness = isSolarIndustry(jobIndustry, jobName, jobDescription);
 
@@ -4941,7 +4942,7 @@ export async function generateImagesForPostsBg(jobs: PostImageJob[]): Promise<vo
        : effectiveCharBank;
 
       const finalCharIdx = charIdx % finalCharBank.length;
-      const characterDesc = finalCharBank[finalCharIdx];
+      const rotatingCharacterDesc = finalCharBank[finalCharIdx];
 
       const businessContext = wantsBusinessActivity
         ? businessFocusedBusinessCtxBank[finalCharIdx] ?? undefined

@@ -4,8 +4,82 @@ import { requireAuth } from "../lib/auth.js";
 import { openai } from "@workspace/integrations-openai-ai-server";
 import dns from "dns/promises";
 import net from "net";
+import sharp from "sharp";
+import * as ColorThief from "colorthief";
 
 const router = Router();
+
+function rgbToHex(r: number, g: number, b: number): string {
+  return (
+    "#" +
+    [r, g, b]
+      .map(v => v.toString(16).padStart(2, "0"))
+      .join("")
+      .toLowerCase()
+  );
+}
+
+function isNeutralColor(r: number, g: number, b: number): boolean {
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+
+  const saturation = max === 0 ? 0 : (max - min) / max;
+
+  const brightness = (r + g + b) / 3;
+
+  // Muy gris
+  if (saturation < 0.12) return true;
+
+  // Muy oscuro
+  if (brightness < 35) return true;
+
+  // Muy claro/blanco
+  if (brightness > 240) return true;
+
+  return false;
+}
+
+async function extractDominantLogoColor(
+  logoUrl: string
+): Promise<string | null> {
+  try {
+    const response = await fetch(logoUrl);
+
+    if (!response.ok) return null;
+
+    const arrayBuffer = await response.arrayBuffer();
+
+    const inputBuffer = Buffer.from(arrayBuffer);
+
+    // Normalizar imagen
+    const normalizedBuffer = await sharp(inputBuffer)
+      .resize(256, 256, {
+        fit: "inside",
+        withoutEnlargement: true,
+      })
+      .png()
+      .toBuffer();
+
+    const palette = await ColorThief.getPalette(normalizedBuffer, 5 as any);
+
+    if (!palette?.length) return null;
+
+    for (const color of palette as unknown as number[][]) {
+      const [r, g, b] = color;
+
+      if (!isNeutralColor(r, g, b)) {
+        return rgbToHex(r, g, b);
+      }
+    }
+
+    // fallback primer color
+    const [r, g, b] = palette[0] as unknown as number[];
+
+    return rgbToHex(r, g, b);
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Block private/internal/loopback IP ranges to prevent SSRF.
@@ -221,6 +295,31 @@ export async function analyzeWebsite(
     const themeColor =
       $("meta[name='theme-color']").attr("content") ?? null;
 
+        const logoUrl =
+      $("meta[property='og:logo']").attr("content") ||
+      $("meta[property='og:image']").attr("content") ||
+      $("link[rel='icon']").attr("href") ||
+      $("link[rel='shortcut icon']").attr("href") ||
+      null;
+
+    let detectedBrandColor: string | null = null;
+
+    if (logoUrl) {
+      try {
+        const absoluteLogoUrl = new URL(logoUrl, url).href;
+
+        detectedBrandColor =
+          await extractDominantLogoColor(absoluteLogoUrl);
+
+        console.log("🎨 Detected logo color:", detectedBrandColor);
+      } catch (err) {
+        console.warn("⚠️ Logo color extraction failed:", err);
+      }
+    }
+
+    const finalPrimaryColor =
+      detectedBrandColor || themeColor || "#2563eb";  
+
     const contentSummary = [
       title ? `Título: ${title}` : "",
       metaDesc ? `Meta descripción: ${metaDesc}` : "",
@@ -292,7 +391,7 @@ Ciudad: ${context?.city || "No informado"}
 País: ${context?.country || "No informado"}
 
 REFERENCIA DEL SITIO WEB:
-${themeColor ? `Color detectado: ${themeColor}` : ""}
+${finalPrimaryColor ? `Color principal detectado: ${finalPrimaryColor}` : ""}
 ${contentSummary}
 `,
         },
@@ -324,8 +423,9 @@ ${contentSummary}
         typeof parsed.primaryColor === "string" &&
         /^#[0-9a-fA-F]{6}$/.test(parsed.primaryColor)
           ? parsed.primaryColor
-          : themeColor && /^#[0-9a-fA-F]{6}$/.test(themeColor)
-            ? themeColor
+          : finalPrimaryColor &&
+              /^#[0-9a-fA-F]{6}$/.test(finalPrimaryColor)
+            ? finalPrimaryColor
             : null,
     };
   } catch {
