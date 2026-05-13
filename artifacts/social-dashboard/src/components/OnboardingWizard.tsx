@@ -869,7 +869,10 @@ function Step2({
     field: "description" | "primaryColor"
   ) => void;
   userId?: string;
-  triggerAnalyze: (url: string) => Promise<void>;
+  triggerAnalyze: (
+    url: string,
+    overrideLogos?: string[]
+  ) => Promise<void>;
 }) {
   const { toast } = useToast();
   const [uploading, setUploading] = useState(false);
@@ -907,7 +910,7 @@ function Step2({
       saveLogos(updated);
 
             if (data.website?.trim()) {
-        await triggerAnalyze(data.website);
+        await triggerAnalyze(data.website, updated);
       }
 
       toast({ title: `${paths.length === 1 ? "Logo subido" : `${paths.length} logos subidos`}`, description: "Los logos fueron cargados correctamente." });
@@ -1722,7 +1725,10 @@ export function OnboardingWizard({
     );
   }
 
-  async function triggerAnalyze(url: string): Promise<void> {
+  async function triggerAnalyze(
+    url: string,
+    overrideLogos?: string[]
+  ): Promise<void> {
     console.log("🔥 ANALYZE TRIGGER", url);
 
   if (!url || !url.trim()) {
@@ -1752,7 +1758,7 @@ export function OnboardingWizard({
           country: data.country,
           city: data.city,
           logoUrl: data.logoUrl,
-          logoUrls: data.logoUrls,
+          logoUrls: overrideLogos ?? data.logoUrls,
         },
       }),
     });

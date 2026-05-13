@@ -170,6 +170,9 @@ export async function analyzeWebsite(
     subIndustry?: string;
     city?: string;
     country?: string;
+
+    logoUrl?: string;
+    logoUrls?: string[];
   }
 ): Promise<{
   description: string | null;
