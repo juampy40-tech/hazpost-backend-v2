@@ -1772,6 +1772,8 @@ async function triggerAnalyze(url: string): Promise<void> {
           subIndustry: data.subIndustry,
           country: data.country,
           city: data.city,
+          logoUrl: data.logoUrl,
+          logoUrls: data.logoUrls,
         },
       }),
     });
