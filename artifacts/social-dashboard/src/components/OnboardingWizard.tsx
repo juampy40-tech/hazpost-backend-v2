@@ -855,13 +855,21 @@ const checkerStyle: React.CSSProperties = {
 // ── Step 2: Marca ──────────────────────────────────────────────────────────────
 
 function Step2({
-  data, onChange, aiSuggestions, onDismissSuggestion, userId,
+  data,
+  onChange,
+  aiSuggestions,
+  onDismissSuggestion,
+  userId,
+  triggerAnalyze,
 }: {
   data: BrandProfile;
   onChange: (d: Partial<BrandProfile>) => void;
   aiSuggestions?: AiSuggestions | null;
-  onDismissSuggestion?: (field: "description" | "primaryColor") => void;
+  onDismissSuggestion?: (
+    field: "description" | "primaryColor"
+  ) => void;
   userId?: string;
+  triggerAnalyze: (url: string) => Promise<void>;
 }) {
   const { toast } = useToast();
   const [uploading, setUploading] = useState(false);
@@ -897,6 +905,11 @@ function Step2({
       const paths = await Promise.all(files.map(f => uploadFile(f, userId)));
       const updated = [...logos, ...paths];
       saveLogos(updated);
+
+            if (data.website?.trim()) {
+        await triggerAnalyze(data.website);
+      }
+
       toast({ title: `${paths.length === 1 ? "Logo subido" : `${paths.length} logos subidos`}`, description: "Los logos fueron cargados correctamente." });
     } catch {
       toast({ title: "Error al subir", description: "No se pudo subir el logo. Intenta de nuevo.", variant: "destructive" });
@@ -2124,8 +2137,9 @@ async function doNext() {
                   aiSuggestions={aiSuggestions}
                   onDismissSuggestion={dismissSuggestion}
                   userId={user?.email || String(user?.id)}
+                  triggerAnalyze={triggerAnalyze}
                 />
-              )}
+              )}  
 
               {step === 2 && (
                 <Step3
