@@ -208,6 +208,42 @@ Nunca reescribir documentación crítica agresivamente.
 Actualizar incrementalmente.
 
 ============================================================
+APRENDIZAJE Y DOCUMENTACIÓN EVOLUTIVA
+=====================================
+
+Cada vez que se descubra:
+
+• una causa raíz importante,
+• ownership ambiguo,
+• source of truth conflictiva,
+• una regresión sensible,
+• un flujo crítico oculto,
+• un anti-pattern,
+• una dependencia peligrosa,
+• una arquitectura sensible,
+• o un comportamiento inesperado importante,
+
+el sistema debe:
+
+1. explicar claramente el descubrimiento,
+2. explicar el impacto real,
+3. indicar si debe documentarse,
+4. indicar EXACTAMENTE dónde documentarlo,
+5. y actualizar incrementalmente la documentación oficial del proyecto.
+
+El conocimiento importante NO debe quedar únicamente en conversaciones.
+
+Toda lección importante del sistema debe transformarse en:
+• documentación,
+• reglas,
+• anti-patterns,
+• ownership,
+• flows,
+• o decisiones arquitectónicas persistentes.
+
+HazPost debe aprender estructuralmente con el tiempo.
+
+============================================================
 REGLAS UX/UI
 ============
 
