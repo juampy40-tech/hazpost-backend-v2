@@ -39,6 +39,23 @@ REGLAS CRÍTICAS
 DOCUMENTACIÓN EVOLUTIVA
 =======================
 
+• La documentación oficial es parte activa del sistema, no un extra.
+• Mantener sincronía entre:
+  • runtime real,
+  • documentación,
+  • ownership,
+  • arquitectura actual.
+
+• Antes de proponer nueva documentación:
+  validar primero si ya existe documentación relacionada.
+
+• La documentación existente debe leerse y respetarse antes de redefinir ownership o arquitectura.
+
+⚠️ Diferenciar claramente:
+• visión futura,
+• runtime actual,
+• features parcialmente implementadas.
+
 Si durante el chat se descubre:
 
 • una causa raíz importante,
