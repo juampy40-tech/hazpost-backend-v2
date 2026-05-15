@@ -142,3 +142,98 @@ Nunca modificar áreas CORE sin validar:
 • persistencia real
 • runtime real
 • y flujo completo del sistema.
+
+============================================================
+AUTH + BRAND HYDRATION BRIDGE
+=============================
+
+Archivo principal:
+
+• src/contexts/AuthContext.tsx
+
+============================================================
+RESPONSABILIDAD
+================
+
+Este runtime actualmente controla:
+
+• auth hydration,
+• user bootstrap,
+• subscription hydration,
+• login cleanup,
+• logout cleanup,
+• query cache reset,
+• pending brand persistence,
+• y sincronización frontend/backend post-auth.
+
+============================================================
+PENDING BRAND PERSISTENCE
+=========================
+
+Actualmente existe persistencia temporal vía:
+
+• localStorage
+
+Keys detectadas:
+
+• hz_pending_logo
+• hz_pending_color
+• hz_pending_website
+
+============================================================
+FLOW REAL
+==========
+
+Flow actual:
+
+1. usuario anónimo genera branding parcial
+
+2. frontend guarda temporalmente:
+   • hz_pending_*
+
+3. login/register ocurre
+
+4. AuthContext detecta user hydration
+
+5. frontend ejecuta:
+   • PUT /brand-profile
+
+6. branding persiste finalmente en DB
+
+============================================================
+RIESGOS IMPORTANTES
+===================
+
+RIESGOS SENSIBLES:
+
+• stale pending values,
+• branding viejo persistido,
+• contaminación multi-business,
+• hydration conflictiva,
+• overwrite accidental,
+• branding cruzado,
+• localStorage residual,
+• y frontend/backend desincronizado.
+
+============================================================
+QUERY CACHE BOUNDARY
+====================
+
+queryClient.clear() actualmente funciona como:
+
+• boundary anti-contaminación,
+• reset de cache runtime,
+• prevención de stale queries,
+• y limpieza entre auth sessions.
+
+⚠️ IMPORTANTE
+
+NO remover sin validar:
+
+• login,
+• logout,
+• business switching,
+• onboarding,
+• approval queue,
+• branding,
+• y hydration completa.
