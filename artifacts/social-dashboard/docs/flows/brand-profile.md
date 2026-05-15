@@ -89,6 +89,7 @@ SOURCE OF TRUTH
 
 SOURCE OF TRUTH PRINCIPAL:
 
+• business-level branding boundary
 • active business profile runtime
 • backend persisted business data
 • ActiveBusinessContext
