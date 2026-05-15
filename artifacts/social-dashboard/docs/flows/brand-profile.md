@@ -282,3 +282,52 @@ BRAND PROFILE SOURCE OF TRUTH
 ## Multi-business contamination risks
 
 ## Ownership rules
+
+============================================================
+GLOBAL BRAND FALLBACKS
+======================
+
+Archivo relacionado:
+
+• src/config/brand.ts
+
+Responsabilidad actual:
+
+• branding fallback global,
+• primary color fallback,
+• glow fallback,
+• configuración visual base.
+
+⚠️ IMPORTANTE
+
+Este archivo NO debe convertirse en source of truth principal del branding business-level.
+
+El branding oficial debe depender de:
+
+• business profile
+• onboarding persistence
+• DB persistence
+• business isolation
+
+============================================================
+RIESGOS IMPORTANTES
+===================
+
+RIESGOS:
+
+• branding global accidental,
+• override visual incorrecto,
+• contaminación multi-business,
+• fallback persistente inesperado,
+• y conflictos entre branding dinámico y branding fallback.
+
+============================================================
+REGLA
+======
+
+NO persistir branding business-level únicamente desde:
+
+• src/config/brand.ts
+
+Debe funcionar solamente como:
+• fallback visual global.
