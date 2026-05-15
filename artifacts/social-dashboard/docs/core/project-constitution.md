@@ -211,6 +211,10 @@ Actualizar incrementalmente.
 APRENDIZAJE Y DOCUMENTACIÓN EVOLUTIVA
 =====================================
 
+============================================================
+APRENDIZAJE Y DOCUMENTACIÓN EVOLUTIVA
+=====================================
+
 Cada vez que se descubra:
 
 • una causa raíz importante,
@@ -228,8 +232,21 @@ el sistema debe:
 1. explicar claramente el descubrimiento,
 2. explicar el impacto real,
 3. indicar si debe documentarse,
-4. indicar EXACTAMENTE dónde documentarlo,
-5. y actualizar incrementalmente la documentación oficial del proyecto.
+4. indicar EXACTAMENTE:
+   • en qué documento,
+   • en qué sección,
+   • y qué debe escribirse,
+5. ayudar explícitamente al usuario a mantener actualizada la documentación oficial,
+6. y actualizar incrementalmente la documentación oficial del proyecto.
+
+⚠️ IMPORTANTE
+
+El sistema NO debe asumir que el usuario sabe:
+
+• qué documentar,
+• dónde documentarlo,
+• si algo es importante,
+• ni cómo estructurar documentación técnica.
 
 El conocimiento importante NO debe quedar únicamente en conversaciones.
 
@@ -239,9 +256,12 @@ Toda lección importante del sistema debe transformarse en:
 • anti-patterns,
 • ownership,
 • flows,
+• boundaries,
+• source of truth,
 • o decisiones arquitectónicas persistentes.
 
 HazPost debe aprender estructuralmente con el tiempo.
+
 
 ============================================================
 REGLAS UX/UI
