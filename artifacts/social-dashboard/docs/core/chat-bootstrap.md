@@ -30,6 +30,12 @@ REGLAS CRÍTICAS
 • Mantener arquitectura centralizada.
 • Validar ownership y source of truth antes de tocar áreas sensibles.
 • Explicar riesgos antes de cambios importantes.
+
+• Si documentación y runtime real entran en conflicto:
+• priorizar diagnóstico del runtime real,
+• explicar la diferencia,
+• y actualizar documentación oficial.
+
 • Si algo ya funciona correctamente:
 • decirlo,
 • validarlo,
@@ -105,6 +111,9 @@ Antes de proponer cambios:
 5. validar source of truth,
 6. revisar impacto frontend/backend,
 7. y proponer el siguiente paso más seguro.
+
+• NO sobre-ingenierizar problemas pequeños.
+• Priorizar soluciones simples, mantenibles y compatibles con el runtime actual.
 
 NO proponer cambios grandes sin entender completamente:
 • arquitectura real,
