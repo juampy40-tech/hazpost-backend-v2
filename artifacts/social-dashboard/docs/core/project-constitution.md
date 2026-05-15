@@ -220,6 +220,46 @@ Nunca reescribir documentación crítica agresivamente.
 Actualizar incrementalmente.
 
 ============================================================
+DOCUMENTACIÓN — RUTAS OBLIGATORIAS
+==================================
+
+Toda documentación técnica oficial debe incluir:
+
+• rutas completas reales,
+• ownership claro,
+• source of truth,
+• endpoints reales,
+• hooks reales,
+• helpers reales,
+• y componentes reales.
+
+============================================================
+FORMATO OBLIGATORIO
+===================
+
+Usar rutas completas reales.
+
+Ejemplo correcto:
+
+• artifacts/social-dashboard/src/contexts/AuthContext.tsx
+
+NO usar:
+
+• AuthContext.tsx
+
+============================================================
+OBJETIVO
+=========
+
+Esto existe para:
+
+• acelerar debugging,
+• reducir ambigüedad,
+• facilitar onboarding developers,
+• evitar modificaciones incorrectas,
+• y mantener trazabilidad arquitectónica.
+
+============================================================
 APRENDIZAJE Y DOCUMENTACIÓN EVOLUTIVA
 =====================================
 
