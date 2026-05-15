@@ -343,85 +343,6 @@ Archivo relacionado:
 • src/contexts/AuthContext.tsx
 
 ============================================================
-INDUSTRY + SUBCATEGORY CONTEXT
-==============================
-
-Archivo relacionado:
-
-• industryCatalog.ts
-
-============================================================
-RESPONSABILIDAD
-================
-
-El catálogo de industrias actualmente alimenta:
-
-• onboarding,
-• business profile,
-• AI context,
-• subcategorías,
-• branding contextual,
-• y generación IA futura.
-
-============================================================
-SOURCE OF TRUTH
-===============
-
-Catálogo oficial:
-
-• backend /api/industries
-
-Frontend utiliza:
-
-• memory cache
-• localStorage cache
-• TTL invalidation
-
-⚠️ IMPORTANTE
-
-El catálogo frontend:
-• NO es source of truth definitivo.
-
-============================================================
-RIESGOS IMPORTANTES
-===================
-
-RIESGOS SENSIBLES:
-
-• industria incorrecta,
-• subcategorías inconsistentes,
-• IA context incorrecto,
-• branding contextual incorrecto,
-• stale catalog,
-• onboarding inconsistente,
-• y generación IA degradada.
-
-============================================================
-REGLAS IMPORTANTES
-==================
-
-NO:
-
-• hardcodear industrias inconsistentes,
-• duplicar catálogos,
-• crear subcategorías paralelas,
-• ni romper compatibilidad onboarding ↔ branding ↔ IA.
-
-============================================================
-AI IMPACT
-==========
-
-Industria y subcategorías afectan directamente:
-
-• hooks,
-• captions,
-• tono,
-• branding,
-• CTAs,
-• IA suggestions,
-• y personalización contextual.
-
-============================================================
 RESPONSABILIDAD
 ================
 
@@ -510,3 +431,82 @@ Las keys temporales deben limpiarse correctamente durante:
 • logout,
 • hydration exitosa,
 • y persistencia DB completada.
+
+============================================================
+INDUSTRY + SUBCATEGORY CONTEXT
+==============================
+
+Archivo relacionado:
+
+• industryCatalog.ts
+
+============================================================
+RESPONSABILIDAD
+================
+
+El catálogo de industrias actualmente alimenta:
+
+• onboarding,
+• business profile,
+• AI context,
+• subcategorías,
+• branding contextual,
+• y generación IA futura.
+
+============================================================
+SOURCE OF TRUTH
+===============
+
+Catálogo oficial:
+
+• backend /api/industries
+
+Frontend utiliza:
+
+• memory cache
+• localStorage cache
+• TTL invalidation
+
+⚠️ IMPORTANTE
+
+El catálogo frontend:
+• NO es source of truth definitivo.
+
+============================================================
+RIESGOS IMPORTANTES
+===================
+
+RIESGOS SENSIBLES:
+
+• industria incorrecta,
+• subcategorías inconsistentes,
+• IA context incorrecto,
+• branding contextual incorrecto,
+• stale catalog,
+• onboarding inconsistente,
+• y generación IA degradada.
+
+============================================================
+REGLAS IMPORTANTES
+==================
+
+NO:
+
+• hardcodear industrias inconsistentes,
+• duplicar catálogos,
+• crear subcategorías paralelas,
+• ni romper compatibilidad onboarding ↔ branding ↔ IA.
+
+============================================================
+AI IMPACT
+==========
+
+Industria y subcategorías afectan directamente:
+
+• hooks,
+• captions,
+• tono,
+• branding,
+• CTAs,
+• IA suggestions,
+• y personalización contextual.
