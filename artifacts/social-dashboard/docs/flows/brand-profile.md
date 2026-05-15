@@ -1,400 +1,54 @@
-# 🚨 BRAND PROFILE FLOW — HAZPOST
-
-⚠️ DOCUMENTO OPERATIVO OFICIAL DEL BRAND PROFILE
-
-Este documento define:
-
-• ownership del perfil de negocio,
-• branding runtime,
-• source of truth,
-• persistencia,
-• business isolation,
-• AI context,
-• uploads,
-• hydration,
-• riesgos,
-• componentes sensibles,
-• y reglas obligatorias antes de modificar branding/profile.
-
-NO asumir runtime.
-Validar siempre frontend + backend real.
-
 ============================================================
-OBJETIVO DEL BRAND PROFILE
-==========================
-
-El brand profile existe para:
-
-• definir identidad del negocio,
-• alimentar correctamente la IA,
-• mantener coherencia visual,
-• personalizar captions,
-• personalizar hooks,
-• personalizar branding,
-• generar contenido más humano,
-• y evitar generación genérica.
-
-El brand profile NO debe sentirse:
-
-• técnico,
-• complejo,
-• inconsistente,
-• ni ambiguo.
-
-Debe sentirse:
-
-• claro,
-• premium,
-• rápido,
-• coherente,
-• y confiable.
-
-============================================================
-ARCHIVOS PRINCIPALES
-====================
-
-FRONTEND PRINCIPAL:
-
-• profile.tsx
-
-FRONTEND RELACIONADOS:
-
-• ActiveBusinessContext
-• onboarding branding flow
-• AI suggestion ingestion
-• branding persistence
-• logo upload flow
-• visual identity flow
-
-BACKEND RELACIONADO:
-
-• brand profile endpoints
-• business endpoints
-• upload endpoints
-• AI context endpoints
-• persistence DB
-
-⚠️ IMPORTANTE
-
-Validar siempre:
-• cuál flujo está ACTIVO realmente,
-• cuál persiste realmente,
-• y cuál renderiza realmente.
-
-NO asumir runtime.
-
-============================================================
-SOURCE OF TRUTH
-===============
-
-SOURCE OF TRUTH PRINCIPAL:
-
-• business-level branding boundary
-• active business profile runtime
-• backend persisted business data
-• PostgreSQL businesses table
-• ActiveBusinessContext
-
-NO crear:
-
-• múltiples brand states,
-• branding paralelo,
-• persistencia duplicada,
-• ni ownership ambiguo.
-
-============================================================
-BUSINESS ISOLATION
-==================
-
-CRÍTICO:
-
-Cada business debe mantener aislamiento completo de:
-
-• branding,
-• tone,
-• audience,
-• logos,
-• colors,
-• prompts,
-• AI context,
-• website,
-• description,
-• y assets visuales.
-
-⚠️ NUNCA mezclar branding entre businesses.
-
-============================================================
-AI CONTEXT
-===========
-
-El brand profile alimenta:
-
-• generación IA,
-• captions,
-• hooks,
-• tono,
-• branding,
-• overlays,
-• prompts,
-• y comportamiento contextual de la IA.
-
-⚠️ IMPORTANTE
-
-Si el brand profile falla:
-• la IA puede volverse genérica,
-• inconsistente,
-• o contaminada.
-
-============================================================
-PERSISTENCIA
-============
-
-El sistema debe persistir correctamente:
-
-• tone,
-• audience,
-• colors,
-• website,
-• logos,
-• description,
-• industry,
-• subcategories,
-• branding assets,
-• y configuraciones relacionadas.
-
-Validar siempre:
-
-• save,
-• refresh,
-• reload,
-• hydration,
-• business switching,
-• y persistencia real DB.
-
-============================================================
-UPLOADS Y ASSETS
-================
-
-SISTEMAS SENSIBLES:
-
-• logo uploads
-• asset persistence
-• object storage
-• runtime hydration
-• asset ownership
-• preview rendering
-
-⚠️ IMPORTANTE
-
-Los assets:
-• nunca deben cruzarse entre businesses,
-• nunca deben perder ownership,
-• y deben persistirse correctamente.
-
-============================================================
-RIESGOS CONOCIDOS
-=================
-
-RIESGOS SENSIBLES:
-
-• branding cruzado,
-• contaminación multi-business,
-• hydration incorrecta,
-• stale state,
-• ownership ambiguo,
-• overwrite involuntario,
-• persistencia parcial,
-• uploads huérfanos,
-• AI context inconsistente,
-• race conditions,
-• y múltiples source of truth.
-
-============================================================
-NO TOCAR SIN VALIDAR
-====================
-
-NO modificar sin validar:
-
-• ActiveBusinessContext
-• branding persistence
-• logo upload flow
-• AI context
-• hydration
-• business switching
-• profile save flow
-• onboarding integration
-• runtime branding state
-
-============================================================
-VALIDACIONES OBLIGATORIAS
+STORAGE URL NORMALIZATION
 =========================
 
-Antes de cerrar cambios validar:
-
-• creación business nueva,
-• edición business existente,
-• refresh,
-• reload,
-• hydration,
-• business switching,
-• branding persistido,
-• logos,
-• IA context,
-• multi-business,
-• multiusuario,
-• uploads,
-• y comportamiento post deploy.
-
-============================================================
-ANTI-PATTERNS PROHIBIDOS
-========================
-
-NO:
-
-• duplicar branding state,
-• crear múltiples source of truth,
-• asumir active business incorrectamente,
-• hidratar branding agresivamente,
-• mezclar branding entre businesses,
-• hacer fixes visuales sin validar persistencia,
-• ni modificar branding sin revisar aislamiento completo.
-
-============================================================
-BRAND PROFILE SOURCE OF TRUTH
-=============================
-
-## ActiveBusinessContext ownership
-
-## Runtime hydration
-
-## AI context ownership
-
-## Branding persistence
-
-## Logo uploads ownership
-
-## Asset persistence
-
-## Business switching flow
-
-## Risk areas
-
-## Sensitive effects
-
-## Multi-business contamination risks
-
-## Ownership rules
-
-============================================================
-GLOBAL BRAND FALLBACKS
-======================
-
 Archivo relacionado:
 
-• src/config/brand.ts
-
-Responsabilidad actual:
-
-• branding fallback global,
-• primary color fallback,
-• glow fallback,
-• configuración visual base.
-
-⚠️ IMPORTANTE
-
-Este archivo NO debe convertirse en source of truth principal del branding business-level.
-
-El branding oficial debe depender de:
-
-• business profile
-• onboarding persistence
-• DB persistence
-• business isolation
-
-============================================================
-RIESGOS IMPORTANTES
-===================
-
-RIESGOS:
-
-• branding global accidental,
-• override visual incorrecto,
-• contaminación multi-business,
-• fallback persistente inesperado,
-• y conflictos entre branding dinámico y branding fallback.
-
-============================================================
-REGLA
-======
-
-NO persistir branding business-level únicamente desde:
-
-• src/config/brand.ts
-
-Debe funcionar solamente como:
-• fallback visual global.
-
-============================================================
-PRE-AUTH BRAND PERSISTENCE
-==========================
-
-Archivo relacionado:
-
-• src/contexts/AuthContext.tsx
+• resolveStorageObjectUrl.ts
 
 ============================================================
 RESPONSABILIDAD
 ================
 
-Actualmente existe persistencia temporal de branding antes de autenticación completa.
+Este helper actualmente controla:
 
-Esto permite:
-
-• preservar branding inicial,
-• preservar logo,
-• preservar color primario,
-• preservar website,
-• y completar persistencia después de login/register.
+• normalización de storage URLs,
+• compatibilidad frontend/backend,
+• branding assets rendering,
+• logo rendering,
+• imageVariants rendering,
+• y compatibilidad legacy de paths.
 
 ============================================================
-LOCALSTORAGE TEMPORAL
+OBJETIVO
+=========
+
+El sistema debe resolver correctamente assets desde:
+
+• object storage,
+• branding uploads,
+• image variants,
+• overlays,
+• y assets persistidos históricos.
+
+============================================================
+COMPATIBILIDAD LEGACY
 =====================
 
-Keys detectadas:
+Actualmente soporta:
 
-• hz_pending_logo
-• hz_pending_color
-• hz_pending_website
+• /storage/objects/
+• storage/objects/
+• /objects/
+• objects/
 
 ⚠️ IMPORTANTE
 
-Estas keys funcionan solamente como:
+Esto existe para mantener:
 
-• persistencia temporal pre-auth,
-• hydration bridge,
-• y fallback transitorio.
-
-NO son source of truth oficial.
-
-============================================================
-FLOW REAL
-==========
-
-Flow actual:
-
-1. usuario anónimo inicia branding
-
-2. frontend guarda:
-   • hz_pending_*
-
-3. login/register ocurre
-
-4. AuthContext detecta hydration user
-
-5. frontend ejecuta:
-   • PUT /brand-profile
-
-6. branding persiste finalmente en DB
+• compatibilidad legacy,
+• persistencia histórica,
+• y rendering estable.
 
 ============================================================
 RIESGOS IMPORTANTES
@@ -402,14 +56,13 @@ RIESGOS IMPORTANTES
 
 RIESGOS SENSIBLES:
 
-• stale pending values,
-• branding residual,
-• overwrite accidental,
-• branding cruzado,
-• hydration conflictiva,
-• localStorage viejo,
-• persistencia parcial,
-• y contaminación multi-business.
+• logos rotos,
+• previews rotos,
+• imageVariants inválidas,
+• assets invisibles,
+• hydration visual inconsistente,
+• URLs inconsistentes,
+• y rendering roto frontend/backend.
 
 ============================================================
 REGLAS IMPORTANTES
@@ -417,96 +70,17 @@ REGLAS IMPORTANTES
 
 NO:
 
-• usar hz_pending_* como source of truth,
-• persistir branding definitivo únicamente en localStorage,
-• ni asumir hydration completa antes de persistencia DB real.
+• hardcodear URLs storage,
+• duplicar lógica de normalización,
+• romper compatibilidad legacy,
+• ni construir URLs manualmente fuera del helper.
 
 ============================================================
-LIMPIEZA OBLIGATORIA
-====================
+REGLA FINAL
+===========
 
-Las keys temporales deben limpiarse correctamente durante:
+resolveStorageObjectUrl() funciona como:
 
-• login,
-• logout,
-• hydration exitosa,
-• y persistencia DB completada.
-
-============================================================
-INDUSTRY + SUBCATEGORY CONTEXT
-==============================
-
-Archivo relacionado:
-
-• industryCatalog.ts
-
-============================================================
-RESPONSABILIDAD
-================
-
-El catálogo de industrias actualmente alimenta:
-
-• onboarding,
-• business profile,
-• AI context,
-• subcategorías,
-• branding contextual,
-• y generación IA futura.
-
-============================================================
-SOURCE OF TRUTH
-===============
-
-Catálogo oficial:
-
-• backend /api/industries
-
-Frontend utiliza:
-
-• memory cache
-• localStorage cache
-• TTL invalidation
-
-⚠️ IMPORTANTE
-
-El catálogo frontend:
-• NO es source of truth definitivo.
-
-============================================================
-RIESGOS IMPORTANTES
-===================
-
-RIESGOS SENSIBLES:
-
-• industria incorrecta,
-• subcategorías inconsistentes,
-• IA context incorrecto,
-• branding contextual incorrecto,
-• stale catalog,
-• onboarding inconsistente,
-• y generación IA degradada.
-
-============================================================
-REGLAS IMPORTANTES
-==================
-
-NO:
-
-• hardcodear industrias inconsistentes,
-• duplicar catálogos,
-• crear subcategorías paralelas,
-• ni romper compatibilidad onboarding ↔ branding ↔ IA.
-
-============================================================
-AI IMPACT
-==========
-
-Industria y subcategorías afectan directamente:
-
-• hooks,
-• captions,
-• tono,
-• branding,
-• CTAs,
-• IA suggestions,
-• y personalización contextual.
+• adapter layer,
+• compatibility layer,
+• y boundary de rendering visual persistente.
