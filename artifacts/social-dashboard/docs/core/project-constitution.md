@@ -367,6 +367,31 @@ CORE SENSIBLE — NO ROMPER
 • Persistencia onboarding.
 • Business switching.
 
+Los archivos CORE identificados deben tratarse como sistemas completos y sensibles.
+
+Antes de modificarlos:
+• revisar documentación relacionada,
+• validar ownership,
+• validar source of truth,
+• validar runtime real,
+• y revisar impactos cruzados.
+
+Actualmente considerados CORE:
+
+• OnboardingWizard.tsx
+• approval.tsx
+• profile.tsx
+• dashboard.tsx
+
+⚠️ IMPORTANTE
+
+Estos archivos funcionan como:
+• runtime coordinators,
+• orchestration layers,
+• y boundaries arquitectónicos principales del sistema.
+
+NO asumir que son simples componentes UI.
+
 Antes de tocar áreas CORE:
 
 • Revisar dependencias.
