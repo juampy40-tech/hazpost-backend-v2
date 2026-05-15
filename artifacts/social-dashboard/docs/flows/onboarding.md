@@ -217,3 +217,91 @@ ONBOARDING SOURCE OF TRUTH
 ## Multi-business contamination risks
 
 ## Ownership rules
+
+============================================================
+INDUSTRY CATALOG SYSTEM
+=======================
+
+Archivo principal:
+
+• industryCatalog.ts
+
+============================================================
+RESPONSABILIDAD
+================
+
+Este sistema actualmente controla:
+
+• catálogo de industrias,
+• subcategorías onboarding,
+• caché frontend industrias,
+• hydration onboarding,
+• AI onboarding context,
+• y suggestions de nuevas industrias.
+
+============================================================
+SOURCE OF TRUTH
+===============
+
+Source of truth oficial:
+
+• backend /api/industries
+
+Frontend utiliza:
+
+• memory cache
+• localStorage cache
+
+⚠️ IMPORTANTE
+
+Frontend cache:
+• NO es source of truth definitivo.
+
+============================================================
+CACHE ARCHITECTURE
+==================
+
+Actualmente existe:
+
+• memory cache runtime
+• localStorage cache persistente
+• TTL invalidation
+
+Cache key:
+
+• hz_industry_catalog_v1
+
+============================================================
+RIESGOS IMPORTANTES
+===================
+
+RIESGOS SENSIBLES:
+
+• catálogo stale,
+• subcategorías incorrectas,
+• onboarding inconsistente,
+• IA context incorrecto,
+• hydration conflictiva,
+• cache inválido,
+• y branding incorrecto desde onboarding.
+
+============================================================
+REGLAS IMPORTANTES
+==================
+
+NO:
+
+• duplicar catálogo industrias,
+• crear fetch paralelo industrias,
+• usar subcategorías hardcodeadas inconsistentes,
+• ni romper TTL invalidation.
+
+============================================================
+SUGGESTION FLOW
+================
+
+sendIndustrySuggestion():
+
+• NO debe bloquear onboarding,
+• funciona como feedback incremental,
+• y permite evolución futura del catálogo.
