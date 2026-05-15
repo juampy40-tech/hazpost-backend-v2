@@ -235,3 +235,95 @@ APPROVAL SOURCE OF TRUTH
 ## Multi-business contamination risks
 
 ## Ownership rules
+
+============================================================
+BUSINESS QUERY ISOLATION
+========================
+
+Archivo principal:
+
+• useBusinessPosts.ts
+
+============================================================
+RESPONSABILIDAD
+================
+
+Este hook actualmente controla:
+
+• aislamiento multi-business de posts,
+• inyección obligatoria de businessId,
+• hydration gating,
+• prevención de queries sin contexto,
+• y protección anti-contaminación runtime.
+
+============================================================
+SOURCE OF TRUTH
+===============
+
+Toda query de posts debe depender de:
+
+• businessId válido
+• ActiveBusinessContext
+• hydration correcta
+
+⚠️ IMPORTANTE
+
+NO usar queries globales ambiguas.
+
+============================================================
+HYDRATION GATING
+================
+
+Actualmente utiliza:
+
+• enabled: loaded
+
+Esto evita:
+
+• requests prematuros,
+• hydration incompleta,
+• businessId undefined,
+• stale renders,
+• flashes incorrectos,
+• y contaminación multi-business.
+
+============================================================
+REGLA IMPORTANTE
+================
+
+⚠️ IMPORTANTE
+
+NO usar:
+
+• useGetPosts directamente
+
+en páginas runtime sensibles.
+
+Debe utilizarse:
+
+• useBusinessPosts()
+
+============================================================
+RIESGOS IMPORTANTES
+===================
+
+Romper este hook puede causar:
+
+• contaminación multi-business,
+• posts cruzados,
+• stale hydration,
+• polling inconsistente,
+• requests inválidos,
+• approval incorrecto,
+• y runtime desincronizado.
+
+============================================================
+ANTI-PATTERNS
+==============
+
+NO:
+
+• cargar posts sin businessId,
+• usar queries globales ambiguas,
+• saltarse hydration gating,
+• ni bypass de ActiveBusinessContext.
