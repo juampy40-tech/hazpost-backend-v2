@@ -333,3 +333,101 @@ NO persistir branding business-level únicamente desde:
 
 Debe funcionar solamente como:
 • fallback visual global.
+
+============================================================
+PRE-AUTH BRAND PERSISTENCE
+==========================
+
+Archivo relacionado:
+
+• src/contexts/AuthContext.tsx
+
+============================================================
+RESPONSABILIDAD
+================
+
+Actualmente existe persistencia temporal de branding antes de autenticación completa.
+
+Esto permite:
+
+• preservar branding inicial,
+• preservar logo,
+• preservar color primario,
+• preservar website,
+• y completar persistencia después de login/register.
+
+============================================================
+LOCALSTORAGE TEMPORAL
+=====================
+
+Keys detectadas:
+
+• hz_pending_logo
+• hz_pending_color
+• hz_pending_website
+
+⚠️ IMPORTANTE
+
+Estas keys funcionan solamente como:
+
+• persistencia temporal pre-auth,
+• hydration bridge,
+• y fallback transitorio.
+
+NO son source of truth oficial.
+
+============================================================
+FLOW REAL
+==========
+
+Flow actual:
+
+1. usuario anónimo inicia branding
+
+2. frontend guarda:
+   • hz_pending_*
+
+3. login/register ocurre
+
+4. AuthContext detecta hydration user
+
+5. frontend ejecuta:
+   • PUT /brand-profile
+
+6. branding persiste finalmente en DB
+
+============================================================
+RIESGOS IMPORTANTES
+===================
+
+RIESGOS SENSIBLES:
+
+• stale pending values,
+• branding residual,
+• overwrite accidental,
+• branding cruzado,
+• hydration conflictiva,
+• localStorage viejo,
+• persistencia parcial,
+• y contaminación multi-business.
+
+============================================================
+REGLAS IMPORTANTES
+==================
+
+NO:
+
+• usar hz_pending_* como source of truth,
+• persistir branding definitivo únicamente en localStorage,
+• ni asumir hydration completa antes de persistencia DB real.
+
+============================================================
+LIMPIEZA OBLIGATORIA
+====================
+
+Las keys temporales deben limpiarse correctamente durante:
+
+• login,
+• logout,
+• hydration exitosa,
+• y persistencia DB completada.
