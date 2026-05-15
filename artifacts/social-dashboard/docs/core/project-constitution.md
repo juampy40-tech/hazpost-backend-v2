@@ -142,6 +142,17 @@ REGLAS ARQUITECTÓNICAS
 • Evitar múltiples source of truth.
 • Evitar ownership ambiguo.
 
+HazPost utiliza runtime coordinators para manejar sistemas complejos.
+
+⚠️ IMPORTANTE
+
+Algunos archivos funcionan como:
+• orchestration layers,
+• runtime coordinators,
+• y boundaries arquitectónicos completos.
+
+NO asumir que archivos grandes CORE son simples componentes UI.
+
 ============================================================
 SOURCE OF TRUTH Y OWNERSHIP
 ===========================
@@ -153,6 +164,7 @@ Todo feature CORE debe tener:
 • Responsabilidad definida.
 • Persistencia definida.
 • Flujo documentado.
+• Boundaries arquitectónicos definidos.
 • Riesgos conocidos documentados.
 
 Nunca permitir:
@@ -206,10 +218,6 @@ Mantener documentación viva para:
 
 Nunca reescribir documentación crítica agresivamente.
 Actualizar incrementalmente.
-
-============================================================
-APRENDIZAJE Y DOCUMENTACIÓN EVOLUTIVA
-=====================================
 
 ============================================================
 APRENDIZAJE Y DOCUMENTACIÓN EVOLUTIVA
