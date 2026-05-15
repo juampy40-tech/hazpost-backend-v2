@@ -189,3 +189,31 @@ Toda modificación debe:
 • evitar regresiones,
 • respetar source of truth,
 • y validar runtime real completo.
+
+============================================================
+ONBOARDING SOURCE OF TRUTH
+==========================
+
+## State writers
+
+## Runtime hydration
+
+## AI suggestion ingestion
+
+## Backend persistence flow
+
+## Business creation flow
+
+## Brand profile persistence
+
+## LocalStorage temporary persistence
+
+## Active business detection
+
+## Risk areas
+
+## Sensitive effects
+
+## Multi-business contamination risks
+
+## Ownership rules
