@@ -143,3 +143,103 @@ Toda modificación debe:
 • evitar contaminación,
 • mantener ownership claro,
 • y validar runtime real completo.
+
+============================================================
+ACTIVE BUSINESS CONTEXT RUNTIME
+================================
+
+Archivo principal:
+
+• src/contexts/ActiveBusinessContext.tsx
+
+============================================================
+RESPONSABILIDAD
+================
+
+Este context actualmente controla:
+
+• active business runtime,
+• business hydration,
+• active business ownership,
+• frontend business switching,
+• loaded state,
+• business list runtime,
+• y sincronización frontend/backend.
+
+============================================================
+SOURCE OF TRUTH REAL
+====================
+
+El negocio activo depende de:
+
+• backend persistence
+• /api/businesses
+• business.isDefault === true
+
+⚠️ IMPORTANTE
+
+El backend actualmente define el negocio activo oficial.
+
+Frontend:
+• NO debe crear source of truth paralela.
+
+============================================================
+RIESGOS IMPORTANTES
+===================
+
+RIESGOS SENSIBLES:
+
+• stale business runtime,
+• hydration race conditions,
+• loaded state inconsistente,
+• React stale renders,
+• contaminación multi-business,
+• reload parcial,
+• selected business incorrecto,
+• hydration incompleta,
+• y frontend/backend desincronizado.
+
+============================================================
+LOADED STATE
+=============
+
+loaded actualmente controla:
+
+• hydration UX,
+• runtime readiness,
+• fallback rendering,
+• y prevención de pantallas vacías.
+
+⚠️ IMPORTANTE
+
+Romper loaded puede generar:
+
+• loaders infinitos,
+• flashes incorrectos,
+• business incorrecto,
+• y hydration inconsistente.
+
+============================================================
+SWITCH BUSINESS FLOW
+====================
+
+switchBusiness actualmente:
+
+1. llama:
+   • /api/businesses/<id>/set-active
+
+2. backend persiste negocio activo
+
+3. frontend recarga:
+   • loadBusinesses()
+
+============================================================
+REGLAS IMPORTANTES
+==================
+
+NO:
+
+• asumir negocio activo localmente,
+• crear cache paralelo,
+• persistir business runtime ambiguo,
+• ni romper loaded state hydration.
