@@ -219,6 +219,102 @@ ONBOARDING SOURCE OF TRUTH
 ## Ownership rules
 
 ============================================================
+ANALYZE WEBSITE + BUSINESS CREATION FLOW
+============================================================
+
+PROBLEMA DETECTADO
+==================
+
+Se detectó un problema crítico:
+
+❌ onboarding creaba businesses prematuramente
+antes de finalizar el wizard.
+
+Esto generaba:
+
+• consumo incorrecto de slots,
+• duplicados,
+• contaminación multi-business,
+• businesses basura,
+• persistencia accidental,
+• y análisis IA asociados incorrectamente.
+
+============================================================
+FIX IMPLEMENTADO
+================
+
+Se desacopló completamente:
+
+• analyzeWebsite
+de
+• createBusiness
+
+Ahora:
+
+STEP 0:
+✅ analyze website
+✅ sugerencias IA
+❌ NO crea business
+
+FINAL DEL ONBOARDING:
+✅ recién ahí crea business REAL
+
+============================================================
+VALIDACIÓN REAL
+================
+
+Validado en Railway logs:
+
+✅ POST /api/analyze-website
+❌ sin POST /api/businesses prematuro
+
+============================================================
+REGLA OBLIGATORIA
+=================
+
+AnalyzeWebsite:
+
+• nunca debe persistir DB
+• nunca debe crear business
+• nunca debe consumir slots
+• solo debe generar sugerencias temporales UX
+
+Persistencia REAL:
+
+• solamente al finalizar onboarding completo
+
+============================================================
+PENDIENTE ACTUAL
+================
+
+Existe aún un fallback visual frontend:
+
+"Tu negocio es un negocio de productos y servicios..."
+
+aparece antes de finalizar analyze.
+
+IMPORTANTE:
+
+❌ NO es backend
+❌ NO crea businesses
+❌ NO contamina DB
+
+Es solamente:
+
+⚠️ fallback UX/frontend en OnboardingWizard.tsx
+
+OBJETIVO:
+
+ANTES de analyze:
+✅ loading real
+✅ skeleton
+✅ estado vacío
+
+NUNCA:
+❌ descripción fake genérica
+❌ placeholders persistentes IA
+
+============================================================
 INDUSTRY CATALOG SYSTEM
 =======================
 
