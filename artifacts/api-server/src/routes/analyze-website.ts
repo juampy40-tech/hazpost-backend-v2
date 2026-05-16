@@ -243,6 +243,14 @@ export async function analyzeWebsite(
   try {
     const $ = load(html);
 
+    console.log("🌐 ANALYZE INPUT", {
+      url,
+      context,
+    });
+
+    console.log("===== HTML PREVIEW =====");
+    console.log(html.slice(0, 3000));
+
     $("script, style, noscript, footer, aside").remove();
 
     const cleanText = (value: string) =>
@@ -341,20 +349,9 @@ export async function analyzeWebsite(
     console.log("🧠 FINAL primaryColor:", finalPrimaryColor);
     console.log("🧠 themeColor:", themeColor);
 
-    const contentSummary = [
-      title ? `Título: ${title}` : "",
-      metaDesc ? `Meta descripción: ${metaDesc}` : "",
-      h1 ? `H1: ${h1}` : "",
-      h2s ? `Subtítulos: ${h2s}` : "",
-      `Contenido principal: ${bodyText}`,
-    ]
-      .filter(Boolean)
-      .join("\n")
-      .slice(0, 1500);
-
-console.log("===== CONTENT SUMMARY =====");
-console.log(contentSummary);
-console.log("===== END CONTENT SUMMARY =====");
+    console.log("===== CONTENT SUMMARY =====");
+    console.log(bodyText.slice(0, 1500));
+    console.log("===== END CONTENT SUMMARY =====");
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -364,75 +361,11 @@ console.log("===== END CONTENT SUMMARY =====");
       messages: [
         {
           role: "system",
-          content: `Eres un experto en branding y marketing para negocios reales.
-
-Genera una descripción comercial corta, clara y útil del negocio.
-
-Usa PRINCIPALMENTE el contenido REAL del sitio web para entender el negocio.
-
-Prioriza:
-- productos visibles
-- servicios visibles
-- títulos y textos reales
-- propuesta comercial
-- CTAs
-- branding visible
-- tono real de comunicación
-
-Los datos enviados manualmente (nombre, industria, slogan, ciudad, país, etc.) deben usarse SOLO como apoyo secundario si coinciden claramente con el sitio web.
-
-Si el sitio web tiene poco contenido, no es accesible o no permite entender claramente el negocio:
-- usa los datos manuales como fuente principal
-- evita inventar servicios o industrias no confirmadas
-- mantén descripciones generales pero profesionales
-
-Si el sitio web contradice los datos previos:
-- prioriza SIEMPRE el sitio web
-- NO inventes industrias
-- NO asumas servicios no visibles
-- NO reutilices contexto anterior
-- NO mezcles información histórica del negocio
-- Analiza cada negocio como un contexto completamente nuevo e independiente.
-
-Usa el sitio web para entender:
-- qué vende realmente el negocio
-- cómo comunica su marca
-- quién parece ser su audiencia
-- cuál es su propuesta de valor
-
-IMPORTANTE:
-Para detectar primaryColor:
-- prioriza el color dominante del logo principal
-- evita usar colores de fondos oscuros, overlays o gradients del sitio
-- evita usar colores accidentales del hero section
-- usa el color más representativo de la marca
-
-No inventes servicios, industrias o propuestas no visibles claramente en el sitio web o datos manuales.
-No conviertas el negocio en academia, formación o cursos salvo que el formulario lo diga claramente.
-
-Responde SOLO con JSON válido.
-
-Campos requeridos:
-- description
-- audience
-- tone
-`,
+          content: "Eres un experto en branding y marketing.",
         },
         {
           role: "user",
-          content: `
-DATOS DEL NEGOCIO:
-Nombre: ${context?.companyName || "No informado"}
-Slogan: ${context?.slogan || "No informado"}
-Industria: ${context?.industry || "No informado"}
-Subindustria: ${context?.subIndustry || "No informado"}
-Ciudad: ${context?.city || "No informado"}
-País: ${context?.country || "No informado"}
-
-REFERENCIA DEL SITIO WEB:
-${finalPrimaryColor ? `Color principal detectado: ${finalPrimaryColor}` : ""}
-${contentSummary}
-`,
+          content: bodyText.slice(0, 1500),
         },
       ],
     });
