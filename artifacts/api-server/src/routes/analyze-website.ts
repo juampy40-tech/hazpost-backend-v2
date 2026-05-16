@@ -298,15 +298,22 @@ export async function analyzeWebsite(
       .filter(Boolean)
       .join(" | ");
 
+    const visibleText = $("body")
+      .text()
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 4000);
+
     const bodyText = [
       heroText ? `Hero / primera sección: ${heroText}` : "",
       primaryCtas ? `CTAs visibles: ${primaryCtas}` : "",
       mainHeadings ? `Títulos principales: ${mainHeadings}` : "",
+      visibleText ? `Contenido visible del sitio: ${visibleText}` : "",
     ]
       .filter(Boolean)
       .join("\n")
-      .slice(0, 2500);
-
+      .slice(0, 6000);
+      
     const themeColor =
       $("meta[name='theme-color']").attr("content") ?? null;
 
