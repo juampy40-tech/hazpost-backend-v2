@@ -178,6 +178,37 @@ router.put("/", requireAuth, async (req, res) => {
     }
   }
 
+    // 🧹 Evitar contaminación de onboarding previo
+  if (!("industry" in body)) {
+    updates.industry = null;
+  }
+
+  if (!("subIndustry" in body)) {
+    updates.subIndustry = null;
+    updates.subIndustries = JSON.stringify([]);
+  }
+
+  if (!("slogan" in body)) {
+    updates.slogan = null;
+  }
+
+  if (!("city" in body)) {
+    updates.city = null;
+    updates.defaultLocation = null;
+  }
+
+  if (!("defaultSignatureText" in body)) {
+    updates.defaultSignatureText = null;
+  }
+
+  if (!("audienceDescription" in body)) {
+    updates.audienceDescription = null;
+  }
+
+  if (!("brandTone" in body)) {
+    updates.brandTone = null;
+  }
+
   const [existing] = await db.select({
     id: brandProfilesTable.id,
     onboardingStep: brandProfilesTable.onboardingStep,
