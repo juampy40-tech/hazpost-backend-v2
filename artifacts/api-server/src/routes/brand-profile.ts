@@ -235,7 +235,6 @@ router.put("/", requireAuth, async (req, res) => {
       .returning();
   }
 
-  /*
   // Mirror all brand fields into the default business so getBrandContextBlock (which reads businesses)
   // always has up-to-date data — covers Google OAuth path, onboarding, and manual profile edits.
   // Note: brand_profiles.businessDescription → businesses.description (different column names).
@@ -274,7 +273,6 @@ router.put("/", requireAuth, async (req, res) => {
       )
       .catch(() => {});
   }
-  */
 
   // Invalidar caché de ai_context si la industria cambió (sincronización: perfil → IA)
   if ("industry" in updates && typeof updates.industry === "string") {
