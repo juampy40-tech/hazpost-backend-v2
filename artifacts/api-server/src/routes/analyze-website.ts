@@ -409,12 +409,10 @@ ${contentSummary}
       ],
     });
 
-    const raw = completion.choices[0]?.message?.content ?? "{}";
     const parsed = JSON.parse(raw) as Partial<{
       description: string | null;
       audience: string | null;
       tone: string | null;
-      primaryColor: string | null;
     }>;
 
     return {
