@@ -217,7 +217,7 @@ router.put("/", requireAuth, async (req, res) => {
 
   // For completed profiles, never lower the stored onboardingStep during navigation —
   // only allow it to advance (max). This prevents re-triggering the wizard when editing.
-  if (existing && (existing.onboardingCompleted === true || existing.onboardingCompleted === "true")) {
+  if (existing?.onboardingCompleted) {
     if ("onboardingStep" in updates && typeof updates.onboardingStep === "number") {
       updates.onboardingStep = Math.max(existing.onboardingStep ?? 0, updates.onboardingStep);
     }
@@ -576,7 +576,7 @@ router.delete("/reference-images/:index", requireAuth, async (req, res) => {
  * with the new brandTone and audienceDescription returned by AI.
  */
 router.post("/admin/:userId/reanalyze", requireAdmin, async (req, res) => {
-  const userId = parseInt(req.params.userId, 10);
+  const userId = parseInt(String(req.params.userId), 10);
   if (isNaN(userId)) return res.status(400).json({ error: "userId inválido" });
 
   const [profile] = await db
@@ -642,7 +642,7 @@ router.post("/admin/:userId/reanalyze", requireAdmin, async (req, res) => {
  * Admin-only: manually update brandTone, audienceDescription, companyName and/or businessDescription for a user.
  */
 router.patch("/admin/:userId", requireAdmin, async (req, res) => {
-  const userId = parseInt(req.params.userId, 10);
+  const userId = parseInt(String(req.params.userId), 10);
   if (isNaN(userId)) return res.status(400).json({ error: "userId inválido" });
 
   const body = req.body as Record<string, unknown>;

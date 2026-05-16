@@ -1688,8 +1688,11 @@ export function OnboardingWizard({
   }
 
   function getAnalyzeEndpoint(): string {
-    if (activeBizId) return `/api/businesses/${activeBizId}/analyze-website`;
-    return `/api/analyze-website`;
+    if (!activeBizId) {
+      throw new Error("No active business selected");
+    }
+
+    return `/api/businesses/${activeBizId}/analyze-website`;
   }
 
   function handleAiAnalysis(suggestions: AiSuggestions) {

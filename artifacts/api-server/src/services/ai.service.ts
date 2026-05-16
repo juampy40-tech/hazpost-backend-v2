@@ -801,7 +801,7 @@ async function compositeLogoOnImage(
   textSize: string = "medium",
   imageFilter: ImageFilter = "none",
   overlayFont?: string,
-  userLogoBuffer?: Buffer | null,  // null | undefined = skip logo; Buffer = use this logo
+  userLogoBuffer?: Buffer<ArrayBufferLike> | null,  // null | undefined = skip logo; Buffer = use this logo
   brandTagline?: string,           // text shown below headline; empty/undefined = no tagline
   accentColor?: string,            // brand primary color for headline accent elements (titleColor1)
   titleColor2?: string,            // brand secondary color (titleColor2)
@@ -809,7 +809,8 @@ async function compositeLogoOnImage(
   font2?: string                   // optional second font for lines 2-N of headline
 ): Promise<string> {
   try {
-    let imageBuffer = Buffer.from(base64ImageData, "base64");
+    let imageBuffer: Buffer<ArrayBufferLike> =
+      Buffer.from(base64ImageData, "base64");
     // Apply color/tone filter BEFORE compositing logo and text overlays
     if (imageFilter !== "none") {
       imageBuffer = await applyImageFilter(imageBuffer, imageFilter);
@@ -1004,17 +1005,31 @@ const _objectStorage = new ObjectStorageService();
  * - If logoUrl is a bare filename (e.g. "eco-logo-blue.png") → reads from local assets dir.
  * - If logoUrl is null/empty → returns null (no logo overlay).
  */
-async function loadBusinessLogoBuffer(logoUrl?: string | null): Promise<Buffer | null> {
+async function loadBusinessLogoBuffer(
+  logoUrl?: string | null
+): Promise<Buffer<ArrayBufferLike> | null> {
   if (!logoUrl) return null;
+
   const LOGO_TIMEOUT_MS = 8_000; // 8s — never block image generation waiting for a logo
   try {
     if (logoUrl.startsWith("http://") || logoUrl.startsWith("https://")) {
       const res = await fetch(logoUrl, { signal: AbortSignal.timeout(LOGO_TIMEOUT_MS) });
+
       if (!res.ok) {
-        logger.warn({ logoUrl, status: res.status }, "[loadBusinessLogoBuffer] HTTP fetch failed for logo URL");
+        console.warn(
+          "[loadBusinessLogoBuffer] HTTP fetch failed for logo URL",
+          {
+            logoUrl,
+            status: res.status,
+          }
+        );
+
         return null;
       }
-      return Buffer.from(await res.arrayBuffer());
+
+      const arrayBuffer = await res.arrayBuffer();
+
+      return Buffer.from(new Uint8Array(arrayBuffer));
     }
     if (logoUrl.startsWith("/objects/")) {
       const file = await _objectStorage.getObjectEntityFile(logoUrl);
@@ -1039,10 +1054,26 @@ async function loadBusinessLogoBuffer(logoUrl?: string | null): Promise<Buffer |
     }
     // Resolve by basename (handles /api/static/<filename> and other path prefixes)
     const localPath = path.resolve(_assetsDir, path.basename(logoUrl));
-    logger.info({ logoUrl, localPath }, "[loadBusinessLogoBuffer] Reading local asset file");
+
+    console.info(
+      "[loadBusinessLogoBuffer] Reading local asset file",
+      {
+        logoUrl,
+        localPath,
+      }
+    );
+
     return await readFileAsync(localPath);
+
   } catch (err) {
-    logger.warn({ logoUrl, err }, "[loadBusinessLogoBuffer] Could not load logo — continuing without logo");
+    console.warn(
+      "[loadBusinessLogoBuffer] Could not load logo — continuing without logo",
+      {
+        logoUrl,
+        err,
+      }
+    );
+
     return null;
   }
 }
@@ -4343,6 +4374,11 @@ interface PostImageJob {
   brandTagline?: string;  // tagline for overlay — empty = no tagline
   userLogoBuffer?: Buffer | null; // null = skip logo; Buffer = custom logo
   referencePersonDesc?: string;   // description derived from brand profile's reference images for DALL-E
+
+  sceneDesc?: string;
+  characterDesc?: string;
+  businessContext?: string;
+
   chargedCredits?: boolean; // false = free retry (credits already refunded); only refund on failure when true/undefined
 }
 
@@ -5034,8 +5070,15 @@ Character reference: real business professional performing their job.
       // Keep character/business context when nicheSpecificScene exists.
       // Only skip them when the user provided an explicit custom image scene.
       const hasOverrideScene = Boolean(job.imageScene);
-      const effectiveCharacterDesc = hasOverrideScene ? undefined : characterDesc;
-      const effectiveBusinessContext = hasOverrideScene ? undefined : businessContext;      
+      const effectiveCharacterDesc =
+        hasOverrideScene ? undefined : activeCharacterDesc;
+
+      const effectiveBusinessContext =
+        hasOverrideScene
+          ? undefined
+          : effectiveBusinessCtxBank[
+              charIdx % effectiveBusinessCtxBank.length
+            ];
       
       const userRefStyle = refStyleByKey.get(jobKey);
       // Promote saved ref style to primary DALL-E directive (same level as batchRefStyle).
@@ -5055,8 +5098,8 @@ Character reference: real business professional performing their job.
       // Only append ref style to scene description when it is NOT already the primary directive,
       // to avoid doubling the same text in the DALL-E prompt.
       let enrichedSceneDesc = (!effectiveBatchRefStyle && userRefStyle && !job.imageScene && !nicheSpecificScene)
-        ? `${sceneDesc}. Estilo visual de referencia del usuario: ${userRefStyle.split("\n---\n")[0]?.slice(0, 300)}`
-        : sceneDesc;
+        ? `${job.sceneDesc}. Estilo visual de referencia del usuario: ...`
+        : job.sceneDesc;
     
       // Inject real business/character context into the image scene.
       if (effectiveBusinessContext) {
@@ -5171,7 +5214,7 @@ Caption/contexto del post: ${job.caption ?? job.nicheContextShort}`
 
       if (job.contentType === "carousel") {
         const slideResults = await withTimeout(
-          generateCarouselSlides(job.nicheContextShort, jobEffectiveStyle, job.slideCount, job.captionHook, jobTextStyle, effectiveCharacterDesc, enrichedSceneDesc, effectiveBusinessContext, job.userId ?? undefined, jobTagline, jobAccentColor, job.businessId, jobImageScene, jobOverlayFont, jobSignText, jobShowSig, jobLogoBuffer, job.caption, job.platform, jobOverlayFilter),
+          generateCarouselSlides(job.nicheContextShort, jobEffectiveStyle, job.slideCount, job.captionHook, jobTextStyle, effectiveCharacterDesc, enrichedSceneDesc, effectiveBusinessContext ?? undefined, job.userId ?? undefined, jobTagline, jobAccentColor, job.businessId, jobImageScene, jobOverlayFont, jobSignText, jobShowSig, jobLogoBuffer, job.caption, job.platform, jobOverlayFilter),
           IMAGE_TIMEOUT_MS * job.slideCount,
           `carousel post ${job.postId}`
         );
@@ -5181,7 +5224,7 @@ Caption/contexto del post: ${job.caption ?? job.nicheContextShort}`
         const carouselTextPosition = "bottom";
         const carouselTextSize = "medium";
         for (let v = 0; v < slideResults.length; v++) {
-          const hookForSlide = slideResults[v].headline;
+          const hookForSlide = job.captionHook;
           await db.insert(imageVariantsTable).values({
             postId: job.postId,
             ...(job.userId != null ? { userId: job.userId } : {}),
@@ -5211,12 +5254,12 @@ Caption/contexto del post: ${job.caption ?? job.nicheContextShort}`
           ? (jobEffectiveStyle as keyof typeof REEL_STYLES)
           : "photorealistic";
         const slideResults = await withTimeout(
-          generateReelSlides(job.nicheContextShort, reelStyle, job.captionHook, jobTextStyle, effectiveCharacterDesc, enrichedSceneDesc, effectiveBusinessContext, job.userId ?? undefined, jobTagline, jobAccentColor, job.businessId, jobImageScene, jobOverlayFont, jobSignText, jobShowSig, jobLogoBuffer, job.caption, job.platform, jobOverlayFilter),
+          generateReelSlides(job.nicheContextShort, reelStyle, job.captionHook, jobTextStyle, effectiveCharacterDesc, enrichedSceneDesc, effectiveBusinessContext ?? undefined, job.userId ?? undefined, jobTagline, jobAccentColor, job.businessId, jobImageScene, jobOverlayFont, jobSignText, jobShowSig, jobLogoBuffer, job.caption, job.platform, jobOverlayFilter),
           IMAGE_TIMEOUT_MS * 4,
           `reel post ${job.postId}`
         );
         for (let v = 0; v < slideResults.length; v++) {
-          const hookForSlide = slideResults[v].headline;
+          const hookForSlide = job.captionHook;
           await db.insert(imageVariantsTable).values({
             postId: job.postId,
             ...(job.userId != null ? { userId: job.userId } : {}),
@@ -5613,13 +5656,13 @@ export async function generateBulkPosts(
   // Load niches: scoped by businessId when available (multi-business isolation),
   // fallback to userId for solo/legacy users; fail-closed when both are null.
   if (userId == null && businessId == null) {
-    logger.warn("[generateBulkPosts] fail-closed: userId and businessId are both null — refusing global niche fetch");
+    console.warn("[generateBulkPosts] fail-closed: userId and businessId are both null — refusing global niche fetch");
     return { postIds: [], imageJobs: [], stoppedByCredits: false, actualCreditsUsed: 0 };
   }
   const nicheCond = businessId != null
     ? and(eq(nichesTable.active, true), eq(nichesTable.businessId, businessId))
     : and(eq(nichesTable.active, true), eq(nichesTable.userId, userId!));
-  let niches = await db.select().from(nichesTable).where(nicheCond);
+  let niches: any[] = await db.select().from(nichesTable).where(nicheCond);
   if (nicheIds.length > 0) {
     niches = niches.filter(n => nicheIds.includes(n.id));
   }
@@ -5994,7 +6037,7 @@ export async function generateBulkPosts(
         }
 
         if (post) {
-          const nicheContextShort = strategy.captionBrief;
+          const nicheContextShort = contentType;
           postIds.push(post.id);
           const costs = await getCreditCosts();
           actualCreditsUsed += creditCostOf(contentType, costs);
@@ -6009,7 +6052,7 @@ export async function generateBulkPosts(
             styleIdx: slotIdx,
             slideCount,
             platform: "both",
-            imageScene: bulkBriefImageScene ?? strategy.imageScene,
+            imageScene: bulkBriefImageScene ?? undefined,
           });
         }
         }  // closes for (contentType of feedCts)
@@ -6209,7 +6252,21 @@ export async function generateBulkPosts(
         // Resolve hour collision across content types on the same day
         const spTakenHours = spUsedHoursPerDay.get(dayKey);
         if (spTakenHours?.has(bogotaHour)) {
-          const spPool: number[] = ctSched?.hours ?? (currentPlatform === "tiktok" ? TK_FEED_BOGOTA_HOURS : IG_FEED_BOGOTA_HOURS);
+          type ScheduleEntry = {
+            days: number[];
+            hours: number[];
+          };
+
+          const rawScheduleEntry =
+            ctSchedule?.[contentType as keyof typeof ctSchedule];
+
+          const scheduleEntry = rawScheduleEntry as any;
+
+          const spPool: number[] =
+            scheduleEntry?.hours ??
+            (currentPlatform === "tiktok"
+              ? TK_FEED_BOGOTA_HOURS
+              : IG_FEED_BOGOTA_HOURS);
           const nowLocal = isToday ? currentHourInTz(userTimezone) : -1;
           const alt = spPool.find(h => !spTakenHours.has(h) && (!isToday || h > nowLocal));
           if (alt !== undefined) bogotaHour = alt; // spread when possible; if no alt, accept collision
@@ -6531,13 +6588,13 @@ export async function generateExtraPosts(
   // Build niche pool — scoped by businessId when available (multi-business isolation),
   // fallback to userId for solo/legacy users; fail-closed when both are null.
   if (userId == null && businessId == null) {
-    logger.warn("[generateExtraPosts] fail-closed: userId and businessId are both null — refusing global niche fetch");
+    console.warn("[generateExtraPosts] fail-closed: userId and businessId are both null — refusing global niche fetch");
     return { postIds: [], imageJobs: [], searchedDays: 0, stoppedByCredits: false, actualCreditsUsed: 0 };
   }
   const extraNicheCond = businessId != null
     ? and(eq(nichesTable.active, true), eq(nichesTable.businessId, businessId))
     : and(eq(nichesTable.active, true), eq(nichesTable.userId, userId!));
-  let niches = await db.select().from(nichesTable).where(extraNicheCond);
+  let niches: any[] = await db.select().from(nichesTable).where(extraNicheCond);
   if (nicheIds.length > 0) niches = niches.filter(n => nicheIds.includes(n.id));
   if (niches.length === 0 && !customTopic?.trim()) {
     niches = await buildBusinessFallbackNiches(userId, businessId);
@@ -7673,7 +7730,7 @@ export async function applyCompositionLayers(
   options: CompositionLayersOptions
 ): Promise<string> {
   try {
-    let imageBuffer = Buffer.from(rawBase64, "base64");
+    let imageBuffer: Buffer = Buffer.from(rawBase64, "base64");
 
     // Layer 1: elements (applied in order)
     const elements = options.elements ?? [];
