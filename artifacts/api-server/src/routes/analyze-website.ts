@@ -302,13 +302,20 @@ export async function analyzeWebsite(
     const themeColor =
       $("meta[name='theme-color']").attr("content") ?? null;
 
-      const logoUrl =
-        $("meta[property='og:logo']").attr("content") ||
-        $("img[src*='logo']").first().attr("src") ||
-        $("img[alt*='logo']").first().attr("src") ||
-        null;
+    console.log(
+      "🖼️ ALL IMAGES:",
+      $("img")
+        .map((_, el) => $(el).attr("src"))
+        .get()
+    );
 
-      console.log("🟥 FINAL logoUrl selected:", logoUrl);
+    const logoUrl =
+      $("meta[property='og:logo']").attr("content") ||
+      $("img[src*='logo']").first().attr("src") ||
+      $("img[alt*='logo']").first().attr("src") ||
+      null;
+
+    console.log("🟥 FINAL logoUrl selected:", logoUrl);
 
     let detectedBrandColor: string | null = null;
 
