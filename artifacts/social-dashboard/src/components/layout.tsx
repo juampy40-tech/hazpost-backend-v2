@@ -91,7 +91,13 @@ function BusinessSwitcher() {
       >
         <div
           className="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center text-white font-bold text-xs shadow-sm"
-          style={{ background: `linear-gradient(135deg, ${active.primaryColor ?? "#0077FF"}, ${active.secondaryColor ?? "#00C2FF"})` }}
+          style={{
+            background: `linear-gradient(
+              135deg,
+              ${active.primaryColor ?? "#000000"},
+              ${active.secondaryColor ?? "#ffffff"}
+            )`
+          }}
         >
           {active.name.slice(0, 2).toUpperCase()}
         </div>
@@ -135,7 +141,13 @@ function BusinessSwitcher() {
               >
                 <div
                   className="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-white font-bold text-[10px] shadow-sm"
-                  style={{ background: `linear-gradient(135deg, ${b.primaryColor ?? "#0077FF"}, ${b.secondaryColor ?? "#00C2FF"})` }}
+                  style={{
+                    background: `linear-gradient(
+                      135deg,
+                      ${b.primaryColor ?? "#000000"},
+                      ${b.secondaryColor ?? "#ffffff"}
+                    )`
+                  }}
                 >
                   {b.name.slice(0, 2).toUpperCase()}
                 </div>
