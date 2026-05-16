@@ -329,11 +329,7 @@ export async function analyzeWebsite(
     }
 
     const finalPrimaryColor =
-      detectedBrandColor ||
-      (!context?.logoUrl && !context?.logoUrls?.length
-        ? themeColor
-        : null) ||
-      null;
+      detectedBrandColor || null;
 
     console.log("🧠 FINAL primaryColor:", finalPrimaryColor);
     console.log("🧠 themeColor:", themeColor);
