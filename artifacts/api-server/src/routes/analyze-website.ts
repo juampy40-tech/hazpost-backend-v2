@@ -78,10 +78,8 @@ async function extractDominantLogoColor(
       }
     }
 
-    // fallback primer color
-    const [r, g, b] = palette[0] as unknown as number[];
-
-    return rgbToHex(r, g, b);
+    // No reliable dominant brand color detected
+    return null;
   } catch {
     return null;
   }
