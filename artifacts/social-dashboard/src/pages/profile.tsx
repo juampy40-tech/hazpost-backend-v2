@@ -589,7 +589,7 @@ async function loadProfile() {
       return;
     }
 
-    if (!activeBizId) {
+    if (!globalBizId)
       toast({
         title: "No hay negocio activo",
         description: "Selecciona un negocio antes de analizar el sitio.",
