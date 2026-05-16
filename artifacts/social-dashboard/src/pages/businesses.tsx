@@ -360,9 +360,12 @@ function BusinessForm({
 
   /** Core analysis logic: fetches and merges website data into currentForm. Returns merged form. */
   async function runWebsiteAnalysis(currentForm: BusinessFormData): Promise<BusinessFormData> {
-    const endpoint = businessId
-      ? `${BASE}/api/businesses/${businessId}/analyze-website`
-      : `${BASE}/api/analyze-website`;
+    if (!businessId) {
+      throw new Error("No business selected for analysis");
+    }
+
+    const endpoint =
+      `${BASE}/api/businesses/${businessId}/analyze-website`;
 
     const res = await fetch(endpoint, {
       method: "POST",
