@@ -905,6 +905,12 @@ def create_app():
                     "logoUrl",
                     "logoUrls",
                     "referenceImages",
+
+                    # 🔥 NUEVOS
+                    "industry",
+                    "city",
+                    "country",
+                    "slogan",
                 ]
 
                 sanitized_current = {
