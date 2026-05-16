@@ -25,7 +25,7 @@ catalogs:
       specifier: 25.3.5
       version: 25.3.5
     '@types/react':
-      specifier: ^19.2.0
+      specifier: ^19.2.14
       version: 19.2.14
     '@types/react-dom':
       specifier: ^19.2.0
@@ -78,6 +78,9 @@ importers:
 
   .:
     devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.14
       '@typescript-eslint/eslint-plugin':
         specifier: ^7.18.0
         version: 7.18.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)(typescript@5.9.3)
@@ -96,6 +99,9 @@ importers:
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
+      react:
+        specifier: 'catalog:'
+        version: 19.1.0
       typescript:
         specifier: ~5.9.2
         version: 5.9.3
