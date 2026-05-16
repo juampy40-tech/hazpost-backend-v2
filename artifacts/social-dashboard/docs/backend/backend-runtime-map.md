@@ -431,3 +431,131 @@ Objetivo futuro:
 - menor dependencia de app.py,
 - documentación arquitectónica más madura,
 - y reducción gradual de compatibilidad legacy.
+
+============================================================
+ANALYZE WEBSITE — RUNTIME REAL (CRÍTICO)
+========================================
+
+⚠️ HALLAZGO CRÍTICO — MAYO 2026
+
+Durante debugging de contaminación de branding se confirmó que:
+
+* existen múltiples implementaciones de analyze website,
+* pero el runtime REAL activo en producción actualmente sigue dependiendo principalmente de Flask.
+
+Endpoints involucrados:
+
+* /api/analyze-website
+* /api/businesses/<id>/analyze-website
+
+⚠️ IMPORTANTE
+
+Aunque existe lógica moderna en:
+
+* artifacts/api-server/src/routes/analyze-website.ts
+
+el flujo real de onboarding/business/profile actualmente sigue pasando por:
+
+* hazpost-backend/app.py
+
+y por lógica central Flask.
+
+============================================================
+PROBLEMA DETECTADO
+==================
+
+Se detectó contaminación de branding:
+
+Ejemplos:
+
+* ECO-COL reviviendo
+* Cali reviviendo
+* Fitness & Deporte reviviendo
+* slogans legacy reapareciendo
+
+Síntomas:
+
+* analyzeWebsite generaba contexto incorrecto
+* onboarding heredaba branding viejo
+* IA mezclaba negocios
+
+============================================================
+CAUSA RAÍZ CONFIRMADA
+=====================
+
+NO era:
+
+* OpenAI
+* GPT
+* localStorage principal
+* frontend payload
+* analyze request frontend
+
+La causa raíz principal fue:
+
+1. ownership híbrido
+2. compatibilidad legacy
+3. múltiples runtimes coexistiendo
+4. contaminación en persistence/backend
+5. lógica antigua Flask todavía activa
+
+============================================================
+DESCUBRIMIENTO CRÍTICO
+======================
+
+Los cambios realizados en:
+
+* artifacts/api-server/src/routes/analyze-website.ts
+
+NO impactaban completamente producción porque:
+
+* Flask seguía siendo runtime principal del flujo onboarding/business analysis.
+
+============================================================
+REGLA OBLIGATORIA
+=================
+
+Antes de debuggear onboarding IA o analyzeWebsite:
+
+SIEMPRE validar:
+
+1. runtime real Railway
+2. endpoint real respondiendo
+3. backend ownership real
+4. Network F12
+5. logs Flask reales
+6. source of truth real
+
+NO asumir que artifacts/api-server controla producción.
+
+============================================================
+DECISIÓN ARQUITECTÓNICA FUTURA
+==============================
+
+Objetivo futuro:
+
+* una sola lógica analyzeWebsite
+* ownership único
+* IA centralizada
+* menos compatibilidad legacy
+* menos dependencia de app.py
+* eliminación gradual de duplicación Flask/TS
+
+⚠️ IMPORTANTE
+
+NO migrar agresivamente todavía.
+
+Primero:
+
+* estabilizar onboarding
+* estabilizar anti-contamination
+* estabilizar business ownership
+* validar persistencia real
+* validar multi-business
+* validar generación IA real
+
+Luego:
+
+* modularizar
+* centralizar
+* eliminar duplicaciones runtime.
