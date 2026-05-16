@@ -308,6 +308,8 @@ export async function analyzeWebsite(
         $("img[alt*='logo']").first().attr("src") ||
         null;
 
+      console.log("🟥 FINAL logoUrl selected:", logoUrl);
+
     let detectedBrandColor: string | null = null;
 
     if (logoUrl) {
@@ -408,6 +410,8 @@ ${contentSummary}
         },
       ],
     });
+
+    const raw = completion.choices[0]?.message?.content ?? "{}";
 
     const parsed = JSON.parse(raw) as Partial<{
       description: string | null;
