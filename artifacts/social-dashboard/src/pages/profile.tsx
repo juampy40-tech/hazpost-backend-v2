@@ -583,25 +583,53 @@ async function loadProfile() {
 
   async function handleAnalyzeWebsite() {
     const url = bizWebsite.trim();
+
     if (!url) {
       toast({ title: "Ingresa una URL primero", variant: "destructive" });
       return;
     }
+
+    if (!activeBizId) {
+      toast({
+        title: "No hay negocio activo",
+        description: "Selecciona un negocio antes de analizar el sitio.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setAnalyzingWebsite(true);
     setPendingAnalysis(null);
-    try {
-      const res = await fetch(`${BASE}/api/analyze-website`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
-      });
-      const data = await res.json() as WebsiteAnalysisResult;
-      if (!res.ok) throw new Error("Error al analizar el sitio");
 
-      const hasNoResults = !data.description && !data.audience && !data.tone && !data.primaryColor;
+    try {
+      const res = await fetch(
+        `${BASE}/api/businesses/${activeBizId}/analyze-website`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url }),
+        }
+      );
+
+      const data = await res.json() as WebsiteAnalysisResult;
+
+      if (!res.ok) {
+        throw new Error("Error al analizar el sitio");
+      }
+
+      const hasNoResults =
+        !data.description &&
+        !data.audience &&
+        !data.tone &&
+        !data.primaryColor;
+
       if (hasNoResults) {
-        toast({ title: "No se pudo analizar el sitio", description: "Verifica que la URL sea correcta y pública.", variant: "destructive" });
+        toast({
+          title: "No se pudo analizar el sitio",
+          description: "Verifica que la URL sea correcta y pública.",
+          variant: "destructive",
+        });
         return;
       }
 
@@ -618,10 +646,18 @@ async function loadProfile() {
         if (data.audience) setBizAudience(data.audience);
         if (data.tone) setBizTone(data.tone);
         if (data.primaryColor) setBizPrimary(data.primaryColor);
-        toast({ title: "Análisis completado", description: "Los campos se han actualizado con la información del sitio." });
+
+        toast({
+          title: "Análisis completado",
+          description: "Los campos se han actualizado con la información del sitio.",
+        });
       }
     } catch (err) {
-      toast({ title: "Error al analizar", description: String(err), variant: "destructive" });
+      toast({
+        title: "Error al analizar",
+        description: String(err),
+        variant: "destructive",
+      });
     } finally {
       setAnalyzingWebsite(false);
     }
