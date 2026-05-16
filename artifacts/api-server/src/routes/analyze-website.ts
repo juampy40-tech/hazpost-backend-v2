@@ -333,7 +333,7 @@ export async function analyzeWebsite(
       (!context?.logoUrl && !context?.logoUrls?.length
         ? themeColor
         : null) ||
-      "#2563eb";
+      null;
 
     console.log("🧠 FINAL primaryColor:", finalPrimaryColor);
     console.log("🧠 themeColor:", themeColor);

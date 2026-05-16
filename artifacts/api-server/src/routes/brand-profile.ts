@@ -204,10 +204,13 @@ router.put("/", requireAuth, async (req, res) => {
       .returning();
   }
 
+  /*
   // Mirror all brand fields into the default business so getBrandContextBlock (which reads businesses)
   // always has up-to-date data — covers Google OAuth path, onboarding, and manual profile edits.
   // Note: brand_profiles.businessDescription → businesses.description (different column names).
+
   const bizUpdates: Record<string, unknown> = {};
+
   if ("logoUrl" in updates)             bizUpdates.logoUrl = updates.logoUrl;
   if ("logoUrls" in updates)            bizUpdates.logoUrls = updates.logoUrls;
   if ("primaryColor" in updates)        bizUpdates.primaryColor = updates.primaryColor;
@@ -221,17 +224,26 @@ router.put("/", requireAuth, async (req, res) => {
   if ("brandTone" in updates)           bizUpdates.brandTone = updates.brandTone;
   if ("brandFont" in updates)           bizUpdates.brandFont = updates.brandFont;
   if ("defaultLocation" in updates)     bizUpdates.defaultLocation = updates.defaultLocation;
+
   // Mirror referenceImages so generateImagesForPostsBg (which reads businesses.referenceImages)
   // always receives the GPT-4o-analyzed entries — not just plain base64 strings.
   if ("referenceImages" in updates)     bizUpdates.referenceImages = updates.referenceImages;
+
   // Mirror website URL so getBrandContextBlock (businesses path) can include it.
   if ("website" in updates)             bizUpdates.website = updates.website;
+
   if (Object.keys(bizUpdates).length > 0) {
     await db.update(businessesTable)
       .set(bizUpdates)
-      .where(and(eq(businessesTable.userId, userId), eq(businessesTable.isDefault, true)))
+      .where(
+        and(
+          eq(businessesTable.userId, userId),
+          eq(businessesTable.isDefault, true)
+        )
+      )
       .catch(() => {});
   }
+  */
 
   // Invalidar caché de ai_context si la industria cambió (sincronización: perfil → IA)
   if ("industry" in updates && typeof updates.industry === "string") {
