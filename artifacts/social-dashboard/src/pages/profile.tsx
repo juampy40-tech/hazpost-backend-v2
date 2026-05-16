@@ -603,7 +603,7 @@ async function loadProfile() {
 
     try {
       const res = await fetch(
-        `${BASE}/api/businesses/${activeBizId}/analyze-website`,
+        `${BASE}/api/businesses/${globalBizId}/analyze-website`,
         {
           method: "POST",
           credentials: "include",
@@ -611,7 +611,6 @@ async function loadProfile() {
           body: JSON.stringify({ url }),
         }
       );
-
       const data = await res.json() as WebsiteAnalysisResult;
 
       if (!res.ok) {
