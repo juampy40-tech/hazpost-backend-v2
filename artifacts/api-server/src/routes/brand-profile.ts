@@ -254,6 +254,10 @@ router.put("/", requireAuth, async (req, res) => {
   if ("brandTone" in updates)           bizUpdates.brandTone = updates.brandTone;
   if ("brandFont" in updates)           bizUpdates.brandFont = updates.brandFont;
   if ("defaultLocation" in updates)     bizUpdates.defaultLocation = updates.defaultLocation;
+  if ("city" in updates)
+    bizUpdates.city = updates.city;
+  if ("defaultSignatureText" in updates)
+    bizUpdates.defaultSignatureText = updates.defaultSignatureText;
 
   // Mirror referenceImages so generateImagesForPostsBg (which reads businesses.referenceImages)
   // always receives the GPT-4o-analyzed entries — not just plain base64 strings.
