@@ -1633,7 +1633,7 @@ export function OnboardingWizard({
     // 🚨 IMPORTANTE:
     // En creación de negocio NUEVO no debemos hidratar automáticamente
     // desde el business default porque contamina el onboarding.
-    if (!editMode && !initialData?.id) {
+    if (!editMode) {
       return;
     }
 
@@ -1764,7 +1764,9 @@ export function OnboardingWizard({
   setAnalyzing(true);
 
   try {
-    const endpoint = `${API_BASE}${getAnalyzeEndpoint()}`;
+    const endpoint = activeBizId
+      ? `${API_BASE}${getAnalyzeEndpoint()}`
+      : `${API_BASE}/api/analyze-website`;
     console.log("🌐 ANALYZE ENDPOINT", endpoint);
 
     const res = await fetch(endpoint, {
@@ -1817,41 +1819,52 @@ export function OnboardingWizard({
 }
 
   const saveProgress = useCallback(
-  async (nextStep: number, markComplete?: boolean): Promise<boolean> => {
-    setSaving(true);
+    async (nextStep: number, markComplete?: boolean): Promise<boolean> => {
 
-    try {
-      const payload: Record<string, unknown> = {
-        ...data,
-        onboardingStep: nextStep,
-      };
-
-      if (markComplete !== undefined) {
-        payload.onboardingCompleted = markComplete;
+      // 🚨 IMPORTANTE:
+      // En creación de negocio NUEVO no persistimos progreso
+      // en brand-profile porque contamina otros negocios.
+      // Solo persistimos en modo edición.
+      if (!editMode) {
+        return true;
       }
 
-      const res = await fetch(`${API_BASE}/api/brand-profile`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      setSaving(true);
 
-      if (!res.ok) {
-        console.error("❌ Error guardando progreso:", await res.text());
+      try {
+        const payload: Record<string, unknown> = {
+          ...data,
+          onboardingStep: nextStep,
+        };
+
+        if (markComplete !== undefined) {
+          payload.onboardingCompleted = markComplete;
+        }
+
+        const res = await fetch(`${API_BASE}/api/brand-profile`, {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+          console.error("❌ Error guardando progreso:", await res.text());
+          return true; // No bloquear onboarding
+        }
+
+        return true;
+
+      } catch (err) {
+        console.error("🔥 Error crítico saveProgress:", err);
         return true; // No bloquear onboarding
-      }
 
-      return true;
-    } catch (err) {
-      console.error("🔥 Error crítico saveProgress:", err);
-      return true; // No bloquear onboarding
-    } finally {
-      setSaving(false);
-    }
-  },
-  [data]
-);
+      } finally {
+        setSaving(false);
+      }
+    },
+    [data, editMode]
+  );
   
 async function doNext() {
   const nextStep = step + 1;
@@ -2004,6 +2017,11 @@ async function doNext() {
 
     if (!businessRes.ok) {
       console.error("❌ Error creando business:", await businessRes.text());
+    }
+
+    if (!editMode) {
+      onComplete();
+      return;
     }
 
     const profileRes = await fetch(`${API_BASE}/api/brand-profile`, {
