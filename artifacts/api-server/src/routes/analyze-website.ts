@@ -368,18 +368,37 @@ console.log("===== END CONTENT SUMMARY =====");
 
 Genera una descripción comercial corta, clara y útil del negocio.
 
-Usa principalmente:
-- nombre del negocio
-- industria
-- subindustria
-- slogan
-- ciudad y país
+Usa PRINCIPALMENTE el contenido REAL del sitio web para entender el negocio.
 
-Usa el sitio web solo como apoyo para entender:
+Prioriza:
 - productos visibles
-- estilo de marca
-- tono
+- servicios visibles
+- títulos y textos reales
 - propuesta comercial
+- CTAs
+- branding visible
+- tono real de comunicación
+
+Los datos enviados manualmente (nombre, industria, slogan, ciudad, país, etc.) deben usarse SOLO como apoyo secundario si coinciden claramente con el sitio web.
+
+Si el sitio web tiene poco contenido, no es accesible o no permite entender claramente el negocio:
+- usa los datos manuales como fuente principal
+- evita inventar servicios o industrias no confirmadas
+- mantén descripciones generales pero profesionales
+
+Si el sitio web contradice los datos previos:
+- prioriza SIEMPRE el sitio web
+- NO inventes industrias
+- NO asumas servicios no visibles
+- NO reutilices contexto anterior
+- NO mezcles información histórica del negocio
+- Analiza cada negocio como un contexto completamente nuevo e independiente.
+
+Usa el sitio web para entender:
+- qué vende realmente el negocio
+- cómo comunica su marca
+- quién parece ser su audiencia
+- cuál es su propuesta de valor
 
 IMPORTANTE:
 Para detectar primaryColor:
@@ -388,7 +407,7 @@ Para detectar primaryColor:
 - evita usar colores accidentales del hero section
 - usa el color más representativo de la marca
 
-No sobreinterpretes el sitio web.
+No inventes servicios, industrias o propuestas no visibles claramente en el sitio web o datos manuales.
 No conviertas el negocio en academia, formación o cursos salvo que el formulario lo diga claramente.
 
 Responde SOLO con JSON válido.
