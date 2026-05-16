@@ -911,6 +911,8 @@ def create_app():
                     "city",
                     "country",
                     "slogan",
+                    "defaultLocation",
+                    "defaultSignatureText",
                 ]
 
                 sanitized_current = {
