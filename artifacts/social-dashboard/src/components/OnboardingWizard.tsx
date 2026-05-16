@@ -1889,65 +1889,6 @@ async function doNext() {
 
     if (ok) {
 
-      // 🚨 IMPORTANTE:
-      // En onboarding NUEVO necesitamos crear business
-      // ANTES del analyze para obtener businessId real
-      // y evitar fallback global contaminante.
-      if (!editMode && step === 0) {
-
-        try {
-
-          const createRes = await fetch(`${API_BASE}/api/businesses`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: data.companyName || "Nuevo negocio",
-              companyName: data.companyName || "Nuevo negocio",
-              industry: data.industry || "",
-              subIndustry: data.subIndustry || "",
-              website: data.website || "",
-              city: data.city || "",
-              country: data.country || "",
-            }),
-          });
-
-          if (createRes.ok) {
-
-            const created = await createRes.json();
-
-            const newBusinessId =
-              created?.business?.id ||
-              created?.id;
-
-            if (newBusinessId) {
-              setActiveBizId(newBusinessId);
-            }
-
-            console.log(
-              "✅ Business creado antes de analyze",
-              newBusinessId
-            );
-
-          } else {
-
-            console.error(
-              "❌ Error creando business pre-analyze:",
-              await createRes.text()
-            );
-          }
-
-        } catch (err) {
-
-          console.error(
-            "🔥 Error crítico creando business pre-analyze:",
-            err
-          );
-        }
-      }
-
       setStep(nextStep);
 
       if (step === 0 && data.website?.trim()) {
@@ -2073,7 +2014,7 @@ async function doNext() {
     // Business ya fue creado en step 0
     // para evitar contaminación y duplicados.
 
-    /*
+    
     const businessRes = await fetch(`${API_BASE}/api/businesses`, {
       method: "POST",
       credentials: "include",
@@ -2084,7 +2025,6 @@ async function doNext() {
     if (!businessRes.ok) {
       console.error("❌ Error creando business:", await businessRes.text());
     }
-    */
 
     if (!editMode) {
       onComplete();
