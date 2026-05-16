@@ -1630,15 +1630,25 @@ export function OnboardingWizard({
   }
 
   useEffect(() => {
+    // 🚨 IMPORTANTE:
+    // En creación de negocio NUEVO no debemos hidratar automáticamente
+    // desde el business default porque contamina el onboarding.
+    if (!editMode && !initialData?.id) {
+      return;
+    }
+
     fetch(`${API_BASE}/api/businesses`, { credentials: "include" })
       .then(r => r.json())
       .then((d: { businesses?: { id: number; isDefault?: boolean }[] }) => {
         const list = d.businesses ?? [];
         const def = list.find(b => b.isDefault) ?? list[0];
-        if (def) setActiveBizId(def.id);
+
+        if (def) {
+          setActiveBizId(def.id);
+        }
       })
       .catch(() => {});
-  }, []);
+  }, [editMode, initialData]);
 
   // Consume pre-computed AI suggestions stored by the registration flow
   useEffect(() => {
