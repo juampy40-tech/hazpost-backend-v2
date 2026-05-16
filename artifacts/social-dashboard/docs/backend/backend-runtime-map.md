@@ -559,3 +559,111 @@ Luego:
 * modularizar
 * centralizar
 * eliminar duplicaciones runtime.
+
+============================================================
+MONOREPO TYPECHECK REALITY (MAY 2026)
+============================================================
+
+⚠️ HALLAZGO IMPORTANTE
+
+Se validó `npm run build` a nivel monorepo completo.
+
+Resultado:
+el proyecto contiene deuda TypeScript histórica importante fuera de varios flujos CORE actuales.
+
+============================================================
+CONCLUSIONES
+============================================================
+
+Los errores detectados NO fueron causados por:
+
+* onboarding fixes recientes
+* anti-contamination fixes
+* analyzeWebsite fixes
+* AI isolation fixes
+* scheduler fixes recientes
+
+Los fixes recientes sí mejoraron:
+
+* business isolation
+* onboarding consistency
+* anti-brand contamination
+* analyzeWebsite routing
+* business-aware generation
+
+============================================================
+ÁREAS CON MAYOR DEUDA TS
+============================================================
+
+Se detectó deuda TypeScript especialmente en:
+
+* admin/*
+* affiliate/*
+* referrals/*
+* support/*
+* social/posts.ts
+* auth typings
+* drizzle/sql typings
+* nullable handling legacy
+* OTP typings
+* legacy social routes
+
+============================================================
+REALIDAD ACTUAL
+============================================================
+
+El monorepo actualmente:
+
+* NO debe considerarse completamente type-safe
+* contiene migraciones parciales
+* tiene typings híbridos legacy/modernos
+* mezcla runtime Flask + módulos TS modernos
+
+Sin embargo:
+
+* runtime principal sigue funcionando
+* Railway continúa iniciando
+* frontend continúa operativo
+* onboarding sigue funcional
+* generación IA sigue operativa
+
+============================================================
+REGLA OBLIGATORIA
+============================================================
+
+NO intentar corregir toda la deuda TypeScript en una sola sesión.
+
+Priorizar SIEMPRE:
+
+1. runtime funcional
+2. onboarding
+3. AI generation
+4. approval queue
+5. publishing
+6. scheduler
+7. multi-business isolation
+8. persistence correctness
+
+============================================================
+ESTRATEGIA FUTURA
+============================================================
+
+La deuda TypeScript debe corregirse:
+
+* gradualmente
+* por módulos
+* con validación runtime real
+* sin romper CORE
+* sin refactors masivos simultáneos
+
+⚠️ IMPORTANTE
+
+TypeScript limpio NO garantiza:
+* estabilidad SaaS,
+* UX correcta,
+* ni aislamiento multi-business.
+
+Priorizar siempre:
+* comportamiento real,
+* persistencia real,
+* y runtime real.
