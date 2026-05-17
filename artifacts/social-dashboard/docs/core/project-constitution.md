@@ -520,6 +520,43 @@ Actualmente considerados CORE:
 
 ⚠️ IMPORTANTE
 
+dashboard.tsx actualmente funciona como:
+
+• dashboard runtime coordinator,
+• generation orchestrator,
+• approval orchestrator,
+• hydration manager,
+• y boundary principal frontend/backend.
+
+NO asumir que dashboard.tsx es solamente UI visual.
+
+⚠️ ÁREA SENSIBLE ESPECIAL
+
+Publish pipeline y social publishing son áreas críticas de confianza del producto.
+
+Cualquier cambio relacionado con:
+
+• publish-now,
+• scheduling,
+• social posting,
+• retries,
+• polling,
+• status transitions,
+• publish queues,
+• o sincronización frontend/backend
+
+debe validar:
+
+• idempotencia,
+• persistencia real,
+• refresh/reload,
+• retry real,
+• estados consistentes,
+• ownership correcto,
+• y comportamiento multi-business real.
+
+⚠️ IMPORTANTE
+
 Estos archivos funcionan como:
 • runtime coordinators,
 • orchestration layers,
