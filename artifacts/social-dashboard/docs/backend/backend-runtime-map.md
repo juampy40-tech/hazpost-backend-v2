@@ -667,3 +667,101 @@ Priorizar siempre:
 * comportamiento real,
 * persistencia real,
 * y runtime real.
+
+============================================================
+WEBSITE ANALYSIS RUNTIME SPLIT (MAY 2026)
+============================================================
+
+⚠️ HALLAZGO IMPORTANTE
+
+Se confirmó que actualmente existen DOS implementaciones activas/parciales de website analysis:
+
+1. Legacy onboarding analyze endpoint
+2. Modern business analyze endpoint
+
+============================================================
+LEGACY ONBOARDING ANALYZE
+============================================================
+
+Endpoint:
+`/api/analyze-website`
+
+Estado:
+LEGACY / MVP compatibility runtime.
+
+Características:
+
+* usa templates hardcoded
+* NO usa OpenAI contextual analysis real
+* devuelve:
+  - descriptions genéricas
+  - tone genérico
+  - colores fallback
+* onboarding todavía depende parcialmente de este flujo
+
+Ejemplo de síntomas detectados:
+
+* "Tu negocio es un negocio..."
+* tone = "cercano"
+* primaryColor = "#2563eb"
+
+⚠️ IMPORTANTE
+
+Este endpoint fue confundido inicialmente con el analyze moderno,
+lo cual generó debugging incorrecto sobre:
+- GPT
+- prompts
+- frontend hydration
+- contaminación IA
+
+============================================================
+MODERN BUSINESS ANALYZE
+============================================================
+
+Endpoint:
+`/api/businesses/<id>/analyze-website`
+
+Estado:
+runtime moderno IA real.
+
+Características:
+
+* usa OpenAI
+* usa branding context
+* usa slogan
+* usa industry
+* usa audience
+* usa logos/reference images
+* genera branding mucho más contextual
+
+============================================================
+DECISIÓN ARQUITECTÓNICA
+============================================================
+
+Dirección futura confirmada:
+
+Centralizar website analysis en:
+
+`hazpost-backend/src/services/website_analysis_service.py`
+
+Objetivos:
+
+* source of truth único
+* shared scraping
+* shared prompt building
+* shared normalization
+* shared OpenAI analysis
+* evitar lógica analyze duplicada
+
+⚠️ IMPORTANTE
+
+NO migrar agresivamente onboarding todavía.
+
+Primero:
+- estabilizar onboarding lifecycle
+- estabilizar business ownership
+- estabilizar anti-contamination
+- validar multi-business runtime real
+
+Luego:
+- reutilizar servicio centralizado desde ambos endpoints.
