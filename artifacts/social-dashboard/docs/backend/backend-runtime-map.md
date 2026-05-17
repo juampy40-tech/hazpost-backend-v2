@@ -273,6 +273,101 @@ Cambios incorrectos pueden:
 ---
 
 ============================================================
+AI GENERATION RUNTIME — CORE SYSTEM
+============================================================
+
+⚠️ IMPORTANTE
+
+generate_first_post() actualmente NO es solamente un endpoint simple.
+
+Actualmente funciona como:
+
+• AI orchestration engine,
+• prompt governance layer,
+• branding intelligence layer,
+• visual generation orchestrator,
+• anti-generic enforcement system,
+• anti-repetition system,
+• visual context selector,
+• fallback orchestration layer,
+• caption generation engine,
+• visualPlan generator,
+• y persistence bridge frontend/backend.
+
+============================================================
+AI PROMPT GOVERNANCE
+============================================================
+
+El sistema actualmente ya contiene reglas activas para evitar:
+
+• contenido genérico,
+• contaminación de contexto,
+• escenarios repetitivos,
+• sesgo residencial,
+• branding incorrecto,
+• visuales abstractos,
+• y pérdida de identidad comercial.
+
+============================================================
+VISUAL INTELLIGENCE
+============================================================
+
+El sistema actualmente ya evalúa:
+
+• industry,
+• subIndustry,
+• subIndustries,
+• businessDescription,
+• audience,
+• tone,
+• slogan,
+• location,
+• website,
+• referenceImages,
+• y branding context
+
+para construir visual prompts coherentes con el negocio real.
+
+============================================================
+ARQUITECTURA ACTUAL
+============================================================
+
+Actualmente gran parte del AI orchestration runtime vive todavía inline dentro de app.py.
+
+⚠️ IMPORTANTE
+
+NO realizar refactors agresivos sin mapear primero:
+
+• ownership IA,
+• prompt dependencies,
+• fallback lifecycle,
+• visualPlan lifecycle,
+• parsing lifecycle,
+• y persistencia frontend/backend.
+
+============================================================
+ARQUITECTURA FUTURA
+============================================================
+
+La evolución futura debe migrar progresivamente hacia:
+
+• AI services reutilizables,
+• prompt builders centralizados,
+• visual orchestration services,
+• AI governance layers,
+• y runtime IA modular.
+
+La migración debe hacerse progresivamente.
+
+NO romper:
+• onboarding,
+• approval,
+• dashboard,
+• visualPlan,
+• image generation,
+• ni persistencia actual.
+
+============================================================
 TEXT BLOCKS SYSTEM
 ============================================================
 
