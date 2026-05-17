@@ -1659,25 +1659,7 @@ export function OnboardingWizard({
         const s = JSON.parse(raw) as AiSuggestions;
         setAiSuggestions(s);
         // Only fill empty fields — never overwrite existing user-entered values
-        setData(prev => {
-          const patch: Partial<BrandProfile> = {};
 
-          if (s.description && !prev.businessDescription?.trim()) {
-            patch.businessDescription = s.description;
-          }
-
-          if (s.audience && !prev.audienceDescription?.trim()) {
-            patch.audienceDescription = s.audience;
-          }
-
-          if (s.tone && !prev.brandTone?.trim()) {
-            patch.brandTone = s.tone;
-          }
-
-          return Object.keys(patch).length > 0
-            ? { ...prev, ...patch }
-            : prev;
-        });
         localStorage.removeItem("hz_ai_suggestions");
       } catch { /* ignore */ }
       return true;
