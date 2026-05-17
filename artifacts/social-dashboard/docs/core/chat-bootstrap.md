@@ -12,11 +12,25 @@ Leer SIEMPRE:
 
 • docs/core/project-constitution.md
 • docs/core/source-of-truth.md
+• ARCHIVO MADRE más reciente
 
 Y cuando aplique revisar también:
 
-• docs/flows/onboarding.md
-• otros flows/documentos relacionados con el problema actual.
+• docs/flows/*
+• docs/backend/*
+• documentación relacionada con el flujo actual.
+
+⚠️ IMPORTANTE
+
+La documentación oficial YA es parte activa del sistema.
+
+NO asumir comportamiento sin validar:
+• runtime real,
+• ownership,
+• source of truth,
+• persistencia real,
+• lifecycle,
+• y documentación relacionada.
 
 ============================================================
 REGLAS CRÍTICAS
@@ -29,38 +43,69 @@ REGLAS CRÍTICAS
 • NO romper lógica CORE.
 • Mantener arquitectura centralizada.
 • Validar ownership y source of truth antes de tocar áreas sensibles.
-• Explicar riesgos antes de cambios importantes.
 
-• Si documentación y runtime real entran en conflicto:
-• priorizar diagnóstico del runtime real,
-• explicar la diferencia,
-• y actualizar documentación oficial.
+Si documentación y runtime real entran en conflicto:
 
-• Si algo ya funciona correctamente:
-• decirlo,
+1. priorizar diagnóstico del runtime real,
+2. explicar la diferencia,
+3. y actualizar documentación oficial.
+
+Si algo ya funciona correctamente:
+
 • validarlo,
+• documentarlo si aplica,
 • y NO modificarlo innecesariamente.
+
+============================================================
+VALIDAR SIEMPRE CONTRA
+======================
+
+• código real,
+• runtime real,
+• Network F12,
+• Railway logs,
+• DB real,
+• persistencia real,
+• multiusuario real,
+• multi-business real,
+• frontend/backend reales,
+• y comportamiento real del sistema.
+
+============================================================
+FORMA DE TRABAJO
+================
+
+Antes de proponer cambios:
+
+1. entender problema real,
+2. validar flujo activo real,
+3. detectar riesgos,
+4. validar ownership,
+5. validar source of truth,
+6. revisar impacto frontend/backend,
+7. revisar documentación relacionada,
+8. y proponer el siguiente paso más seguro.
+
+⚠️ IMPORTANTE
+
+NO:
+• hacer fixes rápidos sin diagnóstico,
+• sobre-ingenierizar problemas pequeños,
+• crear lógica paralela,
+• duplicar runtime,
+• ni proponer cambios grandes sin entender lifecycle completo.
+
+Priorizar siempre:
+
+• soluciones simples,
+• mantenibles,
+• compatibles con runtime actual,
+• progresivas,
+• y seguras para multi-business/multiusuario.
 
 ============================================================
 DOCUMENTACIÓN EVOLUTIVA
 =======================
-
-• La documentación oficial es parte activa del sistema, no un extra.
-• Mantener sincronía entre:
-  • runtime real,
-  • documentación,
-  • ownership,
-  • arquitectura actual.
-
-• Antes de proponer nueva documentación:
-  validar primero si ya existe documentación relacionada.
-
-• La documentación existente debe leerse y respetarse antes de redefinir ownership o arquitectura.
-
-⚠️ Diferenciar claramente:
-• visión futura,
-• runtime actual,
-• features parcialmente implementadas.
 
 Si durante el chat se descubre:
 
@@ -81,42 +126,3 @@ entonces:
 3. indicar si debe documentarse,
 4. indicar EXACTAMENTE dónde documentarlo,
 5. y actualizar incrementalmente la documentación oficial.
-
-============================================================
-VALIDAR SIEMPRE CONTRA
-======================
-
-• código real,
-• runtime real,
-• Network F12,
-• logs reales,
-• DB real,
-• Railway,
-• Vercel,
-• persistencia real,
-• multiusuario real,
-• multi-business real,
-• y comportamiento real del sistema.
-
-============================================================
-FORMA DE TRABAJO
-================
-
-Antes de proponer cambios:
-
-1. entender el problema real,
-2. validar flujo activo real,
-3. detectar riesgos,
-4. validar ownership,
-5. validar source of truth,
-6. revisar impacto frontend/backend,
-7. y proponer el siguiente paso más seguro.
-
-• NO sobre-ingenierizar problemas pequeños.
-• Priorizar soluciones simples, mantenibles y compatibles con el runtime actual.
-
-NO proponer cambios grandes sin entender completamente:
-• arquitectura real,
-• runtime real,
-• persistencia real,
-• y flujo completo del sistema.
