@@ -572,6 +572,68 @@ Resultado:
 el proyecto contiene deuda TypeScript histórica importante fuera de varios flujos CORE actuales.
 
 ============================================================
+ARQUITECTURA FUTURA — WEBSITE ANALYSIS
+======================================
+
+La arquitectura objetivo confirmada es migrar progresivamente
+toda la lógica analyzeWebsite hacia:
+
+• src/services/website_analysis_service.py
+
+Objetivos:
+
+• single source of truth,
+• reusable AI analysis engine,
+• shared normalization,
+• shared scraping,
+• shared prompt building,
+• shared AI parsing,
+• y menor dependencia directa de app.py.
+
+⚠️ IMPORTANTE
+
+Actualmente:
+• onboarding,
+• business analyze,
+• y branding analysis
+
+todavía dependen parcialmente de lógica inline en app.py.
+
+La migración debe hacerse progresivamente.
+
+NO romper onboarding actual.
+
+NO eliminar compatibilidad legacy prematuramente.
+
+============================================================
+REGLAS CRÍTICAS — WEBSITE ANALYSIS
+==================================
+
+NO duplicar lógica IA entre:
+
+• onboarding,
+• business profile,
+• dashboard,
+• onboarding wizard,
+• ni futuras herramientas IA.
+
+Toda lógica futura debe centralizarse progresivamente en:
+
+• WebsiteAnalysisService
+
+Primero migrar:
+
+• prompt generation,
+• normalization,
+• parsing,
+• scraping,
+• y AI logic reusable.
+
+Luego:
+• consolidar rutas/runtime.
+
+
+============================================================
 CONCLUSIONES
 ============================================================
 
