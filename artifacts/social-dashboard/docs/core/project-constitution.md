@@ -154,6 +154,93 @@ Algunos archivos funcionan como:
 NO asumir que archivos grandes CORE son simples componentes UI.
 
 ============================================================
+RUNTIME HÍBRIDO Y ORCHESTRATION LAYERS
+======================================
+
+HazPost actualmente opera sobre un runtime híbrido controlado.
+
+Coexisten temporalmente:
+
+• runtime legacy,
+• runtime moderno,
+• session persistence,
+• DB persistence,
+• frontend orchestration,
+• backend orchestration,
+• y bridges de compatibilidad.
+
+⚠️ IMPORTANTE
+
+Esto es intencional y forma parte de una migración progresiva y segura.
+
+NO asumir que:
+• un flujo legacy está muerto,
+• un bridge puede eliminarse,
+• un endpoint antiguo no se usa,
+• o que frontend/backend tienen ownership simple.
+
+Actualmente existen archivos que funcionan como:
+
+• runtime coordinators,
+• orchestration layers,
+• lifecycle managers,
+• compatibility bridges,
+• y boundaries arquitectónicos principales.
+
+Ejemplos actuales:
+
+• artifacts/social-dashboard/src/components/onboarding/OnboardingWizard.tsx
+• artifacts/social-dashboard/src/pages/dashboard.tsx
+• hazpost-backend/src/dashboard_routes.py
+
+⚠️ IMPORTANTE
+
+Estos archivos NO son simples componentes UI ni simples route handlers.
+
+Controlan:
+• hydration,
+• lifecycle,
+• orchestration,
+• compatibility,
+• retries,
+• approval flow,
+• polling,
+• AI generation,
+• business switching,
+• y persistencia sensible.
+
+============================================================
+REGLA OBLIGATORIA
+=================
+
+NO realizar:
+
+• refactors agresivos,
+• consolidaciones masivas,
+• eliminaciones de bridges,
+• ni simplificaciones grandes
+
+sin antes validar:
+
+• runtime real,
+• lifecycle completo,
+• compatibilidad frontend/backend,
+• ownership,
+• source of truth,
+• polling,
+• refresh/reload,
+• retry flow,
+• y comportamiento multi-business real.
+
+Toda consolidación arquitectónica debe ser:
+
+• progresiva,
+• validada,
+• reversible,
+• centralizada,
+• y compatible con runtime existente.
+
+============================================================
 SOURCE OF TRUTH Y OWNERSHIP
 ===========================
 
@@ -557,6 +644,25 @@ APPROVAL:
 • guardar variante REAL,
 • persistir en DB,
 • y actualizar frontend correctamente.
+
+STATUS:
+
+• Los statuses de posts, approval, publishing, retries y polling
+deben mantenerse centralizados y consistentes.
+
+• Nunca crear statuses frontend y backend divergentes.
+
+• Nunca hardcodear nuevos statuses sin validar:
+• polling,
+• hydration,
+• retries,
+• approval flow,
+• publish lifecycle,
+• analytics,
+• persistencia histórica,
+• y compatibilidad frontend/backend.
+
+• Todo status nuevo debe documentarse oficialmente.
 
 ============================================================
 VALIDACIONES OBLIGATORIAS
