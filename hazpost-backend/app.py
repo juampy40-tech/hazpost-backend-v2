@@ -2031,7 +2031,8 @@ def create_app():
                 "description": description,
                 "audience": audience,
                 "tone": "cercano",
-                "primaryColor": "#2563eb"
+                "primaryColor": "#000000",
+                "secondaryColor": "#ffffff"
             })
 
         except Exception as e:
