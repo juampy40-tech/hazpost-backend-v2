@@ -157,3 +157,78 @@ El mayor riesgo actual es:
 # duplicación de source-of-truth
 # ownership ambiguo
 # lifecycle híbrido inconsistente
+
+---
+
+# AI Analysis Ownership
+
+## Legacy runtime
+
+Actualmente parte del AI analysis aún vive en:
+
+- app.py
+
+Incluye:
+- orchestration parcial
+- request lifecycle
+- compatibilidad legacy
+- onboarding analysis legacy flow
+
+---
+
+## Modern runtime
+
+Nuevo ownership centralizado:
+
+- src/services/ai_brand_analyzer.py
+
+Responsable de:
+- prompt engineering
+- onboarding-aware AI analysis
+- business-first context handling
+- centralized AI ownership
+- future AI runtime extraction
+
+---
+
+## Current migration state
+
+Estado actual:
+- híbrido
+- coexistencia legacy + moderno
+
+Actualmente:
+- app.py aún ejecuta parte del lifecycle
+- ai_brand_analyzer.py centraliza prompt governance
+- website_analysis_service.py sigue parcialmente scaffold
+
+---
+
+## IMPORTANT RULE
+
+Nueva lógica IA NO debe crecer directamente dentro de:
+
+- app.py
+
+Nueva lógica IA debe vivir progresivamente en:
+
+- src/services/
+- centralized ownership runtime
+
+---
+
+## Current strategy
+
+La estrategia correcta actual es:
+
+1. centralizar prompts
+2. centralizar AI helpers
+3. reducir duplicación
+4. mantener compatibilidad legacy
+5. extraer orchestration gradualmente
+6. evitar regressions
+
+NO hacer:
+- rewrites masivos
+- migración agresiva
+- mover lifecycle crítico prematuramente
