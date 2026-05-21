@@ -55,6 +55,8 @@ from src.db import (
     save_text_block,
 )
 
+from src.services.ai_brand_analyzer import AIBrandAnalyzer
+
 R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
 R2_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
 R2_ENDPOINT_URL = os.getenv("R2_ENDPOINT_URL")
@@ -1171,52 +1173,11 @@ def create_app():
             try:
                 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-                prompt = f"""
-                Eres un experto en branding y marketing para negocios reales.
-
-                El formulario del usuario tiene PRIORIDAD sobre el website.
-
-                DATOS DEL NEGOCIO:
-                - Nombre: {context.get("companyName", business.get("companyName") or business.get("name") or "")}
-                - Industria: {context.get("industry", business.get("industry") or "")}
-                - Subindustria: {context.get("subIndustry", business.get("subIndustry") or "")}
-                - Slogan: {context.get("slogan", "")}
-                - Ciudad: {context.get("city", business.get("city") or "")}
-                - País: {context.get("country", business.get("country") or "")}
-                - Logo principal: {business.get("logoUrl") or ""}
-                - Logos adicionales: {business.get("logoUrls") or []}
-                - Imágenes referencia: {business.get("referenceImages") or []}
-                - Color primario actual: {business.get("primaryColor") or ""}
-                - Color secundario actual: {business.get("secondaryColor") or ""}
-
-                WEBSITE:
-                {website}
-
-                INSTRUCCIONES:
-                - Usa el website SOLO como apoyo visual y comercial.
-                - NO redefinas el negocio usando blogs o textos secundarios.
-                - NO conviertas el negocio en academia o cursos salvo que el formulario lo indique.
-                - Prioriza industria, subindustria, slogan y nombre del negocio.
-                - Usa el website principalmente para:
-                  - colores
-                  - tono visual
-                  - productos visibles
-                  - estilo de marca
-                - Si existe logo o imágenes de referencia, tienen MÁS prioridad que el website para detectar colores y estilo visual.
-                - El logo es la fuente principal para detectar identidad visual.
-                - Usa el website principalmente para entender el negocio, no para reemplazar la identidad visual.
-                - Si el website usa colores distintos al logo, prioriza el logo.  
-                  
-
-                Devuelve SOLO JSON válido:
-
-                {{
-                    "description": "...",
-                    "audienceDescription": "...",
-                    "brandTone": "...",
-                    "primaryColor": "#000000"
-                }}
-                """
+                prompt = AIBrandAnalyzer.build_brand_analysis_prompt(
+                    website=website,
+                    business=business,
+                    context=context,
+                )
 
                 response = client.chat.completions.create(
                     model="gpt-4o-mini",
