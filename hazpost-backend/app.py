@@ -1977,23 +1977,89 @@ def create_app():
             business_type = sub_industry or industry or "productos y servicios"
             location = city or country or "tu región"
 
-            description = (
-                f"{business_name} es un negocio de {business_type} en {location}, "
-                f"enfocado en {slogan.lower() if slogan else 'ofrecer productos y servicios de calidad, generando confianza y una excelente experiencia al cliente'}."
-            )
-
-            audience = (
-                f"Personas interesadas en {business_type} en {location}, "
-                f"que buscan confianza, buen servicio y una marca que les ayude a tomar decisiones de compra fácilmente."
-            )
-
-            return jsonify({
-                "success": True,
-                "description": description,
-                "audience": audience,
+            suggestions = {
+                "description": None,
+                "audience": None,
                 "tone": "cercano",
                 "primaryColor": "#000000",
                 "secondaryColor": "#ffffff"
+            }
+
+            try:
+                client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+                prompt = f"""
+                Analiza este negocio usando:
+                - website: {website}
+                - nombre: {business_name}
+                - industria: {business_type}
+                - ubicación: {location}
+                - slogan: {slogan}
+
+                Devuelve JSON con:
+                - description
+                - audience
+                - tone
+                - primaryColor
+
+                IMPORTANTE:
+                - NO uses texto genérico.
+                - Detecta realmente qué vende la marca.
+                - Detecta branding y público objetivo.
+                - Responde en español.
+                """
+
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "Eres experto en branding y marketing."
+                        },
+                        {
+                            "role": "user",
+                            "content": prompt
+                        }
+                    ],
+                    temperature=0.7,
+                    response_format={"type": "json_object"}
+                )
+
+                ai_content = response.choices[0].message.content
+
+                if ai_content:
+                    parsed = json.loads(ai_content)
+
+                    suggestions = {
+                        "description": parsed.get("description"),
+                        "audience": parsed.get("audience"),
+                        "tone": parsed.get("tone") or "cercano",
+                        "primaryColor": parsed.get("primaryColor") or "#000000",
+                        "secondaryColor": "#ffffff"
+                    }
+
+            except Exception:
+                logger.exception("Analyze onboarding AI error")
+
+                suggestions = {
+                    "description": (
+                        f"{business_name} es un negocio de {business_type} en {location}."
+                    ),
+                    "audience": (
+                        f"Personas interesadas en {business_type} en {location}."
+                    ),
+                    "tone": "cercano",
+                    "primaryColor": "#000000",
+                    "secondaryColor": "#ffffff"
+                }
+
+            return jsonify({
+                "success": True,
+                "description": suggestions.get("description"),
+                "audience": suggestions.get("audience"),
+                "tone": suggestions.get("tone"),
+                "primaryColor": suggestions.get("primaryColor"),
+                "secondaryColor": suggestions.get("secondaryColor")
             })
 
         except Exception as e:
