@@ -359,7 +359,7 @@ INDUSTRY CATALOG SYSTEM
 
 Archivo principal:
 
-• industryCatalog.ts
+• artifacts/api-server/src/lib/industries.ts
 
 ============================================================
 RESPONSABILIDAD
@@ -440,3 +440,124 @@ sendIndustrySuggestion():
 • NO debe bloquear onboarding,
 • funciona como feedback incremental,
 • y permite evolución futura del catálogo.
+
+============================================================
+BUSINESS OWNERSHIP REFACTOR (MAYO 2026)
+============================================================
+
+PROBLEMA DETECTADO
+==================
+
+Existía ownership ambiguo entre:
+
+• register.tsx
+• OnboardingWizard.tsx
+
+Ambos podían crear businesses.
+
+Esto generaba riesgo de:
+
+• duplicados,
+• contaminación multi-business,
+• lifecycle inconsistente,
+• ownership confuso,
+• y persistencia accidental.
+
+============================================================
+FIX IMPLEMENTADO
+================
+
+Nuevo ownership oficial:
+
+• register.tsx
+→ ownership principal creación business inicial.
+
+• businesses.tsx
+→ ownership creación/edición manual business.
+
+• OnboardingWizard.tsx
+→ onboarding UI + fallback legacy controlado.
+
+============================================================
+REGLA OBLIGATORIA
+=================
+
+NO volver a mover ownership business
+sin validar lifecycle completo:
+
+• register
+• onboarding
+• businesses
+• settings
+• profile
+• dashboard
+• multi-business
+• hydration
+• persistencia DB
+• y runtime post deploy.
+
+============================================================
+VALIDACIÓN REAL
+================
+
+Validado correctamente:
+
+✅ registro nuevo
+✅ onboarding completo
+✅ analyze website
+✅ persistencia branding
+✅ business activo
+✅ no duplicados
+✅ reload
+✅ refresh
+✅ multi-business estable
+
+============================================================
+INDUSTRY SYSTEM — SOURCE OF TRUTH
+============================================================
+
+Source of truth oficial industrias:
+
+• artifacts/api-server/src/lib/industries.ts
+
+El catálogo onboarding NO debe:
+
+❌ duplicarse frontend/backend
+❌ hardcodearse en formularios
+❌ divergir entre onboarding/profile/businesses
+
+Todo onboarding debe consumir:
+
+• GET /api/industries
+
+============================================================
+PENDIENTE SIGUIENTE FASE
+========================
+
+FASE INDUSTRY SYSTEM:
+
+• completar industrias faltantes,
+• mejorar subindustrias,
+• ordenar industrias A-Z,
+• limpiar duplicados,
+• mejorar aiContext,
+• mejorar UX onboarding,
+• searchable industry selector futuro (UX premium),
+• y mejorar IA contextual orientada a ventas y conversión.
+
+============================================================
+REGLA UX + IA
+=============
+
+Las industrias NO existen solamente para clasificar negocios.
+
+El objetivo real es:
+
+• mejorar captions,
+• mejorar hooks,
+• mejorar CTAs,
+• mejorar segmentación,
+• mejorar contenido IA,
+• mejorar anuncios,
+• mejorar conexión emocional,
+• y ayudar negocios reales a conseguir clientes.
