@@ -76,6 +76,43 @@ NO:
 • ni construir URLs manualmente fuera del helper.
 
 ============================================================
+RELACIÓN CON AI BRANDING
+========================
+
+⚠️ IMPORTANTE
+
+El runtime IA onboarding y branding contextual ahora dependen también de:
+
+• logos persistidos,
+• branding assets,
+• imageVariants,
+• visual previews,
+• y assets renderizados correctamente.
+
+Problemas de URLs o rendering pueden impactar:
+
+• análisis IA contextual,
+• branding consistency,
+• color detection futura,
+• previews onboarding,
+• visual identity,
+• y coherencia visual de posts.
+
+============================================================
+REGLA NUEVA
+========================
+
+Antes de modificar rendering de assets validar SIEMPRE:
+
+• onboarding analyze,
+• logos,
+• brand profile,
+• imageVariants,
+• preview rendering,
+• overlays,
+• y persistencia visual real.
+
+============================================================
 REGLA FINAL
 ===========
 

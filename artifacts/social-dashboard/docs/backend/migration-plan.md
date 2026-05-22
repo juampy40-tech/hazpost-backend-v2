@@ -129,17 +129,38 @@ CURRENT SERVICE STATUS
 
 website_analysis_service.py actualmente:
 
-⚠️ ES CONTRATO SOLAMENTE
+✅ YA participa parcialmente en runtime real.
 
-Todavía NO reemplaza:
+Actualmente responsable de:
+
+- website scraping MVP
+- title extraction
+- meta description extraction
+- headings extraction
+- paragraph extraction
+- visible website content extraction
+- website_content normalization
+
+Actualmente onboarding analyze YA consume:
+
+- scraped website content
+- website_content contextual prompts
+
+⚠️ IMPORTANTE
+
+Todavía NO reemplaza completamente:
+
 - onboarding analyze runtime
 - business analyze runtime
+- OpenAI orchestration
+- normalization ownership
+- AI parsing ownership
 
-Actualmente contiene:
+Actualmente funciona como:
 
-- architecture contract
+- partial runtime participant
 - migration target
-- future source of truth
+- future centralized source of truth
 
 ============================================================
 MIGRATION RULES
@@ -175,12 +196,12 @@ MIGRATION ORDER
 
 ORDEN CORRECTO:
 
-1. Extraer normalization
-2. Extraer scraping
-3. Extraer prompt builders
-4. Extraer AI parsing
-5. Reutilizar desde endpoints
-6. Validar runtime real
+1. ✅ Extraer scraping (MVP parcial completado)
+2. Extraer normalization
+3. Validar runtime real
+4. Extraer prompt builders
+5. Extraer AI parsing
+6. Reutilizar desde endpoints
 7. Migrar gradualmente ownership
 
 ============================================================

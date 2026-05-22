@@ -55,6 +55,7 @@ Este documento existe para evitar:
 | Analyze onboarding | `/api/analyze-website` | app.py legacy runtime | híbrido | alto |
 | Analyze moderno | `/api/businesses/<id>/analyze-website` | mixed runtime | transición | medio |
 | Website analysis service | `website_analysis_service.py` | future source-of-truth | scaffold | medio |
+| Website content intelligence | `website_content` contextual pipeline | onboarding analyze runtime | MVP activo | medio |
 | Dashboard orchestration | `dashboard.tsx` | frontend runtime coordinator | crítico | crítico |
 | Polling | dashboard runtime | runtime híbrido | sensible | alto |
 | Approval lifecycle | current orchestration | runtime actual | híbrido | alto |

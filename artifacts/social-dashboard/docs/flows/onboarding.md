@@ -315,6 +315,45 @@ NUNCA:
 ❌ placeholders persistentes IA
 
 ============================================================
+WEBSITE CONTENT CONTEXTUAL ANALYSIS
+============================================================
+
+El onboarding analyze ahora utiliza:
+
+• website scraping MVP,
+• title extraction,
+• meta description,
+• headings,
+• paragraphs,
+• y website_content contextual.
+
+Objetivo:
+
+• reducir respuestas genéricas,
+• detectar mejor el negocio real,
+• mejorar branding contextual,
+• mejorar audience,
+• mejorar tone,
+• y reducir industrias incorrectas.
+
+⚠️ IMPORTANTE
+
+Actualmente:
+• website_content YA participa en runtime real onboarding.
+• scraping YA afecta respuestas IA.
+• WebsiteAnalysisService YA participa parcialmente en analyze runtime.
+
+LIMITACIONES ACTUALES:
+
+❌ todavía NO existe extracción visual real,
+❌ NO existe color extraction desde logos,
+❌ NO existe favicon palette extraction,
+❌ NO existe CSS branding extraction.
+
+Actualmente los colores siguen siendo:
+⚠️ parcialmente inferidos por IA.
+
+============================================================
 INDUSTRY CATALOG SYSTEM
 =======================
 
