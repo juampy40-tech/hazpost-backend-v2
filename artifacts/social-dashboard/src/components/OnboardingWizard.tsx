@@ -1992,23 +1992,25 @@ async function doNext() {
   };
 
   try {
-    // 🚨 TEMPORAL:
-    // Business ya fue creado en step 0
-    // para evitar contaminación y duplicados.
-
-    
-    const businessRes = await fetch(`${API_BASE}/api/businesses`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(businessPayload),
-    });
-
-    if (!businessRes.ok) {
-      console.error("❌ Error creando business:", await businessRes.text());
-    }
+    // 🚨 Legacy fallback controlado:
+    // El wizard NO debe crear negocios cuando está editando.
+    // register.tsx y businesses.tsx ya usan ownership externo.
 
     if (!editMode) {
+      const businessRes = await fetch(`${API_BASE}/api/businesses`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(businessPayload),
+      });
+
+      if (!businessRes.ok) {
+        console.error(
+          "❌ Error creando business:",
+          await businessRes.text()
+        );
+      }
+
       onComplete();
       return;
     }
