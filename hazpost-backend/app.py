@@ -57,6 +57,8 @@ from src.db import (
 
 from src.services.ai_brand_analyzer import AIBrandAnalyzer
 
+from src.services.website_analysis_service import WebsiteAnalysisService
+
 R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
 R2_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
 R2_ENDPOINT_URL = os.getenv("R2_ENDPOINT_URL")
@@ -1986,28 +1988,40 @@ def create_app():
             }
 
             try:
+
+                scraped_data = WebsiteAnalysisService.scrape_website(
+                    website
+                )
+
+                website_content = scraped_data.get("content", "")
+
                 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
                 prompt = f"""
-                Analiza este negocio usando TODAS las señales disponibles:
+                Analiza este negocio usando:
 
-                - website: {website}
-                - nombre empresa: {business_name}
-                - industria principal: {industry}
+                WEBSITE:
+                {website}
+
+                CONTENIDO EXTRAÍDO DEL SITIO:
+                {website_content}
+
+                DATOS DEL NEGOCIO:
+                - nombre: {business_name}
+                - industria: {industry}
                 - subindustria: {sub_industry}
                 - tipo negocio: {business_type}
                 - ubicación: {location}
                 - slogan: {slogan}
 
                 IMPORTANTE:
-                - Usa toda la información disponible.
-                - Si el website existe, úsalo como contexto principal.
-                - Si el slogan ayuda a entender la marca, úsalo.
+                - Usa principalmente el contenido real del sitio.
                 - Detecta realmente qué vende la empresa.
-                - Evita alucinaciones o categorías incorrectas.
-                - NO uses frases genéricas como "productos y servicios".
+                - NO inventes industrias incorrectas.
+                - Si el sitio habla de alimentos, postres o helados, dilo.
+                - Si el sitio habla de moda, accesorios o maletas, dilo.
+                - Evita frases genéricas.
                 - El resultado debe sonar como una marca real.
-                - El texto debe sentirse moderno, comercial y premium.
                 - Máximo 2-3 frases.
 
                 Devuelve JSON con:
