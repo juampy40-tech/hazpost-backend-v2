@@ -1989,12 +1989,26 @@ def create_app():
                 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
                 prompt = f"""
-                Analiza este negocio usando:
+                Analiza este negocio usando TODAS las señales disponibles:
+
                 - website: {website}
-                - nombre: {business_name}
-                - industria: {business_type}
+                - nombre empresa: {business_name}
+                - industria principal: {industry}
+                - subindustria: {sub_industry}
+                - tipo negocio: {business_type}
                 - ubicación: {location}
                 - slogan: {slogan}
+
+                IMPORTANTE:
+                - Usa toda la información disponible.
+                - Si el website existe, úsalo como contexto principal.
+                - Si el slogan ayuda a entender la marca, úsalo.
+                - Detecta realmente qué vende la empresa.
+                - Evita alucinaciones o categorías incorrectas.
+                - NO uses frases genéricas como "productos y servicios".
+                - El resultado debe sonar como una marca real.
+                - El texto debe sentirse moderno, comercial y premium.
+                - Máximo 2-3 frases.
 
                 Devuelve JSON con:
                 - description
@@ -2002,11 +2016,7 @@ def create_app():
                 - tone
                 - primaryColor
 
-                IMPORTANTE:
-                - NO uses texto genérico.
-                - Detecta realmente qué vende la marca.
-                - Detecta branding y público objetivo.
-                - Responde en español.
+                Responde en español.
                 """
 
                 response = client.chat.completions.create(
