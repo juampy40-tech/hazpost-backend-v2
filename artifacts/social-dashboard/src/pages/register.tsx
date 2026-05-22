@@ -831,15 +831,99 @@ export default function Register() {
         </div>
       )}
 
-               {step === 3 && (
-        <div className="w-full mx-auto">
-          <OnboardingWizard
-            onComplete={handleWizardComplete}
-            registrationMode
-            onChooseFree={pendingPlanAfterWizard ? () => navigate("/dashboard") : undefined}
-          />
-        </div>
-      )}
+              {step === 3 && (
+                <div className="w-full mx-auto">
+                  <OnboardingWizard
+                    onComplete={handleWizardComplete}
+                    registrationMode
+                    onChooseFree={
+                      pendingPlanAfterWizard
+                        ? () => navigate("/dashboard")
+                        : undefined
+                    }
+                    onSubmitProfile={async (profile) => {
+                      const finalDescription =
+                        profile.businessDescription || "";
+
+                      const finalAudience =
+                        profile.audienceDescription || "";
+
+                      const finalTone =
+                        profile.brandTone || "cercano";
+
+                      const payload = {
+                        companyName: profile.companyName || "",
+                        name: profile.companyName || "",
+                        businessName: profile.companyName || "",
+
+                        industry: profile.industry || "",
+                        subIndustry: profile.subIndustry || "",
+
+                        city: profile.city || "",
+                        country: profile.country || "",
+                        location: profile.city || "",
+
+                        slogan: profile.slogan || "",
+
+                        businessDescription: finalDescription,
+                        description: finalDescription,
+
+                        audience: finalAudience,
+                        targetAudience: finalAudience,
+                        audienceDescription: finalAudience,
+
+                        brandTone: finalTone,
+                        tone: finalTone,
+
+                        website: profile.website || "",
+
+                        logoUrl: profile.logoUrl || "",
+                        logoUrls: profile.logoUrls || "[]",
+                        referenceImages:
+                          profile.referenceImages || "[]",
+
+                        primaryColor:
+                          profile.primaryColor || "",
+
+                        secondaryColor:
+                          profile.secondaryColor || "",
+
+                        brandFont:
+                          profile.brandFont || "",
+
+                        brandFontUrl:
+                          profile.brandFontUrl || "",
+
+                        isDefault: true,
+                      };
+
+                      const res = await fetch(
+                        `${API_URL}/api/businesses`,
+                        {
+                          method: "POST",
+                          credentials: "include",
+                          headers: {
+                            "Content-Type":
+                              "application/json",
+                          },
+                          body: JSON.stringify(payload),
+                        }
+                      );
+
+                      if (!res.ok) {
+                        const text = await res
+                          .text()
+                          .catch(() => "");
+
+                        throw new Error(
+                          text ||
+                            "No se pudo crear el negocio"
+                        );
+                      }
+                    }}
+                  />
+                </div>
+              )}
     </div>
   </div>
 );
