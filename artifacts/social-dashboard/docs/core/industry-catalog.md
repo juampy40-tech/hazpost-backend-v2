@@ -288,3 +288,197 @@ Validar siempre:
 - PostgreSQL persistence
 - comportamiento post-refresh
 ```
+
+---
+
+# Custom Subindustry Governance Runtime
+
+## Objetivo
+
+Permitir que un negocio use subcategorías personalizadas
+sin contaminar automáticamente el catálogo global.
+
+Ejemplo:
+
+- "Relojes de lujo"
+- "Mampostería"
+- "Merengón"
+
+Estas subcategorías:
+- pueden ser útiles para IA,
+- ayudan onboarding,
+- mejoran personalización,
+- pero NO deben aprobarse globalmente automáticamente.
+
+---
+
+# Arquitectura Oficial
+
+## Catálogo global
+
+Source of truth oficial:
+
+`src/catalogs/industries.py`
+
+Solo contiene:
+- categorías aprobadas
+- subcategorías aprobadas
+- taxonomía oficial
+
+Nunca agregar automáticamente sugerencias aquí.
+
+---
+
+## Runtime híbrido
+
+### Global
+
+- catálogo oficial
+- compartido entre usuarios
+
+### Local por negocio
+
+Cada negocio puede usar:
+- subcategorías personalizadas
+- aunque todavía no estén aprobadas globalmente
+
+Persistencia:
+- CSV legacy runtime
+- `subIndustry`
+
+Compatibilidad:
+- onboarding legacy
+- prompts IA existentes
+- hydration actual
+- approval queue actual
+
+---
+
+# Suggestions Runtime
+
+Persistencia oficial:
+`industry_suggestions`
+
+Nuevas columnas:
+
+- `type`
+- `parent_industry`
+
+Tipos soportados:
+
+- industry
+- subindustry
+
+Ejemplo:
+
+```txt
+type = subindustry
+parent_industry = Arquitectura & Espacios
+```
+
+---
+
+# UX Runtime
+
+## Industria personalizada
+
+Puede:
+- enviarse como suggestion
+- quedar pending
+- revisarse después
+
+---
+
+## Subindustria personalizada
+
+Puede:
+- enviarse como suggestion
+- quedar pending
+- usarse inmediatamente por el negocio actual
+
+NO debe:
+- aparecer automáticamente para otros negocios
+- contaminar catálogo global
+- romper onboarding legacy
+
+---
+
+# Ownership
+
+## Frontend
+
+`SubIndustryMultiSelect.tsx`
+
+Responsabilidades:
+- multi-select runtime
+- custom suggestions UX
+- persistencia CSV compatible
+- dropdown adaptive runtime
+- onboarding UX
+
+---
+
+## Backend
+
+`industry_suggestions.py`
+
+Responsabilidades:
+- deduplicación
+- request_count
+- governance queue
+- persistence PostgreSQL
+- lifecycle pending/approved/rejected
+
+---
+
+# Regla Arquitectónica Crítica
+
+NO promover automáticamente suggestions a catálogo oficial.
+
+Toda aprobación global debe pasar por:
+- governance
+- revisión manual
+- validación IA
+- validación UX
+- validación taxonomy
+
+---
+
+# Riesgo Conocido
+
+`subIndustry` sigue siendo CSV legacy runtime.
+
+NO migrar todavía a:
+- arrays
+- json
+- relaciones complejas
+
+Sin validar antes:
+- hydration
+- onboarding
+- prompts IA
+- businesses viejos
+- analytics
+- approval queue
+- multiusuario
+- runtime IA
+
+---
+
+# QA Obligatorio
+
+Validar siempre:
+
+- onboarding
+- reload
+- persistencia custom
+- suggestions DB
+- request_count
+- deduplicación
+- multiusuario
+- dropdown UX
+- modal overflow
+- fallback UX
+- cache runtime
+- deploy frontend
+- deploy backend

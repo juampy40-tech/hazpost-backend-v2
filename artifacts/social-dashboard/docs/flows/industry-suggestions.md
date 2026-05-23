@@ -37,7 +37,7 @@ Frontend:
 Backend:
 - app.py
 - src/catalogs/industry_suggestions.py
-- src/db.py
+- PostgreSQL (industry_suggestions)
 
 ---
 # Frontend Runtime
@@ -154,6 +154,8 @@ Campos:
 - id
 - name
 - normalized_name
+- type
+- parent_industry
 - status
 - source
 - user_id
@@ -162,11 +164,26 @@ Campos:
 - created_at
 - updated_at
 
+Tipos soportados:
+
+- industry
+- subindustry
+
+Ejemplo:
+
+```txt
+type = subindustry
+parent_industry = Arquitectura & Espacios
+```
+
 ---
 
 # Reglas
 
-- `normalized_name` debe ser único
+- deduplicación debe considerar:
+  - type
+  - parent_industry
+  - normalized_name
 - evitar duplicados
 - onboarding nunca debe romperse si falla suggestions
 - `request_count` incrementa automáticamente
@@ -178,6 +195,83 @@ Campos:
 - el usuario nunca debe perder el progreso del onboarding
 - sugerir industria no debe bloquear creación de negocio
 - fallback UX obligatorio si falla endpoint
+- NO promover automáticamente subcategorías custom a catálogo global
+
+---
+
+# Custom Subindustry Runtime
+
+Las subcategorías personalizadas ahora soportan:
+
+✅ persistencia local por negocio
+✅ governance centralizado
+✅ onboarding runtime
+✅ multi-select runtime
+✅ suggestions PostgreSQL
+
+Pero:
+
+❌ NO contaminan automáticamente catálogo global
+❌ NO modifican industries.py automáticamente
+❌ NO aparecen automáticamente para otros negocios
+
+---
+
+# Runtime híbrido actual
+
+Actualmente:
+
+`subIndustry`
+
+continúa usando:
+
+• CSV legacy runtime
+
+Ejemplo:
+
+```txt
+"Spa & Masajes, Mampostería"
+```
+
+Esto se mantiene por compatibilidad con:
+
+- onboarding runtime
+- hydration actual
+- business profile
+- prompts IA
+- analytics existentes
+
+NO migrar todavía a arrays/string[]
+sin auditoría runtime completa.
+
+---
+
+# Governance Flow
+
+Usuario escribe subcategoría custom →
+
+frontend llama:
+`/api/industries/suggestions`
+
+backend persiste:
+
+```txt
+type = subindustry
+parent_industry = industria actual
+status = pending
+```
+
+La subcategoría:
+
+✅ sí puede usarse inmediatamente por el negocio actual
+❌ NO se aprueba automáticamente globalmente
+
+Toda aprobación global debe pasar por:
+- governance
+- revisión manual
+- taxonomy validation
+- validación IA
+- validación UX
 
 ---
 
@@ -210,6 +304,12 @@ Industria descartada o ya cubierta por otra categoría existente.
 - BusinessIdentityStep validado
 - build frontend validado
 - deploy frontend validado
+- subcategorías custom persistentes validadas
+- request_count contextual validado
+- deduplicación contextual validada
+- parent_industry persistence validada
+- compatibilidad CSV legacy validada
+- dropdown adaptive runtime validado
 
 ---
 

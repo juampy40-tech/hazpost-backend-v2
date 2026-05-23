@@ -87,6 +87,46 @@ Responsable de:
 
 ---
 
+## Custom Subindustry Governance Runtime
+
+`/api/industries/suggestions` ahora soporta:
+
+- `type = industry`
+- `type = subindustry`
+- `parent_industry`
+
+Ownership real:
+
+- catálogo global oficial: `src/catalogs/industries.py`
+- sugerencias / governance: `src/catalogs/industry_suggestions.py`
+- frontend runtime: `src/lib/industryCatalog.ts`
+- UX subcategorías: `SubIndustryMultiSelect.tsx`
+
+Regla crítica:
+
+- subcategorías custom pueden usarse por el negocio actual
+- NO se promueven automáticamente al catálogo global
+- NO aparecen automáticamente para otros negocios
+- NO modificar `industries.py` desde suggestions sin revisión manual
+
+Persistencia actual:
+
+- `industry_suggestions` para governance
+- `businesses.sub_industry` (legacy DB/runtime)
+- `subIndustry` (frontend runtime contract)
+
+NO migrar `subIndustry` a arrays/json sin auditoría completa de:
+- onboarding
+- businesses
+- brand profile
+- hydration
+- prompts IA
+- approval lifecycle
+- analytics
+- multi-business isolation
+
+---
+
 ## Consumidores frontend
 
 - OnboardingWizard.tsx

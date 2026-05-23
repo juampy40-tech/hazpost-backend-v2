@@ -779,3 +779,113 @@ sin validar:
 • payload persistence
 • runtime legacy vs moderno
 • y multi-business isolation.
+
+============================================================
+CUSTOM SUBINDUSTRY GOVERNANCE (MAYO 2026)
+============================================================
+
+CAMBIO IMPLEMENTADO
+===================
+
+Ahora el onboarding permite:
+
+• sugerir subcategorías personalizadas,
+• persistirlas para el negocio actual,
+• y mantener governance centralizado.
+
+Ejemplo:
+
+• "Mampostería"
+• "Relojes de lujo"
+• "Merengón"
+
+============================================================
+COMPORTAMIENTO OFICIAL
+======================
+
+Subcategorías personalizadas:
+
+✅ pueden usarse inmediatamente por el negocio actual
+✅ persisten correctamente después de reload
+✅ participan en onboarding runtime
+✅ participan en persistencia onboarding
+
+PERO:
+
+❌ NO contaminan automáticamente catálogo global
+❌ NO aparecen automáticamente para otros negocios
+❌ NO modifican industries.py automáticamente
+
+============================================================
+PERSISTENCIA
+=============
+
+Persistencia governance:
+
+• industry_suggestions
+
+Nuevas columnas:
+
+• type
+• parent_industry
+
+Tipos soportados:
+
+• industry
+• subindustry
+
+============================================================
+REGLA ARQUITECTÓNICA
+====================
+
+NO promover automáticamente suggestions
+a catálogo global.
+
+Toda aprobación global debe pasar por:
+
+• governance
+• revisión manual
+• validación IA
+• validación UX
+• taxonomy review
+
+============================================================
+COMPATIBILIDAD LEGACY
+=====================
+
+subIndustry continúa utilizando:
+
+• CSV legacy runtime
+
+Ejemplo:
+
+"Spa & Masajes, Mampostería"
+
+Esto se mantiene por compatibilidad con:
+
+• hydration actual
+• onboarding runtime
+• business profile
+• prompts IA
+• analytics existentes
+
+NO migrar todavía a arrays/string[]
+sin auditoría runtime completa.
+
+============================================================
+VALIDACIÓN REAL
+================
+
+Validado correctamente:
+
+✅ onboarding runtime
+✅ reload
+✅ reopen
+✅ persistencia DB
+✅ multi-select
+✅ subcategorías custom
+✅ request_count
+✅ deduplicación
+✅ build frontend
+✅ deploy frontend/backend
+✅ compatibilidad onboarding legacy
