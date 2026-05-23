@@ -26,6 +26,7 @@ export default function SubIndustryMultiSelect({
   onChange,
 }: Props) {
   const [open, setOpen] = useState(false);
+  const [openUpward, setOpenUpward] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const selectedItems = useMemo(() => parseCsv(value), [value]);
@@ -54,6 +55,16 @@ export default function SubIndustryMultiSelect({
       document.removeEventListener("keydown", handleEsc);
     };
   }, []);
+
+  useEffect(() => {
+    if (!open || !wrapperRef.current) return;
+
+    const rect = wrapperRef.current.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+
+    setOpenUpward(spaceBelow < 260 && spaceAbove > spaceBelow);
+  }, [open, subcategories.length]);
 
   function toggleItem(name: string) {
     const next = selectedItems.includes(name)
@@ -106,7 +117,11 @@ export default function SubIndustryMultiSelect({
         </button>
 
         {open && (
-          <div className="absolute left-0 top-full z-[9999] mt-2 w-full rounded-xl border border-border bg-popover p-2 shadow-xl">
+          <div
+            className={`absolute left-0 z-[9999] w-full rounded-xl border border-border bg-popover p-2 shadow-xl ${
+              openUpward ? "bottom-full mb-2" : "top-full mt-2"
+            }`}
+          >
             <div className="max-h-56 overflow-y-auto space-y-1">
               {subcategories.map(item => {
                 const selected = selectedItems.includes(item.name);
