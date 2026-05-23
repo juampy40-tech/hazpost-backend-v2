@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ChevronDown, X } from "lucide-react";
+import { Check, ChevronDown, Plus, Send, X } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { sendIndustrySuggestion } from "@/lib/industryCatalog";
 
 type Subcategory = {
   name: string;
@@ -10,6 +12,7 @@ type Subcategory = {
 type Props = {
   value?: string;
   subcategories: Subcategory[];
+  parentIndustry?: string;
   onChange: (value: string) => void;
 };
 
@@ -23,16 +26,25 @@ function parseCsv(value?: string): string[] {
 export default function SubIndustryMultiSelect({
   value,
   subcategories,
+  parentIndustry,
   onChange,
 }: Props) {
   const [open, setOpen] = useState(false);
   const [openUpward, setOpenUpward] = useState(false);
+
+  const [customInput, setCustomInput] = useState("");
+  const [sendingSuggestion, setSendingSuggestion] = useState(false);
+  const [suggestionSent, setSuggestionSent] = useState(false);
+
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const selectedItems = useMemo(() => parseCsv(value), [value]);
+
   const selectedCount = selectedItems.length;
+
   const allSelected =
-    subcategories.length > 0 && selectedCount === subcategories.length;
+    subcategories.length > 0 &&
+    selectedCount === subcategories.length;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -60,6 +72,7 @@ export default function SubIndustryMultiSelect({
     if (!open || !wrapperRef.current) return;
 
     const rect = wrapperRef.current.getBoundingClientRect();
+
     const spaceBelow = window.innerHeight - rect.bottom;
     const spaceAbove = rect.top;
 
@@ -75,7 +88,37 @@ export default function SubIndustryMultiSelect({
   }
 
   function toggleAll() {
-    onChange(allSelected ? "" : subcategories.map(item => item.name).join(","));
+    onChange(
+      allSelected
+        ? ""
+        : subcategories.map(item => item.name).join(",")
+    );
+  }
+
+  async function handleSuggestSubcategory() {
+    const clean = customInput.trim();
+
+    if (!clean || clean.length < 3 || !parentIndustry) {
+      return;
+    }
+
+    setSendingSuggestion(true);
+
+    try {
+      await sendIndustrySuggestion({
+        name: clean,
+        type: "subindustry",
+        parentIndustry,
+      });
+
+      setSuggestionSent(true);
+      setCustomInput("");
+
+    } catch {
+      // silencioso
+    } finally {
+      setSendingSuggestion(false);
+    }
   }
 
   if (!subcategories.length) return null;
@@ -85,7 +128,9 @@ export default function SubIndustryMultiSelect({
       <div className="flex items-center justify-between gap-2">
         <Label className="text-xs text-muted-foreground">
           Tipos específicos{" "}
-          <span className="font-normal">(puedes elegir varios)</span>
+          <span className="font-normal">
+            (puedes elegir varios)
+          </span>
         </Label>
 
         <button
@@ -93,7 +138,9 @@ export default function SubIndustryMultiSelect({
           className="text-[11px] text-primary hover:underline"
           onClick={toggleAll}
         >
-          {allSelected ? "Quitar todas" : "Seleccionar todas"}
+          {allSelected
+            ? "Quitar todas"
+            : "Seleccionar todas"}
         </button>
       </div>
 
@@ -103,7 +150,13 @@ export default function SubIndustryMultiSelect({
           onClick={() => setOpen(prev => !prev)}
           className="flex min-h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-left text-sm ring-offset-background transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <span className={selectedCount ? "text-foreground" : "text-muted-foreground"}>
+          <span
+            className={
+              selectedCount
+                ? "text-foreground"
+                : "text-muted-foreground"
+            }
+          >
             {selectedCount
               ? `${selectedCount} seleccionado(s)`
               : "Selecciona tipos específicos..."}
@@ -118,7 +171,11 @@ export default function SubIndustryMultiSelect({
 
         {open && (
           <div
-            className="absolute left-0 z-[9999] w-full rounded-xl border border-border bg-popover p-2 shadow-xl bottom-full mb-2"
+            className={`absolute left-0 z-[9999] w-full rounded-xl border border-border bg-popover p-2 shadow-xl ${
+              openUpward
+                ? "bottom-full mb-2"
+                : "top-full mt-2"
+            }`}
           >
             <div className="max-h-56 overflow-x-visible overflow-y-auto space-y-1">
               {subcategories.map(item => {
@@ -136,13 +193,58 @@ export default function SubIndustryMultiSelect({
                     }`}
                   >
                     <span className="flex h-4 w-4 items-center justify-center rounded border border-input bg-background">
-                      {selected && <Check className="h-3 w-3" />}
+                      {selected && (
+                        <Check className="h-3 w-3" />
+                      )}
                     </span>
 
-                    <span className="flex-1">{item.name}</span>
+                    <span className="flex-1">
+                      {item.name}
+                    </span>
                   </button>
                 );
               })}
+            </div>
+
+            <div className="mt-3 border-t border-border pt-3 space-y-2">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Plus className="w-3 h-3" />
+                ¿No encuentras tu subcategoría?
+              </div>
+
+              <div className="flex gap-2">
+                <Input
+                  value={customInput}
+                  onChange={e => {
+                    setCustomInput(e.target.value);
+                    setSuggestionSent(false);
+                  }}
+                  placeholder="Ej: Relojes de lujo..."
+                  className="h-9 text-sm"
+                />
+
+                <button
+                  type="button"
+                  onClick={handleSuggestSubcategory}
+                  disabled={
+                    sendingSuggestion ||
+                    customInput.trim().length < 3
+                  }
+                  className="inline-flex items-center justify-center rounded-md border border-primary/30 bg-primary/10 px-3 text-primary hover:bg-primary/15 disabled:opacity-50"
+                >
+                  {sendingSuggestion ? (
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                  ) : (
+                    <Send className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+
+              {suggestionSent && (
+                <p className="text-[11px] text-primary">
+                  Gracias 🙌 Revisaremos esta subcategoría.
+                </p>
+              )}
             </div>
           </div>
         )}

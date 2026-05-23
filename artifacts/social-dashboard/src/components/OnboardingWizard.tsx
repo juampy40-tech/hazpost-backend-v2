@@ -641,6 +641,7 @@ function Step1({
           <SubIndustryMultiSelect
                value={data.subIndustry ?? ""}
                subcategories={subcategories}
+               parentIndustry={data.industry}
                onChange={subIndustry => onChange({ subIndustry })}
           />
      )}
@@ -1710,7 +1711,10 @@ async function doNext() {
     );
 
     if (!isKnownIndustry) {
-      await sendIndustrySuggestion(data.industry);
+      await sendIndustrySuggestion({
+        name: data.industry,
+        type: "industry",
+      });
 
       toast({
         title: "Gracias 🙌",

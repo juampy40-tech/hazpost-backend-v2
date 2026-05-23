@@ -85,8 +85,13 @@ export async function fetchIndustryCatalog(): Promise<IndustryCatalogEntry[]> {
   return industries;
 }
 
-export async function sendIndustrySuggestion(name?: string): Promise<void> {
-  const cleanName = name?.trim();
+export async function sendIndustrySuggestion(options?: {
+  name?: string;
+  type?: "industry" | "subindustry";
+  parentIndustry?: string;
+}): Promise<void> {
+  const cleanName = options?.name?.trim();
+
   if (!cleanName || cleanName.length < 3) return;
 
   try {
@@ -97,7 +102,11 @@ export async function sendIndustrySuggestion(name?: string): Promise<void> {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ name: cleanName }),
+      body: JSON.stringify({
+        name: cleanName,
+        type: options?.type || "industry",
+        parentIndustry: options?.parentIndustry || null,
+      }),
     });
   } catch {
     // No bloquea onboarding.

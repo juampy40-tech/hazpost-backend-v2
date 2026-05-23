@@ -719,15 +719,18 @@ def create_app():
             }), 500
 
     # ============================================================
-    # INDUSTRY SUGGESTIONS — Guardar nuevas industrias
+    # INDUSTRY SUGGESTIONS — Guardar nuevas industrias/subindustrias
     # ============================================================
     @app.route('/api/industries/suggestions', methods=['POST'])
     def save_industry_suggestion_api():
         try:
             data = request.get_json(silent=True) or {}
-            name = data.get("name")
 
-            if not name or not name.strip():
+            name = (data.get("name") or "").strip()
+            suggestion_type = (data.get("type") or "industry").strip()
+            parent_industry = (data.get("parentIndustry") or "").strip()
+
+            if not name:
                 return jsonify({
                     "success": False,
                     "error": "Nombre requerido"
@@ -735,7 +738,11 @@ def create_app():
 
             from src.catalogs.industry_suggestions import save_industry_suggestion
 
-            result = save_industry_suggestion(name)
+            result = save_industry_suggestion(
+                name=name,
+                suggestion_type=suggestion_type,
+                parent_industry=parent_industry or None,
+            )
 
             return jsonify({
                 "success": True,
@@ -744,6 +751,7 @@ def create_app():
 
         except Exception as e:
             logger.exception(f"SUGGESTION ERROR: {e}")
+
             return jsonify({
                 "success": False,
                 "error": "Error interno"
