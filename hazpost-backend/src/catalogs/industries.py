@@ -419,13 +419,82 @@ INDUSTRY_CATALOG = [{'name': 'Restaurante & Comida',
                     {'name': 'Lavandería', 'slug': 'lavanderia'},
                     {'name': 'Jardinería', 'slug': 'jardineria'},
                     {'name': 'Seguridad Residencial', 'slug': 'seguridad-residencial'}]},
- {'name': 'Turismo & Viajes',
+{'name': 'Turismo & Viajes',
   'slug': 'turismo',
   'subcategories': [{'name': 'Agencia de Viajes', 'slug': 'agencia-viajes'},
                     {'name': 'Hotel & Hostal', 'slug': 'hotel-hostal'},
                     {'name': 'Renta de Vehículos', 'slug': 'renta-vehiculos'},
                     {'name': 'Tours & Excursiones', 'slug': 'tours-excursiones'},
-                    {'name': 'Glamping & Ecoturismo', 'slug': 'glamping-ecoturismo'}]}]
+                    {'name': 'Glamping & Ecoturismo', 'slug': 'glamping-ecoturismo'}]},
+ {'name': 'Ecommerce & Tiendas Online',
+  'slug': 'ecommerce',
+  'subcategories': [
+      {'name': 'Tienda Online', 'slug': 'tienda-online'},
+      {'name': 'TikTok Shop', 'slug': 'tiktok-shop'},
+      {'name': 'Dropshipping', 'slug': 'dropshipping'},
+      {'name': 'Productos Virales', 'slug': 'productos-virales'},
+      {'name': 'Marketplace', 'slug': 'marketplace'},
+      {'name': 'Moda Online', 'slug': 'moda-online'},
+      {'name': 'Beauty Ecommerce', 'slug': 'beauty-ecommerce'}
+  ],
+  'aiContext': {
+      'description': 'Tiendas online y marcas ecommerce que venden productos físicos o digitales usando redes sociales y contenido para generar ventas.',
+      'recommended_tone': 'comercial, dinámico y orientado a conversión',
+      'keywords': ['ecommerce', 'ventas online', 'tienda virtual', 'productos virales', 'tiktok shop']
+  }},
+
+ {'name': 'Creadores de Contenido & Influencers',
+  'slug': 'creadores-contenido',
+  'subcategories': [
+      {'name': 'Influencer', 'slug': 'influencer'},
+      {'name': 'Creador UGC', 'slug': 'ugc'},
+      {'name': 'Streamer', 'slug': 'streamer'},
+      {'name': 'YouTuber', 'slug': 'youtuber'},
+      {'name': 'Podcast', 'slug': 'podcast'},
+      {'name': 'Marca Personal', 'slug': 'marca-personal'}
+  ],
+  'aiContext': {
+      'description': 'Creadores digitales, influencers y marcas personales que viven de su audiencia y contenido.',
+      'recommended_tone': 'auténtico, cercano y con personalidad fuerte',
+      'keywords': ['contenido', 'influencer', 'ugc', 'marca personal', 'audiencia']
+  }},
+
+ {'name': 'IA & Automatización',
+  'slug': 'ia-automatizacion',
+  'subcategories': [
+      {'name': 'Agentes IA', 'slug': 'agentes-ia'},
+      {'name': 'Automatización con IA', 'slug': 'automatizacion-ia'},
+      {'name': 'Chatbots', 'slug': 'chatbots'},
+      {'name': 'Automatización de Ventas', 'slug': 'automatizacion-ventas'},
+      {'name': 'No-Code & Automatización', 'slug': 'nocode'},
+      {'name': 'CRM & Embudos', 'slug': 'crm-embudos'}
+  ],
+  'aiContext': {
+      'description': 'Empresas y consultores que automatizan procesos usando inteligencia artificial.',
+      'recommended_tone': 'innovador, profesional y simplificado',
+      'keywords': ['ia', 'automatización', 'chatbot', 'agentes ia', 'eficiencia']
+  }},
+
+ {'name': 'Arquitectura & Espacios',
+  'slug': 'arquitectura',
+  'subcategories': [
+      {'name': 'Arquitectura Residencial', 'slug': 'arquitectura-residencial'},
+      {'name': 'Diseño Interior', 'slug': 'diseno-interior'},
+      {'name': 'Arquitectura Comercial', 'slug': 'arquitectura-comercial'},
+      {'name': 'Renderizado 3D', 'slug': 'render-3d'},
+      {'name': 'Diseño de Oficinas', 'slug': 'diseno-oficinas'}
+  ]},
+
+ {'name': 'Cadena Fría & Refrigeración',
+  'slug': 'cadena-fria',
+  'subcategories': [
+      {'name': 'Cuartos Fríos', 'slug': 'cuartos-frios'},
+      {'name': 'Refrigeración Comercial', 'slug': 'refrigeracion-comercial'},
+      {'name': 'Refrigeración Industrial', 'slug': 'refrigeracion-industrial'},
+      {'name': 'Equipos de Refrigeración', 'slug': 'equipos-refrigeracion'},
+      {'name': 'Cadena de Frío Alimentaria', 'slug': 'cadena-frio-alimentos'}
+  ]}]
+
 
 
 def get_industry_map():
