@@ -144,71 +144,94 @@ function Step1({
             )}
 
      {!isOtra && subcategories.length > 0 && (
-  <div className="grid gap-2">
-    <div className="flex items-center justify-between gap-2">
-      <Label className="text-xs text-muted-foreground">
-        Tipos específicos <span className="font-normal">(puedes elegir varios)</span>
-      </Label>
+          <div className="grid gap-2">
+               <div className="flex items-center justify-between gap-2">
+                    <Label className="text-xs text-muted-foreground">
+                         Tipos específicos <span className="font-normal">(puedes elegir varios)</span>
+                    </Label>
 
-      <button
-        type="button"
-        className="text-[11px] text-primary hover:underline"
-        onClick={() =>
-          onChange({
-            subIndustry:
-              (data.subIndustry ?? "").split(",").filter(Boolean).length === subcategories.length
-                ? ""
-                : subcategories.map(s => s.name).join(","),
-          })
-        }
-      >
-        {(data.subIndustry ?? "").split(",").filter(Boolean).length === subcategories.length
-          ? "Quitar todas"
-          : "Seleccionar todas"}
-      </button>
-    </div>
+                    <button
+                         type="button"
+                         className="text-[11px] text-primary hover:underline"
+                         onClick={() =>
+                              onChange({
+                                   subIndustry:
+                                        (data.subIndustry ?? "").split(",").map(x => x.trim()).filter(Boolean).length === subcategories.length
+                                             ? ""
+                                             : subcategories.map(s => s.name).join(","),
+                              })
+                         }
+                    >
+                         {(data.subIndustry ?? "").split(",").map(x => x.trim()).filter(Boolean).length === subcategories.length
+                              ? "Quitar todas"
+                              : "Seleccionar todas"}
+                    </button>
+               </div>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 rounded-xl border border-border p-2 bg-background/60">
-      {subcategories.map(s => {
-        const selected = (data.subIndustry ?? "")
-          .split(",")
-          .map(x => x.trim())
-          .filter(Boolean)
-          .includes(s.name);
+               <details className="group relative">
+                    <summary className="flex min-h-10 w-full cursor-pointer list-none items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                         <span className={(data.subIndustry ?? "").trim() ? "text-foreground" : "text-muted-foreground"}>
+                              {(data.subIndustry ?? "").trim()
+                                   ? `${(data.subIndustry ?? "").split(",").map(x => x.trim()).filter(Boolean).length} seleccionado(s)`
+                                   : "Selecciona tipos específicos..."}
+                         </span>
 
-        return (
-          <label
-            key={s.slug}
-            className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm cursor-pointer transition-colors ${
-              selected
-                ? "border-primary bg-primary/10 text-primary"
-                : "border-border hover:border-primary/40"
-            }`}
-          >
-            <input
-              type="checkbox"
-              checked={selected}
-              onChange={e => {
-                const current = (data.subIndustry ?? "")
-                  .split(",")
-                  .map(x => x.trim())
-                  .filter(Boolean);
+                         <span className="text-xs text-muted-foreground group-open:rotate-180 transition-transform">
+                              ⌄
+                         </span>
+                    </summary>
 
-                const next = e.target.checked
-                  ? Array.from(new Set([...current, s.name]))
-                  : current.filter(x => x !== s.name);
+                    <div className="absolute z-[9999] mt-2 w-full rounded-xl border border-border bg-popover p-2 shadow-xl">
+                         <div className="max-h-56 overflow-y-auto space-y-1">
+                              {subcategories.map(s => {
+                                   const selected = (data.subIndustry ?? "")
+                                        .split(",")
+                                        .map(x => x.trim())
+                                        .filter(Boolean)
+                                        .includes(s.name);
 
-                onChange({ subIndustry: next.join(",") });
-              }}
-              className="h-4 w-4"
-            />
-            <span>{s.name}</span>
-          </label>
-        );
-      })}
-    </div>
-  </div>
-)}
+                                   return (
+                                        <label
+                                             key={s.slug}
+                                             className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm cursor-pointer transition-colors ${
+                                                  selected
+                                                       ? "bg-primary/10 text-primary"
+                                                       : "hover:bg-muted text-foreground"
+                                             }`}
+                                        >
+                                             <input
+                                                  type="checkbox"
+                                                  checked={selected}
+                                                  onChange={e => {
+                                                       const current = (data.subIndustry ?? "")
+                                                            .split(",")
+                                                            .map(x => x.trim())
+                                                            .filter(Boolean);
+
+                                                       const next = e.target.checked
+                                                            ? Array.from(new Set([...current, s.name]))
+                                                            : current.filter(x => x !== s.name);
+
+                                                       onChange({ subIndustry: next.join(",") });
+                                                  }}
+                                                  className="h-4 w-4"
+                                             />
+
+                                             <span>{s.name}</span>
+                                        </label>
+                                   );
+                              })}
+                         </div>
+                    </div>
+               </details>
+
+               {(data.subIndustry ?? "").trim() && (
+                    <p className="text-[11px] text-muted-foreground/80 leading-tight">
+                         Seleccionado: {(data.subIndustry ?? "").split(",").map(x => x.trim()).filter(Boolean).join(", ")}
+                    </p>
+               )}
+          </div>
+     )}
 
             <p className="text-[11px] text-muted-foreground/70 leading-tight">
               Nos ayuda a adaptar el contenido a tu industria y mejorar los resultados desde el primer día.
