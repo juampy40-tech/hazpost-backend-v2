@@ -122,7 +122,7 @@ export default function SubIndustryMultiSelect({
               openUpward ? "bottom-full mb-2" : "top-full mt-2"
             }`}
           >
-            <div className="max-h-56 overflow-y-auto space-y-1">
+            <div className="max-h-56 overflow-x-visible overflow-y-auto space-y-1">
               {subcategories.map(item => {
                 const selected = selectedItems.includes(item.name);
 
