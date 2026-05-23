@@ -1,39 +1,64 @@
-import os
-import json
 from datetime import datetime
+from sqlalchemy import text
 
-DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data")
-FILE_PATH = os.path.join(DATA_PATH, "pending_industries.json")
-
-
-def _ensure_file():
-    os.makedirs(DATA_PATH, exist_ok=True)
-    if not os.path.exists(FILE_PATH):
-        with open(FILE_PATH, "w", encoding="utf-8") as f:
-            json.dump([], f)
+from src.db import db_session
 
 
-def save_industry_suggestion(name: str):
-    _ensure_file()
+def save_industry_suggestion(
+    name: str,
+    user_id: str | None = None,
+    business_id: str | None = None,
+):
+    clean_name = (name or "").strip()
 
-    with open(FILE_PATH, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    if not clean_name:
+        return {"status": "invalid"}
 
-    name_clean = name.strip().lower()
+    normalized_name = clean_name.lower()
 
-    # evitar duplicados
-    for item in data:
-        if item["name"].lower() == name_clean:
+    with db_session() as db:
+
+        existing = db.execute(text("""
+            SELECT id
+            FROM industry_suggestions
+            WHERE normalized_name = :normalized_name
+            LIMIT 1;
+        """), {
+            "normalized_name": normalized_name,
+        }).mappings().first()
+
+        if existing:
             return {"status": "exists"}
 
-    suggestion = {
-        "name": name.strip(),
+        db.execute(text("""
+            INSERT INTO industry_suggestions (
+                name,
+                normalized_name,
+                status,
+                source,
+                user_id,
+                business_id,
+                created_at,
+                updated_at
+            )
+            VALUES (
+                :name,
+                :normalized_name,
+                'pending',
+                'onboarding',
+                :user_id,
+                :business_id,
+                NOW(),
+                NOW()
+            );
+        """), {
+            "name": clean_name,
+            "normalized_name": normalized_name,
+            "user_id": str(user_id) if user_id else None,
+            "business_id": str(business_id) if business_id else None,
+        })
+
+    return {
+        "status": "saved",
         "createdAt": datetime.utcnow().isoformat()
     }
-
-    data.append(suggestion)
-
-    with open(FILE_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-    return {"status": "saved"}
