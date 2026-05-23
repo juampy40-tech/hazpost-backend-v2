@@ -359,7 +359,7 @@ INDUSTRY CATALOG SYSTEM
 
 Archivo principal:
 
-• artifacts/api-server/src/lib/industries.ts
+• hazpost-backend/src/catalogs/industries.py
 
 ============================================================
 RESPONSABILIDAD
@@ -401,6 +401,7 @@ Actualmente existe:
 • memory cache runtime
 • localStorage cache persistente
 • TTL invalidation
+• centralized frontend runtime loader
 
 Cache key:
 
@@ -430,6 +431,8 @@ NO:
 • crear fetch paralelo industrias,
 • usar subcategorías hardcodeadas inconsistentes,
 • ni romper TTL invalidation.
+• ni duplicar catalog loaders frontend.
+• ni consumir /api/industries directamente desde componentes.
 
 ============================================================
 SUGGESTION FLOW
@@ -440,6 +443,70 @@ sendIndustrySuggestion():
 • NO debe bloquear onboarding,
 • funciona como feedback incremental,
 • y permite evolución futura del catálogo.
+
+============================================================
+FRONTEND INDUSTRY RUNTIME CENTRALIZATION (MAYO 2026)
+============================================================
+
+PROBLEMA DETECTADO
+==================
+
+Existía duplicación frontend de:
+
+• catalog loaders
+• cache runtime
+• fetch industries
+• normalization logic
+
+Detectado en:
+
+• OnboardingWizard.tsx
+• businesses.tsx
+
+Esto generaba:
+
+• orden inconsistente
+• cache stale
+• comportamiento ambiguo
+• regresiones potenciales
+• múltiples source of truth frontend
+
+============================================================
+FIX IMPLEMENTADO
+================
+
+Nuevo ownership oficial frontend:
+
+• src/lib/industryCatalog.ts
+
+Responsable de:
+
+• fetchIndustryCatalog()
+• sendIndustrySuggestion()
+• runtime cache
+• localStorage cache
+• normalization
+• fallback UX
+• aiContext normalization
+• centralized fallback handling
+
+============================================================
+REGLA NUEVA
+============
+
+Nunca duplicar:
+
+• catalog loaders
+• industries fetches
+• normalization logic
+• localStorage runtime
+• cache runtime
+
+Los componentes nunca deben consumir:
+
+• /api/industries
+
+directamente.
 
 ============================================================
 BUSINESS OWNERSHIP REFACTOR (MAYO 2026)
@@ -518,7 +585,7 @@ INDUSTRY SYSTEM — SOURCE OF TRUTH
 
 Source of truth oficial industrias:
 
-• artifacts/api-server/src/lib/industries.ts
+• hazpost-backend/src/catalogs/industries.py
 
 El catálogo onboarding NO debe:
 
@@ -528,7 +595,11 @@ El catálogo onboarding NO debe:
 
 Todo onboarding debe consumir:
 
-• GET /api/industries
+• fetchIndustryCatalog()
+
+Source frontend oficial:
+
+• src/lib/industryCatalog.ts
 
 ============================================================
 PENDIENTE SIGUIENTE FASE
@@ -536,14 +607,31 @@ PENDIENTE SIGUIENTE FASE
 
 FASE INDUSTRY SYSTEM:
 
-• completar industrias faltantes,
-• mejorar subindustrias,
-• ordenar industrias A-Z,
-• limpiar duplicados,
-• mejorar aiContext,
-• mejorar UX onboarding,
+✅ completar industrias faltantes
+✅ mejorar subindustrias
+✅ mejorar aiContext
+✅ centralizar frontend runtime
+✅ centralizar catalog loaders
+✅ eliminar duplicación frontend
+✅ cache runtime controlado
+✅ onboarding runtime validado
+✅ industry suggestions runtime
+✅ multi-select subindustrias
+✅ fallback UX validado
+
+PENDIENTES:
+
 • searchable industry selector futuro (UX premium),
-• y mejorar IA contextual orientada a ventas y conversión.
+• dynamic subcategory suggestions,
+• admin approval flow subcategories,
+• subcategorías evolutivas impulsadas por demanda real,
+• analytics por industria y subindustria,
+• clustering IA de industrias similares,
+• sugerencias IA automáticas onboarding,
+• segmentación comercial más inteligente,
+• IA contextual adaptativa por engagement,
+• detección automática de industrias emergentes,
+• y aprendizaje IA por industria/subindustria.
 
 ============================================================
 REGLA UX + IA
@@ -680,7 +768,7 @@ Actualmente funciona como:
 REGLA NUEVA
 ============
 
-NO modificar industries.ts
+NO modificar industries.py
 sin validar:
 
 • onboarding

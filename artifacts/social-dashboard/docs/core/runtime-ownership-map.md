@@ -50,6 +50,88 @@ Este documento existe para evitar:
 
 # 🧠 DOMINIOS Y OWNERSHIP
 
+# Industry Catalog Runtime
+
+## Backend source of truth
+
+`src/catalogs/industries.py`
+
+Responsable de:
+- categorías oficiales
+- subcategorías
+- aiContext
+- onboarding catalog
+- IA contextual
+- industry suggestions compatibility
+
+---
+
+## Frontend source of truth
+
+`src/lib/industryCatalog.ts`
+
+Responsable de:
+- fetch centralizado
+- normalización
+- cache runtime
+- localStorage cache
+- suggestions runtime
+- fallback UX
+
+---
+
+## APIs
+
+- `/api/industries`
+- `/api/industries/suggestions`
+
+---
+
+## Consumidores frontend
+
+- OnboardingWizard.tsx
+- BusinessIdentityStep.tsx
+- businesses.tsx
+- SubIndustryMultiSelect.tsx
+
+---
+
+## Riesgo histórico detectado
+
+Se detectó duplicación de loaders frontend en:
+
+- OnboardingWizard.tsx
+- businesses.tsx
+
+Esto causaba:
+- cache desincronizado
+- orden inconsistente
+- comportamiento ambiguo
+- riesgo de regresiones
+
+Solución aplicada:
+centralización completa en:
+
+`src/lib/industryCatalog.ts`
+
+---
+
+## Regla arquitectónica
+
+Nunca duplicar:
+- catalog loaders
+- cache runtime
+- fetches
+- normalización
+
+Los componentes nunca deben consumir:
+`/api/industries`
+directamente.
+
+Patrón oficial:
+
+`src/lib/*`
+
 | Dominio | Runtime actual | Source of truth actual | Estado | Riesgo |
 |---|---|---|---|---|
 | Analyze onboarding | `/api/analyze-website` | app.py legacy runtime | híbrido | alto |
