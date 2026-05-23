@@ -11,6 +11,8 @@ import { OnboardingWizard } from "@/components/OnboardingWizard";
 import BusinessIdentityStep from "@/components/brand-profile/BusinessIdentityStep";
 import type { BrandProfile } from "@/types/brand";
 import { DeleteBusinessModal } from "@/components/DeleteBusinessModal";
+import { fetchIndustryCatalog } from "@/lib/industryCatalog";
+import type { IndustryCatalogEntry } from "@/types/brand";
 
 const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
 
@@ -42,22 +44,6 @@ const resolveAssetUrl = (url: string | null | undefined): string => {
   return `${API_BASE}${cleanPath}`;
 };
 
-interface IndustryCatalogEntry {
-  name: string;
-  slug: string;
-  subcategories: { name: string; slug: string }[];
-}
-
-async function fetchIndustryCatalog(): Promise<IndustryCatalogEntry[]> {
-  try {
-    const res = await fetch(`${BASE}/api/industries`);
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.industries ?? [];
-  } catch {
-    return [];
-  }
-}
 
 const TONES = [
   { value: "formal",         label: "👔 Formal — profesional y corporativo" },
