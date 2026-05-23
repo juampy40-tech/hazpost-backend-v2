@@ -44,6 +44,14 @@ Backend:
 PostgreSQL es la source of truth oficial para industry suggestions.
 No usar archivos JSON temporales para persistencia.
 
+Industry suggestions NO deben depender de:
+- archivos JSON
+- memoria runtime
+- filesystem Railway
+- variables temporales
+
+La única source of truth válida es PostgreSQL.
+
 ## industry_suggestions
 
 Campos:
@@ -69,10 +77,12 @@ Campos:
 - `request_count` incrementa automáticamente
 - status default = `pending`
 - source default = `onboarding`
-
 - nunca mezclar sugerencias entre usuarios
 - nunca eliminar métricas históricas de request_count
 - onboarding debe seguir funcionando aunque falle PostgreSQL
+- el usuario nunca debe perder el progreso del onboarding
+- sugerir industria no debe bloquear creación de negocio
+- fallback UX obligatorio si falla endpoint
 
 ---
 
@@ -126,3 +136,15 @@ Generar:
 - Railway Data UI puede cachear columnas visualmente
 - usar queries SQL para validar columnas nuevas
 - evitar depender de visual refresh de Railway
+
+# Decisiones arquitectónicas
+
+Se descartó persistencia en JSON porque:
+- Railway filesystem no es persistente
+- no escala multi-instancia
+- no permite analytics reales
+- no permite métricas de demanda
+- no permite admin workflows
+- no permite automatización IA futura
+
+PostgreSQL queda como arquitectura oficial.
