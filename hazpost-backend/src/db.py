@@ -172,6 +172,31 @@ def init_db():
                 ON text_blocks (user_id);
             """))
 
+            # 🧠 INDUSTRY SUGGESTIONS — Cola interna para revisar industrias nuevas
+            db.execute(text("""
+                CREATE TABLE IF NOT EXISTS industry_suggestions (
+                    id SERIAL PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    normalized_name TEXT NOT NULL UNIQUE,
+                    status TEXT NOT NULL DEFAULT 'pending',
+                    source TEXT NOT NULL DEFAULT 'onboarding',
+                    user_id TEXT,
+                    business_id TEXT,
+                    created_at TIMESTAMP DEFAULT NOW(),
+                    updated_at TIMESTAMP DEFAULT NOW()
+                );
+            """))
+
+            db.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_industry_suggestions_status
+                ON industry_suggestions (status);
+            """))
+
+            db.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_industry_suggestions_created_at
+                ON industry_suggestions (created_at);
+            """))
+
         logger.info("Base de datos inicializada correctamente")
         return True
 
