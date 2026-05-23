@@ -28,6 +28,16 @@ def save_industry_suggestion(
         }).mappings().first()
 
         if existing:
+            with db_session() as db:
+                db.execute(text("""
+                    UPDATE industry_suggestions
+                    SET request_count = request_count + 1,
+                        updated_at = NOW()
+                    WHERE normalized_name = :normalized_name;
+                """), {
+                    "normalized_name": normalized_name
+                })
+
             return {"status": "exists"}
 
         db.execute(text("""

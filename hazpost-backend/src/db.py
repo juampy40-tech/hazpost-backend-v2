@@ -182,6 +182,7 @@ def init_db():
                     source TEXT NOT NULL DEFAULT 'onboarding',
                     user_id TEXT,
                     business_id TEXT,
+                    request_count INTEGER NOT NULL DEFAULT 1,
                     created_at TIMESTAMP DEFAULT NOW(),
                     updated_at TIMESTAMP DEFAULT NOW()
                 );
