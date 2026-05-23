@@ -335,6 +335,8 @@ export const INDUSTRY_CATALOG: IndustryCatalogEntry[] = [
     subcategories: [
       { name: "Concesionario",        slug: "concesionario" },
       { name: "Taller Mecánico",      slug: "taller-mecanico" },
+      { name: "Latonería & Pintura",  slug: "latoneria-pintura" },
+      { name: "Detailing & Embellecimiento", slug: "detailing-embellecimiento" },
       { name: "Venta de Repuestos",   slug: "venta-repuestos" },
       { name: "Lavadero de Carros",   slug: "lavadero-carros" },
       { name: "Motos & Accesorios",   slug: "motos-accesorios" },
