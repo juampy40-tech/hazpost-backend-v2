@@ -561,3 +561,133 @@ El objetivo real es:
 • mejorar anuncios,
 • mejorar conexión emocional,
 • y ayudar negocios reales a conseguir clientes.
+
+
+============================================================
+SUBINDUSTRY MULTI-SELECT UX REFACTOR (MAYO 2026)
+============================================================
+
+CAMBIO IMPLEMENTADO
+===================
+
+El selector de subcategorías evolucionó de:
+
+• grid de checkboxes estático
+
+a:
+
+• dropdown multi-select premium.
+
+OBJETIVOS
+==========
+
+• mejorar UX,
+• reducir saturación visual,
+• escalar mejor con catálogos grandes,
+• mantener compatibilidad runtime legacy,
+• y preparar evolución futura del Industry Engine.
+
+ARCHIVOS IMPACTADOS
+===================
+
+• OnboardingWizard.tsx
+• BusinessIdentityStep.tsx
+
+VALIDACIÓN REAL
+================
+
+Validado correctamente:
+
+✅ build frontend OK
+✅ runtime navegador OK
+✅ multi-select OK
+✅ persistencia OK
+✅ onboarding no roto
+✅ business profile no roto
+✅ compilación Vite OK
+
+DECISIONES IMPORTANTES
+======================
+
+Actualmente:
+
+subIndustry
+→ continúa persistiéndose como string separado por comas.
+
+Ejemplo:
+
+"Spa & Masajes, Maquillaje & Cejas"
+
+Esto se mantuvo por compatibilidad con runtime legacy existente.
+
+RIESGO DETECTADO
+================
+
+El runtime todavía mezcla:
+
+• subIndustry single-value legacy
+• multi-select runtime moderno
+
+Detectado en:
+
+• onboarding
+• businesses
+• profile
+• hydration runtime
+
+NO migrar todavía a string[] sin auditoría completa.
+
+PROBLEMA UX PENDIENTE
+=====================
+
+El dropdown actual utiliza:
+
+• <details>
+
+Limitación actual:
+
+❌ NO cierra automáticamente click afuera.
+
+IMPORTANTE:
+
+NO hacer hotfix rápido.
+
+La solución correcta futura es:
+
+• dropdown controlado React
+• click-outside detection
+• ESC close
+• controlled open state
+• cleanup listeners
+
+INDUSTRY ENGINE — HALLAZGO IMPORTANTE
+=====================================
+
+El sistema de industrias YA NO debe tratarse como:
+
+• simple dropdown
+• simple constants file
+
+Actualmente funciona como:
+
+• AI context engine
+• onboarding intelligence
+• CRO segmentation layer
+• template classification layer
+• visual context engine
+• y futura analytics segmentation architecture.
+
+REGLA NUEVA
+============
+
+NO modificar industries.ts
+sin validar:
+
+• onboarding
+• businesses
+• profile
+• hydration
+• IA onboarding context
+• payload persistence
+• runtime legacy vs moderno
+• y multi-business isolation.
