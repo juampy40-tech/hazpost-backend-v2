@@ -73,10 +73,20 @@ export default function SubIndustryMultiSelect({
 
     const rect = wrapperRef.current.getBoundingClientRect();
 
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const spaceAbove = rect.top;
+    const scrollParent =
+      wrapperRef.current.closest(".overflow-y-auto") as HTMLElement | null;
 
-    setOpenUpward(spaceBelow < 260 && spaceAbove > spaceBelow);
+    const containerRect = scrollParent?.getBoundingClientRect();
+
+    const spaceBelow = containerRect
+      ? containerRect.bottom - rect.bottom
+      : window.innerHeight - rect.bottom;
+
+    const spaceAbove = containerRect
+      ? rect.top - containerRect.top
+      : rect.top;
+
+    setOpenUpward(spaceBelow < 320 && spaceAbove > spaceBelow);
   }, [open, subcategories.length]);
 
   function toggleItem(name: string) {
@@ -110,6 +120,9 @@ export default function SubIndustryMultiSelect({
         type: "subindustry",
         parentIndustry,
       });
+
+      const next = Array.from(new Set([...selectedItems, clean]));
+      onChange(next.join(","));
 
       setSuggestionSent(true);
       setCustomInput("");
