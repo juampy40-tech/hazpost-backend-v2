@@ -166,13 +166,19 @@ INDUSTRY_CATALOG = [{'name': 'Restaurante & Comida',
                              'productividad']}},
  {'name': 'SaaS & Marketing con IA',
   'slug': 'saas-marketing-ia',
-  'subcategories': [{'name': 'SaaS / Marketing de contenidos con IA', 'slug': 'saas-contenidos-ia'},
-                    {'name': 'Gestión de Redes Sociales (SMMA)', 'slug': 'smma'},
-                    {'name': 'Agencia de Marketing Digital', 'slug': 'agencia-mkt-digital-ia'},
-                    {'name': 'Community Manager', 'slug': 'community-manager'},
-                    {'name': 'Plataforma de IA / No-Code', 'slug': 'plataforma-ia'},
-                    {'name': 'Consultoría en Transformación Digital',
-                     'slug': 'transformacion-digital'}],
+  'subcategories': [
+      {'name': 'SaaS / Marketing de contenidos con IA', 'slug': 'saas-contenidos-ia'},
+      {'name': 'Gestión de Redes Sociales (SMMA)', 'slug': 'smma'},
+      {'name': 'Agencia de Marketing Digital', 'slug': 'agencia-mkt-digital-ia'},
+      {'name': 'Community Manager', 'slug': 'community-manager'},
+      {'name': 'Plataforma de IA / No-Code', 'slug': 'plataforma-ia'},
+      {'name': 'Consultoría en Transformación Digital', 'slug': 'transformacion-digital'},
+      {'name': 'Agentes IA', 'slug': 'agentes-ia'},
+      {'name': 'Automatización con IA', 'slug': 'automatizacion-ia'},
+      {'name': 'Chatbots', 'slug': 'chatbots'},
+      {'name': 'Automatización de Ventas', 'slug': 'automatizacion-ventas'},
+      {'name': 'CRM & Embudos', 'slug': 'crm-embudos'}
+  ],
   'aiContext': {'description': 'Plataformas SaaS, agencias y consultoras que usan Inteligencia '
                                'Artificial para crear contenido, gestionar redes sociales y '
                                'automatizar el marketing digital de sus clientes.',
@@ -457,22 +463,6 @@ INDUSTRY_CATALOG = [{'name': 'Restaurante & Comida',
       'description': 'Creadores digitales, influencers y marcas personales que viven de su audiencia y contenido.',
       'recommended_tone': 'auténtico, cercano y con personalidad fuerte',
       'keywords': ['contenido', 'influencer', 'ugc', 'marca personal', 'audiencia']
-  }},
-
- {'name': 'IA & Automatización',
-  'slug': 'ia-automatizacion',
-  'subcategories': [
-      {'name': 'Agentes IA', 'slug': 'agentes-ia'},
-      {'name': 'Automatización con IA', 'slug': 'automatizacion-ia'},
-      {'name': 'Chatbots', 'slug': 'chatbots'},
-      {'name': 'Automatización de Ventas', 'slug': 'automatizacion-ventas'},
-      {'name': 'No-Code & Automatización', 'slug': 'nocode'},
-      {'name': 'CRM & Embudos', 'slug': 'crm-embudos'}
-  ],
-  'aiContext': {
-      'description': 'Empresas y consultores que automatizan procesos usando inteligencia artificial.',
-      'recommended_tone': 'innovador, profesional y simplificado',
-      'keywords': ['ia', 'automatización', 'chatbot', 'agentes ia', 'eficiencia']
   }},
 
  {'name': 'Arquitectura & Espacios',
