@@ -118,9 +118,7 @@ export default function SubIndustryMultiSelect({
 
         {open && (
           <div
-            className={`absolute left-0 z-[9999] w-full rounded-xl border border-border bg-popover p-2 shadow-xl ${
-              openUpward ? "bottom-full mb-2" : "top-full mt-2"
-            }`}
+            className="absolute left-0 z-[9999] w-full rounded-xl border border-border bg-popover p-2 shadow-xl bottom-full mb-2"
           >
             <div className="max-h-56 overflow-x-visible overflow-y-auto space-y-1">
               {subcategories.map(item => {
