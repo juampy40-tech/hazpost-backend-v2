@@ -178,6 +178,93 @@ Siempre validar:
 • branding aislado.
 
 ============================================================
+BRAND COLOR SOURCE PRIORITY
+============================================================
+
+Nuevo lifecycle oficial de branding visual:
+
+Prioridad de colores:
+
+1. Uploaded logo
+2. Website detected logo
+3. Website visual heuristics
+4. AI fallback suggestion
+
+IMPORTANTE:
+
+• website NO es source-of-truth visual absoluto,
+• logos tienen prioridad sobre website,
+• IA NO debe inventar branding visual fuerte,
+• colores website son sugerencias,
+• logo upload puede reemplazar colores previos.
+
+============================================================
+COLOR EXTRACTION RUNTIME
+============================================================
+
+Nuevo servicio agregado:
+
+• src/services/color_extractor.py
+
+Responsable de:
+
+• dominant palette extraction,
+• HEX normalization,
+• anti-checkerboard filtering,
+• anti-UI-color filtering,
+• saturation filtering,
+• logo-based color extraction.
+
+============================================================
+LIFECYCLE IMPORTANTE
+============================================================
+
+Analyze website puede ejecutarse ANTES de subir logo.
+
+Flujo actual:
+
+1. onboarding analiza website
+2. onboarding sugiere branding inicial
+3. usuario sube logo
+4. onboarding rehidrata branding visual
+5. logo puede reemplazar colores website
+6. branding visual final prioriza logo
+
+============================================================
+REGLAS IMPORTANTES
+============================================================
+
+NO:
+
+• asumir website como branding source-of-truth,
+• persistir colores website como definitivos,
+• priorizar colores neutros del hero,
+• usar overlays oscuros como branding real,
+• confiar ciegamente en AI-generated HEX.
+
+SIEMPRE:
+
+• priorizar uploaded logo,
+• permitir override manual usuario,
+• validar saturation real,
+• ignorar checkerboard/transparency bleed,
+• ignorar UI/bootstrap colors.
+
+============================================================
+ESTADO ACTUAL
+============================================================
+
+Estado actual validado:
+
+✅ logo extraction funcionando
+✅ onboarding hydration funcionando
+✅ logo override funcionando
+✅ anti-blue contamination funcionando
+✅ website color extraction mejorada
+⚠️ website colors siguen siendo heurísticos
+⚠️ logo sigue siendo source-of-truth recomendado
+
+============================================================
 DIRECCIÓN FUTURA
 ============================================================
 

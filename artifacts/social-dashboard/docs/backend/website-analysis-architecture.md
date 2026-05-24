@@ -93,6 +93,39 @@ Responsable de:
 - normalizar HEX
 - detectar primary/secondary colors
 
+Responsable de:
+
+- extraer colores dominantes,
+- normalizar HEX,
+- detectar primary/secondary colors,
+- filtrar colores neutros,
+- ignorar checkerboard/transparency bleed,
+- ignorar UI/bootstrap contamination,
+- priorizar colores saturados,
+- extraer branding visual desde logos.
+
+IMPORTANTE:
+
+Website colors son heurísticos.
+
+Uploaded logos tienen prioridad sobre website colors.
+
+Logo extraction puede reemplazar colores detectados previamente
+durante onboarding hydration.
+
+Brand visual source priority:
+
+1. uploaded logo
+2. detected website logo
+3. website heuristics
+4. AI fallback suggestion
+
+NO:
+
+- asumir website como source-of-truth visual,
+- persistir colores heurísticos como definitivos,
+- confiar ciegamente en AI-generated HEX.
+
 ---
 
 ## brand_extractor.py
@@ -154,6 +187,13 @@ hacia esta arquitectura centralizada.
 - scaffolds arquitectónicos
 - separación modular
 - source of truth definido
+- logo-based color extraction
+- onboarding color hydration
+- logo color override lifecycle
+- anti-checkerboard filtering
+- anti-UI-color filtering
+- saturation-based color filtering
+- visual branding source priority
 
 ## Pendiente
 

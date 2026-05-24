@@ -210,6 +210,35 @@ Estas áreas actualmente contienen:
 - sincronización frontend/backend
 - ownership implícito
 
+## Brand Color Extraction Runtime
+
+Owner actual:
+
+- `src/services/color_extractor.py`
+
+Responsable de:
+
+- extracción de colores desde logos,
+- palette normalization,
+- HEX normalization,
+- anti-checkerboard filtering,
+- anti-UI/bootstrap filtering,
+- saturation-based filtering.
+
+Regla oficial:
+
+- Uploaded logo = source-of-truth visual recomendado.
+- Website colors = heurísticos / sugerencia.
+- AI-generated HEX = fallback, no verdad absoluta.
+- Usuario siempre puede editar manualmente.
+
+Lifecycle validado:
+
+1. website analysis puede sugerir color inicial.
+2. al subir logo, onboarding reanaliza.
+3. logo color puede reemplazar website color.
+4. frontend hidrata primaryColor/secondaryColor.
+5. business profile guarda color final.
 ---
 
 # ✅ SAFE EXTRACTION AREAS
