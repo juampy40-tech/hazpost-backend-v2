@@ -18,6 +18,7 @@ IMPORTANT:
 from io import BytesIO
 from typing import Dict, Any, List, Tuple
 from urllib.parse import urlparse
+import colorsys
 
 import requests
 from PIL import Image
@@ -36,14 +37,35 @@ class ColorExtractor:
     def _is_brand_candidate(rgb: Tuple[int, int, int]) -> bool:
         r, g, b = rgb
 
-        # Ignorar blanco/negro/grises demasiado neutros
+        # Ignorar blancos
         if r > 245 and g > 245 and b > 245:
             return False
 
-        if r < 15 and g < 15 and b < 15:
+        # Ignorar negros
+        if r < 20 and g < 20 and b < 20:
             return False
 
-        if abs(r - g) < 12 and abs(g - b) < 12 and abs(r - b) < 12:
+        # Ignorar grises/neutros
+        if abs(r - g) < 18 and abs(g - b) < 18 and abs(r - b) < 18:
+            return False
+
+        # Ignorar azules UI típicos
+        if b > 180 and r < 120 and g < 180:
+            return False
+
+        # Saturación REAL
+        h, s, v = colorsys.rgb_to_hsv(
+            r / 255,
+            g / 255,
+            b / 255,
+        )
+
+        # Ignorar colores lavados
+        if s < 0.28:
+            return False
+
+        # Ignorar colores demasiado oscuros
+        if v < 0.22:
             return False
 
         return True
