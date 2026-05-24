@@ -59,6 +59,8 @@ from src.services.ai_brand_analyzer import AIBrandAnalyzer
 
 from src.services.website_analysis_service import WebsiteAnalysisService
 
+from src.services.color_extractor import ColorExtractor
+
 R2_ACCESS_KEY_ID = os.getenv("R2_ACCESS_KEY_ID")
 R2_SECRET_ACCESS_KEY = os.getenv("R2_SECRET_ACCESS_KEY")
 R2_ENDPOINT_URL = os.getenv("R2_ENDPOINT_URL")
@@ -1977,6 +1979,32 @@ def create_app():
             city = (data.get("city") or "").strip()
             country = (data.get("country") or "").strip()
 
+            context = data.get("context") or {}
+
+            logo_urls = context.get("logoUrls") or data.get("logoUrls") or []
+            logo_url = context.get("logoUrl") or data.get("logoUrl") or ""
+
+            if isinstance(logo_urls, str):
+                try:
+                    logo_urls = json.loads(logo_urls)
+                except Exception:
+                    logo_urls = [logo_urls] if logo_urls.strip() else []
+
+            if not isinstance(logo_urls, list):
+                logo_urls = []
+
+            if logo_url:
+                logo_urls = [logo_url] + [url for url in logo_urls if url != logo_url]
+
+            logo_color_data = None
+
+            for candidate_logo in logo_urls:
+                extracted = ColorExtractor.extract(candidate_logo)
+
+                if extracted.get("success") and extracted.get("primaryColor"):
+                    logo_color_data = extracted
+                    break
+
             if not website:
                 return jsonify({
                     "success": False,
@@ -2062,12 +2090,24 @@ def create_app():
                 if ai_content:
                     parsed = json.loads(ai_content)
 
+                    ai_primary_color = parsed.get("primaryColor") or "#000000"
+
                     suggestions = {
                         "description": parsed.get("description"),
                         "audience": parsed.get("audience"),
                         "tone": parsed.get("tone") or "cercano",
-                        "primaryColor": parsed.get("primaryColor") or "#000000",
-                        "secondaryColor": "#ffffff"
+                        "primaryColor": (
+                            logo_color_data.get("primaryColor")
+                            if logo_color_data and logo_color_data.get("primaryColor")
+                            else ai_primary_color
+                        ),
+                        "secondaryColor": (
+                            logo_color_data.get("secondaryColor")
+                            if logo_color_data and logo_color_data.get("secondaryColor")
+                            else "#ffffff"
+                        ),
+                        "palette": logo_color_data.get("palette") if logo_color_data else [],
+                        "colorSource": "logo" if logo_color_data else "ai_website",
                     }
 
             except Exception:
@@ -2091,7 +2131,9 @@ def create_app():
                 "audience": suggestions.get("audience"),
                 "tone": suggestions.get("tone"),
                 "primaryColor": suggestions.get("primaryColor"),
-                "secondaryColor": suggestions.get("secondaryColor")
+                "secondaryColor": suggestions.get("secondaryColor"),
+                "palette": suggestions.get("palette", []),
+                "colorSource": suggestions.get("colorSource", "ai_website"),
             })
 
         except Exception as e:
