@@ -156,6 +156,7 @@ interface Business {
   audienceDescription: string | null;
   defaultLocation: string | null;
   brandFont: string | null;
+  brandFontUrl: string | null;
   website: string | null;
   referenceImages: string | null;
   isDefault: boolean;
@@ -188,6 +189,7 @@ interface BusinessFormData {
   website: string;
   logoUrl: string;
   brandFont: string;
+  brandFontUrl: string;
 
   referenceImages: RefImage[];
 }
@@ -213,6 +215,7 @@ const emptyForm = (): BusinessFormData => ({
   website: "",
   logoUrl: "",
   brandFont: "poppins",
+  brandFontUrl: "",
 
   referenceImages: [],
 });
@@ -940,6 +943,7 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
     website: profile.website || "",
     logoUrl: profile.logoUrl || "",
     brandFont: profile.brandFont || "poppins",
+    brandFontUrl: profile.brandFontUrl || "",
     referenceImages: (() => {
       if (Array.isArray(profile.referenceImages)) return profile.referenceImages;
 
@@ -1158,6 +1162,8 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
               audienceDescription: editingBusiness.audienceDescription || "",
               brandTone: editingBusiness.brandTone || "",
               primaryColor: editingBusiness.primaryColor || "",
+              brandFont: editingBusiness.brandFont || "poppins",
+              brandFontUrl: editingBusiness.brandFontUrl || "",
               secondaryColor: editingBusiness.secondaryColor || "",
               logoUrl: editingBusiness.logoUrl || "",
               referenceImages: typeof editingBusiness.referenceImages === "string"
