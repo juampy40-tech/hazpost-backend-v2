@@ -1540,6 +1540,7 @@ interface Props {
   initialData?: BrandProfile;
   editMode?: boolean;
   registrationMode?: boolean;
+  businessId?: number | null;
   onSubmitProfile?: (data: BrandProfile) => Promise<void>;
 }
 
@@ -1551,6 +1552,7 @@ export function OnboardingWizard({
   initialData = {},
   editMode = false,
   registrationMode = false,
+  businessId = null,
   onSubmitProfile,
 }: Props) {
   const { toast } = useToast();
@@ -1598,15 +1600,20 @@ export function OnboardingWizard({
     }
   }
 
-  useEffect(() => {
-    // 🚨 IMPORTANTE:
-    // En creación de negocio NUEVO no debemos hidratar automáticamente
-    // desde el business default porque contamina el onboarding.
-    if (!editMode) {
-      return;
-    }
+useEffect(() => {
+  // 🚨 IMPORTANTE:
+  // En creación de negocio NUEVO no debemos hidratar automáticamente
+  // desde el business default porque contamina el onboarding.
+  if (!editMode) {
+    return;
+  }
 
-    fetch(`${API_BASE}/api/businesses`, { credentials: "include" })
+  if (businessId) {
+    setActiveBizId(businessId);
+    return;
+  }
+
+  fetch(`${API_BASE}/api/businesses`, { credentials: "include" })
       .then(r => r.json())
       .then((d: { businesses?: { id: number; isDefault?: boolean }[] }) => {
         const list = d.businesses ?? [];

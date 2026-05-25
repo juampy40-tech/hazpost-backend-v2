@@ -1153,6 +1153,7 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
           <OnboardingWizard
             registrationMode={false}
             editMode={true}
+            businessId={editingBusiness.id}
             initialStep={0}
             initialData={{
               companyName: editingBusiness.name || "",
