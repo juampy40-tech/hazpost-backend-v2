@@ -1823,12 +1823,25 @@ def create_app():
 
             safe_name = f"{name_part[:60]}{ext_part}"
 
-            allowed_extensions = {"png", "jpg", "jpeg", "gif", "webp"}
+            allowed_extensions = {
+                "png", "jpg", "jpeg", "gif", "webp",
+                "ttf", "otf", "woff", "woff2",
+            }
+
             allowed_mime_types = {
                 "image/png",
                 "image/jpeg",
                 "image/webp",
                 "image/gif",
+                "font/ttf",
+                "font/otf",
+                "font/woff",
+                "font/woff2",
+                "application/font-woff",
+                "application/font-woff2",
+                "application/x-font-ttf",
+                "application/x-font-otf",
+                "application/octet-stream",
             }
             extension = safe_name.rsplit(".", 1)[-1].lower() if "." in safe_name else ""
 
@@ -1852,7 +1865,12 @@ def create_app():
                 "jpg": "image/jpeg",
                 "jpeg": "image/jpeg",
                 "gif": "image/gif",
-                "webp": "image/webp"
+                "webp": "image/webp",
+
+                "ttf": "font/ttf",
+                "otf": "font/otf",
+                "woff": "font/woff",
+                "woff2": "font/woff2",
             }
 
             content_type = mime_map.get(extension, "application/octet-stream")
