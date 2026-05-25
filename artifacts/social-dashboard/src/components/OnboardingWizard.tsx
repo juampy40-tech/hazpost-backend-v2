@@ -1943,6 +1943,7 @@ async function doNext() {
     secondaryColor: data.secondaryColor || "",
     brandFont: data.brandFont || "",
     brandFontUrl: data.brandFontUrl || "",
+    customFonts: data.customFonts || "[]",
     isDefault: true,
   };
 
