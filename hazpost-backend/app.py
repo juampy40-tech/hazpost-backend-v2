@@ -1222,11 +1222,67 @@ def create_app():
                 if ai_content:
                     parsed = json.loads(ai_content)
 
+                    logo_urls = context.get("logoUrls") or business.get("logoUrls") or []
+                    logo_url = context.get("logoUrl") or business.get("logoUrl") or ""
+
+                    if isinstance(logo_urls, str):
+                        try:
+                            logo_urls = json.loads(logo_urls)
+                        except Exception:
+                            logo_urls = [logo_urls] if logo_urls.strip() else []
+
+                    if not isinstance(logo_urls, list):
+                        logo_urls = []
+
+                    if logo_url:
+                        logo_urls = [logo_url] + [
+                            url for url in logo_urls
+                            if url != logo_url
+                        ]
+
+                    logo_color_data = None
+
+                    for candidate_logo in logo_urls:
+
+                        if candidate_logo.startswith("/storage/"):
+                            candidate_logo = (
+                                "https://app.hazpost.app"
+                                + candidate_logo
+                            )
+
+                        extracted = ColorExtractor.extract(candidate_logo)
+
+                        logger.info(
+                            f"BUSINESS LOGO COLOR DEBUG "
+                            f"url={candidate_logo} "
+                            f"extracted={extracted}"
+                        )
+
+                        if extracted.get("success") and extracted.get("primaryColor"):
+                            logo_color_data = extracted
+                            break
+
                     suggestions = {
                         "description": parsed.get("description"),
                         "audienceDescription": parsed.get("audienceDescription"),
                         "brandTone": parsed.get("brandTone"),
-                        "primaryColor": parsed.get("primaryColor")
+                        "primaryColor": (
+                            logo_color_data.get("primaryColor")
+                            if logo_color_data
+                            else None
+                        ),
+                        "secondaryColor": (
+                            logo_color_data.get("secondaryColor")
+                            if logo_color_data
+                            else None
+                        ),
+                        "palette": logo_color_data.get("palette") if logo_color_data else [],
+                        "colorSource": "logo" if logo_color_data else "none",
+                        "colorConfidence": (
+                            logo_color_data.get("confidence")
+                            if logo_color_data
+                            else "medium"
+                        ),
                     }
 
             except Exception as ai_error:
