@@ -889,3 +889,37 @@ Validado correctamente:
 ✅ build frontend
 ✅ deploy frontend/backend
 ✅ compatibilidad onboarding legacy
+
+---
+
+# Custom Brand Fonts
+
+El onboarding soporta tipografías custom subidas por el usuario.
+
+## Runtime
+
+Step 3 (`OnboardingWizard.tsx`) permite:
+
+- seleccionar Google Fonts,
+- subir fuentes custom,
+- persistir biblioteca de fuentes.
+
+## Persistencia
+
+Las fuentes custom usan:
+
+- `brandFont`
+- `brandFontUrl`
+- `customFonts`
+
+## Regla crítica
+
+`customFonts` representa una biblioteca persistente del negocio y NO debe limpiarse al cambiar entre fuentes catálogo y fuentes custom.
+
+## Validación mínima
+
+- Upload custom font.
+- Save onboarding/business.
+- Reload.
+- Reopen onboarding.
+- Confirmar persistencia de lista custom.

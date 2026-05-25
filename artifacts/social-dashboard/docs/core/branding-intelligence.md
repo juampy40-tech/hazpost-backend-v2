@@ -141,3 +141,48 @@ HazPost debe sentirse como:
 - una agencia premium,
 - un director creativo inteligente,
 - y una plataforma que realmente entiende marcas reales.
+
+---
+
+## Runtime ownership
+
+Branding Intelligence NO es source-of-truth único.
+
+Debe respetar:
+
+- onboarding,
+- business profile,
+- uploads reales,
+- overrides manuales del usuario,
+- persistencia DB,
+- runtime hydration.
+
+La decisión final visual siempre pertenece al negocio.
+
+---
+
+## AI safety rules
+
+La IA visual nunca debe:
+
+- copiar branding de otra marca,
+- replicar identidades famosas,
+- reutilizar palettes entre clientes,
+- generar branding confuso,
+- producir combinaciones ilegibles,
+- romper accesibilidad básica.
+
+---
+
+## Future evolution
+
+Branding Intelligence evolucionará hacia:
+
+- visual DNA memory,
+- style consistency scoring,
+- creative direction AI,
+- cross-post visual coherence,
+- industry-aware branding,
+- trend-aware palettes,
+- premium aesthetic scoring,
+- brand evolution suggestions.

@@ -274,3 +274,26 @@ Objetivo futuro:
 • businesses = metadata operativa
 
 ⚠️ NO migrar todavía hasta estabilizar onboarding.
+
+---
+
+# Custom Fonts Sync
+
+La sincronización de perfil de marca debe incluir:
+
+- `brandFont`
+- `brandFontUrl`
+- `customFonts`
+
+## Riesgo crítico
+
+Persistir solamente `brandFontUrl` rompe la biblioteca de fuentes del negocio.
+
+## Regla
+
+`customFonts` debe hidratarse tanto en:
+
+- onboarding,
+- edición de negocio,
+- bootstrap business profile,
+- runtime `/api/businesses`.
