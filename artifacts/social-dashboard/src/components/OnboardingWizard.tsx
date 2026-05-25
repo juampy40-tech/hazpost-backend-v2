@@ -1187,10 +1187,14 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
       toast({ title: "Fuente subida", description: `${file.name} fue cargada correctamente.` });
     } catch {
       toast({ title: "Error al subir", description: "No se pudo subir la fuente.", variant: "destructive" });
-    } finally {
-      setUploading(false);
+  } finally {
+    setUploading(false);
+
+    if (fontFileRef.current) {
+      fontFileRef.current.value = "";
     }
   }
+}
 
   return (
     <div className="space-y-5">
