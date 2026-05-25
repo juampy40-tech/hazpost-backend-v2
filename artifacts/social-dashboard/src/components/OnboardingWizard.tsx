@@ -1748,8 +1748,13 @@ useEffect(() => {
           subIndustry: data.subIndustry,
           country: data.country,
           city: data.city,
-          logoUrl: data.logoUrl,
-          logoUrls: overrideLogos ?? data.logoUrls,
+          logoUrl: Array.isArray(overrideLogos) && overrideLogos.length > 0
+            ? overrideLogos[0]
+            : data.logoUrl,
+
+          logoUrls: Array.isArray(overrideLogos) && overrideLogos.length > 0
+            ? JSON.stringify(overrideLogos)
+            : data.logoUrls,
         },
       }),
     });
