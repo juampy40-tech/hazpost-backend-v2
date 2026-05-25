@@ -384,3 +384,90 @@ NO hacer:
 - rewrites masivos
 - migración agresiva
 - mover lifecycle crítico prematuramente
+
+---
+
+# BRANDING ASSETS OWNERSHIP
+
+## Frontend owners
+
+- `OnboardingWizard.tsx`
+- `businesses.tsx`
+
+Responsables de:
+
+- custom fonts,
+- branding hydration,
+- visual assets runtime,
+- branding persistence UX,
+- visual onboarding state.
+
+---
+
+## Persistence owners
+
+Endpoints principales:
+
+- `/api/businesses`
+- `/brand-profile`
+
+Responsables de:
+
+- persistencia branding,
+- hydration DB,
+- business visual identity,
+- multi-business isolation.
+
+---
+
+## Branding assets governance
+
+Documento oficial:
+
+- `docs/core/brand-assets-governance.md`
+
+---
+
+## Custom font lifecycle
+
+Documento oficial:
+
+- `docs/flows/brand-font-lifecycle.md`
+
+Runtime validado:
+
+- upload
+- save
+- reload
+- reopen
+- catálogo/custom switching
+- persistent font library
+- business edit flow
+- onboarding hydration
+
+---
+
+## Reglas críticas
+
+`customFonts` representa una biblioteca persistente del negocio.
+
+NO debe:
+
+- depender del estado visual actual,
+- limpiarse al cambiar presets,
+- resetearse por hydration,
+- perderse al editar negocio,
+- ni destruirse durante onboarding.
+
+---
+
+## Riesgos futuros detectados
+
+Pendientes futuros:
+
+- storage orphan cleanup,
+- font delete UX,
+- drag/drop uploads,
+- MIME validation avanzada,
+- quotas por plan,
+- visual font previews premium.

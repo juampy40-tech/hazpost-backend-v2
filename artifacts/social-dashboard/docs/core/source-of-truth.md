@@ -263,6 +263,53 @@ REGLAS:
 • Nunca mezclar branding entre negocios.
 • Nunca usar colores bootstrap/UI accidentales como branding oficial.
 
+============================================================
+BRAND ASSETS SOURCE OF TRUTH
+============================
+
+Documento oficial:
+
+• docs/core/brand-assets-governance.md
+
+Campos oficiales branding assets:
+
+• brandFont
+• brandFontUrl
+• customFonts
+• logoUrl
+• referenceImages
+• primaryColor
+• secondaryColor
+
+============================================================
+CUSTOM FONT GOVERNANCE
+======================
+
+`customFonts` representa la biblioteca persistente de tipografías del negocio.
+
+NO debe limpiarse cuando:
+
+• cambia brandFont,
+• cambia brandFontUrl,
+• se selecciona una fuente catálogo,
+• se reabre onboarding,
+• se refresca frontend,
+• se hidrata business profile.
+
+============================================================
+VISUAL ASSET PERSISTENCE
+========================
+
+Los assets visuales deben sobrevivir:
+
+• reload,
+• refresh,
+• reopen onboarding,
+• business switching,
+• polling,
+• hydration frontend/backend,
+• y edición de negocio.
+
 Branding incorrecto destruye percepción premium.
 
 Es mejor NO sugerir branding que sugerir branding mediocre.
