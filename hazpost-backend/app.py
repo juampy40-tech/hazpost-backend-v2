@@ -1817,7 +1817,11 @@ def create_app():
 
             filename = request.args.get("filename") or f"{uuid.uuid4()}_upload.bin"
             safe_name = secure_filename(filename) or f"{uuid.uuid4()}_upload.bin"
-            safe_name = safe_name[:120]
+
+            name_part, ext_part = os.path.splitext(safe_name)
+            ext_part = ext_part.lower()
+
+            safe_name = f"{name_part[:60]}{ext_part}"
 
             allowed_extensions = {"png", "jpg", "jpeg", "gif", "webp"}
             allowed_mime_types = {
