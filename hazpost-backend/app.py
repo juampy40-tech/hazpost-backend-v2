@@ -1999,7 +1999,8 @@ def create_app():
             logo_color_data = None
 
             for candidate_logo in logo_urls:
-                extracted = ColorExtractor.extract(candidate_logo)
+                extracted = ColorExtractor.extract(candidate_logo) 
+                logger.info(f"LOGO COLOR DEBUG url={candidate_logo} extracted={extracted}")               
 
                 if extracted.get("success") and extracted.get("primaryColor"):
                     logo_color_data = extracted
