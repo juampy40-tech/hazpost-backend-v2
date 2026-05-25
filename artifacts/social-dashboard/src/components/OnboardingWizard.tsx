@@ -1682,12 +1682,16 @@ export function OnboardingWizard({
         prev.brandTone,
 
       primaryColor:
+        suggestions.colorSource === "logo" &&
+        suggestions.colorConfidence !== "low" &&
         typeof suggestions.primaryColor === "string" &&
         /^#[0-9a-fA-F]{6}$/.test(suggestions.primaryColor)
           ? suggestions.primaryColor
           : prev.primaryColor,
 
       secondaryColor:
+        suggestions.colorSource === "logo" &&
+        suggestions.colorConfidence !== "low" &&
         typeof suggestions.secondaryColor === "string" &&
         /^#[0-9a-fA-F]{6}$/.test(suggestions.secondaryColor)
           ? suggestions.secondaryColor
@@ -1720,18 +1724,7 @@ export function OnboardingWizard({
     const endpoint = activeBizId
       ? `${API_BASE}${getAnalyzeEndpoint()}`
       : `${API_BASE}/api/analyze-website`;
-
     console.log("🌐 ANALYZE ENDPOINT", endpoint);
-
-    const effectiveLogos =
-      overrideLogos ??
-      (() => {
-        try {
-          return JSON.parse(data.logoUrls ?? "[]") as string[];
-        } catch {
-          return [];
-        }
-      })();
 
     const res = await fetch(endpoint, {
       method: "POST",
@@ -1748,8 +1741,8 @@ export function OnboardingWizard({
           subIndustry: data.subIndustry,
           country: data.country,
           city: data.city,
-          logoUrl: effectiveLogos[0] ?? data.logoUrl,
-          logoUrls: effectiveLogos,
+          logoUrl: data.logoUrl,
+          logoUrls: overrideLogos ?? data.logoUrls,
         },
       }),
     });
