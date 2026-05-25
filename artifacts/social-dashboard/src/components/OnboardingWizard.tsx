@@ -86,6 +86,7 @@ interface AiSuggestions {
   secondaryColor?: string | null;
   palette?: string[];
   colorSource?: "logo" | "ai_website" | string;
+    colorConfidence?: "low" | "medium" | "high" | string;
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -508,7 +509,17 @@ async function uploadFile(file: File, userId?: string): Promise<string> {
     throw new Error("El backend subió el archivo, pero no devolvió la ruta guardable");
   }
 
-  return objectPath as string;
+  const uploadBody = (await uploadRes.json().catch(() => ({}))) as UploadUrlResponse;
+
+  const finalUrl =
+    uploadBody.publicUrl ||
+    uploadBody.public_url ||
+    uploadBody.url ||
+    body.publicUrl ||
+    body.public_url ||
+    objectPath;
+
+  return finalUrl as string;
 }
 
 // ── Step 1: Empresa ────────────────────────────────────────────────────────────
@@ -1568,14 +1579,17 @@ export function OnboardingWizard({
         suggestions.tone ??
         prev.brandTone,
 
-primaryColor:
-  typeof suggestions.primaryColor === "string" &&
-  /^#[0-9a-fA-F]{6}$/.test(suggestions.primaryColor)
-    ? suggestions.primaryColor
-    : prev.primaryColor,
+      primaryColor:
+        suggestions.colorSource === "logo" &&
+        suggestions.colorConfidence !== "low" &&
+        typeof suggestions.primaryColor === "string" &&
+        /^#[0-9a-fA-F]{6}$/.test(suggestions.primaryColor)
+          ? suggestions.primaryColor
+          : prev.primaryColor,
 
       secondaryColor:
         suggestions.colorSource === "logo" &&
+        suggestions.colorConfidence !== "low" &&
         typeof suggestions.secondaryColor === "string" &&
         /^#[0-9a-fA-F]{6}$/.test(suggestions.secondaryColor)
           ? suggestions.secondaryColor
