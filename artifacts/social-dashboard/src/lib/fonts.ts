@@ -60,3 +60,27 @@ export function getRecommendedFonts(context?: string | null): FontEntry[] {
 
   return keys.map(getFontByKey);
 }
+
+const injectedFonts = new Set<string>();
+
+export function injectCustomFont(fontName?: string | null, fontUrl?: string | null) {
+  if (!fontName || !fontUrl) return;
+
+  const safeName = fontName.replace(/[^a-zA-Z0-9_-]/g, "_");
+  const key = `${safeName}-${fontUrl}`;
+
+  if (injectedFonts.has(key)) return;
+
+  const style = document.createElement("style");
+  style.setAttribute("data-hazpost-font", safeName);
+  style.innerHTML = `
+    @font-face {
+      font-family: "${safeName}";
+      src: url("${fontUrl}");
+      font-display: swap;
+    }
+  `;
+
+  document.head.appendChild(style);
+  injectedFonts.add(key);
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FONT_NAMES } from "@/lib/fonts";
+import { FONT_NAMES, injectCustomFont } from "@/lib/fonts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -237,15 +237,39 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
 
 // ── Font preview ───────────────────────────────────────────────────────────────
 
-function FontPreview({ font, companyName }: { font: string; companyName?: string }) {
+function FontPreview({
+  font,
+  fontUrl,
+  companyName,
+}: {
+  font: string;
+  fontUrl?: string;
+  companyName?: string;
+}) {
   const name = companyName || "Tu empresa";
-  const fontUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font)}&display=swap`;
+  const safeFontName = font.replace(/[^a-zA-Z0-9_-]/g, "_");
+
+  useEffect(() => {
+    if (fontUrl) {
+      injectCustomFont(font, fontUrl);
+    }
+  }, [font, fontUrl]);
+
+  const googleFontUrl = !fontUrl
+    ? `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font)}&display=swap`
+    : "";
+
   return (
     <>
-      <link rel="stylesheet" href={fontUrl} />
+      {!fontUrl && <link rel="stylesheet" href={googleFontUrl} />}
+
       <div
         className="text-2xl font-bold text-foreground bg-black/10 rounded-xl p-4 text-center"
-        style={{ fontFamily: `'${font}', sans-serif` }}
+        style={{
+          fontFamily: fontUrl
+            ? `"${safeFontName}", sans-serif`
+            : `'${font}', sans-serif`,
+        }}
       >
         {name}
       </div>
@@ -1178,7 +1202,11 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
       {/* Font preview */}
       <div className="space-y-2">
         <Label>Vista previa</Label>
-        <FontPreview font={selectedFont} companyName={data.companyName} />
+        <FontPreview
+          font={selectedFont}
+          fontUrl={data.brandFontUrl}
+          companyName={data.companyName}
+        />
         <p className="text-xs text-muted-foreground text-center">{selectedFont}</p>
       </div>
 
