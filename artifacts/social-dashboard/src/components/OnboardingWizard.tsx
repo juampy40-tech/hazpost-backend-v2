@@ -1230,7 +1230,7 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
           {filteredFonts.map(font => (
             <button
               key={font}
-              onClick={() => onChange({ brandFont: font, brandFontUrl: "" })}
+              onClick={() => onChange({ brandFont: font })}
               className={`text-left px-3 py-2 rounded-lg text-sm transition-colors truncate
                 ${selectedFont === font && !data.brandFontUrl
                   ? "bg-primary text-primary-foreground"
