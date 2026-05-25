@@ -40,6 +40,8 @@ class AIBrandAnalyzer:
         """
 
         context = context or {}
+        
+        website_content = (context.get("websiteContent") or "").strip()
 
         return f"""
 Eres un experto en branding y marketing para negocios reales.
@@ -48,11 +50,11 @@ El formulario del usuario tiene PRIORIDAD sobre el website.
 
 DATOS DEL NEGOCIO:
 - Nombre: {context.get("companyName", business.get("companyName") or business.get("name") or "")}
-- Industria: {context.get("industry", business.get("industry") or "")}
-- Subindustria: {context.get("subIndustry", business.get("subIndustry") or "")}
-- Slogan: {context.get("slogan", "")}
-- Ciudad: {context.get("city", business.get("city") or "")}
-- País: {context.get("country", business.get("country") or "")}
+- Industria: {context.get("industry") or business.get("industry") or ""}
+- Subindustria: {context.get("subIndustry") or business.get("subIndustry") or ""}
+- Slogan: {context.get("slogan") or business.get("slogan") or ""}
+- Ciudad: {context.get("city") or business.get("city") or ""}
+- País: {context.get("country") or business.get("country") or ""}
 - Logo principal: {business.get("logoUrl") or ""}
 - Logos adicionales: {business.get("logoUrls") or []}
 - Imágenes referencia: {business.get("referenceImages") or []}
@@ -62,16 +64,20 @@ DATOS DEL NEGOCIO:
 WEBSITE:
 {website}
 
+CONTENIDO REAL EXTRAÍDO DEL SITIO:
+{website_content}
+
 INSTRUCCIONES:
-- Usa el website SOLO como apoyo visual y comercial.
+- Usa principalmente el contenido real extraído del sitio.
+- Detecta qué vende realmente la empresa.
+- Si faltan industria, subindustria, ciudad o país, infiérelos desde el website.
+- NO uses placeholders como [Industria], [Subindustria], [Ciudad], [País] o similares.
+- NO devuelvas frases genéricas.
 - NO redefinas el negocio usando blogs o textos secundarios.
-- NO conviertas el negocio en academia o cursos salvo que el formulario lo indique.
-- Prioriza industria, subindustria, slogan y nombre del negocio.
-- Usa el website principalmente para:
-  - colores
-  - tono visual
-  - productos visibles
-  - estilo de marca
+- NO conviertas el negocio en academia o cursos salvo que el sitio o formulario lo indiquen claramente.
+- Si el sitio habla de alimentos, postres, tortas, helados, tradición, tecnología o experiencia, úsalo.
+- El resultado debe sonar como una marca real, comercial y humana.
+- Máximo 2-3 frases por campo.
 
 Devuelve SOLO JSON válido:
 
@@ -146,18 +152,20 @@ class AIBrandAnalyzer:
 
         context = context or {}
 
+        website_content = (context.get("websiteContent") or "").strip()
+
         return f"""
 Eres un experto en branding y marketing para negocios reales.
 
 El formulario del usuario tiene PRIORIDAD sobre el website.
 
 DATOS DEL NEGOCIO:
-- Nombre: {context.get("companyName", business.get("companyName") or business.get("name") or "")}
-- Industria: {context.get("industry", business.get("industry") or "")}
-- Subindustria: {context.get("subIndustry", business.get("subIndustry") or "")}
-- Slogan: {context.get("slogan", "")}
-- Ciudad: {context.get("city", business.get("city") or "")}
-- País: {context.get("country", business.get("country") or "")}
+- Nombre: {context.get("companyName") or business.get("companyName") or business.get("name") or ""}
+- Industria: {context.get("industry") or business.get("industry") or ""}
+- Subindustria: {context.get("subIndustry") or business.get("subIndustry") or ""}
+- Slogan: {context.get("slogan") or business.get("slogan") or ""}
+- Ciudad: {context.get("city") or business.get("city") or ""}
+- País: {context.get("country") or business.get("country") or ""}
 - Logo principal: {business.get("logoUrl") or ""}
 - Logos adicionales: {business.get("logoUrls") or []}
 - Imágenes referencia: {business.get("referenceImages") or []}
@@ -167,16 +175,20 @@ DATOS DEL NEGOCIO:
 WEBSITE:
 {website}
 
+CONTENIDO REAL EXTRAÍDO DEL SITIO:
+{website_content}
+
 INSTRUCCIONES:
-- Usa el website SOLO como apoyo visual y comercial.
+- Usa principalmente el contenido real extraído del sitio.
+- Detecta qué vende realmente la empresa.
+- Si faltan industria, subindustria, ciudad o país, infiérelos desde el website.
+- NO uses placeholders como [Industria], [Subindustria], [Ciudad], [País] o similares.
+- NO devuelvas frases genéricas.
 - NO redefinas el negocio usando blogs o textos secundarios.
-- NO conviertas el negocio en academia o cursos salvo que el formulario lo indique.
-- Prioriza industria, subindustria, slogan y nombre del negocio.
-- Usa el website principalmente para:
-  - colores
-  - tono visual
-  - productos visibles
-  - estilo de marca
+- NO conviertas el negocio en academia o cursos salvo que el sitio o formulario lo indiquen claramente.
+- Si el sitio habla de alimentos, postres, tortas, helados, tradición, tecnología o experiencia, úsalo.
+- El resultado debe sonar como una marca real, comercial y humana.
+- Máximo 2-3 frases por campo.
 
 Devuelve SOLO JSON válido:
 

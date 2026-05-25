@@ -1187,6 +1187,14 @@ def create_app():
             try:
                 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+                scraped_data = WebsiteAnalysisService.scrape_website(website)
+                website_content = scraped_data.get("content", "")
+
+                context = {
+                    **context,
+                    "websiteContent": website_content,
+                }
+
                 prompt = AIBrandAnalyzer.build_brand_analysis_prompt(
                     website=website,
                     business=business,
