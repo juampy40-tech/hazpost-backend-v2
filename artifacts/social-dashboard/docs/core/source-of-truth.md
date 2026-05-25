@@ -237,3 +237,32 @@ NO remover sin validar:
 • approval queue,
 • branding,
 • y hydration completa.
+
+============================================================
+BRANDING SOURCE OF TRUTH
+========================
+
+Documento oficial:
+
+• docs/core/branding-intelligence.md
+
+Prioridad visual oficial:
+
+1. Uploaded logo
+2. Referencias visuales reales
+3. Website branding
+4. IA contextual
+5. Defaults neutros
+
+REGLAS:
+
+• Uploaded logo tiene prioridad alta.
+• Website colors son heurísticos.
+• AI-generated HEX es fallback.
+• Nunca persistir branding mediocre automáticamente.
+• Nunca mezclar branding entre negocios.
+• Nunca usar colores bootstrap/UI accidentales como branding oficial.
+
+Branding incorrecto destruye percepción premium.
+
+Es mejor NO sugerir branding que sugerir branding mediocre.

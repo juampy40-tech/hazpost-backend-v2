@@ -455,6 +455,26 @@ Nunca:
 Solo aprender patrones abstractos y anónimos.
 
 ============================================================
+AI AGENTS GOVERNANCE
+====================
+
+HazPost utiliza agentes IA especializados orquestados por un agente director.
+
+La source-of-truth oficial de esta arquitectura es:
+
+• docs/core/ai-agents-architecture.md
+
+Reglas clave:
+
+• El usuario NO administra agentes manualmente.
+• Los agentes NO son microservicios independientes.
+• Los agentes NO reemplazan arquitectura centralizada.
+• Los agentes NO duplican lógica ni crean múltiples source-of-truth.
+• Todos los agentes heredan la filosofía global HazPost: UX premium, SaaS, CRO, seguridad, escalabilidad e IA aplicada a negocios reales.
+
+HazPost debe sentirse como una sola inteligencia organizada, no como múltiples bots separados.
+
+============================================================
 MULTI-BUSINESS Y MULTIUSUARIO
 =============================
 
