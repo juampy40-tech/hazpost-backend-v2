@@ -1724,7 +1724,18 @@ export function OnboardingWizard({
     const endpoint = activeBizId
       ? `${API_BASE}${getAnalyzeEndpoint()}`
       : `${API_BASE}/api/analyze-website`;
+
     console.log("🌐 ANALYZE ENDPOINT", endpoint);
+
+    const effectiveLogos =
+      overrideLogos ??
+      (() => {
+        try {
+          return JSON.parse(data.logoUrls ?? "[]") as string[];
+        } catch {
+          return [];
+        }
+      })();
 
     const res = await fetch(endpoint, {
       method: "POST",
@@ -1741,8 +1752,8 @@ export function OnboardingWizard({
           subIndustry: data.subIndustry,
           country: data.country,
           city: data.city,
-          logoUrl: data.logoUrl,
-          logoUrls: overrideLogos ?? data.logoUrls,
+          logoUrl: effectiveLogos[0] ?? data.logoUrl,
+          logoUrls: effectiveLogos,
         },
       }),
     });
