@@ -2,6 +2,14 @@
 STORAGE URL NORMALIZATION
 =========================
 
+## Status
+
+ACTIVE RUNTIME
+
+## Last validated
+
+2026-05-25
+
 Archivo relacionado:
 
 • resolveStorageObjectUrl.ts
@@ -120,4 +128,65 @@ resolveStorageObjectUrl() funciona como:
 
 • adapter layer,
 • compatibility layer,
-• y boundary de rendering visual persistente.
+• y boundary oficial de rendering visual persistente.
+
+---
+
+# Logo Color Extraction
+
+## Regla oficial
+
+La prioridad visual del perfil de marca es:
+
+1. Edición manual del usuario.
+2. Logo subido.
+3. Website analysis.
+4. IA fallback.
+5. Defaults neutros.
+
+## Reglas críticas
+
+- El website NO debe sobrescribir colores detectados desde logo.
+- La IA NO debe inventar colores si no hay confianza.
+- Si colorConfidence = low, no hidratar colores.
+- Si el usuario edita manualmente, su decisión manda.
+- Upload exitoso no depende de extracción exitosa.
+- Filename original del usuario nunca debe romper uploads ni previews.
+- Si falla extracción, onboarding debe seguir funcionando.
+
+## Estado validado
+
+Validado con:
+
+- Ventolini
+- Formula 1
+- Pepsi
+
+Resultado:
+
+- upload OK
+- preview OK
+- filename largo OK
+- extracción por logo OK
+- fallback manual OK
+
+============================================================
+VALIDACIÓN REAL
+============================
+
+Casos reales validados:
+
+• Ventolini
+• Formula 1
+• Pepsi
+
+Escenarios validados:
+
+• filename largo,
+• upload persistente,
+• preview hydration,
+• storage normalization,
+• extracción colores desde logo,
+• fallback seguro,
+• onboarding resiliente,
+• y compatibilidad legacy URLs.
