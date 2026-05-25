@@ -156,6 +156,103 @@ FONT_CATALOG = {
         "label": "Anton",
         "category": "impact",
     },
+    "inter": {
+        "file": "Inter-ExtraBold.ttf",
+        "scale": 1.0,
+        "label": "Inter",
+        "category": "clean",
+    },
+
+    "poppins": {
+        "file": "Poppins-Bold.woff2",
+        "scale": 1.0,
+        "label": "Poppins",
+        "category": "clean",
+    },
+
+    "raleway": {
+        "file": "Raleway-Bold.woff2",
+        "scale": 1.0,
+        "label": "Raleway",
+        "category": "clean",
+    },
+
+    "lato": {
+        "file": "Lato-Bold.woff2",
+        "scale": 1.0,
+        "label": "Lato",
+        "category": "clean",
+    },
+
+    "nunito": {
+        "file": "Nunito-Bold.woff2",
+        "scale": 1.0,
+        "label": "Nunito",
+        "category": "clean",
+    },
+
+    "ubuntu": {
+        "file": "Ubuntu-Bold.woff2",
+        "scale": 1.0,
+        "label": "Ubuntu",
+        "category": "tech",
+    },
+
+    "exo2": {
+        "file": "Exo2-Bold.woff2",
+        "scale": 0.96,
+        "label": "Exo 2",
+        "category": "tech",
+    },
+
+    "oswald": {
+        "file": "Oswald-Bold.ttf",
+        "scale": 0.92,
+        "label": "Oswald",
+        "category": "impact",
+    },
+
+    "fjalla": {
+        "file": "FjallaOne-Regular.woff2",
+        "scale": 0.95,
+        "label": "Fjalla One",
+        "category": "impact",
+    },
+
+    "barlow": {
+        "file": "BarlowCondensed-Bold.woff2",
+        "scale": 0.95,
+        "label": "Barlow Condensed",
+        "category": "display",
+    },
+
+    "playfair": {
+        "file": "PlayfairDisplay-Bold.ttf",
+        "scale": 0.90,
+        "label": "Playfair Display",
+        "category": "luxury",
+    },
+
+    "cinzel": {
+        "file": "Cinzel-Bold.woff2",
+        "scale": 0.92,
+        "label": "Cinzel",
+        "category": "luxury",
+    },
+
+    "pacifico": {
+        "file": "Pacifico-Regular.woff2",
+        "scale": 0.88,
+        "label": "Pacifico",
+        "category": "creative",
+    },
+
+    "dancingscript": {
+        "file": "DancingScript-Bold.woff2",
+        "scale": 0.88,
+        "label": "Dancing Script",
+        "category": "creative",
+    },    
 }
 
 SIZE_SCALE = {
