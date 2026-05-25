@@ -13,6 +13,7 @@ export interface BrandProfile {
   businessDescription?: string;
   brandFont?: string;
   brandFontUrl?: string;
+  customFonts?: string;
   audienceDescription?: string;
   brandTone?: string;
   referenceImages?: string;
