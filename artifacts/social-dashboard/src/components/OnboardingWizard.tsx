@@ -68,6 +68,7 @@ interface BrandProfile {
 
   brandFont?: string;
   brandFontUrl?: string;
+  customFonts?: string;
 
   audienceDescription?: string;
   brandTone?: string;
@@ -1171,6 +1172,19 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
 
   const selectedFont = data.brandFont ?? "Inter";
 
+  const customFonts = (() => {
+    try {
+      const parsed = JSON.parse(data.customFonts || "[]");
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  })();
+
+  const isUsingCustomFont =
+    !!data.brandFontUrl &&
+    customFonts.some((f: any) => f.url === data.brandFontUrl);
+
   async function handleFontUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -1183,7 +1197,22 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
     setUploading(true);
     try {
       const objectPath = await uploadFile(file, userId);
-      onChange({ brandFontUrl: objectPath, brandFont: file.name.replace(/\.(ttf|otf|woff2)$/i, "") });
+      
+      const fontName = file.name.replace(/\.(ttf|otf|woff2)$/i, "");
+
+      const nextFonts = [
+        ...customFonts.filter((f: any) => f.url !== objectPath),
+        {
+          name: fontName,
+          url: objectPath,
+        },
+      ];
+
+      onChange({
+        brandFontUrl: objectPath,
+        brandFont: fontName,
+        customFonts: JSON.stringify(nextFonts),
+      });
       toast({ title: "Fuente subida", description: `${file.name} fue cargada correctamente.` });
     } catch {
       toast({ title: "Error al subir", description: "No se pudo subir la fuente.", variant: "destructive" });
@@ -1230,9 +1259,13 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
           {filteredFonts.map(font => (
             <button
               key={font}
-              onClick={() => onChange({ brandFont: font })}
+              onClick={() =>
+                onChange({
+                  brandFont: font,
+                })
+              }
               className={`text-left px-3 py-2 rounded-lg text-sm transition-colors truncate
-                ${selectedFont === font && !data.brandFontUrl
+                ${selectedFont === font && !isUsingCustomFont
                   ? "bg-primary text-primary-foreground"
                   : "hover:bg-white/10 text-foreground"
                 }`}
@@ -1252,13 +1285,19 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
           <Type className="w-4 h-4 text-primary" />
           <span className="text-sm font-medium">Subir mi propia fuente</span>
         </div>
-        <p className="text-xs text-muted-foreground">Si tu marca tiene una tipografía propia, súbela aquí. Formatos aceptados: .ttf, .otf, .woff2</p>
+
+        <p className="text-xs text-muted-foreground">
+          Si tu marca tiene una tipografía propia, súbela aquí. Formatos aceptados: .ttf, .otf, .woff2
+        </p>
+
         <input ref={fontFileRef} type="file" accept=".ttf,.otf,.woff2" onChange={handleFontUpload} className="hidden" />
+
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={() => fontFileRef.current?.click()} disabled={uploading}>
             {uploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
             {uploading ? "Subiendo..." : "Seleccionar archivo"}
           </Button>
+
           {data.brandFontUrl && (
             <span className="text-xs text-primary flex items-center gap-1">
               <Check className="w-3 h-3" />
@@ -1267,6 +1306,37 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
           )}
         </div>
       </div>
+
+      {customFonts.length > 0 && (
+        <div className="space-y-2">
+          <Label>Mis fuentes subidas</Label>
+
+          <div className="grid grid-cols-1 gap-2 rounded-xl border border-border bg-black/10 p-2">
+            {customFonts.map((font: any) => (
+              <button
+                key={font.url}
+                type="button"
+                onClick={() =>
+                  onChange({
+                    brandFont: font.name,
+                    brandFontUrl: font.url,
+                  })
+                }
+                className={`flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                  data.brandFontUrl === font.url
+                    ? "bg-primary text-primary-foreground"
+                    : "hover:bg-white/10 text-foreground"
+                }`}
+              >
+                <span className="truncate">{font.name}</span>
+                {data.brandFontUrl === font.url && (
+                  <Check className="h-4 w-4 shrink-0" />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
