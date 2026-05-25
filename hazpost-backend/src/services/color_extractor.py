@@ -158,20 +158,45 @@ class ColorExtractor:
             for rgb, _count in ranked:
                 hex_color = ColorExtractor._rgb_to_hex(rgb)
 
-                if hex_color not in palette:
+                # Evitar colores demasiado parecidos en la paleta
+                is_too_similar = False
+                for existing_hex in palette:
+                    existing_rgb = tuple(
+                        int(existing_hex[i:i + 2], 16)
+                        for i in (1, 3, 5)
+                    )
+
+                    distance = sum(
+                        abs(rgb[index] - existing_rgb[index])
+                        for index in range(3)
+                    )
+
+                    if distance < 80:
+                        is_too_similar = True
+                        break
+
+                if not is_too_similar:
                     palette.append(hex_color)
 
                 if len(palette) >= 5:
                     break
 
             primary = palette[0] if palette else None
-            secondary = palette[1] if len(palette) > 1 else "#FFFFFF"
+            secondary = palette[1] if len(palette) > 1 else None
+
+            confidence = "low"
+
+            if len(palette) >= 3:
+                confidence = "high"
+            elif len(palette) >= 1:
+                confidence = "medium"
 
             return {
                 "success": bool(primary),
                 "primaryColor": primary,
                 "secondaryColor": secondary,
                 "palette": palette,
+                "confidence": confidence,
                 "source": "logo",
             }
 
