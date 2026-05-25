@@ -2104,10 +2104,15 @@ def create_app():
                         "secondaryColor": (
                             logo_color_data.get("secondaryColor")
                             if logo_color_data and logo_color_data.get("secondaryColor")
-                            else "#ffffff"
+                            else None
                         ),
                         "palette": logo_color_data.get("palette") if logo_color_data else [],
                         "colorSource": "logo" if logo_color_data else "ai_website",
+                        "colorConfidence": (
+                            logo_color_data.get("confidence")
+                            if logo_color_data
+                            else "medium"
+                        ),
                     }
 
             except Exception:
@@ -2134,6 +2139,7 @@ def create_app():
                 "secondaryColor": suggestions.get("secondaryColor"),
                 "palette": suggestions.get("palette", []),
                 "colorSource": suggestions.get("colorSource", "ai_website"),
+                "colorConfidence": suggestions.get("colorConfidence", "low"),
             })
 
         except Exception as e:
