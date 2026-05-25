@@ -366,6 +366,8 @@ def _business_row_to_dict(row):
         "primaryColor": row.get("primary_color"),
         "secondaryColor": row.get("secondary_color"),
         "website": row.get("website"),
+        "brandFont": data.get("brandFont"),
+        "brandFontUrl": data.get("brandFontUrl"),
         "isDefault": bool(row.get("is_default")),
         "createdAt": row.get("created_at").isoformat() if row.get("created_at") else None,
         "updatedAt": row.get("updated_at").isoformat() if row.get("updated_at") else None,
