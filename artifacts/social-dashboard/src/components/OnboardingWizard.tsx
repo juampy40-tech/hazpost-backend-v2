@@ -1753,8 +1753,14 @@ useEffect(() => {
             : data.logoUrl,
 
           logoUrls: Array.isArray(overrideLogos) && overrideLogos.length > 0
-            ? JSON.stringify(overrideLogos)
-            : data.logoUrls,
+            ? overrideLogos
+            : (() => {
+                try {
+                  return JSON.parse(data.logoUrls ?? "[]");
+                } catch {
+                  return [];
+                }
+              })(),
         },
       }),
     });
