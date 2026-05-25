@@ -2099,7 +2099,7 @@ def create_app():
                         "primaryColor": (
                             logo_color_data.get("primaryColor")
                             if logo_color_data and logo_color_data.get("primaryColor")
-                            else ai_primary_color
+                            else None
                         ),
                         "secondaryColor": (
                             logo_color_data.get("secondaryColor")
@@ -2107,7 +2107,7 @@ def create_app():
                             else None
                         ),
                         "palette": logo_color_data.get("palette") if logo_color_data else [],
-                        "colorSource": "logo" if logo_color_data else "ai_website",
+                        "colorSource": "logo" if logo_color_data else "none",
                         "colorConfidence": (
                             logo_color_data.get("confidence")
                             if logo_color_data
