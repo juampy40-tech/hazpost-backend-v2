@@ -838,6 +838,8 @@ def create_app():
                 "referenceImages",
                 "primaryColor",
                 "secondaryColor",
+                "brandFont",
+                "brandFontUrl",
                 "website",
                 "onboardingStep",
                 "onboardingCompleted",
