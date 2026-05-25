@@ -1184,7 +1184,7 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
 
       {/* Font selector */}
       <div className="space-y-2">
-        <Label>Buscar fuente de Google Fonts (+50 disponibles)</Label>
+        <Label>Catálogo premium HazPost</Label>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
@@ -1230,7 +1230,7 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
           {data.brandFontUrl && (
             <span className="text-xs text-primary flex items-center gap-1">
               <Check className="w-3 h-3" />
-              Fuente personalizada: {data.brandFont}
+              Fuente personalizada lista: {data.brandFont}
             </span>
           )}
         </div>
@@ -1839,6 +1839,8 @@ async function doNext() {
     logoUrl: data.logoUrl || "",
     primaryColor: finalPrimaryColor,
     secondaryColor: data.secondaryColor || "",
+    brandFont: data.brandFont || "",
+    brandFontUrl: data.brandFontUrl || "",
     isDefault: true,
   };
 
@@ -1863,6 +1865,8 @@ async function doNext() {
     logoUrl: data.logoUrl || "",
     primaryColor: finalPrimaryColor,
     secondaryColor: data.secondaryColor || "",
+    brandFont: data.brandFont || "",
+    brandFontUrl: data.brandFontUrl || "",
     onboardingStep: 3,
     onboardingCompleted: true,
   };
