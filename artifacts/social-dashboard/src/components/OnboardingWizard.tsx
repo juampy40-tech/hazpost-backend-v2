@@ -1682,16 +1682,12 @@ export function OnboardingWizard({
         prev.brandTone,
 
       primaryColor:
-        suggestions.colorSource === "logo" &&
-        suggestions.colorConfidence !== "low" &&
         typeof suggestions.primaryColor === "string" &&
         /^#[0-9a-fA-F]{6}$/.test(suggestions.primaryColor)
           ? suggestions.primaryColor
           : prev.primaryColor,
 
       secondaryColor:
-        suggestions.colorSource === "logo" &&
-        suggestions.colorConfidence !== "low" &&
         typeof suggestions.secondaryColor === "string" &&
         /^#[0-9a-fA-F]{6}$/.test(suggestions.secondaryColor)
           ? suggestions.secondaryColor
