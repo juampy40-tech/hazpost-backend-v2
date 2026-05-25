@@ -998,6 +998,7 @@ function Step2({
         HazPost encontró colores que coinciden con tu marca:{" "}
         <span className="font-mono text-primary">
           {aiSuggestions.primaryColor}
+          {aiSuggestions.secondaryColor && ` · ${aiSuggestions.secondaryColor}`}
         </span>
       </p>
     </div>
@@ -1008,10 +1009,11 @@ function Step2({
   size="sm"
   className="shrink-0 h-7 text-xs border-primary/40 text-primary hover:bg-primary/10"
   onClick={async () => {
-    const value = aiSuggestions.primaryColor!;
-
     // 1. UI inmediata
-    onChange({ primaryColor: value });
+    onChange({
+      primaryColor: aiSuggestions.primaryColor || data.primaryColor,
+      secondaryColor: aiSuggestions.secondaryColor || data.secondaryColor,
+    });
 
     // 2. Quitar sugerencia
     onDismissSuggestion?.("primaryColor");
@@ -1022,7 +1024,10 @@ function Step2({
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ primaryColor: value }),
+        body: JSON.stringify({
+          primaryColor: aiSuggestions.primaryColor || data.primaryColor,
+          secondaryColor: aiSuggestions.secondaryColor || data.secondaryColor,
+        }),
       });
     } catch {
       // silencioso
@@ -1666,10 +1671,17 @@ useEffect(() => {
   function handleAiAnalysis(suggestions: AiSuggestions) {
     setAiSuggestions({
       ...suggestions,
+
       primaryColor:
         typeof suggestions.primaryColor === "string" &&
         /^#[0-9a-fA-F]{6}$/.test(suggestions.primaryColor)
           ? suggestions.primaryColor
+          : null,
+
+      secondaryColor:
+        typeof suggestions.secondaryColor === "string" &&
+        /^#[0-9a-fA-F]{6}$/.test(suggestions.secondaryColor)
+          ? suggestions.secondaryColor
           : null,
     });
 
