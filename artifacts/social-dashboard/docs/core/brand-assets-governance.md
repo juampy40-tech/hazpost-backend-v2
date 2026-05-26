@@ -76,3 +76,26 @@ uploaded logo
 → website analysis
 → AI fallback
 → defaults
+```
+
+---
+
+## Custom Fonts
+
+Campos:
+
+- `brandFont`
+- `brandFontUrl`
+- `customFonts`
+
+Storage:
+
+- Cloudflare R2
+
+IMPORTANTE:
+
+• Custom fonts are stored in Cloudflare R2.
+• Browser rendering requires valid CORS configuration.
+• `customFonts` must persist alongside `brandFontUrl`.
+• Frontend hydration depends on `customFonts`.
+• Preview runtime depends on successful font injection.

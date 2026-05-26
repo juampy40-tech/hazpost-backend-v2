@@ -297,3 +297,224 @@ Persistir solamente `brandFontUrl` rompe la biblioteca de fuentes del negocio.
 - edición de negocio,
 - bootstrap business profile,
 - runtime `/api/businesses`.
+
+============================================================
+CUSTOM FONTS RUNTIME
+============================================================
+
+Archivos relacionados:
+
+• OnboardingWizard.tsx
+• businesses.tsx
+• src/lib/fonts.ts
+• image_variants.py
+• businessesTable
+• brand_profiles
+• Cloudflare R2
+
+============================================================
+OBJETIVO
+============================================================
+
+Permitir:
+
+• tipografías premium por negocio,
+• branding visual consistente,
+• previews reales,
+• persistencia correcta,
+• render estable frontend,
+• aislamiento multi-business,
+• y reutilización futura para generación IA.
+
+============================================================
+SOURCE OF TRUTH
+============================================================
+
+Brand profile debe persistir:
+
+• brandFont
+• brandFontUrl
+• customFonts
+
+IMPORTANTE:
+
+`brandFontUrl` SOLO NO es suficiente.
+
+La biblioteca completa de fuentes debe persistirse en:
+
+• businesses
+• brand_profiles
+
+para permitir:
+
+• rehidratación correcta,
+• edición futura,
+• previews correctos,
+• reutilización runtime,
+• y render consistente.
+
+============================================================
+FLUJO OFICIAL
+============================================================
+
+Lifecycle actual:
+
+1. usuario selecciona fuente catálogo
+o
+2. usuario sube fuente custom
+
+↓
+
+3. archivo se guarda en Cloudflare R2
+
+↓
+
+4. frontend guarda:
+
+• brandFont
+• brandFontUrl
+• customFonts
+
+↓
+
+5. onboarding preview hidrata fuente
+
+↓
+
+6. edición futura rehidrata correctamente
+
+============================================================
+RUNTIME FRONTEND
+============================================================
+
+Frontend utiliza:
+
+• injectCustomFont()
+• resolveStorageUrl()
+• FontPreview
+
+Objetivo:
+
+• cargar dinámicamente fuentes custom,
+• evitar colisiones entre nombres,
+• soportar múltiples negocios,
+• permitir previews reales.
+
+============================================================
+BUG HISTÓRICO DETECTADO
+============================================================
+
+Síntomas observados:
+
+• preview no cambiaba,
+• fuente incorrecta aparecía seleccionada,
+• Fjalla One reaparecía,
+• onboarding perdía fuente real,
+• custom fonts no rehidrataban,
+• runtime mezclaba nombres.
+
+============================================================
+ROOT CAUSE DETECTADA
+============================================================
+
+Problemas detectados:
+
+1. customFonts no hidrataba correctamente
+2. brandFontUrl persistía sin customFonts
+3. safeFontName no era estable
+4. R2 no tenía CORS configurado
+5. preview runtime usaba nombres inconsistentes
+
+Resultado:
+
+• navegador cargaba fuente,
+• pero React renderizaba otra,
+• o fallback default.
+
+============================================================
+FIXES APLICADOS
+============================================================
+
+Se validó:
+
+✅ persistencia `customFonts`
+✅ hydration en businesses.tsx
+✅ hydration onboarding
+✅ runtime safeFontName
+✅ injectCustomFont()
+✅ resolveStorageUrl()
+✅ Cloudflare R2 CORS
+✅ preview runtime funcional
+✅ multi-font runtime estable
+
+============================================================
+CORS R2
+============================================================
+
+Cloudflare R2 requiere CORS válido para renderizar fuentes custom.
+
+Configuración validada:
+
+• app.hazpost.app
+• hazpost.app
+• www.hazpost.app
+• hazpost.com
+• www.hazpost.com
+
+Métodos:
+
+• GET
+• HEAD
+
+============================================================
+REGLAS IMPORTANTES
+============================================================
+
+NO:
+
+• persistir solo brandFontUrl
+• perder customFonts
+• usar nombres inconsistentes
+• asumir fuentes catálogo
+• romper hydration
+• comentar injectCustomFont()
+
+SIEMPRE:
+
+• persistir customFonts
+• validar R2 CORS
+• usar safeFontName estable
+• hidratar edición correctamente
+• validar preview runtime
+• validar refresh/reload
+• validar multi-business isolation
+
+============================================================
+VALIDACIÓN OBLIGATORIA
+============================================================
+
+Siempre validar:
+
+• preview cambia visualmente
+• reload mantiene fuente
+• editar negocio mantiene fuente
+• Network carga .woff/.ttf
+• Status 200 OK
+• sin CORS errors
+• hydration correcta
+• multiusuario aislado
+• brand profile consistente
+
+============================================================
+ESTADO ACTUAL
+============================================================
+
+Estado validado:
+
+✅ custom fonts funcionando
+✅ preview runtime funcionando
+✅ R2 CORS funcionando
+✅ onboarding hydration funcionando
+✅ edición funcionando
+✅ safe font runtime estable
+✅ reload persistente funcionando

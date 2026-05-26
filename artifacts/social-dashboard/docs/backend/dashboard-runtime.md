@@ -209,3 +209,32 @@ Toda modificación debe:
 • validar runtime real,
 • respetar source of truth,
 • y mantener aislamiento multi-business.
+
+============================================================
+CUSTOM FONT RUNTIME
+============================================================
+
+Custom font rendering depende de:
+
+• Cloudflare R2 availability
+• valid CORS configuration
+• `customFonts` hydration
+• `injectCustomFont()`
+• `resolveStorageUrl()`
+
+Runtime validation requiere:
+
+• Network → Font requests
+• Status 200 OK
+• no CORS errors
+• preview runtime validation
+• reload persistence validation
+
+IMPORTANTE:
+
+Visual preview puede fallar aunque el archivo exista cuando:
+
+• R2 CORS es inválido
+• `customFonts` falta
+• frontend hydration falla
+• safe font names son inestables
