@@ -66,7 +66,8 @@ const injectedFonts = new Set<string>();
 export function injectCustomFont(fontName?: string | null, fontUrl?: string | null) {
   if (!fontName || !fontUrl) return;
 
-  const safeName = fontName.replace(/[^a-zA-Z0-9_-]/g, "_");
+  const urlKey = btoa(fontUrl).replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 16);
+  const safeName = `${fontName.replace(/[^a-zA-Z0-9_-]/g, "_")}_${urlKey}`;
   const key = `${safeName}-${fontUrl}`;
 
   if (injectedFonts.has(key)) return;
