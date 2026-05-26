@@ -239,6 +239,88 @@ Lifecycle validado:
 3. logo color puede reemplazar website color.
 4. frontend hidrata primaryColor/secondaryColor.
 5. business profile guarda color final.
+
+---
+
+## Logo Color Analysis Lifecycle Ownership
+
+Documento oficial:
+
+- `docs/flows/logo-color-analysis-lifecycle.md`
+
+Ownership actual:
+
+### Frontend owner
+
+- `artifacts/social-dashboard/src/components/OnboardingWizard.tsx`
+
+Responsable de:
+
+- AI suggestions hydration,
+- logo upload lifecycle,
+- onboarding create/edit consistency,
+- color apply UX,
+- branding visual sync.
+
+---
+
+### Backend owner
+
+- `hazpost-backend/app.py`
+- `analyze_business_website()`
+
+Responsable de:
+
+- website analysis,
+- AI textual analysis,
+- ColorExtractor orchestration,
+- palette extraction,
+- branding governance.
+
+---
+
+### Color extraction owner
+
+- `src/services/color_extractor.py`
+
+Responsable de:
+
+- primaryColor extraction,
+- secondaryColor extraction,
+- palette generation,
+- transparent PNG handling,
+- anti-checkerboard filtering,
+- logo-first branding governance.
+
+---
+
+## Runtime rules
+
+Reglas críticas:
+
+- Uploaded logo SIEMPRE manda sobre website colors.
+- AI NO debe inventar colores si existe logo válido.
+- Create/edit onboarding deben compartir el mismo lifecycle.
+- Frontend SIEMPRE debe hidratar:
+  - primaryColor
+  - secondaryColor
+  - palette
+  - colorSource
+  - colorConfidence
+- Nunca duplicar branding source-of-truth.
+- Nunca mezclar branding entre negocios.
+
+---
+
+## Runtime fixes aplicados
+
+Commits relacionados:
+
+- `2370807` Fix logo analysis lifecycle consistency
+- `05a0fad` Fix business logo color extraction lifecycle
+- `5f370b9` Improve onboarding AI suggestion UX
+- `64285a7` Fix AI suggestion hydration for brand colors
+
 ---
 
 # ✅ SAFE EXTRACTION AREAS
