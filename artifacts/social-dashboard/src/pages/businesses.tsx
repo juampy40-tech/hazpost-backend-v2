@@ -945,7 +945,26 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
     secondaryColor: profile.secondaryColor || "",
     website: profile.website || "",
     logoUrl: profile.logoUrl || "",
-    brandFont: profile.brandFont || "poppins",
+    brandFont: (() => {
+      try {
+        const customFonts = JSON.parse(profile.customFonts || "[]");
+
+        if (profile.brandFontUrl) {
+          const matched = customFonts.find(
+            (f: any) => f.url === profile.brandFontUrl
+          );
+
+          if (matched?.name) {
+            return matched.name;
+          }
+        }
+
+        return profile.brandFont || "poppins";
+      } catch {
+        return profile.brandFont || "poppins";
+      }
+    })(),
+
     brandFontUrl: profile.brandFontUrl || "",
     customFonts: profile.customFonts || "[]",
     referenceImages: (() => {
@@ -1167,7 +1186,25 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
               audienceDescription: editingBusiness.audienceDescription || "",
               brandTone: editingBusiness.brandTone || "",
               primaryColor: editingBusiness.primaryColor || "",
-              brandFont: editingBusiness.brandFont || "poppins",
+              brandFont: (() => {
+                try {
+                  const customFonts = JSON.parse(editingBusiness.customFonts || "[]");
+
+                  if (editingBusiness.brandFontUrl) {
+                    const matched = customFonts.find(
+                      (f: any) => f.url === editingBusiness.brandFontUrl
+                    );
+
+                    if (matched?.name) {
+                      return matched.name;
+                    }
+                  }
+
+                  return editingBusiness.brandFont || "poppins";
+                } catch {
+                  return editingBusiness.brandFont || "poppins";
+                }
+              })(),
               brandFontUrl: editingBusiness.brandFontUrl || "",
               customFonts: editingBusiness.customFonts || "[]",
               secondaryColor: editingBusiness.secondaryColor || "",
