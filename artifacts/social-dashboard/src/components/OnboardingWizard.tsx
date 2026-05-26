@@ -1782,7 +1782,20 @@ useEffect(() => {
       return;
     }
 
-    const suggestions = (await res.json()) as AiSuggestions;
+    const body = await res.json();
+
+    const suggestions: AiSuggestions = {
+      ...(body.suggestions ?? {}),
+      description: body.description ?? body.suggestions?.description ?? null,
+      audience: body.audience ?? body.suggestions?.audienceDescription ?? null,
+      tone: body.tone ?? body.suggestions?.brandTone ?? null,
+      primaryColor: body.primaryColor ?? body.suggestions?.primaryColor ?? null,
+      secondaryColor: body.secondaryColor ?? body.suggestions?.secondaryColor ?? null,
+      palette: body.palette ?? body.suggestions?.palette ?? [],
+      colorSource: body.colorSource ?? body.suggestions?.colorSource ?? null,
+      colorConfidence: body.colorConfidence ?? body.suggestions?.colorConfidence ?? null,
+    };
+
     console.log("✅ AI SUGGESTIONS", suggestions);
 
     if (
