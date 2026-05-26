@@ -252,7 +252,7 @@ function FontPreview({
 
   useEffect(() => {
     if (fontUrl) {
-      injectCustomFont(font, fontUrl);
+      injectCustomFont(font, resolveStorageUrl(fontUrl));
     }
   }, [font, fontUrl]);
 
@@ -1240,11 +1240,12 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
       {/* Font preview */}
       <div className="space-y-2">
         <Label>Vista previa</Label>
-        <FontPreview
-          font={selectedFont}
-          fontUrl={data.brandFontUrl}
-          companyName={data.companyName}
-        />
+          <FontPreview
+            key={`${selectedFont}-${data.brandFontUrl || "catalog"}`}
+            font={selectedFont}
+            fontUrl={data.brandFontUrl}
+            companyName={data.companyName}
+          />
         <p className="text-xs text-muted-foreground text-center">{selectedFont}</p>
       </div>
 
