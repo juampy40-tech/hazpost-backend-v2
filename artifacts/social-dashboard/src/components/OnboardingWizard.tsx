@@ -248,14 +248,15 @@ function FontPreview({
   companyName?: string;
 }) {
   const name = companyName || "Tu empresa";
-  const urlKey = fontUrl ? btoa(fontUrl).replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 16) : "";
+  const resolvedFontUrl = fontUrl ? resolveStorageUrl(fontUrl) : "";
+  const urlKey = resolvedFontUrl ? btoa(resolvedFontUrl).replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 16) : "";
   const safeFontName = fontUrl
     ? `${font.replace(/[^a-zA-Z0-9_-]/g, "_")}_${urlKey}`
     : font.replace(/[^a-zA-Z0-9_-]/g, "_");
 
   useEffect(() => {
     if (fontUrl) {
-      injectCustomFont(font, resolveStorageUrl(fontUrl));
+      injectCustomFont(font, resolvedFontUrl);
     }
   }, [font, fontUrl]);
 
