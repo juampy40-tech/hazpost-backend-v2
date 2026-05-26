@@ -1267,6 +1267,7 @@ function Step3({ data, onChange, userId }: { data: BrandProfile; onChange: (d: P
               onClick={() =>
                 onChange({
                   brandFont: font,
+                  brandFontUrl: "",
                 })
               }
               className={`text-left px-3 py-2 rounded-lg text-sm transition-colors truncate
