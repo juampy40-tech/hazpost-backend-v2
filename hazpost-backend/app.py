@@ -840,6 +840,7 @@ def create_app():
                 "secondaryColor",
                 "brandFont",
                 "brandFontUrl",
+                "customFonts",
                 "website",
                 "onboardingStep",
                 "onboardingCompleted",
