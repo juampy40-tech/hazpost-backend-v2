@@ -118,6 +118,38 @@ ${knowledge}`
     const location = profile?.defaultLocation || "";
     const tone = profile?.brandTone || "profesional y amigable";
 
+    const BRAND_TONE_CONTEXT: Record<string, string> = {
+      premium:
+        "La marca debe percibirse como premium, sofisticada, elegante y de alto valor. La comunicación debe transmitir exclusividad, confianza y profesionalismo.",
+
+      confiable:
+        "La comunicación debe transmitir seguridad, confianza y profesionalismo. El tono debe sentirse estable, claro y creíble.",
+
+      moderno:
+        "La marca debe sentirse actual, visualmente atractiva y alineada con tendencias modernas. Usa lenguaje fresco y dinámico.",
+
+      experto:
+        "La comunicación debe transmitir autoridad, experiencia y conocimiento profundo. Explica con claridad y seguridad.",
+
+      elegante:
+        "La marca debe sentirse limpia, sofisticada y refinada. Evita exageraciones y mantén un estilo visual y textual premium.",
+
+      innovador:
+        "La comunicación debe sentirse innovadora, creativa y tecnológica. Habla de evolución, nuevas soluciones y crecimiento.",
+
+      cercano:
+        "La marca debe sentirse humana, amigable y accesible. Usa lenguaje cálido y fácil de entender.",
+
+      corporativo:
+        "La comunicación debe sentirse empresarial, seria y profesional. Usa un tono claro, estructurado y ejecutivo.",
+
+      tecnologico:
+        "La marca debe sentirse digital, avanzada y moderna. Usa lenguaje innovador y evita frases anticuadas.",
+    };
+
+    const toneContext =
+      BRAND_TONE_CONTEXT[tone] || tone;    
+
     const brandLines = [
       industryContext
         ? `Industria y especialidad: ${industryContext}`
@@ -128,8 +160,9 @@ ${knowledge}`
       location
         ? `Ubicación: ${location}`
         : "",
-      tone
-        ? `Tono de comunicación: ${tone}`
+      toneContext
+        ? `PERSONALIDAD Y PERCEPCIÓN DE MARCA:
+      ${toneContext}`
         : "",
     ]
       .filter(Boolean)
