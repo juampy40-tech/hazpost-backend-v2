@@ -1473,6 +1473,22 @@ function Step4({
             </span>
           )}
         </div>
+
+
+      <div className="flex flex-wrap gap-2 mt-3">
+        <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+          Confiables
+        </span>
+
+        <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+          Tecnológicos
+        </span>
+
+        <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+          Expertos
+        </span>
+      </div>
+    </div>        
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {TONES.map(tone => (
             <button
