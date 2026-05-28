@@ -159,13 +159,16 @@ function normalizeSearchText(value: string): string {
 
 
 const TONES = [
-  { value: "formal", label: "Formal", desc: "Profesional y corporativo" },
-  { value: "cercano", label: "Cercano", desc: "Amigable y conversacional" },
-  { value: "tecnico", label: "Técnico", desc: "Especializado y detallado" },
-  { value: "inspiracional", label: "Inspiracional", desc: "Motivador y aspiracional" },
-  { value: "divertido", label: "Divertido", desc: "Desenfadado y con humor" },
+  { value: "premium", label: "Premium", desc: "Elegante y de alto nivel" },
+  { value: "confiable", label: "Confiables", desc: "Profesionales y seguros" },
+  { value: "moderno", label: "Modernos", desc: "Actuales y visualmente atractivos" },
+  { value: "experto", label: "Expertos", desc: "Con autoridad y conocimiento" },
+  { value: "elegante", label: "Elegantes", desc: "Limpios y sofisticados" },
+  { value: "innovador", label: "Innovadores", desc: "Creativos y tecnológicos" },
+  { value: "cercano", label: "Cercanos", desc: "Humanos y amigables" },
+  { value: "corporativo", label: "Corporativos", desc: "Empresariales y serios" },
+  { value: "tecnologico", label: "Tecnológicos", desc: "Digitales y avanzados" },
 ];
-
 const GOOGLE_FONTS = FONT_NAMES;
 
 // ── Step indicator ─────────────────────────────────────────────────────────────
