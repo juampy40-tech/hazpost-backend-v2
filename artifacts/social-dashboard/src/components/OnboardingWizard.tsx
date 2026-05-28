@@ -1400,8 +1400,14 @@ function Step4({
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-2xl font-bold text-foreground mb-1">Audiencia y tono de comunicación</h2>
-        <p className="text-muted-foreground">Define a quién le hablas y cómo. Esto personaliza el estilo de cada post generado.</p>
+        <h2 className="text-2xl font-bold text-foreground mb-1">
+          Así hablará HazPost por tu negocio
+        </h2>
+
+        <p className="text-muted-foreground">
+          Entrena a HazPost para crear publicaciones más humanas,
+          profesionales y persuasivas para tus clientes ideales.
+        </p>
       </div>
 
       {(aiSuggestions?.audience || aiSuggestions?.tone) && (
@@ -1418,7 +1424,7 @@ function Step4({
 
       <div className="grid gap-2">
         <div className="flex items-center justify-between">
-          <Label>¿A quién le hablas? <span className="text-muted-foreground font-normal">(muy recomendado)</span></Label>
+          <Label>Describe tu cliente ideal <span className="text-muted-foreground font-normal">(muy recomendado)</span></Label>
           {aiSuggestions?.audience && (
             <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5">
               <Sparkles className="w-3 h-3" />
@@ -1448,7 +1454,7 @@ function Step4({
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label>Tono de comunicación <span className="text-muted-foreground font-normal">(recomendado)</span></Label>
+          <Label>¿Cómo quieres que te perciban? <span className="text-muted-foreground font-normal">(recomendado)</span></Label>
           {aiSuggestions?.tone && (
             <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5">
               <Sparkles className="w-3 h-3" />
@@ -1489,7 +1495,7 @@ function Step4({
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <Label>Imágenes de referencia de estilo <span className="text-muted-foreground font-normal">(opcional)</span></Label>
+          <Label>Muéstrale a HazPost cómo quieres verte <span className="text-muted-foreground font-normal">(opcional)</span></Label>
           <span className="text-xs text-muted-foreground">{currentImages.length}/5</span>
         </div>
         <p className="text-xs text-muted-foreground">
