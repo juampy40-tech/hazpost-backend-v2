@@ -1457,11 +1457,19 @@ function Step4({
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label>¿Cómo quieres que te perciban? <span className="text-muted-foreground font-normal">(recomendado)</span></Label>
+          <Label>
+            ¿Cómo quieres que te perciban?{" "}
+            <span className="text-muted-foreground font-normal">
+              (recomendado)
+            </span>
+          </Label>
+
           {aiSuggestions?.tone && (
             <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-primary bg-primary/10 border border-primary/30 rounded-full px-2 py-0.5">
               <Sparkles className="w-3 h-3" />
+
               Sugerido por IA
+
               <button
                 type="button"
                 onClick={() => onDismissSuggestion?.("tone")}
@@ -1474,21 +1482,31 @@ function Step4({
           )}
         </div>
 
+        <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
+          <div className="flex items-center gap-2 text-sm font-semibold text-primary mb-1">
+            ✨ HazPost ya entendió parte de tu marca
+          </div>
 
-      <div className="flex flex-wrap gap-2 mt-3">
-        <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-          Confiables
-        </span>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Te recomendamos estos atributos para generar contenido
+            más persuasivo y alineado con tu negocio.
+          </p>
 
-        <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-          Tecnológicos
-        </span>
+          <div className="flex flex-wrap gap-2 mt-3">
+            <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              Confiables
+            </span>
 
-        <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-          Expertos
-        </span>
-      </div>
-    </div>        
+            <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              Tecnológicos
+            </span>
+
+            <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              Expertos
+            </span>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {TONES.map(tone => (
             <button
