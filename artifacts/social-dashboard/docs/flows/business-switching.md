@@ -233,6 +233,37 @@ switchBusiness actualmente:
 3. frontend recarga:
    • loadBusinesses()
 
+## Runtime Validado (2026-06-01)
+
+Se validó que el cambio de negocio activo debe utilizar exclusivamente:
+
+- ActiveBusinessContext
+- switchBusiness()
+
+BusinessSwitcher fue migrado para consumir:
+
+- activeBusinessId
+- businesses
+- switchBusiness()
+
+desde ActiveBusinessContext.
+
+Se eliminó dependencia de:
+
+- fetch("/api/businesses") local
+- window.location.reload()
+
+como mecanismo principal de sincronización.
+
+Resultado:
+
+- cambio inmediato de negocio activo
+- sidebar sincronizado
+- source-of-truth único para negocio activo
+- sin refresh manual
+
+Validado en runtime real.
+
 ============================================================
 REGLAS IMPORTANTES
 ==================

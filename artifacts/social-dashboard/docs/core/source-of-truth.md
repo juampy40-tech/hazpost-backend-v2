@@ -102,6 +102,25 @@ RESPONSABILIDADES:
 • aislamiento persistencia
 • business switching
 
+### Negocio Activo
+
+Source of truth oficial:
+
+ActiveBusinessContext
+
+No crear estados paralelos de negocio activo en:
+
+- layouts
+- sidebars
+- pages
+- business switchers
+
+Todos los consumidores deben leer:
+
+useActiveBusiness()
+
+para evitar divergencia visual y de contexto.
+
 RIESGOS:
 
 • contaminación entre negocios
