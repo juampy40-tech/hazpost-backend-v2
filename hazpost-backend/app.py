@@ -2299,6 +2299,53 @@ def create_app():
             audience = (profile.get("audience") or "").strip()
             description = (profile.get("businessDescription") or "").strip()
 
+            # ============================================================
+            # BRAND TONE CONTEXT
+            # ============================================================
+            BRAND_TONE_CONTEXT = {
+                "premium": (
+                    "La marca debe percibirse como premium, sofisticada, elegante y de alto valor. "
+                    "La comunicación debe transmitir exclusividad, confianza y profesionalismo."
+                ),
+                "confiable": (
+                    "La comunicación debe transmitir seguridad, confianza y profesionalismo. "
+                    "El tono debe sentirse estable, claro y creíble."
+                ),
+                "moderno": (
+                    "La marca debe sentirse actual, visualmente atractiva y alineada con tendencias modernas. "
+                    "Usa lenguaje fresco y dinámico."
+                ),
+                "experto": (
+                    "La comunicación debe transmitir autoridad, experiencia y conocimiento profundo. "
+                    "Explica con claridad y seguridad."
+                ),
+                "elegante": (
+                    "La marca debe sentirse refinada, cuidada y profesional. "
+                    "Evita exageraciones y transmite calidad."
+                ),
+                "innovador": (
+                    "La marca debe transmitir innovación, evolución y visión de futuro. "
+                    "Destaca soluciones diferentes y modernas."
+                ),
+                "cercano": (
+                    "La comunicación debe sentirse humana, cálida y accesible. "
+                    "Habla como una empresa cercana a sus clientes."
+                ),
+                "corporativo": (
+                    "La comunicación debe sentirse empresarial, seria y profesional. "
+                    "Prioriza claridad, resultados y confianza."
+                ),
+                "tecnologico": (
+                    "La marca debe transmitir innovación tecnológica, eficiencia y modernidad. "
+                    "La comunicación debe sentirse avanzada y especializada."
+                ),
+            }
+
+            tone_context = BRAND_TONE_CONTEXT.get(
+                tone.strip().lower(),
+                ""
+            )
+
             business_type = sub_industry or industry or "productos y servicios"
             location = city or country or "tu zona"
 
@@ -2533,7 +2580,11 @@ Sub-industrias disponibles: {sub_industries_text}
 Enfoque visual obligatorio para ESTE post: {selected_focus}
 Tipo negocio: {business_type}
 Ubicación: {location}
-Tono: {tone}
+Tono seleccionado: {tone}
+
+PERSONALIDAD Y PERCEPCIÓN DE MARCA:
+{tone_context}
+
 Audiencia: {audience}
 Descripción: {description}
 Slogan: {slogan}
@@ -2710,6 +2761,10 @@ Extra:
                 "hashtags": result.get("hashtags"),
                 "visualIdea": result.get("visualIdea"),
                 "visualPlan": result.get("visualPlan"),
+
+                # 🔥 Contrato oficial de posts
+                "imageVariants": [],
+
                 "tone": tone,
                 "source": result.get("source"),
 
