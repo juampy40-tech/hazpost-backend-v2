@@ -18,21 +18,30 @@ interface HealthStatus {
 }
 
 interface BrandProfileSummary {
+  id?: string | number;
+
   companyName?: string;
   industry?: string;
   subIndustry?: string;
   country?: string;
   city?: string;
+
   logoUrl?: string;
   logoUrls?: string;
+
   brandFont?: string;
   brandFontUrl?: string;
+
   primaryColor?: string;
   secondaryColor?: string;
+
   businessDescription?: string;
   audienceDescription?: string;
+
   brandTone?: string;
+
   aiGenFrequency?: string;
+
   onboardingCompleted?: boolean | string;
 }
 
@@ -922,7 +931,7 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
                    <div key={post.id} className="flex items-center justify-between p-4 rounded-lg bg-white/5 border border-white/5 hover:border-primary/30 transition-colors">
                      <div className="flex items-center gap-4">
                        <div className={`w-2 h-2 rounded-full ${post.status === 'published' ? 'bg-primary' : post.status === 'scheduled' ? 'bg-secondary' : 'bg-amber-400'}`}></div>
-                       <span className="font-medium text-sm">{(post.caption || post.visualIdea || "Post sin texto").substring(0, 40)}...</span>
+                       <span className="font-medium text-sm">{(post.caption || (post as any).visualIdea || "Post sin texto").substring(0, 40)}...</span>
                      </div>
                      <span className="text-xs text-muted-foreground uppercase tracking-wider px-2 py-1 bg-black/40 rounded border border-white/10">{post.platform}</span>
                    </div>

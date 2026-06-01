@@ -665,15 +665,17 @@ async function loadProfile() {
 
   function applyPendingAnalysis(fields: { description: boolean; audience: boolean; tone: boolean; color: boolean }) {
     if (!pendingAnalysis) return;
-    if (fields.description && pendingAnalysis.description) setBizDescription(pendingAnalysis.description);
-    if (fields.audience && pendingAnalysis.audience) setBizAudience(pendingAnalysis.audience);
-    if (fields.tone && pendingAnalysis.tone) setBizTone(pendingAnalysis.tone);
-    if (fields.color && pendingAnalysis.primaryColor) setBizPrimary(pendingAnalysis.primaryColor);
+
+    if (fields.description && pendingAnalysis?.description) setBizDescription(pendingAnalysis.description);
+    if (fields.audience && pendingAnalysis?.audience) setBizAudience(pendingAnalysis.audience);
+    if (fields.tone && pendingAnalysis?.tone) setBizTone(pendingAnalysis.tone);
+    if (fields.color && pendingAnalysis?.primaryColor) setBizPrimary(pendingAnalysis.primaryColor);
+
     const remaining: WebsiteAnalysisResult = {
-      description: fields.description ? null : pendingAnalysis.description,
-      audience: fields.audience ? null : pendingAnalysis.audience,
-      tone: fields.tone ? null : pendingAnalysis.tone,
-      primaryColor: fields.color ? null : pendingAnalysis.primaryColor,
+      description: fields.description ? null : pendingAnalysis?.description ?? null,
+      audience: fields.audience ? null : pendingAnalysis?.audience ?? null,
+      tone: fields.tone ? null : pendingAnalysis?.tone ?? null,
+      primaryColor: fields.color ? null : pendingAnalysis?.primaryColor ?? null,
     };
     const allApplied = !remaining.description && !remaining.audience && !remaining.tone && !remaining.primaryColor;
     setPendingAnalysis(allApplied ? null : remaining);
@@ -1171,6 +1173,9 @@ async function loadProfile() {
                             className="h-7 px-2.5 text-[11px] rounded-md border border-green-500/50 text-green-400 hover:bg-green-500/10"
                             onClick={() => {
                               const sugg = customSubSuggestion;
+
+                              if (!sugg) return;
+
                               setBizSubIndustries(prev => prev.includes(sugg) ? prev : [...prev, sugg]);
                               setCustomSubInput("");
                               setCustomSubStatus("ok");
@@ -1290,7 +1295,7 @@ async function loadProfile() {
                   </div>
                   <p className="text-xs text-muted-foreground">Algunos campos ya tienen contenido. Elige cuáles reemplazar:</p>
                   <div className="space-y-2.5">
-                    {pendingAnalysis.description && (
+                    {pendingAnalysis?.description && (
                       <div className="rounded-lg border border-border/40 bg-background/60 p-3 space-y-1.5">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">Descripción</span>
@@ -1305,10 +1310,10 @@ async function loadProfile() {
                             Aplicar
                           </Button>
                         </div>
-                        <p className="text-xs text-foreground/80 leading-relaxed">{pendingAnalysis.description}</p>
+                        <p className="text-xs text-foreground/80 leading-relaxed">{pendingAnalysis?.description}</p>
                       </div>
                     )}
-                    {pendingAnalysis.audience && (
+                    {pendingAnalysis?.audience && (
                       <div className="rounded-lg border border-border/40 bg-background/60 p-3 space-y-1.5">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">Audiencia</span>
@@ -1323,10 +1328,11 @@ async function loadProfile() {
                             Aplicar
                           </Button>
                         </div>
-                        <p className="text-xs text-foreground/80 leading-relaxed">{pendingAnalysis.audience}</p>
+                        <p className="text-xs text-foreground/80 leading-relaxed">{pendingAnalysis?.audience}</p>
                       </div>
                     )}
-                    {pendingAnalysis.tone && (
+
+                    {pendingAnalysis?.tone && (
                       <div className="rounded-lg border border-border/40 bg-background/60 p-3 space-y-1.5">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">Tono</span>
@@ -1341,10 +1347,12 @@ async function loadProfile() {
                             Aplicar
                           </Button>
                         </div>
-                        <p className="text-xs text-foreground/80">{TONE_OPTIONS.find(t => t.value === pendingAnalysis.tone)?.label ?? pendingAnalysis.tone}</p>
+                        <p className="text-xs text-foreground/80">
+                          {TONE_OPTIONS.find(t => t.value === pendingAnalysis?.tone)?.label ?? pendingAnalysis?.tone}
+                        </p>
                       </div>
                     )}
-                    {pendingAnalysis.primaryColor && (
+                    {pendingAnalysis?.primaryColor && (
                       <div className="rounded-lg border border-border/40 bg-background/60 p-3 space-y-1.5">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">Color principal</span>
@@ -1360,8 +1368,13 @@ async function loadProfile() {
                           </Button>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="w-5 h-5 rounded border border-border/50" style={{ backgroundColor: pendingAnalysis.primaryColor }} />
-                          <span className="text-xs font-mono text-foreground/80 uppercase">{pendingAnalysis.primaryColor}</span>
+                          <div
+                            className="w-5 h-5 rounded border border-border/50"
+                            style={{ backgroundColor: pendingAnalysis?.primaryColor ?? undefined }}
+                          />
+                          <span className="text-xs font-mono text-foreground/80 uppercase">
+                            {pendingAnalysis?.primaryColor}
+                          </span>
                         </div>
                       </div>
                     )}

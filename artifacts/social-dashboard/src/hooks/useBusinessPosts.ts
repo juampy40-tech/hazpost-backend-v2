@@ -21,10 +21,20 @@ import { useActiveBusiness } from "@/contexts/ActiveBusinessContext";
  */
 export function useBusinessPosts(params: Parameters<typeof useGetPosts>[0] = {}) {
   const { id: businessId, loaded } = useActiveBusiness();
-  const result = useGetPosts(
-    { ...params, ...(businessId != null ? { businessId: String(businessId) } : {}) },
-    { query: { enabled: loaded } },
-  );
+const queryParams = {
+  ...params,
+  ...(businessId != null ? { businessId: String(businessId) } : {}),
+};
+
+const result = useGetPosts(
+  queryParams,
+  {
+    query: {
+      queryKey: ["posts", "business", businessId, queryParams],
+      enabled: loaded,
+    },
+  },
+);
 
   // V-QUERY: When business context hasn't loaded yet, TanStack Query v5 sets
   // isLoading=false (idle/disabled state). Override to isLoading=true so consumers

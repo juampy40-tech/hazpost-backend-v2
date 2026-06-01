@@ -914,7 +914,7 @@ const handleSetDefaultAccount = async (accountId: number | string) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-User-ID": user?.email, // 👈 ESTA LÍNEA NUEVA
+        ...(user?.email ? { "X-User-ID": String(user.email) } : {}),
       },
       credentials: "include",
       body: JSON.stringify({
