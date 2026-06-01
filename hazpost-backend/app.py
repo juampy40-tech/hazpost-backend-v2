@@ -2450,8 +2450,14 @@ Reglas:
 - Si el negocio tiene una descripción clara, priorízala sobre ideas genéricas
 - Nunca inventes un tipo de negocio diferente
 - Máximo 120 palabras
-- Usa emojis estratégicamente
-- Si hay website o referencias visuales, úsalas para entender mejor el negocio y su estilo
+- Usa emojis solo si el tono de marca lo permite.
+- Si el tono es premium, elegante, corporativo o experto, usa máximo 1 emoji o ninguno.
+- Si el tono es tecnológico, usa lenguaje más preciso, moderno y orientado a innovación.
+- Si el tono es premium, evita frases como "¿Sabías que?", "Transforma tu hogar", "Da el paso" o "No dejes pasar".
+- Si el tono es premium, transmite alto valor, confianza, exclusividad y profesionalismo sin sonar exagerado.
+- Si el tono es experto, educa y demuestra autoridad sin sonar genérico.
+- Si el tono es corporativo, prioriza claridad, resultados, eficiencia y confianza.
+- Si hay website o referencias visuales, úsalas para entender mejor el negocio y su estilo.
 REGLA CRÍTICA DE ESCENARIO:
 
 NO asumir que el negocio es residencial.
