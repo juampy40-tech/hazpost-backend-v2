@@ -4,6 +4,7 @@ import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGrou
 import { LayoutDashboard, Calendar, CheckSquare, Sparkles, Tags, History, Settings, BarChart2, ImagePlay, Globe, LogOut, ShieldAlert, Zap, MessageCircle, Building2, ChevronDown, MailWarning, RefreshCw, Gift, Handshake, BookOpen, Activity, Coins, CreditCard, X, AlertTriangle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
+import { useActiveBusiness } from "@/contexts/ActiveBusinessContext";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect, useRef } from "react";
 import SupportChatWidget from "@/components/SupportChatWidget";
@@ -37,17 +38,11 @@ interface BusinessItem {
 function BusinessSwitcher() {
   const BASE = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
   const { user } = useAuth();
-  const [businesses, setBusinesses] = useState<BusinessItem[]>([]);
+const { id: activeBusinessId, list: activeBusinessList, loaded, switchBusiness } = useActiveBusiness();
+const businesses = activeBusinessList as unknown as BusinessItem[];
   const [open, setOpen] = useState(false);
   const [switching, setSwitching] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    fetch(`${BASE}/api/businesses`, { credentials: "include" })
-      .then(r => r.json())
-      .then(d => setBusinesses(d.businesses ?? []))
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -57,23 +52,24 @@ function BusinessSwitcher() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  if (businesses.length === 0) return null;
+  if (!loaded || businesses.length === 0) return null;
 
-  const active = businesses.find(b => b.isDefault) ?? businesses[0];
+  const active = businesses.find(b => b.id === activeBusinessId) ?? businesses.find(b => b.isDefault) ?? businesses[0];
   const canSwitch = businesses.length > 1;
 
   async function switchTo(id: number) {
     setSwitching(true);
     setOpen(false);
+
     try {
-      const res = await fetch(`${BASE}/api/businesses/${id}/set-active`, { method: "POST", credentials: "include" });
-      if (!res.ok) throw new Error("switch failed");
-      // Clear calendar scope so the calendar defaults to the newly selected business after reload
+      await switchBusiness(id);
+
       if (user?.id) {
         localStorage.removeItem(`hz_cal_scope_${user.id}`);
       }
-      window.location.reload();
     } catch {
+      // Mantener UX silenciosa como antes.
+    } finally {
       setSwitching(false);
     }
   }
@@ -137,7 +133,7 @@ function BusinessSwitcher() {
               <button
                 key={b.id}
                 onClick={() => switchTo(b.id)}
-                className={`group w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-primary/15 transition-colors text-left ${b.isDefault ? "bg-primary/10" : ""}`}
+                className={`group w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-primary/15 transition-colors text-left ${b.id === activeBusinessId ? "bg-primary/10" : ""}`}
               >
                 <div
                   className="w-6 h-6 rounded-md shrink-0 flex items-center justify-center text-white font-bold text-[10px] shadow-sm"
@@ -155,7 +151,7 @@ function BusinessSwitcher() {
                   <p className="text-xs font-medium text-foreground group-hover:text-primary transition-colors truncate">{b.name}</p>
                   {b.industry && <p className="text-[10px] text-muted-foreground truncate">{b.industry}</p>}
                 </div>
-                {b.isDefault && (
+                {b.id === activeBusinessId && (
                   <div className="flex items-center gap-1 shrink-0">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                     <span className="text-[9px] text-primary font-medium">activo</span>

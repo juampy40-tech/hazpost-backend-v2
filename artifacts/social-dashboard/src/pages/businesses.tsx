@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useActiveBusiness } from "@/contexts/ActiveBusinessContext";
 import { OnboardingWizard } from "@/components/OnboardingWizard";
 import BusinessIdentityStep from "@/components/brand-profile/BusinessIdentityStep";
 import type { BrandProfile } from "@/types/brand";
@@ -848,6 +849,7 @@ interface ExtraBusinessPayment {
 
 export default function Businesses() {
   const { user, subscription } = useAuth();
+  const { switchBusiness } = useActiveBusiness();
   const { toast } = useToast();
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1036,12 +1038,9 @@ function mapBrandProfileToBusinessForm(profile: BrandProfile): BusinessFormData 
 
   async function handleSetActive(id: number) {
     setActionLoading(id);
+
     try {
-      const res = await fetch(`${BASE}/api/businesses/${id}/set-active`, {
-        method: "POST",
-        credentials: "include",
-      });
-      if (!res.ok) throw new Error("Error al activar negocio");
+      await switchBusiness(id);
       toast({ title: "✅ Negocio activo cambiado" });
       await load();
     } catch (err: unknown) {
