@@ -2403,21 +2403,58 @@ def create_app():
                     # 🔥 INSTRUCCIÓN SEGÚN TIPO DE POST
                     extra_instruction = ""
 
-                    if post_type == "reel":
-                        extra_instruction = "El contenido debe ser tipo REEL: corto, dinámico, con gancho fuerte en la primera línea y ritmo rápido."
+                    if post_type == "educational":
+                        extra_instruction = (
+                            "El contenido debe ser EDUCATIVO y de autoridad. "
+                            "Debe enseñar algo útil, resolver una duda frecuente, "
+                            "explicar un problema real del cliente o aportar conocimiento. "
+                            "Evita sonar promocional o vendedor."
+                        )
+
+                    elif post_type == "promotional":
+                        extra_instruction = (
+                            "El contenido debe ser PROMOCIONAL y orientado a conversión. "
+                            "Debe captar atención rápidamente, mostrar un beneficio claro, "
+                            "reducir objeciones y cerrar con una llamada a la acción fuerte. "
+                            "Debe parecer una pieza publicitaria real."
+                        )
+
+                    elif post_type == "reel":
+                        extra_instruction = (
+                            "El contenido debe ser tipo REEL: corto, dinámico, "
+                            "con gancho fuerte en la primera línea y ritmo rápido."
+                        )
+
                     elif post_type == "carousel":
-                        extra_instruction = "El contenido debe estructurarse como CARRUSEL: varias ideas o pasos que generen curiosidad y hagan deslizar."
+                        extra_instruction = (
+                            "El contenido debe estructurarse como CARRUSEL: "
+                            "varias ideas o pasos que generen curiosidad "
+                            "y hagan deslizar."
+                        )
+
                     elif post_type == "story":
-                        extra_instruction = "El contenido debe ser tipo HISTORIA: muy corto, directo y emocional."
+                        extra_instruction = (
+                            "El contenido debe ser tipo HISTORIA: "
+                            "muy corto, directo y emocional."
+                        )
+
                     elif post_type == "image":
-                        extra_instruction = "El contenido debe ser para una sola imagen: claro, directo y visual."
+                        extra_instruction = (
+                            "El contenido debe ser para una sola imagen: "
+                            "claro, directo y visual."
+                        )
+
                     else:
-                        extra_instruction = "Elige el mejor formato automáticamente según el negocio."
+                        extra_instruction = (
+                            "Elige el mejor formato automáticamente según el negocio."
+                        )
 
                     sub_industries_raw = profile.get("subIndustries") or []
 
                     if isinstance(sub_industries_raw, list):
-                        sub_industries_text = ", ".join([str(x) for x in sub_industries_raw if x])
+                        sub_industries_text = ", ".join(
+                            [str(x) for x in sub_industries_raw if x]
+                        )
                     else:
                         sub_industries_text = str(sub_industries_raw or "")
 

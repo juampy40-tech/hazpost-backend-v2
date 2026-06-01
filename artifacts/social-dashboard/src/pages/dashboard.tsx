@@ -619,6 +619,15 @@ const hasGeneratedFirstPost = hasPosts || !!firstPost;
     className="w-full max-w-xs rounded-xl border border-primary/20 bg-black/40 px-4 py-3 text-sm text-foreground outline-none transition-all focus:border-primary"
   >
     <option value="auto">Automático recomendado ✨</option>
+
+    <option value="educational">
+      Educativo / autoridad 📚
+    </option>
+
+    <option value="promotional">
+      Promocional / ventas 📢
+    </option>
+
     <option value="image">Imagen</option>
     <option value="story">Historia</option>
     <option value="carousel">Carrusel</option>
